@@ -43,5 +43,13 @@ namespace UrenRegistratieQien.Controllers
         {
             return View();
         }
+        public IActionResult CreateUser()
+        {
+            return View();
+        }
+        public IActionResult HourReg()
+        {
+            return View();
+        }
     }
 }
