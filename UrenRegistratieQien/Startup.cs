@@ -28,10 +28,10 @@ namespace UrenRegistratieQien
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IHourRowRepository, HourRowRepository>();
-            services.AddSingleton<IEmployeeRepository, EmployeeRepository>();
-            services.AddSingleton<IDeclarationFormRepository, DeclarationFormRepository>();
-            services.AddSingleton<IClientRepository, ClientRepository>();
+            services.AddScoped<IHourRowRepository, HourRowRepository>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IDeclarationFormRepository, DeclarationFormRepository>();
+            services.AddScoped<IClientRepository, ClientRepository>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
