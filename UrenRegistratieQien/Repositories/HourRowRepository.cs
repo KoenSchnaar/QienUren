@@ -17,7 +17,7 @@ namespace UrenRegistratieQien.Repositories
         {
             this.context = context;
         }
-        public List<HourRowModel> GetHourRows(int userId, string month)
+        public List<HourRowModel> GetHourRows(string userId, string month)
         {
             var entity = context.DeclarationForms.Single(h => h.EmployeeId == userId && h.Month == month);
             var hourRows = new List<HourRowModel>();
