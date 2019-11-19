@@ -92,5 +92,27 @@ namespace UrenRegistratieQien.Repositories
             context.Users.Remove(employee);
             context.SaveChanges();
         }
+
+
+        public void UpdateEmployee(EmployeeModel employeeModel)
+        {
+            var databaseEmployee = context.Users.Single(p => Convert.ToInt32(p.Id) == employeeModel.EmployeeId);
+            var CastedDatabaseEmployee = (Employee)databaseEmployee;
+
+            var UserRole = context.UserRoles.Single(p => employeeModel.EmployeeId == Convert.ToInt32(p.UserId));
+            var roleId = context.Roles.Single(p => employeeModel.Role == p.Name).Id;
+
+            CastedDatabaseEmployee.ClientId = employeeModel.ClientId;
+            CastedDatabaseEmployee.FirstName = employeeModel.FirstName;
+            CastedDatabaseEmployee.LastName = employeeModel.LastName;
+            CastedDatabaseEmployee.Email = employeeModel.Email;
+            CastedDatabaseEmployee.Address = employeeModel.Address;
+            CastedDatabaseEmployee.Phone = employeeModel.Phone;
+            UserRole.RoleId = roleId;
+
+            context.SaveChanges();
+
+        }
+
     }
 }
