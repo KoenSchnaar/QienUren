@@ -1,7 +1,12 @@
-﻿namespace UrenRegistratieQien.Repositories
+﻿using System.Collections.Generic;
+using UrenRegistratieQien.Models;
+
+namespace UrenRegistratieQien.Repositories
 {
     public interface IEmployeeRepository
     {
-        void GetEmployees();
+        List<EmployeeModel> GetEmployees();
+
+        EmployeeModel GetEmployee(string id);
     }
 }
