@@ -9,6 +9,6 @@ namespace UrenRegistratieQien.Repositories
 
         EmployeeModel GetEmployee(string id);
 
-        void UpdateEmployee(EmployeeModel employeeModel)
+        void UpdateEmployee(EmployeeModel employeeModel);
     }
 }
