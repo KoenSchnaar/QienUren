@@ -7,7 +7,7 @@ using UrenRegistratieQien.DatabaseClasses;
 
 namespace UrenRegistratieQien.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<Employee>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -16,7 +16,7 @@ namespace UrenRegistratieQien.Data
 
         }
 
-        public DbSet<Employee> Employees { get; set; }
+        //public DbSet<Employee> Employees { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<HourRow> HourRows { get; set; }
         public DbSet<DeclarationForm> DeclarationForms { get; set; }

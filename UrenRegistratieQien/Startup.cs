@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using UrenRegistratieQien.Repositories;
+using UrenRegistratieQien.DatabaseClasses;
 
 namespace UrenRegistratieQien
 {
@@ -39,8 +40,15 @@ namespace UrenRegistratieQien
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            //toegevoegd voor aangepaste register
+            //services.AddIdentity<Employee, IdentityRole>(options => options.Stores.MaxLengthForKeys = 128);
+            //    //.AddEntityFrameworkStores<ApplicationDbContext>()
+            //    //.AddDefaultUI()
+            //    //.AddDefaultTokenProviders();
 
 
         }

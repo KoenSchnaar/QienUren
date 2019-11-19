@@ -1,7 +1,12 @@
-﻿namespace UrenRegistratieQien.Repositories
+﻿using System.Collections.Generic;
+using UrenRegistratieQien.DatabaseClasses;
+using UrenRegistratieQien.Models;
+
+namespace UrenRegistratieQien.Repositories
 {
     public interface IHourRowRepository
     {
-        void GetHourRows();
+        public void GenerateHourRows(int year, int month, int declarationFormId);
+        public List<HourRowModel> GetHourRows(int userId, string month);
     }
 }
