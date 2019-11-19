@@ -8,5 +8,7 @@ namespace UrenRegistratieQien.Repositories
         List<EmployeeModel> GetEmployees();
 
         EmployeeModel GetEmployee(string id);
+
+        void UpdateEmployee(EmployeeModel employeeModel);
     }
 }
