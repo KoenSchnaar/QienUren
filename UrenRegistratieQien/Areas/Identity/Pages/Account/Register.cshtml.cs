@@ -13,21 +13,34 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+<<<<<<< HEAD
 using UrenRegistratieQien.DatabaseClasses;
+=======
+>>>>>>> master
 
 namespace UrenRegistratieQien.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
+<<<<<<< HEAD
         private readonly SignInManager<Employee> _signInManager;
         private readonly UserManager<Employee> _userManager;
+=======
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
+>>>>>>> master
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
+<<<<<<< HEAD
             UserManager<Employee> userManager,
             SignInManager<Employee> signInManager,
+=======
+            UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager,
+>>>>>>> master
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -47,6 +60,7 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+<<<<<<< HEAD
             [DataType(DataType.Text)]
             [Display(Name = "First name")]
             public string FirstName { get; set; }
@@ -57,6 +71,8 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
             public string LastName { get; set; }
 
             [Required]
+=======
+>>>>>>> master
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -85,12 +101,16 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
+<<<<<<< HEAD
                 var user = new Employee {
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
                     UserName = Input.Email, 
                     Email = Input.Email
                 };
+=======
+                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+>>>>>>> master
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

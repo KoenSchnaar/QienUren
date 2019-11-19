@@ -18,7 +18,7 @@ namespace UrenRegistratieQien.Repositories
             this.context = context;
         }
 
-        public void GenerateHourRows(int year, int month, int declarationFormId)
+        public void AddHourRows(int year, int month, int declarationFormId)
         {
             int days = DateTime.DaysInMonth(year, month);
             for (var i=1; i<days; i++)
@@ -39,6 +39,7 @@ namespace UrenRegistratieQien.Repositories
                 };
 
                 context.HourRows.Add(hourRow);
+                context.SaveChanges();
             }
         }
 
