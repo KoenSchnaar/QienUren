@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UrenRegistratieQien.Data;
+using UrenRegistratieQien.DatabaseClasses;
 using UrenRegistratieQien.Models;
 
 namespace UrenRegistratieQien.Repositories
@@ -59,5 +60,28 @@ namespace UrenRegistratieQien.Repositories
         }
 
 
+        public void AddEmptyDeclarationForm(int year, int month, string userId) 
+        {
+            var newDeclarationForm = new DeclarationForm();
+            var generatedHourRows = hourRowRepo.AddHourRows(year, month, newDeclarationForm.DeclarationFormId);
+            newDeclarationForm.HourRows = generatedHourRows;
+            newDeclarationForm.EmployeeId = userId;
+            newDeclarationForm.Month = month;
+            //newDeclarationForm.Approved = false;
+            //newDeclarationForm.Submitted = false; 
+
+            context.SaveChanges();
+        }
+
+        public void EditDeclarationForm(DeclarationFormModel formModel)
+        {
+            //newDeclarationForm.EmployeeId = formModel.EmployeeId;
+            //newDeclarationForm.Month = formModel.Month;
+            //newDeclarationForm.Approved = formModel.Approved;
+            //newDeclarationForm.Submitted = formModel.Submitted;
+            //newDeclarationForm.Comment = formModel.Comment;
+
+            context.SaveChanges();
+        }
     }
 }
