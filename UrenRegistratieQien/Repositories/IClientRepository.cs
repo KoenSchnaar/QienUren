@@ -1,7 +1,11 @@
-﻿namespace UrenRegistratieQien.Repositories
+﻿using System.Collections.Generic;
+using UrenRegistratieQien.Models;
+
+namespace UrenRegistratieQien.Repositories
 {
     public interface IClientRepository
     {
-        void GetClients();
+        List<ClientModel> GetAllClients();
+        void AddNewClient(ClientModel clientModel);
     }
 }
