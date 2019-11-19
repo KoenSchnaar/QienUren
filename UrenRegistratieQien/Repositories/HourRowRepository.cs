@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UrenRegistratieQien.Data;
 using UrenRegistratieQien.DatabaseClasses;
+using UrenRegistratieQien.Models;
 
 namespace UrenRegistratieQien.Repositories
 {
@@ -16,10 +17,32 @@ namespace UrenRegistratieQien.Repositories
         {
             this.context = context;
         }
-        public void GetHourRows()
+        public List<HourRowModel> GetHourRows(int userId, string month)
         {
-            
+            var entity = context.DeclarationForms.Single(h => h.EmployeeId == userId && h.Month == month);
+            var hourRows = new List<HourRowModel>();
+
+            foreach (var row in entity.HourRows)
+            {
+                var newRow = new HourRowModel
+                {
+                    EmployeeId = userId,
+                    Date = row.Date,
+                    Worked = row.Worked,
+                    Overtime = row.Overtime,
+                    Sickness = row.Sickness,
+                    Vacation = row.Vacation,
+                    Holiday = row.Holiday,
+                    Training = row.Training,
+                    Other = row.Other,
+                    OtherExplanation = row.OtherExplanation
+                };
+                hourRows.Add(newRow);
+            }
+            return hourRows;
         }
+
+
 
         public void AddHourRows(int year, int month, int declarationFormId)
         {
