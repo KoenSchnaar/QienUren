@@ -16,9 +16,9 @@ namespace UrenRegistratieQien.Data
 
         }
 
-        DbSet<Employee> Employees { get; set; }
-        DbSet<Client> Clients { get; set; }
-        DbSet<HourRow> HourRows { get; set; }
-        DbSet<DeclarationForm> DeclarationForms { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<HourRow> HourRows { get; set; }
+        public DbSet<DeclarationForm> DeclarationForms { get; set; }
     }
 }
