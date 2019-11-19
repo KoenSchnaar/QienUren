@@ -7,5 +7,6 @@ namespace UrenRegistratieQien.Repositories
     {
         List<ClientModel> GetAllClients();
         void AddNewClient(ClientModel clientModel);
+        void EditAClient(ClientModel clientModel);
     }
 }

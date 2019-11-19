@@ -42,16 +42,34 @@ namespace UrenRegistratieQien.Repositories
             {
                 ClientId = clientModel.ClientId,
                 CompanyName = clientModel.CompanyName,
+                CompanyPhone = clientModel.CompanyPhone,
                 Contact1Name = clientModel.Contact1Name,
                 Contact2Name = clientModel.Contact2Name,
                 Contact1Phone = clientModel.Contact1Phone,
                 Contact2Phone = clientModel.Contact2Phone,
                 Contact1Email = clientModel.Contact1Email,
-                Contact2Email = clientModel.Contact2Email,
-                CompanyPhone = clientModel.CompanyPhone
+                Contact2Email = clientModel.Contact2Email
             });
 
             context.SaveChanges();
         }
-}
+
+        public void EditAClient(ClientModel clientModel)
+        {
+            var clientEntity = context.Clients.Single(c => c.ClientId == clientModel.ClientId);
+
+            clientEntity.ClientId = clientModel.ClientId;
+            clientEntity.CompanyName = clientModel.CompanyName;
+            clientEntity.CompanyPhone = clientModel.CompanyPhone;
+            clientEntity.Contact1Name = clientModel.Contact1Name;
+            clientEntity.Contact1Phone = clientModel.Contact1Phone;
+            clientEntity.Contact1Email = clientModel.Contact1Email;
+            clientEntity.Contact2Name = clientModel.Contact2Name;
+            clientEntity.Contact2Phone = clientModel.Contact2Phone;
+            clientEntity.Contact2Email = clientModel.Contact2Email;
+
+            context.SaveChanges();
+            
+        }
+    }
 }
