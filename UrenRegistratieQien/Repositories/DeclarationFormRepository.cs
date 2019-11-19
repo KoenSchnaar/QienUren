@@ -19,7 +19,7 @@ namespace UrenRegistratieQien.Repositories
         }
 
 
-        public DeclarationFormModel GetForm(int userId, string month)
+        public DeclarationFormModel GetForm(string userId, string month)
         {
             var entity = context.DeclarationForms.Single(d => d.EmployeeId == userId && d.Month == month);
             var form = new DeclarationFormModel
@@ -37,7 +37,7 @@ namespace UrenRegistratieQien.Repositories
 
 
 
-        public List<DeclarationFormModel> GetAllForms(int userId)
+        public List<DeclarationFormModel> GetAllForms(string userId)
         {
             var entities = context.DeclarationForms.Where(d => d.EmployeeId == userId).ToList();
             var forms = new List<DeclarationFormModel>();

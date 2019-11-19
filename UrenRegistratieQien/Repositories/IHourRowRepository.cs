@@ -5,7 +5,7 @@ namespace UrenRegistratieQien.Repositories
 {
     public interface IHourRowRepository
     {
-        public List<HourRowModel> GetHourRows(int userId, string month);
+        public List<HourRowModel> GetHourRows(string userId, string month);
 
         public void AddHourRows(int year, int month, int declarationFormId);
     }

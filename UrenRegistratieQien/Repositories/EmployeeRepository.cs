@@ -28,7 +28,7 @@ namespace UrenRegistratieQien.Repositories
 
                 EmployeeModel newEmployee = new EmployeeModel
                 {
-                    EmployeeId = Convert.ToInt32(employee.Id),
+                    EmployeeId = employee.Id,
                     ClientId = employeeCasted.ClientId,
                     FirstName = employeeCasted.FirstName,
                     LastName = employeeCasted.LastName,
@@ -55,7 +55,7 @@ namespace UrenRegistratieQien.Repositories
 
             return new EmployeeModel
             {
-                EmployeeId = Convert.ToInt32(employee.Id),
+                EmployeeId = employee.Id,
                 ClientId = employeeCasted.ClientId,
                 FirstName = employeeCasted.FirstName,
                 LastName = employeeCasted.LastName,
@@ -75,7 +75,7 @@ namespace UrenRegistratieQien.Repositories
 
             foreach(DeclarationForm declarationForm in context.DeclarationForms)
             {
-                if(Convert.ToInt32(employee.Id) == declarationForm.EmployeeId) //
+                if(employee.Id == declarationForm.EmployeeId) //
                 {
                     foreach(HourRow hourRow in context.HourRows)
                     {
@@ -96,10 +96,10 @@ namespace UrenRegistratieQien.Repositories
 
         public void UpdateEmployee(EmployeeModel employeeModel)
         {
-            var databaseEmployee = context.Users.Single(p => Convert.ToInt32(p.Id) == employeeModel.EmployeeId);
+            var databaseEmployee = context.Users.Single(p => p.Id == employeeModel.EmployeeId);
             var CastedDatabaseEmployee = (Employee)databaseEmployee;
 
-            var UserRole = context.UserRoles.Single(p => employeeModel.EmployeeId == Convert.ToInt32(p.UserId));
+            var UserRole = context.UserRoles.Single(p => employeeModel.EmployeeId == p.UserId);
             var roleId = context.Roles.Single(p => employeeModel.Role == p.Name).Id;
 
             CastedDatabaseEmployee.ClientId = employeeModel.ClientId;
@@ -114,5 +114,32 @@ namespace UrenRegistratieQien.Repositories
 
         }
 
+        //nog toevoegen bij het createn: dateregistered
+        //nog toevoegen bij edit user: dateregistered
+
+        public void CheckIfYearPassedForAllTrainees()
+        {
+            List<Employee> Trainees = new List<Employee>();
+            foreach(Employee employee in context.Users)
+            {
+                var roleBridge = context.UserRoles.Single(p => p.UserId == employee.Id);
+
+
+
+                var roleName = context.Roles.Single(p => p.Id == roleBridge.RoleId).Name;
+
+                if(roleName == "Trainee")
+                {
+                    var Date = DateTime.Now;
+
+                    if (employee.DateRegistered == Date.AddYears(-1))
+                    {
+                        roleBridge.RoleId = "4";
+
+                        context.SaveChanges();
+                    }
+                }
+            }
+        }
     }
 }
