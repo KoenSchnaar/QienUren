@@ -13,20 +13,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using UrenRegistratieQien.DatabaseClasses;
 
 namespace UrenRegistratieQien.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<Employee> _signInManager;
+        private readonly UserManager<Employee> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<Employee> userManager,
+            SignInManager<Employee> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -45,6 +46,39 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            [Required]
+            [Range(0, int.MaxValue)]
+            [Display(Name = "Client ID")]
+            public int ClientId { get; set; }
+
+            [Required]
+            [Display(Name = "Voornaam")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [Display(Name = "Achternaam")]
+            public string LastName { get; set; }
+
+            [Required]
+            [Display(Name = "Straatnaam + Huisnummer")]
+            public string Adress { get; set; }
+
+            [Required]
+            [Display(Name = "Postcode")]
+            public string ZIPCode { get; set; }
+
+            [Required]
+            [Display(Name = "Woonplaats")]
+            public string Residence { get; set; }
+
+            [Required]
+            [Display(Name = "Telefoonnummer")]
+            public int Phone { get; set; }
+
+            [Required]
+            [Display(Name = "Type gebruiker")]
+            public string Role { get; set; }
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -74,7 +108,19 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                var user = new Employee { 
+                    UserName = Input.Email, 
+                    Email = Input.Email, 
+                    ClientId = 1,
+                    FirstName = Input.FirstName,
+                    LastName = Input.LastName,
+                    Address = Input.Adress,
+                    ZIPCode = Input.ZIPCode,
+                    Residence = Input.Residence,
+                    Phone = Input.Phone
+                    //Role = Input.Role,
+
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
