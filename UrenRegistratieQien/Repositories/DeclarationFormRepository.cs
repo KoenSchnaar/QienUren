@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,18 +37,90 @@ namespace UrenRegistratieQien.Repositories
             return form;
         }
 
-        
-
-        public List<DeclarationFormModel> GetAllForms(string userId)
+        public List<DeclarationFormModel> GetAllForms()
         {
-            var entities = context.DeclarationForms.Where(d => d.EmployeeId == userId).ToList();
+            var entities = context.DeclarationForms.Include(df => df.HourRows).OrderByDescending(df => df.DeclarationFormId).ToList();
             var forms = new List<DeclarationFormModel>();
+
+
+
             foreach (var form in entities)
             {
+                List<HourRowModel> ListOfHourRowModels = new List<HourRowModel>();
+
+                foreach (HourRow hourRow in form.HourRows)
+                {
+                    HourRowModel newHourRowModel = new HourRowModel
+                    {
+                        HourRowId = hourRow.HourRowId,
+                        EmployeeId = form.EmployeeId,
+                        Date = hourRow.Date,
+                        Worked = hourRow.Worked,
+                        Overtime = hourRow.Overtime,
+                        Sickness = hourRow.Sickness,
+                        Vacation = hourRow.Vacation,
+                        Holiday = hourRow.Holiday,
+                        Training = hourRow.Training,
+                        Other = hourRow.Other,
+                        OtherExplanation = hourRow.OtherExplanation
+                    };
+
+                    ListOfHourRowModels.Add(newHourRowModel);
+                }
+
                 var newModel = new DeclarationFormModel
                 {
+
                     FormId = form.DeclarationFormId,
-                    HourRows = hourRowRepo.GetHourRows(userId, form.Month), //niet heel netjes om en andere repo te gebruiken
+                    HourRows = ListOfHourRowModels,
+                    EmployeeId = form.EmployeeId,
+                    Month = form.Month,
+                    Approved = form.Approved,
+                    Submitted = form.Submitted,
+                    Comment = form.Comment
+                };
+                forms.Add(newModel);
+            }
+            return forms;
+        }
+
+
+        public List<DeclarationFormModel> GetAllFormsOfUser(string userId)
+        {
+            var entities = context.DeclarationForms.Include(df => df.HourRows).Where(d => d.EmployeeId == userId).ToList();
+            var forms = new List<DeclarationFormModel>();
+
+            
+
+            foreach (var form in entities)
+            {
+                List<HourRowModel> ListOfHourRowModels = new List<HourRowModel>();
+
+                foreach(HourRow hourRow in form.HourRows)
+                {
+                    HourRowModel newHourRowModel = new HourRowModel
+                    {
+                        HourRowId = hourRow.HourRowId,
+                        EmployeeId = form.EmployeeId,
+                        Date = hourRow.Date,
+                        Worked = hourRow.Worked,
+                        Overtime = hourRow.Overtime,
+                        Sickness = hourRow.Sickness,
+                        Vacation = hourRow.Vacation,
+                        Holiday = hourRow.Holiday,
+                        Training = hourRow.Training,
+                        Other = hourRow.Other,
+                        OtherExplanation = hourRow.OtherExplanation
+                    };
+
+                    ListOfHourRowModels.Add(newHourRowModel);
+                }
+
+                var newModel = new DeclarationFormModel
+                {
+
+                    FormId = form.DeclarationFormId,
+                    HourRows = ListOfHourRowModels,
                     EmployeeId = form.EmployeeId,
                     Month = form.Month,
                     Approved = form.Approved,
