@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UrenRegistratieQien.Data;
+using UrenRegistratieQien.DatabaseClasses;
 using UrenRegistratieQien.Models;
 
 namespace UrenRegistratieQien.Repositories
@@ -35,7 +36,7 @@ namespace UrenRegistratieQien.Repositories
             return form;
         }
 
-
+        
 
         public List<DeclarationFormModel> GetAllForms(string userId)
         {
@@ -56,6 +57,49 @@ namespace UrenRegistratieQien.Repositories
                 forms.Add(newModel);
             }
             return forms;
+        }
+
+
+        public void AddEmptyDeclarationForm(int year, string month, string userId)
+        {
+            var newDeclarationForm = new DeclarationForm();
+            var generatedHourRows = hourRowRepo.AddHourRows(year, month, newDeclarationForm.DeclarationFormId);
+            newDeclarationForm.HourRows = generatedHourRows;
+            newDeclarationForm.EmployeeId = userId;
+            newDeclarationForm.Month = month;
+            newDeclarationForm.Approved = false;
+            newDeclarationForm.Submitted = false;
+
+            context.SaveChanges();
+        }
+
+        public void EditDeclarationForm(DeclarationFormModel formModel)
+        {
+            var form = context.DeclarationForms.Single(d => d.EmployeeId == formModel.EmployeeId);
+            var hourList = new List<HourRow>();
+
+            foreach (var row in formModel.HourRows)
+            {
+                var newRow = new HourRow
+                {
+                    Worked = row.Worked,
+                    Overtime = row.Overtime,
+                    Sickness = row.Sickness,
+                    Vacation = row.Vacation,
+                    Holiday = row.Holiday,
+                    Training = row.Training,
+                    Other = row.Other,
+                    OtherExplanation = row.OtherExplanation
+                };
+                hourList.Add(newRow);
+            }
+
+            form.HourRows = hourList;
+            form.Approved = formModel.Approved;
+            form.Submitted = formModel.Submitted;
+            form.Comment = formModel.Comment;
+
+            context.SaveChanges();
         }
 
 
