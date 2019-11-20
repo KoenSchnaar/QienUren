@@ -45,10 +45,10 @@ namespace UrenRegistratieQien.Controllers
             return RedirectToAction("AllClients");   
         }
 
-        public IActionResult EditClient()
-        {
-            return View(clientRepo.GetClient()); //methode om 1 client te krijgen
-        }
+        //public IActionResult EditClient()
+        //{
+        //   return View(clientRepo.GetClient()); //methode om 1 client te krijgen
+        //}
 
         [HttpPost]
         public IActionResult EditClient(ClientModel clientModel)

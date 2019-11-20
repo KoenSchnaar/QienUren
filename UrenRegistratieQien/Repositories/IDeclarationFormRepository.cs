@@ -1,7 +1,14 @@
-﻿namespace UrenRegistratieQien.Repositories
+﻿using System.Collections.Generic;
+using UrenRegistratieQien.Models;
+
+namespace UrenRegistratieQien.Repositories
 {
     public interface IDeclarationFormRepository
     {
-        void GetForms();
+
+        public DeclarationFormModel GetForm(string userId, string month);
+
+        public List<DeclarationFormModel> GetAllForms(string userId);
+
     }
 }

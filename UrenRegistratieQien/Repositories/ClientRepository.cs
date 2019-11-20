@@ -15,6 +15,7 @@ namespace UrenRegistratieQien.Repositories
         {
             this.context = context;
         }
+
         public List<ClientModel> GetAllClients()
         {
             var clientModelList = new List<ClientModel>();
@@ -69,7 +70,27 @@ namespace UrenRegistratieQien.Repositories
             clientEntity.Contact2Email = clientModel.Contact2Email;
 
             context.SaveChanges();
+        }
             
+
+        public ClientModel GetClient(int clientId)
+        {
+            var databaseClient = context.Clients.Single(p => p.ClientId == clientId);
+
+            return new ClientModel
+            {
+                ClientId = clientId,
+                CompanyName = databaseClient.CompanyName,
+                Contact1Name = databaseClient.Contact1Name,
+                Contact2Name = databaseClient.Contact2Name,
+                Contact1Phone = databaseClient.Contact1Phone,
+                Contact2Phone = databaseClient.Contact2Phone,
+                Contact1Email = databaseClient.Contact1Email,
+                Contact2Email = databaseClient.Contact2Email,
+                CompanyPhone = databaseClient.CompanyPhone
+
+            };
+
         }
     }
 }

@@ -15,5 +15,7 @@ namespace UrenRegistratieQien.DatabaseClasses
         public string Address { get; set; }
         public int Phone { get; set; }
 
+        public DateTime DateRegistered { get; set; }
+
     }
 }

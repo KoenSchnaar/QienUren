@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using UrenRegistratieQien.Data;
 using UrenRegistratieQien.DatabaseClasses;
+using UrenRegistratieQien.GlobalClasses;
+using UrenRegistratieQien.Models;
 
 namespace UrenRegistratieQien.Repositories
 {
@@ -16,17 +18,41 @@ namespace UrenRegistratieQien.Repositories
         {
             this.context = context;
         }
-        public void GetHourRows()
+        public List<HourRowModel> GetHourRows(string userId, string month)
         {
-            
+            var entity = context.DeclarationForms.Single(h => h.EmployeeId == userId && h.Month == month);
+            var hourRows = new List<HourRowModel>();
+
+            foreach (var row in entity.HourRows)
+            {
+                var newRow = new HourRowModel
+                {
+                    EmployeeId = userId,
+                    Date = row.Date,
+                    Worked = row.Worked,
+                    Overtime = row.Overtime,
+                    Sickness = row.Sickness,
+                    Vacation = row.Vacation,
+                    Holiday = row.Holiday,
+                    Training = row.Training,
+                    Other = row.Other,
+                    OtherExplanation = row.OtherExplanation
+                };
+                hourRows.Add(newRow);
+            }
+            return hourRows;
         }
 
-        public void GenerateHourRows(int year, int month, int declarationFormId)
+
+
+        public List<HourRow> AddHourRows(int year, string month, int declarationFormId)
         {
-            int days = DateTime.DaysInMonth(year, month);
-            for (var i=1; i<days; i++)
+            var hourRowList = new List<HourRow>();
+            var monthInt = MonthConverter.ConvertMonthToInt(month);
+            int days = DateTime.DaysInMonth(year, monthInt);
+            for (var i = 1; i < days; i++)
             {
-                
+
                 HourRow hourRow = new HourRow
                 {
                     Date = Convert.ToString(i) + "/" + Convert.ToString(month) + "/" + Convert.ToString(year),
@@ -41,8 +67,11 @@ namespace UrenRegistratieQien.Repositories
                     DeclarationFormId = declarationFormId
                 };
 
+                hourRowList.Add(hourRow);
                 context.HourRows.Add(hourRow);
+                context.SaveChanges();
             }
+            return hourRowList;
         }
     }
 }

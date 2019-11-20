@@ -347,6 +347,9 @@ namespace UrenRegistratieQien.Data.Migrations
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("DateRegistered")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
