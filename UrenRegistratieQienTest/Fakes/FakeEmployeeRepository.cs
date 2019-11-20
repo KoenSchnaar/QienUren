@@ -6,24 +6,19 @@ using UrenRegistratieQien.Repositories;
 
 namespace UrenRegistratieQienTest.Fakes
 {
-    class FakeClientRepository : IClientRepository
+    class FakeEmployeeRepository : IEmployeeRepository
     {
-        public void AddNewClient(ClientModel clientModel)
+        public EmployeeModel GetEmployee(string id)
         {
             throw new NotImplementedException();
         }
 
-        public void EditAClient(ClientModel clientModel)
+        public List<EmployeeModel> GetEmployees()
         {
             throw new NotImplementedException();
         }
 
-        public List<ClientModel> GetAllClients()
-        {
-            return new List<ClientModel>();
-        }
-        
-        public ClientModel GetClient(int clientId)
+        public void UpdateEmployee(EmployeeModel employeeModel)
         {
             throw new NotImplementedException();
         }

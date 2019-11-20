@@ -1,37 +1,44 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using UrenRegistratieQien.Controllers;
 using UrenRegistratieQien.Models;
+using UrenRegistratieQienTest.Fakes;
 
 namespace UrenRegistratieQienTest
 {
     [TestClass]
     public class UnitTest1
     {
+
+
         [TestMethod]
-        public void ClientRepositoryGetAllClientsShouldReturnListOfClientModel()
+        public void EmployeeControllerIndexShouldReturnView()
         {
             //arrange
-            var clientRepository = new Fakes.FakeClientRepository();
-
+            var employeeController = new EmployeeController(new FakeClientRepository(), new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeHourRowRepository());
             //act
-            var result = clientRepository.GetAllClients();
-
+            var result = employeeController.Index();
             //assert
-            Assert.IsInstanceOfType(result, typeof(List<ClientModel>));
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
         }
-        
+
+
         [TestMethod]
-        public void ClientRepositoryGetAllClientsAtIndexZeroCompanyNameShouldBeCompanyName()
+        public void EmployeeControllerAllClientsShouldReturnViewWithListOfClients()
         {
             //arrange
-            var clientRepository = new Fakes.FakeClientRepository();
+            var employeeController = new EmployeeController(new FakeClientRepository(), new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeHourRowRepository());
 
             //act
-            var result = clientRepository.GetAllClients()[0].CompanyName;
-
+            var actionResult = employeeController.AllClients();
+            var viewResult = (ViewResult)actionResult;
+            var viewModel = viewResult.Model;
 
             //assert
-            Assert.AreEqual("companyname", result);
+            Assert.IsInstanceOfType(viewModel, typeof(List<ClientModel>));
+
+
         }
     }
 }
