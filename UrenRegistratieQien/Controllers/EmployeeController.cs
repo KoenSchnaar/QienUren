@@ -15,11 +15,11 @@ namespace UrenRegistratieQien.Controllers
         private readonly IEmployeeRepository employerRepo;
         private readonly IHourRowRepository hourRowRepo;
 
-        public EmployeeController(IClientRepository ClientRepo, IDeclarationFormRepository DeclarationRepo, IEmployeeRepository EmployerRepo, IHourRowRepository HourRowRepo)
+        public EmployeeController(IClientRepository ClientRepo, IDeclarationFormRepository DeclarationRepo, IEmployeeRepository EmployeeRepo, IHourRowRepository HourRowRepo)
         {
             clientRepo = ClientRepo;
             declarationRepo = DeclarationRepo;
-            employerRepo = EmployerRepo;
+            employerRepo = EmployeeRepo;
             hourRowRepo = HourRowRepo;
         }
         public IActionResult Index()
