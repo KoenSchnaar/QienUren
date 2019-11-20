@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UrenRegistratieQien.DatabaseClasses;
 using UrenRegistratieQien.Models;
 
 namespace UrenRegistratieQien.Repositories
@@ -7,6 +8,6 @@ namespace UrenRegistratieQien.Repositories
     {
         public List<HourRowModel> GetHourRows(string userId, string month);
 
-        public void AddHourRows(int year, int month, int declarationFormId);
+        public List<HourRow> AddHourRows(int year, string month, int declarationFormId);
     }
 }

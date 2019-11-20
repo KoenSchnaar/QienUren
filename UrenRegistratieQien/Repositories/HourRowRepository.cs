@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UrenRegistratieQien.Data;
 using UrenRegistratieQien.DatabaseClasses;
+using UrenRegistratieQien.GlobalClasses;
 using UrenRegistratieQien.Models;
 
 namespace UrenRegistratieQien.Repositories
@@ -44,12 +45,14 @@ namespace UrenRegistratieQien.Repositories
 
 
 
-        public void AddHourRows(int year, int month, int declarationFormId)
+        public List<HourRow> AddHourRows(int year, string month, int declarationFormId)
         {
-            int days = DateTime.DaysInMonth(year, month);
-            for (var i=1; i<days; i++)
+            var hourRowList = new List<HourRow>();
+            var monthInt = MonthConverter.ConvertMonthToInt(month);
+            int days = DateTime.DaysInMonth(year, monthInt);
+            for (var i = 1; i < days; i++)
             {
-                
+
                 HourRow hourRow = new HourRow
                 {
                     Date = Convert.ToString(i) + "/" + Convert.ToString(month) + "/" + Convert.ToString(year),
@@ -64,9 +67,11 @@ namespace UrenRegistratieQien.Repositories
                     DeclarationFormId = declarationFormId
                 };
 
+                hourRowList.Add(hourRow);
                 context.HourRows.Add(hourRow);
                 context.SaveChanges();
             }
+            return hourRowList;
         }
     }
 }
