@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UrenRegistratieQien.Data;
+using UrenRegistratieQien.DatabaseClasses;
 using UrenRegistratieQien.Models;
 
 namespace UrenRegistratieQien.Repositories
@@ -80,6 +81,30 @@ namespace UrenRegistratieQien.Repositories
             return new ClientModel
             {
                 ClientId = clientId,
+                CompanyName = databaseClient.CompanyName,
+                Contact1Name = databaseClient.Contact1Name,
+                Contact2Name = databaseClient.Contact2Name,
+                Contact1Phone = databaseClient.Contact1Phone,
+                Contact2Phone = databaseClient.Contact2Phone,
+                Contact1Email = databaseClient.Contact1Email,
+                Contact2Email = databaseClient.Contact2Email,
+                CompanyPhone = databaseClient.CompanyPhone
+
+            };
+
+        }
+
+        public ClientModel GetClientByUserId(string userId)
+        {
+            var employee = context.Users.Single(u => u.Id == userId);
+
+            var employeeCasted = (Employee)employee;
+
+            var databaseClient = context.Clients.Single(p => p.ClientId == employeeCasted.ClientId);
+
+            return new ClientModel
+            {
+                ClientId = employeeCasted.ClientId,
                 CompanyName = databaseClient.CompanyName,
                 Contact1Name = databaseClient.Contact1Name,
                 Contact2Name = databaseClient.Contact2Name,

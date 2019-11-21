@@ -12,6 +12,7 @@ namespace UrenRegistratieQien.Models
         public int FormId { get; set; }
         public List<HourRowModel> HourRows { get; set; }
         public string EmployeeId { get; set; }
+        public int Year { get; set; }
         public string Month { get; set; }
         public bool Approved { get; set; }
         public bool Submitted { get; set; }

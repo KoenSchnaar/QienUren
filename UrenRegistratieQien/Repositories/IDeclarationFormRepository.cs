@@ -6,7 +6,7 @@ namespace UrenRegistratieQien.Repositories
     public interface IDeclarationFormRepository
     {
 
-        public DeclarationFormModel GetForm(string userId, string month);
+        public DeclarationFormModel GetForm(int declarationFormId, string userId);
 
         public List<DeclarationFormModel> GetAllFormsOfUser(string userId);
 

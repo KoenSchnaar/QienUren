@@ -11,7 +11,7 @@ using UrenRegistratieQien.Repositories;
 
 namespace UrenRegistratieQien.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

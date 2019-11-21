@@ -62,7 +62,9 @@ namespace UrenRegistratieQien.Repositories
                 Email = employeeCasted.Email,
                 Address = employeeCasted.Address,
                 Phone = employeeCasted.Phone,
-                Role = roleName
+                Role = roleName,
+                ZIPCode = employeeCasted.ZIPCode,
+                Residence = employeeCasted.Residence
             };
             
 

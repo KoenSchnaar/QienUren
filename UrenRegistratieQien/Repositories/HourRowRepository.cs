@@ -18,12 +18,12 @@ namespace UrenRegistratieQien.Repositories
         {
             this.context = context;
         }
-        public List<HourRowModel> GetHourRows(string userId, string month)
+        public List<HourRowModel> GetHourRows(string userId, int declarationFormId)
         {
-            var entity = context.DeclarationForms.Single(h => h.EmployeeId == userId && h.Month == month);
+            var entities = context.HourRows.Where(h => h.DeclarationFormId == declarationFormId).ToList();
             var hourRows = new List<HourRowModel>();
 
-            foreach (var row in entity.HourRows)
+            foreach (var row in entities)
             {
                 var newRow = new HourRowModel
                 {
@@ -45,33 +45,33 @@ namespace UrenRegistratieQien.Repositories
 
 
 
-        public List<HourRow> AddHourRows(int year, string month, int declarationFormId)
+        public void AddHourRows(int year, string month, int declarationFormId)
         {
-            var hourRowList = new List<HourRow>();
-            var monthInt = MonthConverter.ConvertMonthToInt(month);
-            int days = DateTime.DaysInMonth(year, monthInt);
-            for (var i = 1; i < days; i++)
+            var entity = context.HourRows.FirstOrDefault(h => h.DeclarationFormId == declarationFormId); // als er uberhaupt iets in de hourrows van het declaratieform staat maakt het niks meer aan. Kan dus voor bugs zorgen.
+            if (entity == null)
             {
-
-                HourRow hourRow = new HourRow
+                var monthInt = MonthConverter.ConvertMonthToInt(month);
+                int days = DateTime.DaysInMonth(year, monthInt);
+                for (var i = 1; i <= days; i++)
                 {
-                    Date = Convert.ToString(i) + "/" + Convert.ToString(month) + "/" + Convert.ToString(year),
-                    Worked = 0,
-                    Overtime = 0,
-                    Sickness = 0,
-                    Vacation = 0,
-                    Holiday = 0,
-                    Training = 0,
-                    Other = 0,
-                    OtherExplanation = "",
-                    DeclarationFormId = declarationFormId
-                };
+                    HourRow hourRow = new HourRow
+                    {
+                        Date = Convert.ToString(i) + "/" + Convert.ToString(month) + "/" + Convert.ToString(year),
+                        Worked = 0,
+                        Overtime = 0,
+                        Sickness = 0,
+                        Vacation = 0,
+                        Holiday = 0,
+                        Training = 0,
+                        Other = 0,
+                        OtherExplanation = "",
+                        DeclarationFormId = declarationFormId
+                    };
 
-                hourRowList.Add(hourRow);
-                context.HourRows.Add(hourRow);
-                context.SaveChanges();
+                    context.HourRows.Add(hourRow);
+                    context.SaveChanges();
+                }
             }
-            return hourRowList;
         }
     }
 }

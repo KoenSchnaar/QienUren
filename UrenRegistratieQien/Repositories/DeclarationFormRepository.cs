@@ -21,13 +21,13 @@ namespace UrenRegistratieQien.Repositories
         }
 
 
-        public DeclarationFormModel GetForm(string userId, string month)
+        public DeclarationFormModel GetForm(int declarationFormId, string userId)
         {
-            var entity = context.DeclarationForms.Single(d => d.EmployeeId == userId && d.Month == month);
+            var entity = context.DeclarationForms.Single(d => d.DeclarationFormId == declarationFormId);
             var form = new DeclarationFormModel
             {
                 FormId = entity.DeclarationFormId,
-                HourRows = hourRowRepo.GetHourRows(userId, entity.Month), //niet heel netjes om en andere repo te gebruiken
+                HourRows = hourRowRepo.GetHourRows(userId, declarationFormId), //niet heel netjes om en andere repo te gebruiken
                 EmployeeId = entity.EmployeeId,
                 Month = entity.Month,
                 Approved = entity.Approved,
@@ -77,7 +77,8 @@ namespace UrenRegistratieQien.Repositories
                     Month = form.Month,
                     Approved = form.Approved,
                     Submitted = form.Submitted,
-                    Comment = form.Comment
+                    Comment = form.Comment,
+                    Year = form.Year
                 };
                 forms.Add(newModel);
             }
@@ -125,7 +126,8 @@ namespace UrenRegistratieQien.Repositories
                     Month = form.Month,
                     Approved = form.Approved,
                     Submitted = form.Submitted,
-                    Comment = form.Comment
+                    Comment = form.Comment,
+                    Year = form.Year
                 };
                 forms.Add(newModel);
             }
@@ -133,22 +135,9 @@ namespace UrenRegistratieQien.Repositories
         }
 
 
-        public void AddEmptyDeclarationForm(int year, string month, string userId)
-        {
-            var newDeclarationForm = new DeclarationForm();
-            var generatedHourRows = hourRowRepo.AddHourRows(year, month, newDeclarationForm.DeclarationFormId);
-            newDeclarationForm.HourRows = generatedHourRows;
-            newDeclarationForm.EmployeeId = userId;
-            newDeclarationForm.Month = month;
-            newDeclarationForm.Approved = false;
-            newDeclarationForm.Submitted = false;
-
-            context.SaveChanges();
-        }
-
         public void EditDeclarationForm(DeclarationFormModel formModel)
         {
-            var form = context.DeclarationForms.Single(d => d.EmployeeId == formModel.EmployeeId);
+            var form = context.DeclarationForms.Single(d => d.DeclarationFormId == formModel.FormId);
             var hourList = new List<HourRow>();
 
             foreach (var row in formModel.HourRows)

@@ -15,7 +15,8 @@ namespace UrenRegistratieQien.Models
         public string Address { get; set; }
         public int Phone { get; set; }
         public string Role { get; set; }
-
+        public string ZIPCode { get; set; }
+        public string Residence { get; set; }
         public DateTime DateRegistered { get; set; }
     }
 }
