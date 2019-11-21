@@ -1,0 +1,35 @@
+﻿@model DeclarationFormModel
+@{
+    ViewData["Title"] = "ViewDeclarationForm";
+}
+
+<h1>hoi</h1>
+<table align="center" class="tableHoursReg">
+    <tr>
+        <th>Datum</th>
+        <th>Gewerkt</th>
+        <th>Overwerk</th>
+        <th>Ziekte</th>
+        <th>Vakantie</th>
+        <th>Feestdagen</th>
+        <th>Training</th>
+        <th>Overig</th>
+        <th>Overig Uitleg</th>
+    </tr>
+
+
+    @foreach (var hourRow in Model.HourRows)
+    {
+        <tr>
+            <td>@hourRow.Date</td>
+            <td>@hourRow.Worked</td>
+            <td>@hourRow.Overtime</td>
+            <td>@hourRow.Sickness</td>
+            <td>@hourRow.Vacation</td>
+            <td>@hourRow.Holiday</td>
+            <td>@hourRow.Training</td>
+            <td>@hourRow.Other</td>
+            <td>@hourRow.OtherExplanation</td>
+        </tr>
+    }
+</table>

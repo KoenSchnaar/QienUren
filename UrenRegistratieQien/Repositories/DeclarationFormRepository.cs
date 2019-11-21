@@ -37,6 +37,50 @@ namespace UrenRegistratieQien.Repositories
             return form;
         }
 
+        public DeclarationFormModel GetFormByFormId(int formId)
+        {
+            var entity = context.DeclarationForms.Include(df => df.HourRows).Single(d => d.DeclarationFormId == formId);
+            List<HourRowModel> ListOfHourRowModels = new List<HourRowModel>();
+            foreach (HourRow hourRow in entity.HourRows)
+            {
+                HourRowModel newHourRowModel = new HourRowModel
+                {
+                    HourRowId = hourRow.HourRowId,
+                    EmployeeId = entity.EmployeeId,
+                    Date = hourRow.Date,
+                    Worked = hourRow.Worked,
+                    Overtime = hourRow.Overtime,
+                    Sickness = hourRow.Sickness,
+                    Vacation = hourRow.Vacation,
+                    Holiday = hourRow.Holiday,
+                    Training = hourRow.Training,
+                    Other = hourRow.Other,
+                    OtherExplanation = hourRow.OtherExplanation
+                };
+
+                ListOfHourRowModels.Add(newHourRowModel);
+            }
+
+            var selectedEmployee = context.Users.Single(p => p.Id == entity.EmployeeId);
+            var castedEmployee = (Employee)selectedEmployee;
+            var employeeName = castedEmployee.FirstName + " " + castedEmployee.LastName;
+
+            var newModel = new DeclarationFormModel
+            {
+                FormId = entity.DeclarationFormId,
+                HourRows = ListOfHourRowModels,
+                EmployeeId = entity.EmployeeId,
+                EmployeeName = employeeName,
+                Month = entity.Month,
+                Approved = entity.Approved,
+                Submitted = entity.Submitted,
+                Comment = entity.Comment
+            };
+
+            return newModel;
+
+        }
+
         public List<DeclarationFormModel> GetAllForms()
         {
             var entities = context.DeclarationForms.Include(df => df.HourRows).OrderByDescending(df => df.DeclarationFormId).ToList();
@@ -68,17 +112,22 @@ namespace UrenRegistratieQien.Repositories
                     ListOfHourRowModels.Add(newHourRowModel);
                 }
 
+                var selectedEmployee = context.Users.Single(p => p.Id == form.EmployeeId);
+                var castedEmployee = (Employee)selectedEmployee;
+                var employeeName = castedEmployee.FirstName + " " + castedEmployee.LastName;
+
                 var newModel = new DeclarationFormModel
                 {
-
                     FormId = form.DeclarationFormId,
                     HourRows = ListOfHourRowModels,
                     EmployeeId = form.EmployeeId,
+                    EmployeeName = employeeName,
                     Month = form.Month,
                     Approved = form.Approved,
                     Submitted = form.Submitted,
                     Comment = form.Comment
                 };
+
                 forms.Add(newModel);
             }
             return forms;
