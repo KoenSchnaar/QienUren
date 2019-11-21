@@ -2,31 +2,35 @@
 @{
     ViewData["Title"] = "HourReg";
 }
-    <div align="center">
-        <h1>@Model.Month @Model.Year</h1>
-        </div><br>
-             @*@using (Html.BeginForm("HourReg", "DeclarationForm"))
-             {*@
+    
+
+<div align="center">
+    <h1>@Model.Month @Model.Year</h1>
+        </div>
+             @using (Html.BeginForm("HourReg", "DeclarationForm"))
+              {
+                 @Html.HiddenFor(m => m.FormId)
+                 @Html.HiddenFor(m => m.EmployeeId)
+                 @Html.HiddenFor(m => m.Year)
+                 @Html.HiddenFor(m => m.Month)
+
                 <table align="center" class="tableHoursReg">
-                  <tr>
-                      <th>Datum</th>
-                      <th>Gewerkt</th>
-                      <th>Overwerk</th>
-                      <th>Ziekte</th>
-                      <th>Vakantie</th>
-                      <th>Feestdagen</th>
-                      <th>Training</th>
-                      <th>Overig</th>
-                      <th>Overig Uitleg</th>
-                  </tr>
+                    <tr>
+                        <th>Date</th>
+                        <th>Gewerkt</th>
+                        <th>Overwerk</th>
+                        <th>Ziekte</th>
+                        <th>Vakantie</th>
+                        <th>Feestdagen</th>
+                        <th>Training</th>
+                        <th>Overig</th>
+                        <th>Overig Uitleg</th>
+                    </tr>
 
-                 @foreach (var hourRow in Model.HourRows)
-                 {
-
-                 }
+                    @Html.EditorFor(m => Model.HourRows)
               
               
- @foreach (var hourRow in Model.HourRows)
+                @*@foreach (var hourRow in Model.HourRows)
                   {
                       <tr>
                           <td>@hourRow.Date</td>
@@ -39,12 +43,8 @@
                           <td>@hourRow.Other</td>
                           <td>@hourRow.OtherExplanation</td>
                       </tr>
-                  }
-</table>
-             }
-
-        <br>
-        <div align="right">
-            <input type="button" value="Opslaan" onclick="location.href='@Url.Action("Save", "User")'" />
-            <input type="button" align="right" value="Opslaan en indienen" onclick="location.href='@Url.Action("SaveAndSubmit", "User")'" />
-        </div>
+                  }*@
+                </table>
+                <button type="submit">Opslaan</button>
+                <button type="submit">Opslaan en indienen</button> @*werkt niet*@
+              }

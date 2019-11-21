@@ -32,7 +32,8 @@ namespace UrenRegistratieQien.Repositories
                 Month = entity.Month,
                 Approved = entity.Approved,
                 Submitted = entity.Submitted,
-                Comment = entity.Comment
+                Comment = entity.Comment,
+                Year = entity.Year
             };
             return form;
         }
@@ -138,32 +139,42 @@ namespace UrenRegistratieQien.Repositories
         public void EditDeclarationForm(DeclarationFormModel formModel)
         {
             var form = context.DeclarationForms.Single(d => d.DeclarationFormId == formModel.FormId);
-            var hourList = new List<HourRow>();
+            //var hourList = new List<HourRow>();
 
             foreach (var row in formModel.HourRows)
             {
-                var newRow = new HourRow
+                foreach (var hourRow in form.HourRows)
                 {
-                    Worked = row.Worked,
-                    Overtime = row.Overtime,
-                    Sickness = row.Sickness,
-                    Vacation = row.Vacation,
-                    Holiday = row.Holiday,
-                    Training = row.Training,
-                    Other = row.Other,
-                    OtherExplanation = row.OtherExplanation
-                };
-                hourList.Add(newRow);
+                    hourRow.Worked = row.Worked;
+                    hourRow.Overtime = row.Overtime;
+                    hourRow.Sickness = row.Sickness;
+                    hourRow.Vacation = row.Vacation;
+                    hourRow.Holiday = row.Holiday;
+                    hourRow.Training = row.Training;
+                    hourRow.Other = row.Other;
+                    hourRow.OtherExplanation = row.OtherExplanation;
+                }
+
+                //var newRow = new HourRow
+                //{
+                //    Worked = row.Worked,
+                //    Overtime = row.Overtime,
+                //    Sickness = row.Sickness,
+                //    Vacation = row.Vacation,
+                //    Holiday = row.Holiday,
+                //    Training = row.Training,
+                //    Other = row.Other,
+                //    OtherExplanation = row.OtherExplanation
+                //};
+                //hourList.Add(newRow);
             }
 
-            form.HourRows = hourList;
-            form.Approved = formModel.Approved;
-            form.Submitted = formModel.Submitted;
-            form.Comment = formModel.Comment;
+            //form.HourRows = hourList;
+            //form.Approved = formModel.Approved;
+            //form.Submitted = formModel.Submitted;
+            //form.Comment = formModel.Comment;
 
             context.SaveChanges();
         }
-
-
     }
 }

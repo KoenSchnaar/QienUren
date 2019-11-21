@@ -35,9 +35,9 @@ namespace UrenRegistratieQien.Controllers
         }
 
         [HttpPost]
-        public IActionResult HourReg(List<HourRowModel> HRModel)
+        public IActionResult HourReg(DeclarationFormModel decModel)
         {
-
+            declarationRepo.EditDeclarationForm(decModel);
             return RedirectToAction("Dashboard", "Employee");
         }
     }

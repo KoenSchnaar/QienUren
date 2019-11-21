@@ -7,8 +7,9 @@ namespace UrenRegistratieQien.Repositories
     {
 
         public DeclarationFormModel GetForm(int declarationFormId, string userId);
-
+        public List<DeclarationFormModel> GetAllForms();
         public List<DeclarationFormModel> GetAllFormsOfUser(string userId);
+        public void EditDeclarationForm(DeclarationFormModel formModel);
 
     }
 }

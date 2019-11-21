@@ -1,0 +1,15 @@
+﻿@model UrenRegistratieQien.Models.HourRowModel
+
+    <tr>
+        @Html.HiddenFor(m => m.HourRowId)
+        <td>@Html.TextBoxFor(m => m.Date)</td>
+        <td>@Html.TextBoxFor(m => m.Worked)</td>
+        <td>@Html.TextBoxFor(m => m.Overtime)</td>
+        <td>@Html.TextBoxFor(m => m.Sickness)</td>
+        <td>@Html.TextBoxFor(m => m.Vacation)</td>
+        <td>@Html.TextBoxFor(m => m.Holiday)</td>
+        <td>@Html.TextBoxFor(m => m.Training)</td>
+        <td>@Html.TextBoxFor(m => m.Other)</td>
+        <td>@Html.TextBoxFor(m => m.OtherExplanation)</td>
+    </tr>
+
