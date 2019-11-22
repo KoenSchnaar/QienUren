@@ -201,27 +201,7 @@ namespace UrenRegistratieQien.Repositories
                 entity.Training = row.Training;
                 entity.Other = row.Other;
                 entity.OtherExplanation = row.OtherExplanation;
-
-                //var newRow = new HourRow
-                //{
-
-                //    Worked = row.Worked,
-                //    Overtime = row.Overtime,
-                //    Sickness = row.Sickness,
-                //    Vacation = row.Vacation,
-                //    Holiday = row.Holiday,
-                //    Training = row.Training,
-                //    Other = row.Other,
-                //    OtherExplanation = row.OtherExplanation
-                //};
-                //hourList.Add(newRow);
             }
-
-            //form.HourRows = hourList;
-            //form.Approved = formModel.Approved;
-            //form.Submitted = formModel.Submitted;
-            //form.Comment = formModel.Comment;
-
             context.SaveChanges();
         }
     }
