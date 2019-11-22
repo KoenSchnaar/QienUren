@@ -14,28 +14,39 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using UrenRegistratieQien.DatabaseClasses;
+using UrenRegistratieQien.Models;
+using UrenRegistratieQien.Repositories;
 
 namespace UrenRegistratieQien.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
+        private readonly IClientRepository clientRepo;
         private readonly SignInManager<Employee> _signInManager;
         private readonly UserManager<Employee> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        public List<ClientModel> clients { get; set; }
 
         public RegisterModel(
+            IClientRepository ClientRepo,
             UserManager<Employee> userManager,
             SignInManager<Employee> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
+            
+            clientRepo = ClientRepo;
+            clients = clientRepo.GetAllClients();
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
         }
+        
+        
+        
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -77,12 +88,16 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
 
             [Required]
             [Display(Name = "Type gebruiker")]
-            public string Role { get; set; }
+            public int Role { get; set; }
 
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
+
+            [Required]
+            public  DateTime DateRegistered { get; set; }
+
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
@@ -108,17 +123,18 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new Employee { 
-                    UserName = Input.Email, 
-                    Email = Input.Email, 
-                    ClientId = 1,
+                var user = new Employee {
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    ClientId = Input.ClientId,
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
                     Address = Input.Adress,
                     ZIPCode = Input.ZIPCode,
                     Residence = Input.Residence,
-                    Phone = Input.Phone
-                    //Role = Input.Role,
+                    Phone = Input.Phone,
+                    DateRegistered = Input.DateRegistered,
+                    Role = Input.Role,
 
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);

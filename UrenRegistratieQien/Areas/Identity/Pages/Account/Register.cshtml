@@ -1,10 +1,13 @@
 ﻿@page
+@using UrenRegistratieQien.Models;
 @model RegisterModel
 @{
     ViewData["Title"] = "Registreer";
 }
 
 <h1>@ViewData["Title"]</h1>
+
+
 
 <div class="row">
     <div class="col-md-4">
@@ -41,15 +44,35 @@
                 <input asp-for="Input.Phone" class="form-control" />
                 <span asp-validation-for="Input.Phone" class="text-danger"></span>
             </div>
+
+
+            @*Role hieronder moet toegevoegd aan employee database class, en dan migration*@
+
             <div class="form-group">
                 <label asp-for="Input.Role"></label>
-                <input asp-for="Input.Role" class="form-control" />
+                <select asp-for="Input.Role">
+                    <option value="2">Medewerker</option>
+                    <option value="3">Trainee</option>
+                    <option value="4">Inactief</option>
+                </select>
                 <span asp-validation-for="Input.Role" class="text-danger"></span>
             </div>
 
+            <div class="form-group">
+                <label asp-for="Input.ClientId"></label>
+                <select asp-for="Input.ClientId">
+                    @{ 
+                        foreach(ClientModel clientModel in Model.clients)
+                        {
+                            <option value=@clientModel.ClientId>@clientModel.CompanyName</option>
+                        }
+                    }
+                    @*<option value="1">Qien</option>
+                    <option value="2">Macaw</option>*@
 
-
-
+                </select>
+                <span asp-validation-for="Input.ClientId" class="text-danger"></span>
+            </div>
 
 
             <div class="form-group">
@@ -66,6 +89,9 @@
                 <label asp-for="Input.ConfirmPassword"></label>
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input hidden asp-for="Input.DateRegistered" value=@DateTime.Now />
             </div>
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
