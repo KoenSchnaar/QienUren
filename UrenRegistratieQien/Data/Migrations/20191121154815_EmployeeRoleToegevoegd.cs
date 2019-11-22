@@ -6,7 +6,7 @@ namespace UrenRegistratieQien.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
+            migrationBuilder.AddColumn<int>(
                 name: "Role",
                 table: "AspNetUsers",
                 nullable: true);
