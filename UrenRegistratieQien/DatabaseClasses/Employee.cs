@@ -18,5 +18,7 @@ namespace UrenRegistratieQien.DatabaseClasses
         public string Residence { get; set; }
         public DateTime DateRegistered { get; set; }
 
+        public int Role { get; set; }
+
     }
 }
