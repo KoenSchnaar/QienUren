@@ -139,24 +139,35 @@ namespace UrenRegistratieQien.Repositories
         public void EditDeclarationForm(DeclarationFormModel formModel)
         {
             var form = context.DeclarationForms.Single(d => d.DeclarationFormId == formModel.FormId);
-            //var hourList = new List<HourRow>();
+            var hourList = new List<HourRow>();
 
             foreach (var row in formModel.HourRows)
             {
-                foreach (var hourRow in form.HourRows)
-                {
-                    hourRow.Worked = row.Worked;
-                    hourRow.Overtime = row.Overtime;
-                    hourRow.Sickness = row.Sickness;
-                    hourRow.Vacation = row.Vacation;
-                    hourRow.Holiday = row.Holiday;
-                    hourRow.Training = row.Training;
-                    hourRow.Other = row.Other;
-                    hourRow.OtherExplanation = row.OtherExplanation;
-                }
+                //foreach (var hourRow in form.HourRows)
+                //{
+                //    hourRow.Worked = row.Worked;
+                //    hourRow.Overtime = row.Overtime;
+                //    hourRow.Sickness = row.Sickness;
+                //    hourRow.Vacation = row.Vacation;
+                //    hourRow.Holiday = row.Holiday;
+                //    hourRow.Training = row.Training;
+                //    hourRow.Other = row.Other;
+                //    hourRow.OtherExplanation = row.OtherExplanation;
+                //}
+
+                var entity = context.HourRows.Single(h => h.HourRowId == row.HourRowId);
+                entity.Worked = row.Worked;
+                entity.Overtime = row.Overtime;
+                entity.Sickness = row.Sickness;
+                entity.Vacation = row.Vacation;
+                entity.Holiday = row.Holiday;
+                entity.Training = row.Training;
+                entity.Other = row.Other;
+                entity.OtherExplanation = row.OtherExplanation;
 
                 //var newRow = new HourRow
                 //{
+
                 //    Worked = row.Worked,
                 //    Overtime = row.Overtime,
                 //    Sickness = row.Sickness,
