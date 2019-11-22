@@ -28,6 +28,7 @@ namespace UrenRegistratieQien.Repositories
                 var newRow = new HourRowModel
                 {
                     EmployeeId = userId,
+                    HourRowId = row.HourRowId,
                     Date = row.Date,
                     Worked = row.Worked,
                     Overtime = row.Overtime,

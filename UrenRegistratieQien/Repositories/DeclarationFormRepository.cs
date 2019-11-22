@@ -192,18 +192,6 @@ namespace UrenRegistratieQien.Repositories
 
             foreach (var row in formModel.HourRows)
             {
-                //foreach (var hourRow in form.HourRows)
-                //{
-                //    hourRow.Worked = row.Worked;
-                //    hourRow.Overtime = row.Overtime;
-                //    hourRow.Sickness = row.Sickness;
-                //    hourRow.Vacation = row.Vacation;
-                //    hourRow.Holiday = row.Holiday;
-                //    hourRow.Training = row.Training;
-                //    hourRow.Other = row.Other;
-                //    hourRow.OtherExplanation = row.OtherExplanation;
-                //}
-
                 var entity = context.HourRows.Single(h => h.HourRowId == row.HourRowId);
                 entity.Worked = row.Worked;
                 entity.Overtime = row.Overtime;

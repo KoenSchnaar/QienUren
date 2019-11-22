@@ -8,6 +8,11 @@ namespace UrenRegistratieQienTest.Fakes
 {
     class FakeDeclarationFormRepository : IDeclarationFormRepository
     {
+        public void EditDeclarationForm(DeclarationFormModel formModel)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<DeclarationFormModel> GetAllForms()
         {
             throw new NotImplementedException();
@@ -19,6 +24,11 @@ namespace UrenRegistratieQienTest.Fakes
         }
 
         public DeclarationFormModel GetForm(string userId, string month)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DeclarationFormModel GetForm(int declarationFormId, string userId)
         {
             throw new NotImplementedException();
         }

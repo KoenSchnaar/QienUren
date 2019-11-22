@@ -19,5 +19,15 @@ namespace UrenRegistratieQienTest.Fakes
         {
             throw new NotImplementedException();
         }
+
+        public List<HourRowModel> GetHourRows(string userId, int declarationFormId)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IHourRowRepository.AddHourRows(int year, string month, int declarationFormId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
