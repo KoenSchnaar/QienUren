@@ -11,6 +11,7 @@ namespace UrenRegistratieQien.DatabaseClasses
         public List<HourRow> HourRows { get; set; }
         public string EmployeeId { get; set; } //misschien niet goed, even naar kieken
         public Employee Employee { get; set; }
+        public int Year { get; set; }
         public string Month { get; set; }
         public bool Approved { get; set; }
         public bool Submitted { get; set; }

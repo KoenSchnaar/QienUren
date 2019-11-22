@@ -27,5 +27,9 @@ namespace UrenRegistratieQienTest.Fakes
         {
             throw new NotImplementedException();
         }
+        public ClientModel GetClientByUserId(string userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,0 +1,50 @@
+﻿@model UrenRegistratieQien.Models.DeclarationFormModel
+@{
+    ViewData["Title"] = "HourReg";
+}
+    
+
+<div align="center">
+    <h1>@Model.Month @Model.Year</h1>
+        </div>
+             @using (Html.BeginForm("HourReg", "DeclarationForm"))
+              {
+                 @Html.HiddenFor(m => m.FormId)
+                 @Html.HiddenFor(m => m.EmployeeId)
+                 @Html.HiddenFor(m => m.Year)
+                 @Html.HiddenFor(m => m.Month)
+
+                <table align="center" class="tableHoursReg">
+                    <tr>
+                        <th>Date</th>
+                        <th>Gewerkt</th>
+                        <th>Overwerk</th>
+                        <th>Ziekte</th>
+                        <th>Vakantie</th>
+                        <th>Feestdagen</th>
+                        <th>Training</th>
+                        <th>Overig</th>
+                        <th>Overig Uitleg</th>
+                    </tr>
+
+                    @Html.EditorFor(m => Model.HourRows)
+              
+              
+                @*@foreach (var hourRow in Model.HourRows)
+                  {
+                      <tr>
+                          <td>@hourRow.Date</td>
+                          <td>@hourRow.Worked</td>
+                          <td>@hourRow.Overtime</td>
+                          <td>@hourRow.Sickness</td>
+                          <td>@hourRow.Vacation</td>
+                          <td>@hourRow.Holiday</td>
+                          <td>@hourRow.Training</td>
+                          <td>@hourRow.Other</td>
+                          <td>@hourRow.OtherExplanation</td>
+                      </tr>
+                  }*@
+                </table>
+                <button type="submit">Opslaan</button>
+                <button type="submit">Opslaan en indienen</button> @*werkt niet*@
+              }

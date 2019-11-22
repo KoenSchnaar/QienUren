@@ -8,7 +8,7 @@ namespace UrenRegistratieQien.Models
     public class HourRowModel
     {
         public int HourRowId { get; set; }
-        public string EmployeeId { get; set; }
+        public string EmployeeId { get; set; } // kan eventueel weg?
         public string Date { get; set; }
         public int Worked { get; set; }
         public int Overtime { get; set; }
