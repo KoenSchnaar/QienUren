@@ -1,0 +1,89 @@
+﻿@*nog aanpassen naar juiste model*@
+@using UrenRegistratieQien.Models
+@using System.Collections.Generic
+@model List<DeclarationFormModel>
+
+@{
+    ViewData["Title"] = "Administrator Page";
+}
+<style>
+
+    table, th, td {
+        border: 3px solid black;
+        padding-right: 30px;
+        padding-left: 5px;
+    }
+
+    .buttonn:hover {
+        border-radius: 50%;
+    }
+
+    .dot {
+        height: 50px;
+        width: 50px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+    }
+</style>
+
+
+
+@*<div align="left">
+        <span class="dot"></span>
+    </div>*@
+
+<div align="center">
+    <h1>Welkom, administrator</h1>
+    <a class="text-dark" asp-area="Identity" asp-page="/Account/Register">Maak een gebruiker aan</a>
+</div>
+
+
+<br />
+<br />
+
+<div>
+    <div align="center">
+        <h1>Totaaloverzicht</h1>
+    </div>
+    <br />
+    <br />
+
+    <table align="center">
+        <tr>
+            <th>
+                Medewerker Naam<select>
+                    @foreach (DeclarationFormModel declarationFormModel in Model)
+                    {
+                        <option value=@declarationFormModel.EmployeeName>@declarationFormModel.EmployeeName</option>
+                        @Html.ActionLink(declarationFormModel.EmployeeName, "EmployeeForms", "Admin", null, declarationFormModel.EmployeeId)
+                    }
+                </select>
+            </th>
+            <th>Maand</th>
+            <th>Goedgekeurd</th>
+            <th>Ingediend</th>
+            <th>Commentaar</th>
+            <th>Actie</th>
+
+        </tr>
+        @foreach (DeclarationFormModel declarationFormModel in Model)
+        {
+            <tr>
+                <td>@declarationFormModel.EmployeeName</td>
+                <td>@declarationFormModel.Month</td>
+                <td>@declarationFormModel.Approved</td>
+                <td>@declarationFormModel.Submitted</td>
+                <td>@declarationFormModel.Comment</td>
+                <td class="buttonn"><a href="https://www.nu.nl"><input type="button" value="Inzien"></a>&nbsp;&nbsp;<input type="button" value="Heropenen"></td>
+
+            </tr>
+
+        }
+
+
+    </table>
+</div>
+
+
+
