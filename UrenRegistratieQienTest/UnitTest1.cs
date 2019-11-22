@@ -9,38 +9,38 @@ using UrenRegistratieQienTest.Fakes;
 
 namespace UrenRegistratieQienTest
 {
-    [TestClass]
-    public class UnitTest1
-    {
+    //[TestClass]
+    //public class UnitTest1
+    //{
 
 
-        [TestMethod]
-        public void EmployeeControllerIndexShouldReturnView()
-        {
-            //arrange
-            var employeeController = new EmployeeController(new FakeClientRepository(), new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeHourRowRepository());
-            //act
-            var result = employeeController.Index();
-            //assert
-            Assert.IsInstanceOfType(result, typeof(ViewResult));
-        }
+    //    [TestMethod]
+    //    public void EmployeeControllerIndexShouldReturnView()
+    //    {
+    //        //arrange
+    //        var employeeController = new EmployeeController(new FakeClientRepository(), new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeHourRowRepository());
+    //        //act
+    //        var result = employeeController.Index();
+    //        //assert
+    //        Assert.IsInstanceOfType(result, typeof(ViewResult));
+    //    }
 
 
-        [TestMethod]
-        public void EmployeeControllerAllClientsShouldReturnViewWithListOfClients()
-        {
-            //arrange
-            var employeeController = new EmployeeController(new FakeClientRepository(), new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeHourRowRepository());
+    //    [TestMethod]
+    //    public void EmployeeControllerAllClientsShouldReturnViewWithListOfClients()
+    //    {
+    //        //arrange
+    //        var employeeController = new EmployeeController(new FakeClientRepository(), new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeHourRowRepository());
 
-            //act
-            var actionResult = employeeController.AllClients();
-            var viewResult = (ViewResult)actionResult;
-            var viewModel = viewResult.Model;
+    //        //act
+    //        var actionResult = employeeController.AllClients();
+    //        var viewResult = (ViewResult)actionResult;
+    //        var viewModel = viewResult.Model;
 
-            //assert
-            Assert.IsInstanceOfType(viewModel, typeof(List<ClientModel>));
+    //        //assert
+    //        Assert.IsInstanceOfType(viewModel, typeof(List<ClientModel>));
 
 
-        }
-    }
+    //    }
+    //}
 }
