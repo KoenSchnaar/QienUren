@@ -6,40 +6,33 @@
 }
 
 
-
-
-
-<div id="headerdiv">
-    @*<div id="firstHeaderDiv">
-        <span class="dot"></span>                           //plaats voor de foto, later nog uncommenten en opmaken
-    </div>*@
-    <div id="secondHeaderDiv">
-        <h1>Welkom @ViewBag.User.FirstName</h1>
-    </div>
-
+<div align="center">
+    <h1>Welkom @ViewBag.User.FirstName</h1>
 </div>
 
-<br />
-<br />
-<br />
 <div>
-    <div align="center">
-        <table>
+    <div class="table-wrapper" align="center">
+        <table class="fl-table">
+
+            <thead>
             <tr>
                 <th>Werknemer</th>
                 <th>Werkgever</th>
             </tr>
+            </thead>
+
+            <tbody>
             <tr>
                 <td>@ViewBag.User.FirstName @ViewBag.User.LastName</td>
-                <td>@ViewBag.Client.Contact1Name</td> 
+                <td>@ViewBag.Client.Contact1Name</td>
             </tr>
             <tr>
                 <td>@ViewBag.User.Address</td>
-                <td>@ViewBag.Client.CompanyName</td> @*Aanpassen*@
+                <td>@ViewBag.Client.CompanyName</td>
             </tr>
             <tr>
                 <td>@ViewBag.User.ZIPCode, @ViewBag.User.Residence</td>
-                <td>Postcode en woonplaats</td> @*Aanpassen*@
+                <td>Postcode en woonplaats</td>
             </tr>
             <tr>
                 <td>@ViewBag.User.Phone</td>
@@ -49,22 +42,21 @@
                 <td>@ViewBag.User.Email</td>
                 <td>@ViewBag.Client.Contact1Email</td>
             </tr>
+            </tbody>
+
         </table>
     </div>
-
-
 </div>
 <br />
 
+<div align="center">
+    <h1>Urenoverzicht</h1>
+</div>
 
-<div>
-    <div align="center">
-        <h1>Urenoverzicht</h1>
-    </div>
-    <br />
-    <br />
+<div class="table-wrapper">
 
-    <table align="center">
+    <table class="fl-table" align="center">
+        <thead>
         <tr>
             <th>Maand</th>
             <th>Uren gewerkt</th>
@@ -75,7 +67,9 @@
             <th>Opmerking</th>
             <th>Inzien</th>
         </tr>
+        </thead>
 
+        <tbody>
         @foreach(var form in Model)
         {
             <tr>
@@ -95,37 +89,9 @@
                    asp-route-month ="@form.Month"
                    asp-route-year ="@form.Year">
                 Inzien
-                </a></td>  
-                   @*ViewBag.User.EmployeeId moet misschien ViewBag.User.Id zijn*@
+            </a></td>  
         </tr>
         }
+        </tbody>
     </table>
 </div>
-
-@*////////////////////////////////////////////////////////////////////////////////////*@
-
-<style>
-
-    table, th, td {
-        border: 3px solid black;
-        padding-right: 30px;
-        padding-left: 5px;
-    }
-
-    .dot {
-        height: 150px;
-        width: 150px;
-        background-color: #bbb;
-        border-radius: 50%;
-        display: inline-block;
-    }
-
-    #firstHeaderDiv {
-        float: left;
-    }
-
-    #secondHeaderDiv {
-        text-align: center;
-        float: none;
-    }
-</style>

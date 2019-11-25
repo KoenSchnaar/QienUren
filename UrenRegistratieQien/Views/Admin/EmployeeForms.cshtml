@@ -6,32 +6,7 @@
 @{
     ViewData["Title"] = "Administrator Page";
 }
-<style>
 
-    table, th, td {
-        border: 3px solid black;
-        padding-right: 30px;
-        padding-left: 5px;
-    }
-
-    .buttonn:hover {
-        border-radius: 50%;
-    }
-
-    .dot {
-        height: 50px;
-        width: 50px;
-        background-color: #bbb;
-        border-radius: 50%;
-        display: inline-block;
-    }
-</style>
-
-
-
-@*<div align="left">
-        <span class="dot"></span>
-    </div>*@
 
 <div align="center">
     <h1>Welkom, administrator</h1>
@@ -39,17 +14,15 @@
 </div>
 
 
-<br />
-<br />
-
-<div>
-    <div align="center">
+<div class="table-wrapper">
+    <div>
         <h1>Totaaloverzicht</h1>
     </div>
     <br />
     <br />
 
-    <table align="center">
+    <table class="fl-table">
+        <thead>
         <tr>
             <th>
                 Medewerker Naam<select>
@@ -65,8 +38,10 @@
             <th>Ingediend</th>
             <th>Commentaar</th>
             <th>Actie</th>
-
         </tr>
+        </thead>
+
+        <tbody>
         @foreach (DeclarationFormModel declarationFormModel in Model)
         {
             <tr>
@@ -78,9 +53,8 @@
                 <td class="buttonn"><a href="https://www.nu.nl"><input type="button" value="Inzien"></a>&nbsp;&nbsp;<input type="button" value="Heropenen"></td>
 
             </tr>
-
         }
-
+        </tbody>
 
     </table>
 </div>
