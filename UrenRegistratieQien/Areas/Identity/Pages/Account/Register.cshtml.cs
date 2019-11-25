@@ -133,8 +133,8 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
                     ZIPCode = Input.ZIPCode,
                     Residence = Input.Residence,
                     Phone = Input.Phone,
-                    DateRegistered = Input.DateRegistered,
-                    Role = Input.Role,
+                    DateRegistered = DateTime.Now,
+                    Role = Input.Role
 
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);

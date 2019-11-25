@@ -2,14 +2,14 @@
 
     <tr>
         @Html.HiddenFor(m => m.HourRowId)
-        <td>@Model.Date</td>
-        <td>@Html.TextBoxFor(m => m.Worked)</td>
-        <td>@Html.TextBoxFor(m => m.Overtime)</td>
-        <td>@Html.TextBoxFor(m => m.Sickness)</td>
-        <td>@Html.TextBoxFor(m => m.Vacation)</td>
-        <td>@Html.TextBoxFor(m => m.Holiday)</td>
-        <td>@Html.TextBoxFor(m => m.Training)</td>
-        <td>@Html.TextBoxFor(m => m.Other)</td>
-        <td>@Html.TextBoxFor(m => m.OtherExplanation)</td>
+        <td class="dateRow">@Model.Date</td>
+        <td>@Html.TextBoxFor(m => m.Worked, new { style = "width: 75px;" })</td>
+        <td>@Html.TextBoxFor(m => m.Overtime, new { style = "width: 75px;" })</td>
+        <td>@Html.TextBoxFor(m => m.Sickness, new { style = "width: 75px;" })</td>
+        <td>@Html.TextBoxFor(m => m.Vacation, new { style = "width: 75px;" })</td>
+        <td>@Html.TextBoxFor(m => m.Holiday, new { style = "width: 75px;" })</td>
+        <td>@Html.TextBoxFor(m => m.Training, new { style = "width: 75px;" })</td>
+        <td>@Html.TextBoxFor(m => m.Other, new { style = "width: 75px;" })</td>
+        <td>@Html.TextBoxFor(m => m.OtherExplanation, new { style = "width: 200px;" })</td>
     </tr>
 
