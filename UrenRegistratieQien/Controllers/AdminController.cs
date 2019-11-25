@@ -30,7 +30,6 @@ namespace UrenRegistratieQien.Controllers
 
         public IActionResult Admin()
         {
-            ViewBag.KomtVan = "Clean";
             ViewBag.AllForms = declarationFormRepo.GetAllForms();
             var forms = declarationFormRepo.GetAllForms();
 
@@ -39,7 +38,6 @@ namespace UrenRegistratieQien.Controllers
 
         public IActionResult AdminWithParam(string employeeId)
         {
-            ViewBag.KomtVan = "Param";
             ViewBag.AllForms = declarationFormRepo.GetAllForms();
             var forms = declarationFormRepo.GetAllFormsOfUser(employeeId);
             return View("~/Views/Admin/Admin.cshtml", forms);
