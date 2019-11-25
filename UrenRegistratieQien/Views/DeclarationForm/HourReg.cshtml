@@ -2,18 +2,13 @@
 @{
     ViewData["Title"] = "HourReg";
 }
-    
 
 <div align="center">
     <h1>@Model.Month @Model.Year</h1>
-        </div>
-             @using (Html.BeginForm("HourReg", "DeclarationForm"))
-              {
-                 @Html.HiddenFor(m => m.FormId)
-                 @Html.HiddenFor(m => m.EmployeeId)
-                 @Html.HiddenFor(m => m.Year)
-                 @Html.HiddenFor(m => m.Month)
+</div>
 
+        @{ if (Model.Submitted == true)
+            {
                 <table align="center" class="tableHoursReg">
                     <tr>
                         <th class="tableHeader">Date</th>
@@ -24,12 +19,37 @@
                         <th class="tableHeader">Feestdagen</th>
                         <th class="tableHeader">Training</th>
                         <th class="tableHeader">Overig</th>
-                        <th >Overig Uitleg</th>
+                        <th>Overig Uitleg</th>
                     </tr>
-
-                    @Html.EditorFor(m => Model.HourRows)
-              
+                @Html.DisplayFor(m => Model.HourRows)
                 </table>
-                <button type="submit">Opslaan</button>
-                <button type="submit">Opslaan en indienen</button> @*werkt niet*@
-              }
+            }
+            else
+            {
+                @using (Html.BeginForm("HourReg", "DeclarationForm"))
+                {
+                    @Html.HiddenFor(m => m.FormId)
+                    @Html.HiddenFor(m => m.EmployeeId)
+                    @Html.HiddenFor(m => m.Year)
+                    @Html.HiddenFor(m => m.Month)
+
+                    <table align="center" class="tableHoursReg">
+                        <tr>
+                            <th class="tableHeader">Date</th>
+                            <th class="tableHeader">Gewerkt</th>
+                            <th class="tableHeader">Overwerk</th>
+                            <th class="tableHeader">Ziekte</th>
+                            <th class="tableHeader">Vakantie</th>
+                            <th class="tableHeader">Feestdagen</th>
+                            <th class="tableHeader">Training</th>
+                            <th class="tableHeader">Overig</th>
+                            <th>Overig Uitleg</th>
+                        </tr>
+                        @Html.EditorFor(m => Model.HourRows)
+                    </table>
+                    <button asp-action="HourReg" asp-controller="DeclarationForm">Opslaan</button>
+                    <button asp-action="HourRegSubmit" asp-controller="DeclarationForm">Opslaan en indienen</button>
+                }
+                }
+            }
+
