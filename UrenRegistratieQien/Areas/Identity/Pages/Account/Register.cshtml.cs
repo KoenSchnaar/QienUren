@@ -133,7 +133,7 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
                     ZIPCode = Input.ZIPCode,
                     Residence = Input.Residence,
                     Phone = Input.Phone,
-                    DateRegistered = Input.DateRegistered,
+                    DateRegistered = DateTime.Now,
                     Role = Input.Role,
 
                 };
