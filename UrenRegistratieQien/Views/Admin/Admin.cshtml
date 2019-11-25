@@ -33,7 +33,6 @@
                         @foreach (DeclarationFormModel declarationFormModel in ViewBag.AllForms)
                         {
                             <option onclick="location.href='@Url.Action("AdminWithParam", "Admin", new { employeeId = declarationFormModel.EmployeeId})'" value=@declarationFormModel.EmployeeName> @declarationFormModel.EmployeeName</option>
-
                         }
 
                     </select>
@@ -54,8 +53,26 @@
                 <tr>
                     <td>@declarationFormModel.EmployeeName</td>
                     <td>@declarationFormModel.Month</td>
-                    <td>@declarationFormModel.Approved</td>
-                    <td>@declarationFormModel.Submitted</td>
+                    <td>
+                        @if (declarationFormModel.Approved == true)
+                        {
+                            <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
+                        }
+                        else
+                        {
+                            <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                        }
+                    </td>
+                    <td>
+                        @if (declarationFormModel.Submitted == true)
+                        {
+                            <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
+                        }
+                        else
+                        {
+                            <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                        }
+                    </td>
                     <td>@declarationFormModel.Comment</td>
                     <td>@declarationFormModel.FormId</td>
                     <td>
