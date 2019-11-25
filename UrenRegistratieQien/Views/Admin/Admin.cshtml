@@ -13,29 +13,86 @@
     <a class="text-dark" asp-area="Identity" asp-page="/Account/Register">Maak een gebruiker aan</a>
 </div>
 
+<br />
+<br />
+<div align="center">
+    <h1>Uren Totaal Overzicht</h1>
+</div>
+<div class="table-wrapper">
+    <table class="fl-table" align="center">
+        <thead>
+            <tr>
+                <th>Maand</th>
+                <th>Uren gewerkt</th>
+                <th>Overwerk</th>
+                <th>Ziekte</th>
+                <th>Vakantie</th>
+                <th>Feestdagen</th>
+                <th>Training</th>
+                <th>Overig</th>
+            </tr>
+        <thead>
 
-<br />
-<br />
+            <tr>
+                <td>
+                    <select>
+                        @foreach (DeclarationFormModel declarationFormModel in Model)
+                        {
+                            <option onselect="?" value=@declarationFormModel.Month>@declarationFormModel.Month</option>
+
+                        }
+
+                    </select>
+
+                </td>
+                <td>@ViewBag.TotalHoursWorked</td>
+                <td>@ViewBag.TotalHoursOvertime</td>
+                <td>@ViewBag.TotalHoursSickness</td>
+                <td>@ViewBag.TotalHoursVacation</td>
+                <td>@ViewBag.TotalHoursHoliday</td>
+                <td>@ViewBag.TotalHoursTraining</td>
+                <td>@ViewBag.TotalHoursOther</td>
+
+            </tr>
+
+
+    </table>
+    </div>
+
+
+    <br />
+    <br />
     <div>
         <div align="center">
             <h1>Totaaloverzicht</h1>
         </div>
 
         <div class="table-wrapper">
-        <table class="fl-table" align="center">
-            <thead>
-            <tr>
-                <th>
-                    Medewerker Naam
+            <table class="fl-table" align="center">
+                <thead>
+                    <tr>
+                        <th>
+                            Medewerker Naam
+                            @*test*@
+                            <select runat="server" id="selected">
+                                <option onclick="location.href='@Url.Action("Admin", "Admin")'">--</option>
+                                @foreach (DeclarationFormModel declarationFormModel in ViewBag.AllForms)
+                                {
+                                    <option onclick="location.href='@Url.Action("AdminWithParam", "Admin", new { employeeId = declarationFormModel.EmployeeId})'" value=@declarationFormModel.EmployeeName> @declarationFormModel.EmployeeName</option>
+                                }
 
-                    <select runat="server" id="selected">
-                        <option onclick="location.href='@Url.Action("Admin", "Admin")'">--</option>
-                        @foreach (DeclarationFormModel declarationFormModel in ViewBag.AllForms)
-                        {
-                            <option onclick="location.href='@Url.Action("AdminWithParam", "Admin", new { employeeId = declarationFormModel.EmployeeId})'" value=@declarationFormModel.EmployeeName> @declarationFormModel.EmployeeName</option>
-                        }
+                            </select>
 
-                    </select>
+                        </th>
+                        <th>Maand</th>
+                        <th>Goedgekeurd</th>
+                        <th>Ingediend</th>
+                        <th>Commentaar</th>
+                        <th>Actie</th>
+                        <th>Inzien</th>
+                    </tr>
+                </thead>
+
 
                 </th>
                 <th>Maand</th>
