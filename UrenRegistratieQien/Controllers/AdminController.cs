@@ -30,18 +30,19 @@ namespace UrenRegistratieQien.Controllers
 
         public IActionResult Admin()
         {
-
+            ViewBag.KomtVan = "Clean";
+            ViewBag.AllForms = declarationFormRepo.GetAllForms();
             var forms = declarationFormRepo.GetAllForms();
+
             return View(forms);
         }
 
-
-        [HttpPost]
-        public IActionResult Admin(string employeeId)
+        public IActionResult AdminWithParam(string employeeId)
         {
-
+            ViewBag.KomtVan = "Param";
+            ViewBag.AllForms = declarationFormRepo.GetAllForms();
             var forms = declarationFormRepo.GetAllFormsOfUser(employeeId);
-            return View(forms);
+            return View("~/Views/Admin/Admin.cshtml", forms);
         }
 
 

@@ -23,8 +23,6 @@ namespace UrenRegistratieQien.Repositories
             foreach(IdentityUser employee in context.Users)
             {
                 var employeeCasted = (Employee)employee;
-                var roleBridge = context.UserRoles.Single(p => p.UserId == employee.Id);
-                var roleName = context.Roles.Single(p => p.Id == roleBridge.RoleId).Name;
 
                 EmployeeModel newEmployee = new EmployeeModel
                 {
@@ -35,7 +33,7 @@ namespace UrenRegistratieQien.Repositories
                     Email = employeeCasted.Email,
                     Address = employeeCasted.Address,
                     Phone = employeeCasted.Phone,
-                    Role = roleName
+                    Role = employeeCasted.Role
                 };
 
                 employeeModelList.Add(newEmployee);
@@ -50,8 +48,6 @@ namespace UrenRegistratieQien.Repositories
             var employee = context.Users.Single(p => p.Id == id);
 
             var employeeCasted = (Employee)employee;
-            var roleBridge = context.UserRoles.Single(p => p.UserId == id);
-            var roleName = context.Roles.Single(p => p.Id == roleBridge.RoleId).Name;
 
             return new EmployeeModel
             {
@@ -62,7 +58,7 @@ namespace UrenRegistratieQien.Repositories
                 Email = employeeCasted.Email,
                 Address = employeeCasted.Address,
                 Phone = employeeCasted.Phone,
-                Role = roleName,
+                Role = employeeCasted.Role,
                 ZIPCode = employeeCasted.ZIPCode,
                 Residence = employeeCasted.Residence
             };
@@ -101,8 +97,6 @@ namespace UrenRegistratieQien.Repositories
             var databaseEmployee = context.Users.Single(p => p.Id == employeeModel.EmployeeId);
             var CastedDatabaseEmployee = (Employee)databaseEmployee;
 
-            var UserRole = context.UserRoles.Single(p => employeeModel.EmployeeId == p.UserId);
-            var roleId = context.Roles.Single(p => employeeModel.Role == p.Name).Id;
 
             CastedDatabaseEmployee.ClientId = employeeModel.ClientId;
             CastedDatabaseEmployee.FirstName = employeeModel.FirstName;
@@ -110,14 +104,13 @@ namespace UrenRegistratieQien.Repositories
             CastedDatabaseEmployee.Email = employeeModel.Email;
             CastedDatabaseEmployee.Address = employeeModel.Address;
             CastedDatabaseEmployee.Phone = employeeModel.Phone;
-            UserRole.RoleId = roleId;
+            CastedDatabaseEmployee.Role = employeeModel.Role;
 
             context.SaveChanges();
 
         }
 
-        //nog toevoegen bij het createn: dateregistered
-        //nog toevoegen bij edit user: dateregistered
+
 
         public void CheckIfYearPassedForAllTrainees()
         {
