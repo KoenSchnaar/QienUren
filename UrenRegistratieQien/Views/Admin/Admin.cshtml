@@ -14,60 +14,62 @@
 </div>
 
 
-    <div align="center">
-        <h1>Totaaloverzicht</h1>
-    </div>
-    <br />
+<br />
+<br />
+    <div>
+        <div align="center">
+            <h1>Totaaloverzicht</h1>
+        </div>
+        <br />
+        <br />
 
-    <div class="table-wrapper">
-        <table class="fl-table" align="center">
-            <thead>
+        <table align="center">
+            <tr>
+                <th>
+                    Medewerker Naam
+
+                    <select runat="server" id="selected">
+                        <option onclick="location.href='@Url.Action("Admin", "Admin")'">--</option>
+                        @foreach (DeclarationFormModel declarationFormModel in ViewBag.AllForms)
+                        {
+                            <option onclick="location.href='@Url.Action("AdminWithParam", "Admin", new { employeeId = declarationFormModel.EmployeeId})'" value=@declarationFormModel.EmployeeName> @declarationFormModel.EmployeeName</option>
+
+                        }
+
+                    </select>
+
+                </th>
+                <th>Maand</th>
+                <th>Goedgekeurd</th>
+                <th>Ingediend</th>
+                <th>Commentaar</th>
+                <th>Actie</th>
+                <th>Inzien</th>
+
+            </tr>
+            @foreach (DeclarationFormModel declarationFormModel in Model)
+            {
                 <tr>
-                    <th>
-                        Medewerker Naam
-                        <select>
-                            @foreach (DeclarationFormModel declarationFormModel in Model)
-                            {
-                                <option onselect="?" value=@declarationFormModel.EmployeeName>@declarationFormModel.EmployeeName</option>
-
-                            }
-
-                        </select>
-                    </th>
-                    <th>Maand</th>
-                    <th>Goedgekeurd</th>
-                    <th>Ingediend</th>
-                    <th>Commentaar</th>
-                    <th>Actie</th>
-                    <th>Inzien</th>
-                </tr>
-            </thead>
-
-
-            <tbody>
-                @foreach (DeclarationFormModel declarationFormModel in Model)
-                {
-                    <tr>
-                        <td>@declarationFormModel.EmployeeName</td>
-                        <td>@declarationFormModel.Month</td>
-                        <td>@declarationFormModel.Approved</td>
-                        <td>@declarationFormModel.Submitted</td>
-                        <td>@declarationFormModel.Comment</td>
-                        <td>@declarationFormModel.FormId</td>
-                        <td>
-                            <a class="nav-link text-dark"
+                    <td>@declarationFormModel.EmployeeName</td>
+                    <td>@declarationFormModel.Month</td>
+                    <td>@declarationFormModel.Approved</td>
+                    <td>@declarationFormModel.Submitted</td>
+                    <td>@declarationFormModel.Comment</td>
+                    <td>@declarationFormModel.FormId</td>
+                    <td>
+                      <a class="nav-link text-dark"
                                asp-area=""
                                asp-controller="Admin"
                                asp-action="ViewDeclarationForm"
                                asp-route-formId="@declarationFormModel.FormId">
                                 Inzien
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
+                      </a>
+                    </td>
+
+
+                </tr>
+
+            }
         </table>
     </div>
-
-
 
