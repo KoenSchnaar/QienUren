@@ -204,5 +204,12 @@ namespace UrenRegistratieQien.Repositories
             }
             context.SaveChanges();
         }
+
+        public void SubmitDeclarationForm(DeclarationFormModel formModel)
+        {
+            var form = context.DeclarationForms.Single(d => d.DeclarationFormId == formModel.FormId);
+            form.Submitted = true;
+            context.SaveChanges();
+        }
     }
 }

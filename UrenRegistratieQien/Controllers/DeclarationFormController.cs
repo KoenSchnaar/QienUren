@@ -40,5 +40,13 @@ namespace UrenRegistratieQien.Controllers
             declarationRepo.EditDeclarationForm(decModel);
             return RedirectToAction("Dashboard", "Employee");
         }
+
+        [HttpPost]
+        public IActionResult HourRegSubmit(DeclarationFormModel decModel)
+        {
+            declarationRepo.EditDeclarationForm(decModel);
+            declarationRepo.SubmitDeclarationForm(decModel);
+            return RedirectToAction("Dashboard", "Employee");
+        }
     }
 }
