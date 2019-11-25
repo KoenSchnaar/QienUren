@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UrenRegistratieQien.Data;
 using UrenRegistratieQien.DatabaseClasses;
+using UrenRegistratieQien.GlobalClasses;
 using UrenRegistratieQien.Models;
 
 namespace UrenRegistratieQien.Repositories
@@ -241,6 +242,57 @@ namespace UrenRegistratieQien.Repositories
             return forms;
         }
 
+        public List<DeclarationFormModel> GetAllFormsOfMonth(int month)
+        {
+            var monthString = MonthConverter.ConvertIntToMonth(month);
+            var entities = context.DeclarationForms.Include(df => df.HourRows).Where(d => d.Month == monthString).ToList();
+            var forms = new List<DeclarationFormModel>();
+
+
+
+            foreach (var form in entities)
+            {
+                List<HourRowModel> ListOfHourRowModels = new List<HourRowModel>();
+
+                foreach (HourRow hourRow in form.HourRows)
+                {
+                    HourRowModel newHourRowModel = new HourRowModel
+                    {
+                        HourRowId = hourRow.HourRowId,
+                        EmployeeId = form.EmployeeId,
+                        Date = hourRow.Date,
+                        Worked = hourRow.Worked,
+                        Overtime = hourRow.Overtime,
+                        Sickness = hourRow.Sickness,
+                        Vacation = hourRow.Vacation,
+                        Holiday = hourRow.Holiday,
+                        Training = hourRow.Training,
+                        Other = hourRow.Other,
+                        OtherExplanation = hourRow.OtherExplanation
+                    };
+
+                    ListOfHourRowModels.Add(newHourRowModel);
+                }
+                var employee = context.Users.Single(m => m.Id == form.EmployeeId);
+                var employeeCasted = (Employee)employee;
+                var newModel = new DeclarationFormModel
+                {
+
+
+                    EmployeeName = employeeCasted.FirstName + " " + employeeCasted.LastName,
+                    FormId = form.DeclarationFormId,
+                    HourRows = ListOfHourRowModels,
+                    EmployeeId = form.EmployeeId,
+                    Month = form.Month,
+                    Approved = form.Approved,
+                    Submitted = form.Submitted,
+                    Comment = form.Comment,
+                    Year = form.Year
+                };
+                forms.Add(newModel);
+            }
+            return forms;
+        }
 
         public void EditDeclarationForm(DeclarationFormModel formModel)
         {

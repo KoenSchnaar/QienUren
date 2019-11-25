@@ -1,4 +1,4 @@
-﻿@*nog aanpassen naar juiste model*@
+﻿
 @using UrenRegistratieQien.Models
 @using System.Collections.Generic
 @model List<DeclarationFormModel>
@@ -27,23 +27,34 @@
             <tr>
                 <th>
                     Medewerker Naam
-                    @*test*@
-                    <select runat="server" id="selected">
+                    <select runat="server" id="employeeNameSelect">
                         <option onclick="location.href='@Url.Action("Admin", "Admin")'">--</option>
                         @foreach (DeclarationFormModel declarationFormModel in ViewBag.AllForms)
                         {
-                            <option onclick="location.href='@Url.Action("AdminWithParam", "Admin", new { employeeId = declarationFormModel.EmployeeId})'" value=@declarationFormModel.EmployeeName> @declarationFormModel.EmployeeName</option>
-
+                            
+                            
+                            <option onclick="location.href='@Url.Action("AdminWithEmployeeId", "Admin", new { employeeId = declarationFormModel.EmployeeId})'" value=@declarationFormModel.EmployeeName> @declarationFormModel.EmployeeName</option>
+                            
                         }
 
                     </select>
 
                 </th>
-                <th>Maand</th>
+                <th>
+                    Maand
+                    <select runat="server" id="MonthSelect">
+                        <option onclick="location.href='@Url.Action("Admin", "Admin")'">--</option>
+                        @foreach (string month in ViewBag.Months)
+                        {
+
+                            <option onclick="location.href='@Url.Action("AdminWithMonthYear", "Admin", new { month = month})'"> @month</option>
+                        }
+                    </select>
+                
+                </th>
                 <th>Goedgekeurd</th>
                 <th>Ingediend</th>
                 <th>Commentaar</th>
-                <th>Actie</th>
                 <th>Inzien</th>
             </tr>
             </thead>
@@ -57,7 +68,6 @@
                     <td>@declarationFormModel.Approved</td>
                     <td>@declarationFormModel.Submitted</td>
                     <td>@declarationFormModel.Comment</td>
-                    <td>@declarationFormModel.FormId</td>
                     <td>
                       <a class="nav-link text-dark"
                                asp-area=""

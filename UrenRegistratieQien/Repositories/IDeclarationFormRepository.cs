@@ -14,5 +14,7 @@ namespace UrenRegistratieQien.Repositories
         public void EditDeclarationForm(DeclarationFormModel formModel);
         public void SubmitDeclarationForm(DeclarationFormModel formModel);
 
+        public List<DeclarationFormModel> GetAllFormsOfMonth(int month);
+
     }
 }
