@@ -2,14 +2,16 @@
 @{
     ViewData["Title"] = "HourReg";
 }
+    <h1 align="center">@Model.Month @Model.Year</h1>
 
-<div align="center">
-    <h1>@Model.Month @Model.Year</h1>
-</div>
+    <div class="table-wrapper" align="center">
+        
+
 
         @{ if (Model.Submitted == true)
             {
-                <table align="center" class="tableHoursReg">
+                <table class="fl-table" align="center">
+                    <thead>
                     <tr>
                         <th class="tableHeader">Date</th>
                         <th class="tableHeader">Gewerkt</th>
@@ -21,7 +23,11 @@
                         <th class="tableHeader">Overig</th>
                         <th>Overig Uitleg</th>
                     </tr>
-                @Html.DisplayFor(m => Model.HourRows)
+                    </thead>
+
+                    <tbody>
+                        @Html.DisplayFor(m => Model.HourRows)
+                    </tbody>
                 </table>
             }
             else
@@ -33,7 +39,8 @@
                     @Html.HiddenFor(m => m.Year)
                     @Html.HiddenFor(m => m.Month)
 
-                    <table align="center" class="tableHoursReg">
+                    <table class="fl-table" align="center">
+                        <thead>
                         <tr>
                             <th class="tableHeader">Date</th>
                             <th class="tableHeader">Gewerkt</th>
@@ -45,11 +52,16 @@
                             <th class="tableHeader">Overig</th>
                             <th>Overig Uitleg</th>
                         </tr>
-                        @Html.EditorFor(m => Model.HourRows)
+                        </thead>
+
+                        <tbody>
+                            @Html.EditorFor(m => Model.HourRows)
+                        </tbody>
                     </table>
                     <button asp-action="HourReg" asp-controller="DeclarationForm">Opslaan</button>
                     <button asp-action="HourRegSubmit" asp-controller="DeclarationForm">Opslaan en indienen</button>
-                }
+                    <br />
                 }
             }
-
+        }
+    </div>
