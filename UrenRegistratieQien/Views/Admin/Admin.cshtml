@@ -20,10 +20,10 @@
         <div align="center">
             <h1>Totaaloverzicht</h1>
         </div>
-        <br />
-        <br />
 
-        <table align="center">
+        <div class="table-wrapper">
+        <table class="fl-table" align="center">
+            <thead>
             <tr>
                 <th>
                     Medewerker Naam
@@ -45,8 +45,10 @@
                 <th>Commentaar</th>
                 <th>Actie</th>
                 <th>Inzien</th>
-
             </tr>
+            </thead>
+
+            <tbody>
             @foreach (DeclarationFormModel declarationFormModel in Model)
             {
                 <tr>
@@ -65,11 +67,10 @@
                                 Inzien
                       </a>
                     </td>
-
-
                 </tr>
-
             }
+            </tbody>
         </table>
+        </div>
     </div>
 

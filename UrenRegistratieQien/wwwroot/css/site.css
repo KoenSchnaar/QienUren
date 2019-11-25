@@ -121,9 +121,9 @@ body {
     padding: 8px;
 }
 
-/*.fl-table td {
+.fl-table td {
     border-right: 1px solid #f8f8f8;
-}*/
+}
 
 .fl-table thead th {
     color: #ffffff;
