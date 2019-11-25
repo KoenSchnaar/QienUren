@@ -268,5 +268,146 @@ namespace UrenRegistratieQien.Repositories
             form.Submitted = true;
             context.SaveChanges();
         }
+        public int TotalHoursWorked(List<DeclarationFormModel> DeclarationFormList, string Month)
+        {
+
+            int counter = 0;
+
+            foreach (var Form in DeclarationFormList)
+            {
+
+
+                if (Form.Month == Month)
+                {
+                    foreach (var HourRow in Form.HourRows)
+                    {
+                        counter += HourRow.Worked;
+
+                    }
+                }
+
+            }
+            return counter;
+
+        }
+
+        public int TotalHoursOvertime(List<DeclarationFormModel> DeclarationFormList, string Month)
+        {
+
+            int counter = 0;
+
+            foreach (var Form in DeclarationFormList)
+            {
+                if (Form.Month == Month)
+                {
+                    foreach (var HourRow in Form.HourRows)
+                    {
+                        counter += HourRow.Overtime;
+
+                    }
+                }
+
+            }
+            return counter;
+
+        }
+
+        public int TotalHoursSickness(List<DeclarationFormModel> DeclarationFormList, string Month)
+        {
+
+            int counter = 0;
+
+            foreach (var Form in DeclarationFormList)
+            {
+                if (Form.Month == Month)
+                {
+                    foreach (var HourRow in Form.HourRows)
+                    {
+                        counter += HourRow.Sickness;
+
+                    }
+                }
+
+            }
+            return counter;
+
+        }
+
+        public int TotalHoursVacation(List<DeclarationFormModel> DeclarationFormList, string Month)
+        {
+
+            int counter = 0;
+
+            foreach (var Form in DeclarationFormList)
+            {
+                if (Form.Month == Month)
+                {
+                    foreach (var HourRow in Form.HourRows)
+                    {
+                        counter += HourRow.Vacation;
+
+                    }
+                }
+
+            }
+            return counter;
+
+        }
+        public int TotalHoursHoliday(List<DeclarationFormModel> DeclarationFormList, string Month)
+        {
+
+            int counter = 0;
+
+            foreach (var Form in DeclarationFormList)
+            {
+                if (Form.Month == Month)
+                {
+                    foreach (var HourRow in Form.HourRows)
+                    {
+                        counter += HourRow.Holiday;
+
+                    }
+                }
+
+            }
+            return counter;
+
+        }
+        public int TotalHoursTraining(List<DeclarationFormModel> DeclarationFormList, string Month)
+        {
+            int counter = 0;
+            foreach (var Form in DeclarationFormList)
+            {
+                if (Form.Month == Month)
+                {
+                    foreach (var HourRow in Form.HourRows)
+                    {
+                        counter += HourRow.Training;
+                    }
+                }
+            }
+            return counter;
+
+        }
+        public int TotalHoursOther(List<DeclarationFormModel> DeclarationFormList, string Month)
+        {
+
+            int counter = 0;
+
+            foreach (var Form in DeclarationFormList)
+            {
+                if (Form.Month == Month)
+                {
+                    foreach (var HourRow in Form.HourRows)
+                    {
+                        counter += HourRow.Other;
+
+                    }
+                }
+
+            }
+            return counter;
+
+        }
     }
 }

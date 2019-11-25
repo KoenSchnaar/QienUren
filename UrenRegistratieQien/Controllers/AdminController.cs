@@ -33,6 +33,15 @@ namespace UrenRegistratieQien.Controllers
             ViewBag.AllForms = declarationFormRepo.GetAllForms();
             var forms = declarationFormRepo.GetAllForms();
 
+            // door Januari parameter uit de IRepo en Repo (+if statement) eruit te halen, kan je sowieso alle uren inzien. 
+            // Nu geeft ie alleen januari zoals hieronder staat, selectie andere maand is nog niet werkend
+            ViewBag.TotalHoursWorked = declarationFormRepo.TotalHoursWorked(forms, "Januari");
+            ViewBag.TotalHoursOvertime = declarationFormRepo.TotalHoursOvertime(forms, "Januari");
+            ViewBag.TotalHoursSickness = declarationFormRepo.TotalHoursSickness(forms, "Januari");
+            ViewBag.TotalHoursVacation = declarationFormRepo.TotalHoursVacation(forms, "Januari");
+            ViewBag.TotalHoursHoliday = declarationFormRepo.TotalHoursHoliday(forms, "Januari");
+            ViewBag.TotalHoursTraining = declarationFormRepo.TotalHoursTraining(forms, "Januari");
+            ViewBag.TotalHoursOther = declarationFormRepo.TotalHoursOther(forms, "Januari");
             return View(forms);
         }
 
