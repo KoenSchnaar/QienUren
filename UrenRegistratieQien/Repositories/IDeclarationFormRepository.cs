@@ -5,6 +5,7 @@ namespace UrenRegistratieQien.Repositories
 {
     public interface IDeclarationFormRepository
     {
+        public List<DeclarationFormModel> GetNotApprovedForms();
         public List<DeclarationFormModel> GetAllForms();
         public DeclarationFormModel GetFormByFormId(int formId);
 

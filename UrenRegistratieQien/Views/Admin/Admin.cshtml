@@ -43,53 +43,53 @@
 
 <br />
 <br />
+    <div>
+        <div align="center">
+            <h1>Totaaloverzicht</h1>
+        </div>
+        <br />
+        <br />
 
-<div>
-    <div align="center">
-        <h1>Totaaloverzicht</h1>
-    </div>
-    <br />
-    <br />
-
-    <table align="center">
-        <tr>
-            <th>
-                Medewerker Naam
-                <select>
-                    @foreach (DeclarationFormModel declarationFormModel in Model)
-                    {
-                        <option onselect="?" value=@declarationFormModel.EmployeeName>@declarationFormModel.EmployeeName</option>
-
-                    }
-
-                </select>
-            </th>
-            <th>Maand</th>
-            <th>Goedgekeurd</th>
-            <th>Ingediend</th>
-            <th>Commentaar</th>
-            <th>Actie</th>
-
-        </tr>
-        @foreach (DeclarationFormModel declarationFormModel in Model)
-        {
+        <table align="center">
             <tr>
-                <td>@declarationFormModel.EmployeeName</td>
-                <td>@declarationFormModel.Month</td>
-                <td>@declarationFormModel.Approved</td>
-                <td>@declarationFormModel.Submitted</td>
-                <td>@declarationFormModel.Comment</td>
-                <td>@declarationFormModel.FormId</td>
-                <td><input type="button" value="Inzien" onclick="location.href='@Url.Action("ViewDeclarationForm", "Admin", new { FormId = declarationFormModel.FormId })'" /></td>
-                
+                <th>
+                    Medewerker Naam
+
+                    <select runat="server" id="selected">
+                        <option onclick="location.href='@Url.Action("Admin", "Admin")'">--</option>
+                        @foreach (DeclarationFormModel declarationFormModel in ViewBag.AllForms)
+                        {
+                            <option onclick="location.href='@Url.Action("AdminWithParam", "Admin", new { employeeId = declarationFormModel.EmployeeId})'" value=@declarationFormModel.EmployeeName> @declarationFormModel.EmployeeName</option>
+
+                        }
+
+                    </select>
+
+                </th>
+                <th>Maand</th>
+                <th>Goedgekeurd</th>
+                <th>Ingediend</th>
+                <th>Commentaar</th>
+                <th>Actie</th>
 
             </tr>
+            @foreach (DeclarationFormModel declarationFormModel in Model)
+            {
+                <tr>
+                    <td>@declarationFormModel.EmployeeName</td>
+                    <td>@declarationFormModel.Month</td>
+                    <td>@declarationFormModel.Approved</td>
+                    <td>@declarationFormModel.Submitted</td>
+                    <td>@declarationFormModel.Comment</td>
+                    <td>@declarationFormModel.FormId</td>
+                    <td><input type="button" value="Inzien" onclick="location.href='@Url.Action("ViewDeclarationForm", "Admin", new { FormId = declarationFormModel.FormId })'" /></td>
 
-        }
+
+                </tr>
+
+            }
 
 
-    </table>
-</div>
-
-
+        </table>
+    </div>
 
