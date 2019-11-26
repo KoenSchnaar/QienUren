@@ -66,6 +66,32 @@ namespace UrenRegistratieQien.Repositories
 
         }
 
+        public EmployeeModel GetEmployeeByName(string name)
+        {
+            var employees = context.Users;
+            Employee returnEmployee = new Employee();
+            foreach(Employee employee in employees)
+            {
+                if(employee.FirstName+" "+employee.LastName == name)
+                {
+                    returnEmployee = employee;
+                }
+            }
+            return new EmployeeModel
+            {
+                EmployeeId = returnEmployee.Id,
+                ClientId = returnEmployee.ClientId,
+                FirstName = returnEmployee.FirstName,
+                LastName = returnEmployee.LastName,
+                Email = returnEmployee.Email,
+                Address = returnEmployee.Address,
+                Phone = returnEmployee.Phone,
+                Role = returnEmployee.Role,
+                ZIPCode = returnEmployee.ZIPCode,
+                Residence = returnEmployee.Residence
+            };
+        }
+
         public void DeleteEmployee(string id)
         {
             var employee = context.Users.Single(p => p.Id == id);
@@ -135,6 +161,11 @@ namespace UrenRegistratieQien.Repositories
                     }
                 }
             }
+        }
+
+        public string searchName(int id)
+        {
+            return null;
         }
     }
 }
