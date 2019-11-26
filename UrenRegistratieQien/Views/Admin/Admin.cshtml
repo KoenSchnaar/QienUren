@@ -1,11 +1,19 @@
-﻿@*nog aanpassen naar juiste model*@
+﻿
 @using UrenRegistratieQien.Models
 @using System.Collections.Generic
 @model List<DeclarationFormModel>
 
 @{
     ViewData["Title"] = "Administrator Page";
+
+    var employeeNames = new List<string>();
+    foreach(DeclarationFormModel declarationFormModel in ViewBag.AllForms)
+    {
+        employeeNames.Add(declarationFormModel.EmployeeName);
+    }
+
 }
+
 
 
 <div align="center">
@@ -57,94 +65,100 @@
 
 
     </table>
+</div>
+
+
+<br />
+<br />
+
+
+@*@using (Html.BeginForm("Invoeradres", "Admin"))
+    {
+        @Html.TextBox("invoerid")
+        <input type="submit" />
+        @Html.DropDownList("maand")
+
+    }*@
+
+
+
+<div>
+    <div align="center">
+        <h1>Totaaloverzicht</h1>
     </div>
 
 
-    <br />
-    <br />
-    <div>
-        <div align="center">
-            <h1>Totaaloverzicht</h1>
-        </div>
-
-        <div class="table-wrapper">
-            <table class="fl-table" align="center">
-                <thead>
+    <div class="table-wrapper">
+        <table class="fl-table" align="center">
+            <thead>
+                @using (Html.BeginForm("Admin", "Admin"))
+                {
+                    <input type="submit" value="Filters Toepassen" />
                     <tr>
                         <th>
                             Medewerker Naam
-                            @*test*@
-                            <select runat="server" id="selected">
-                                <option onclick="location.href='@Url.Action("Admin", "Admin")'">--</option>
-                                @foreach (DeclarationFormModel declarationFormModel in ViewBag.AllForms)
-                                {
-                                    <option onclick="location.href='@Url.Action("AdminWithParam", "Admin", new { employeeId = declarationFormModel.EmployeeId})'" value=@declarationFormModel.EmployeeName> @declarationFormModel.EmployeeName</option>
-                                }
-
-                            </select>
-
+                            @Html.DropDownList("employeeName", new SelectList(employeeNames), "Geen filter")
                         </th>
-                        <th>Maand</th>
-                        <th>Goedgekeurd</th>
-                        <th>Ingediend</th>
+                        <th>
+                            Maand
+                            @Html.DropDownList("month", new SelectList(Enum.GetValues(typeof(Months))), "Geen filter")
+                        </th>
+                        <th>
+                            Goedgekeurd
+                            @Html.DropDownList("approved", new SelectList(new List<string> { "Goedgekeurd", "Niet goedgekeurd"}), "Geen filter")
+                        </th>
+                        <th>
+                            Ingediend
+                            @Html.DropDownList("submitted", new SelectList(new List<string> { "Ingediend", "Niet ingediend" }), "Geen filter")
+                        </th>
                         <th>Commentaar</th>
-                        <th>Actie</th>
                         <th>Inzien</th>
                     </tr>
-                </thead>
-
-
-                </th>
-                <th>Maand</th>
-                <th>Goedgekeurd</th>
-                <th>Ingediend</th>
-                <th>Commentaar</th>
-                <th>Actie</th>
-                <th>Inzien</th>
-            </tr>
+                }
             </thead>
 
             <tbody>
-            @foreach (DeclarationFormModel declarationFormModel in Model)
-            {
-                <tr>
-                    <td>@declarationFormModel.EmployeeName</td>
-                    <td>@declarationFormModel.Month</td>
-                    <td>
-                        @if (declarationFormModel.Approved == true)
-                        {
-                            <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
-                        }
-                        else
-                        {
-                            <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
-                        }
-                    </td>
-                    <td>
-                        @if (declarationFormModel.Submitted == true)
-                        {
-                            <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
-                        }
-                        else
-                        {
-                            <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
-                        }
-                    </td>
-                    <td>@declarationFormModel.Comment</td>
-                    <td>@declarationFormModel.FormId</td>
-                    <td>
-                      <a class="nav-link text-dark linkjes"
+                
+                @foreach (DeclarationFormModel declarationFormModel in Model)
+                {
+                    
+                    <tr>
+                        <td>@declarationFormModel.EmployeeName</td>
+                        <td>@declarationFormModel.Month</td>
+                        <td>
+                            @if (declarationFormModel.Approved == true)
+                            {
+                                <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
+                            }
+                            else
+                            {
+                                <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                            }
+                        </td>
+                        <td>
+                            @if (declarationFormModel.Submitted == true)
+                            {
+                                <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
+                            }
+                            else
+                            {
+                                <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                            }
+                        </td>
+                        <td>@declarationFormModel.Comment</td>
+                        <td>
+                            <a class="nav-link text-dark linkjes"
                                asp-area=""
                                asp-controller="Admin"
                                asp-action="ViewDeclarationForm"
                                asp-route-formId="@declarationFormModel.FormId">
                                 Inzien
-                      </a>
-                    </td>
-                </tr>
-            }
+                            </a>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
-        </div>
     </div>
+</div>
 

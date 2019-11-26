@@ -5,22 +5,27 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using UrenRegistratieQien.Repositories;
 using UrenRegistratieQien.Models;
+using UrenRegistratieQien.GlobalClasses;
 
 namespace UrenRegistratieQien.Controllers
 {
     public class AdminController : Controller
     {
         private readonly IDeclarationFormRepository declarationFormRepo;
+        private readonly IEmployeeRepository employeeRepo;
+        public List<string> monthList { get; set; }
 
-        public AdminController(IDeclarationFormRepository DeclarationFormRepo)
+        public AdminController(IDeclarationFormRepository DeclarationFormRepo, IEmployeeRepository EmployeeRepo)
         {
 
             declarationFormRepo = DeclarationFormRepo;
-            
+            employeeRepo = EmployeeRepo;
+            monthList = new List<string> { "Januari", "Februari", "March", "April", "May", "June", "Juli", "August", "September", "October", "November", "December" };
+
         }
 
 
-        
+
         public IActionResult ViewDeclarationForm(int formId)
         {
             var form = declarationFormRepo.GetFormByFormId(formId);
@@ -28,9 +33,12 @@ namespace UrenRegistratieQien.Controllers
         }
 
 
-        public IActionResult Admin()
+
+        public IActionResult Admin(string month, string employeeName, string approved, string submitted)
         {
+
             ViewBag.AllForms = declarationFormRepo.GetAllForms();
+            ViewBag.Months = monthList;
             var forms = declarationFormRepo.GetAllForms();
 
             // door Januari parameter uit de IRepo en Repo (+if statement) eruit te halen, kan je sowieso alle uren inzien. 
@@ -42,13 +50,33 @@ namespace UrenRegistratieQien.Controllers
             ViewBag.TotalHoursHoliday = declarationFormRepo.TotalHoursHoliday(forms, "Januari");
             ViewBag.TotalHoursTraining = declarationFormRepo.TotalHoursTraining(forms, "Januari");
             ViewBag.TotalHoursOther = declarationFormRepo.TotalHoursOther(forms, "Januari");
-            return View(forms);
+
+
+            string employeeId;
+            if(employeeName != null)
+            {
+                employeeId = employeeRepo.GetEmployeeByName(employeeName).EmployeeId;
+            } else
+            {
+                employeeId = null;
+            }
+            return View(declarationFormRepo.GetFilteredForms(employeeId, month, approved, submitted));
         }
 
-        public IActionResult AdminWithParam(string employeeId)
+        public IActionResult AdminWithEmployeeId(string employeeId)
+        {
+
+            ViewBag.AllForms = declarationFormRepo.GetAllForms();
+            ViewBag.Months = monthList;
+            var forms = declarationFormRepo.GetAllFormsOfUser(employeeId);
+            return View("~/Views/Admin/Admin.cshtml", forms);
+        }
+
+        public IActionResult AdminWithMonthYear(string month, int year)
         {
             ViewBag.AllForms = declarationFormRepo.GetAllForms();
-            var forms = declarationFormRepo.GetAllFormsOfUser(employeeId);
+            ViewBag.Months = monthList;
+            var forms = declarationFormRepo.GetAllFormsOfMonth(MonthConverter.ConvertMonthToInt(month));
             return View("~/Views/Admin/Admin.cshtml", forms);
         }
 
