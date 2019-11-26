@@ -7,11 +7,11 @@ namespace UrenRegistratieQien.Models
 {
     public class AdminOverviewModel
     {
-        public List<DeclarationFormModel> declarationFormModels { get; set; }
-        public int employeeId { get; set; }
-        public string month { get; set; }
-        public bool approved { get; set; }
-        public bool submitted { get; set; }
-        public int year { get; set; }
+        public Months SelectMonths { get; set; }
+    }
+
+    public enum Months
+    {
+        Januari, Februari, March, April, May, June, Juli, August, September, October, November, December
     }
 }

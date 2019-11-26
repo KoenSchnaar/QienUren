@@ -12,12 +12,14 @@ namespace UrenRegistratieQien.Controllers
     public class AdminController : Controller
     {
         private readonly IDeclarationFormRepository declarationFormRepo;
+        private readonly IEmployeeRepository employeeRepo;
         public List<string> monthList { get; set; }
 
-        public AdminController(IDeclarationFormRepository DeclarationFormRepo)
+        public AdminController(IDeclarationFormRepository DeclarationFormRepo, IEmployeeRepository EmployeeRepo)
         {
 
             declarationFormRepo = DeclarationFormRepo;
+            employeeRepo = EmployeeRepo;
             monthList = new List<string> { "Januari", "Februari", "March", "April", "May", "June", "Juli", "August", "September", "October", "November", "December" };
 
         }
@@ -31,27 +33,13 @@ namespace UrenRegistratieQien.Controllers
         }
 
 
-        public IActionResult Admin()
+
+        public IActionResult Admin(string month, string employeeName, string approved, string submitted)
         {
 
-            ////// in admin.cshtml moeten de links nog zo geupdate worden dat ie de juiste filters doorgeeft
             ViewBag.AllForms = declarationFormRepo.GetAllForms();
             ViewBag.Months = monthList;
             var forms = declarationFormRepo.GetAllForms();
-            //AdminOverviewModel adminOverViewModel = new AdminOverviewModel();
-            //adminOverViewModel.declarationFormModels = forms;
-
-            //is filterlijst[0] null? anders:
-            //pakt dan de forms, en selecteert alleen de forms met overeenkomende naam
-
-
-            //naar volgende filter
-            //is filterlijst[1] null? anders:
-
-
-            //
-            //
-
 
             // door Januari parameter uit de IRepo en Repo (+if statement) eruit te halen, kan je sowieso alle uren inzien. 
             // Nu geeft ie alleen januari zoals hieronder staat, selectie andere maand is nog niet werkend
@@ -62,7 +50,17 @@ namespace UrenRegistratieQien.Controllers
             ViewBag.TotalHoursHoliday = declarationFormRepo.TotalHoursHoliday(forms, "Januari");
             ViewBag.TotalHoursTraining = declarationFormRepo.TotalHoursTraining(forms, "Januari");
             ViewBag.TotalHoursOther = declarationFormRepo.TotalHoursOther(forms, "Januari");
-            return View(forms);
+
+
+            string employeeId;
+            if(employeeName != null)
+            {
+                employeeId = employeeRepo.GetEmployeeByName(employeeName).EmployeeId;
+            } else
+            {
+                employeeId = null;
+            }
+            return View(declarationFormRepo.GetFilteredForms(employeeId, month, approved, submitted));
         }
 
         public IActionResult AdminWithEmployeeId(string employeeId)

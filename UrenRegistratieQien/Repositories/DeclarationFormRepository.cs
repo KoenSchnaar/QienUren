@@ -137,6 +137,154 @@ namespace UrenRegistratieQien.Repositories
             return forms;
         }
 
+        public List<DeclarationFormModel> GetFilteredForms(string employeeId, string month, string approved, string submitted)
+        {
+            if(approved == "Goedgekeurd")
+            {
+                approved = "true";
+            }
+            if(approved == "Niet goedgekeurd")
+            {
+                approved = "false";
+            }
+            if (submitted == "Ingediend")
+            {
+                submitted = "true";
+            }
+            if (submitted == "Niet ingediend")
+            {
+                submitted = "false";
+            }
+
+            var entities = context.DeclarationForms.Include(df => df.HourRows)
+                .OrderByDescending(df => df.DeclarationFormId).ToList();
+
+            List<DeclarationForm> holderList = new List<DeclarationForm>();
+
+            if (employeeId != null){
+
+                foreach (DeclarationForm entity in entities)
+                {
+                    if (entity.EmployeeId != employeeId)
+                    {
+                        holderList.Add(entity);
+                    }
+                }
+            }
+            foreach(DeclarationForm declarationForm in holderList)
+            {
+                if (entities.Contains(declarationForm)){
+                    entities.Remove(declarationForm);
+                }
+            }
+            if (month != null) {
+
+                foreach (DeclarationForm entity in entities)
+                {
+                    if (entity.Month != month)
+                    {
+                        holderList.Add(entity);
+                    }
+                }
+
+            }
+            foreach (DeclarationForm declarationForm in holderList)
+            {
+                if (entities.Contains(declarationForm))
+                {
+                    entities.Remove(declarationForm);
+                }
+            }
+            if (approved != null){
+
+                bool boolApproved = Convert.ToBoolean(approved);
+                foreach (DeclarationForm entity in entities)
+                    {
+                    
+                        if (entity.Approved != boolApproved)
+                        {
+                            holderList.Add(entity);
+                        }
+                    }
+
+                }
+            foreach (DeclarationForm declarationForm in holderList)
+            {
+                if (entities.Contains(declarationForm))
+                {
+                    entities.Remove(declarationForm);
+                }
+            }
+            if (submitted != null){
+
+                bool boolSubmitted = Convert.ToBoolean(submitted);
+                    foreach (DeclarationForm entity in entities)
+                    {
+                        if (entity.Submitted != boolSubmitted)
+                        {
+                            holderList.Add(entity);
+                        }
+                    }
+
+                }
+            foreach (DeclarationForm declarationForm in holderList)
+            {
+                if (entities.Contains(declarationForm))
+                {
+                    entities.Remove(declarationForm);
+                }
+            }
+
+
+            var forms = new List<DeclarationFormModel>();
+
+            foreach (var form in entities)
+            {
+                List<HourRowModel> ListOfHourRowModels = new List<HourRowModel>();
+
+                foreach (HourRow hourRow in form.HourRows)
+                {
+                    HourRowModel newHourRowModel = new HourRowModel
+                    {
+                        HourRowId = hourRow.HourRowId,
+                        EmployeeId = form.EmployeeId,
+                        Date = hourRow.Date,
+                        Worked = hourRow.Worked,
+                        Overtime = hourRow.Overtime,
+                        Sickness = hourRow.Sickness,
+                        Vacation = hourRow.Vacation,
+                        Holiday = hourRow.Holiday,
+                        Training = hourRow.Training,
+                        Other = hourRow.Other,
+                        OtherExplanation = hourRow.OtherExplanation
+                    };
+
+                    ListOfHourRowModels.Add(newHourRowModel);
+                }
+
+                var selectedEmployee = context.Users.Single(p => p.Id == form.EmployeeId);
+                var castedEmployee = (Employee)selectedEmployee;
+                var employeeName = castedEmployee.FirstName + " " + castedEmployee.LastName;
+
+                var newModel = new DeclarationFormModel
+                {
+                    FormId = form.DeclarationFormId,
+                    HourRows = ListOfHourRowModels,
+                    EmployeeId = form.EmployeeId,
+                    EmployeeName = employeeName,
+                    Month = form.Month,
+                    Approved = form.Approved,
+                    Submitted = form.Submitted,
+                    Comment = form.Comment,
+                    Year = form.Year
+                };
+
+                forms.Add(newModel);
+            }
+            return forms;
+
+        }
+
         public List<DeclarationFormModel> GetAllForms()
         {
             var entities = context.DeclarationForms.Include(df => df.HourRows).OrderByDescending(df => df.DeclarationFormId).ToList();
@@ -324,7 +472,7 @@ namespace UrenRegistratieQien.Repositories
         {
 
             int counter = 0;
-
+            double a =0;
             foreach (var Form in DeclarationFormList)
             {
 
@@ -337,9 +485,10 @@ namespace UrenRegistratieQien.Repositories
 
                     }
                 }
-
+                a = counter * 1.2;
             }
-            return counter;
+            
+            return (int)a; // Convert.ToInt32(a)
 
         }
 
