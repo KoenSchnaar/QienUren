@@ -12,6 +12,15 @@ namespace UrenRegistratieQien.Controllers
     public class AdminController : Controller
     {
         private readonly IDeclarationFormRepository declarationFormRepo;
+<<<<<<< HEAD
+        private readonly IEmployeeRepository employeeRepository;
+
+        public AdminController(IDeclarationFormRepository DeclarationFormRepo, IEmployeeRepository employeeRepository)
+        {
+
+            declarationFormRepo = DeclarationFormRepo;
+            this.employeeRepository = employeeRepository;
+=======
         private readonly IEmployeeRepository employeeRepo;
         public List<string> monthList { get; set; }
 
@@ -22,10 +31,32 @@ namespace UrenRegistratieQien.Controllers
             employeeRepo = EmployeeRepo;
             monthList = new List<string> { "Januari", "Februari", "March", "April", "May", "June", "Juli", "August", "September", "October", "November", "December" };
 
+>>>>>>> master
         }
 
+        [HttpPost]
+        public IActionResult oefenmethode(int oefengetal)
+        {
+            var x = oefengetal;
+            return null;
+        }
 
+<<<<<<< HEAD
+        public IActionResult ShowEmployees()
+        {
+            var employees = employeeRepository.GetEmployees();
+            return View(employees);
+        }
 
+        public IActionResult ChangeEmployee(string EmployeeId)
+        {
+            var employee = employeeRepository.GetEmployee(EmployeeId);
+            return View(employee);
+        }
+        
+=======
+
+>>>>>>> master
         public IActionResult ViewDeclarationForm(int formId)
         {
             var form = declarationFormRepo.GetFormByFormId(formId);

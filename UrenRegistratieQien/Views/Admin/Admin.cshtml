@@ -26,6 +26,7 @@
 <div align="center">
     <h1>Uren Totaal Overzicht</h1>
 </div>
+
 <div class="table-wrapper">
     <table class="fl-table" align="center">
         <thead>
@@ -114,8 +115,11 @@
                         <th>Commentaar</th>
                         <th>Inzien</th>
                     </tr>
+<<<<<<< HEAD
+=======
                 }
             </thead>
+>>>>>>> master
 
             <tbody>
                 
@@ -153,10 +157,22 @@
                                asp-action="ViewDeclarationForm"
                                asp-route-formId="@declarationFormModel.FormId">
                                 Inzien
+<<<<<<< HEAD
+                      </a>
+                    </td>
+                    <td>
+                        <form asp-controller="admin" asp-action="oefenmethode" asp-route-oefengetal="@declarationFormModel.FormId">
+                            <button type="submit">click me</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+=======
                             </a>
                         </td>
                     </tr>
                 }
+>>>>>>> master
             </tbody>
         </table>
     </div>
