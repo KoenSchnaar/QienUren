@@ -77,10 +77,29 @@
             <td>uren gewerkt</td>
             <td>overwerk</td>
             <td>Ziekte</td>
-            <td>@form.Approved</td>
-            <td>@form.Submitted</td>
+
+            <td>
+                @if (form.Approved == true)
+                {
+                    <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
+                }
+                else
+                {
+                    <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                }
+            </td>
+
+            <td>@if (form.Submitted == true)
+                {
+                    <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
+                }
+                else
+                {
+                    <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                }</td>
+
             <td>@form.Comment</td>
-            <td><a class="nav-link text-dark" 
+            <td><a class="nav-link text-dark linkjes" 
                    asp-area="" 
                    asp-controller="DeclarationForm" 
                    asp-action="HourReg"
