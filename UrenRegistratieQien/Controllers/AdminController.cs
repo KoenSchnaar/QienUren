@@ -11,15 +11,33 @@ namespace UrenRegistratieQien.Controllers
     public class AdminController : Controller
     {
         private readonly IDeclarationFormRepository declarationFormRepo;
+        private readonly IEmployeeRepository employeeRepository;
 
-        public AdminController(IDeclarationFormRepository DeclarationFormRepo)
+        public AdminController(IDeclarationFormRepository DeclarationFormRepo, IEmployeeRepository employeeRepository)
         {
 
             declarationFormRepo = DeclarationFormRepo;
-            
+            this.employeeRepository = employeeRepository;
         }
 
+        [HttpPost]
+        public IActionResult oefenmethode(int oefengetal)
+        {
+            var x = oefengetal;
+            return null;
+        }
 
+        public IActionResult ShowEmployees()
+        {
+            var employees = employeeRepository.GetEmployees();
+            return View(employees);
+        }
+
+        public IActionResult ChangeEmployee(string EmployeeId)
+        {
+            var employee = employeeRepository.GetEmployee(EmployeeId);
+            return View(employee);
+        }
         
         public IActionResult ViewDeclarationForm(int formId)
         {

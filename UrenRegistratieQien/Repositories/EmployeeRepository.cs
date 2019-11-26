@@ -136,5 +136,10 @@ namespace UrenRegistratieQien.Repositories
                 }
             }
         }
+
+        public string searchName(int id)
+        {
+            return null;
+        }
     }
 }
