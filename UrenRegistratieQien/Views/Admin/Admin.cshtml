@@ -1,5 +1,4 @@
-﻿
-@using UrenRegistratieQien.Models
+﻿@using UrenRegistratieQien.Models
 @using System.Collections.Generic
 @model List<DeclarationFormModel>
 
@@ -20,6 +19,10 @@
     <h1>Welkom, administrator</h1>
     <a class="text-dark linkjes" asp-area="Identity" asp-page="/Account/Register">Maak een gebruiker aan</a>
 </div>
+
+<form>
+    <input type="submit" asp-controller="Mailservice" asp-action="MailService" value="verstuur mail naar opdrachtgever">
+</form>
 
 <br />
 <br />
@@ -115,11 +118,10 @@
                         <th>Commentaar</th>
                         <th>Inzien</th>
                     </tr>
-<<<<<<< HEAD
-=======
+
                 }
             </thead>
->>>>>>> master
+
 
             <tbody>
                 
@@ -157,7 +159,7 @@
                                asp-action="ViewDeclarationForm"
                                asp-route-formId="@declarationFormModel.FormId">
                                 Inzien
-<<<<<<< HEAD
+
                       </a>
                     </td>
                     <td>
@@ -167,12 +169,7 @@
                     </td>
                 </tr>
             }
-=======
-                            </a>
-                        </td>
-                    </tr>
-                }
->>>>>>> master
+
             </tbody>
         </table>
     </div>
