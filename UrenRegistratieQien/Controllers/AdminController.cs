@@ -12,6 +12,7 @@ namespace UrenRegistratieQien.Controllers
     public class AdminController : Controller
     {
         private readonly IDeclarationFormRepository declarationFormRepo;
+
         private readonly IEmployeeRepository employeeRepo;
         public List<string> monthList { get; set; }
 
@@ -29,7 +30,6 @@ namespace UrenRegistratieQien.Controllers
             var x = oefengetal;
             return null;
         }
-
 
         public IActionResult ShowEmployees()
         {
@@ -49,6 +49,8 @@ namespace UrenRegistratieQien.Controllers
             return View(form);
         }
 
+
+
         public IActionResult Admin(string month, string employeeName, string approved, string submitted)
         {
 
@@ -65,7 +67,6 @@ namespace UrenRegistratieQien.Controllers
             ViewBag.TotalHoursHoliday = declarationFormRepo.TotalHoursHoliday(forms, "Januari");
             ViewBag.TotalHoursTraining = declarationFormRepo.TotalHoursTraining(forms, "Januari");
             ViewBag.TotalHoursOther = declarationFormRepo.TotalHoursOther(forms, "Januari");
-
 
             string employeeId;
             if(employeeName != null)
