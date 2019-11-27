@@ -40,7 +40,13 @@ namespace UrenRegistratieQienTest.Fakes
 
         public DeclarationFormModel GetForm(int declarationFormId, string userId)
         {
-            return new DeclarationFormModel();
+            return new DeclarationFormModel
+            {
+                FormId = declarationFormId,
+                EmployeeId = userId,
+                EmployeeName = "TestName",
+                Month = "Januari"
+            };
         }
 
         public DeclarationFormModel GetFormByFormId(int formId)

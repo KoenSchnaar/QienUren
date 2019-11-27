@@ -53,6 +53,25 @@ namespace UrenRegistratieQienTest
         }
 
         [TestMethod]
+        public void DeclarationFormControllerHourRegShouldReturnViewWithCorrectData()
+        {
+            //arrange
+            var DeclarationFormController = new DeclarationFormController(new FakeClientRepository(), new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeHourRowRepository());
+            int declarationFormId = 1;
+            string userId = "1";
+            int year = 2019;
+            string month = "November";
+
+            //act
+            var actionResult = DeclarationFormController.HourReg(declarationFormId, userId, year, month);
+            var viewResult = (ViewResult)actionResult;
+            var viewModel = (DeclarationFormModel)viewResult.Model;
+
+            //assert
+            Assert.IsTrue(viewModel.FormId == 1 && viewModel.EmployeeId == "1");
+        }
+
+        [TestMethod]
         public void DeclarationFormControllerHourRegPostShouldReturnRedirection()
         {
             //arrange
@@ -73,5 +92,6 @@ namespace UrenRegistratieQienTest
             //assert
             Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
         }
+
     }
 }

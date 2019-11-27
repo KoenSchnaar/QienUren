@@ -43,12 +43,24 @@ namespace UrenRegistratieQien.Controllers
             return View(employee);
         }
         
+        public IActionResult DeleteEmployee(string employeeId)
+        {
+            employeeRepo.DeleteEmployee(employeeId);
+            return RedirectToAction("ShowEmployees");
+        }
+
+        [HttpPost]
+        public IActionResult EditEmployee(EmployeeModel empModel)
+        {
+            employeeRepo.EditEmployee(empModel);
+            return RedirectToAction("ShowEmployees");
+        }
+
         public IActionResult ViewDeclarationForm(int formId)
         {
             var form = declarationFormRepo.GetFormByFormId(formId);
             return View(form);
         }
-
 
 
         public IActionResult Admin(string month, string employeeName, string approved, string submitted)

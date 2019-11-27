@@ -1,4 +1,78 @@
 ﻿@model EmployeeModel
+<<<<<<< HEAD
+@{ 
+    var roleAsString = "";
+    if(Model.Role == 1)
+        {
+            roleAsString = "Admin";
+        }
+    else if (Model.Role == 2)
+        {
+            roleAsString = "Medewerker";
+        }
+    else if(Model.Role == 3)
+        {
+            roleAsString = "Trainee";
+        }
+    else if (Model.Role == 4)
+        {
+            roleAsString = "Inactief";
+        }
+}
+
+    <div class="table-wrapper">
+        <form asp-controller="Admin" asp-action="EditEmployee">
+            @Html.HiddenFor(m => m.EmployeeId);
+            @Html.HiddenFor(m => m.ClientId);
+            <table class="fl-table" align="center">
+                <thead>
+                    <tr>
+                        <th>In database</th>
+                        <th>Nieuw</th>
+                    </tr>
+                <thead>
+
+                <tbody>
+                    <tr>
+                        <td>Voornaam</td>
+                        <td>@Html.TextBoxFor(m => m.FirstName)</td>
+                    </tr>
+                    <tr>
+                        <td>Achternaam</td>
+                        <td>@Html.TextBoxFor(m => m.LastName)</td>
+                    </tr>
+                    <tr>
+                        <td>E-mail Adres</td>
+                        <td>@Html.TextBoxFor(m => m.Email)</td>
+                    </tr>
+                    <tr>
+                        <td>Adres</td>
+                        <td>@Html.TextBoxFor(m => m.Address)</td>
+                    </tr>
+                    <tr>
+                        <td>Telefoonnummer</td>
+                        <td>@Html.TextBoxFor(m => m.Phone)</td>
+                    </tr>
+                    <tr>
+                        <td>Type medewerker</td>
+                        <td>
+                            @Html.DropDownListFor(m => m.RoleAsString, new SelectList(new List<string> { "Admin", "Medewerker", "Trainee", "Inactief" }), roleAsString)
+                    </td>
+                </tr>
+                <tr>
+                    <td>Postcode</td>
+                    <td>@Html.TextBoxFor(m => m.ZIPCode)</td>
+                </tr>
+                <tr>
+                    <td>Woonplaats</td>
+                    <td>@Html.TextBoxFor(m => m.Residence)</td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="submit">Opslaan</button>
+        </form>
+    </div>
+=======
 <br>
 <br>
 <br>
@@ -47,3 +121,4 @@
         </tbody>
     </table>
 </div>
+>>>>>>> master

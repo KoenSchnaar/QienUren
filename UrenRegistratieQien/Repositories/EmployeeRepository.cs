@@ -118,11 +118,28 @@ namespace UrenRegistratieQien.Repositories
         }
 
 
-        public void UpdateEmployee(EmployeeModel employeeModel)
+        public void EditEmployee(EmployeeModel employeeModel)
         {
             var databaseEmployee = context.Users.Single(p => p.Id == employeeModel.EmployeeId);
             var CastedDatabaseEmployee = (Employee)databaseEmployee;
+            var role = 0;
 
+            if(employeeModel.RoleAsString == "Admin")
+            {
+                role = 1;
+            }
+            else if (employeeModel.RoleAsString == "Medewerker")
+            {
+                role = 2;
+            }
+            else if(employeeModel.RoleAsString == "Trainee")
+            {
+                role = 3;
+            }
+            else if (employeeModel.RoleAsString == "Inactief")
+            {
+                role = 4;
+            }
 
             CastedDatabaseEmployee.ClientId = employeeModel.ClientId;
             CastedDatabaseEmployee.FirstName = employeeModel.FirstName;
@@ -130,7 +147,9 @@ namespace UrenRegistratieQien.Repositories
             CastedDatabaseEmployee.Email = employeeModel.Email;
             CastedDatabaseEmployee.Address = employeeModel.Address;
             CastedDatabaseEmployee.Phone = employeeModel.Phone;
-            CastedDatabaseEmployee.Role = employeeModel.Role;
+            CastedDatabaseEmployee.Role = role;
+            CastedDatabaseEmployee.ZIPCode = employeeModel.ZIPCode;
+            CastedDatabaseEmployee.Residence = employeeModel.Residence;
 
             context.SaveChanges();
 
