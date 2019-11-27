@@ -7,7 +7,9 @@
     ViewData["Title"] = "Administrator Page";
 }
 
-
+<br>
+<br>
+<br>
 <div align="center">
     <h1>Welkom, administrator</h1>
     <a class="text-dark linkjes" asp-area="Identity" asp-page="/Account/Register">Maak een gebruiker aan</a>
@@ -23,37 +25,37 @@
 
     <table class="fl-table">
         <thead>
-        <tr>
-            <th>
-                Medewerker Naam<select>
-                    @foreach (DeclarationFormModel declarationFormModel in Model)
-                    {
-                        <option value=@declarationFormModel.EmployeeName>@declarationFormModel.EmployeeName</option>
-                        @Html.ActionLink(declarationFormModel.EmployeeName, "EmployeeForms", "Admin", null, declarationFormModel.EmployeeId)
-                    }
-                </select>
-            </th>
-            <th>Maand</th>
-            <th>Goedgekeurd</th>
-            <th>Ingediend</th>
-            <th>Commentaar</th>
-            <th>Actie</th>
-        </tr>
+            <tr>
+                <th>
+                    Medewerker Naam<select>
+                        @foreach (DeclarationFormModel declarationFormModel in Model)
+                        {
+                            <option value=@declarationFormModel.EmployeeName>@declarationFormModel.EmployeeName</option>
+                            @Html.ActionLink(declarationFormModel.EmployeeName, "EmployeeForms", "Admin", null, declarationFormModel.EmployeeId)
+                        }
+                    </select>
+                </th>
+                <th>Maand</th>
+                <th>Goedgekeurd</th>
+                <th>Ingediend</th>
+                <th>Commentaar</th>
+                <th>Actie</th>
+            </tr>
         </thead>
 
         <tbody>
-        @foreach (DeclarationFormModel declarationFormModel in Model)
-        {
-            <tr>
-                <td>@declarationFormModel.EmployeeName</td>
-                <td>@declarationFormModel.Month</td>
-                <td>@declarationFormModel.Approved</td>
-                <td>@declarationFormModel.Submitted</td>
-                <td>@declarationFormModel.Comment</td>
-                <td class="buttonn"><a href="https://www.nu.nl"><input type="button" value="Inzien"></a>&nbsp;&nbsp;<input type="button" value="Heropenen"></td>
+            @foreach (DeclarationFormModel declarationFormModel in Model)
+            {
+                <tr>
+                    <td>@declarationFormModel.EmployeeName</td>
+                    <td>@declarationFormModel.Month</td>
+                    <td>@declarationFormModel.Approved</td>
+                    <td>@declarationFormModel.Submitted</td>
+                    <td>@declarationFormModel.Comment</td>
+                    <td class="buttonn"><a href="https://www.nu.nl"><input type="button" value="Inzien"></a>&nbsp;&nbsp;<input type="button" value="Heropenen"></td>
 
-            </tr>
-        }
+                </tr>
+            }
         </tbody>
 
     </table>

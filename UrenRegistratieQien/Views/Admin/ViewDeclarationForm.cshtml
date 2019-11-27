@@ -2,40 +2,42 @@
 @{
     ViewData["Title"] = "ViewDeclarationForm";
 }
-
+<br>
+<br>
+<br>
 <h1>hoi</h1>
 
 <div class="table-wrapper">
     <table align="center" class="fl-table">
         <thead>
-        <tr>
-            <th>Datum</th>
-            <th>Gewerkt</th>
-            <th>Overwerk</th>
-            <th>Ziekte</th>
-            <th>Vakantie</th>
-            <th>Feestdagen</th>
-            <th>Training</th>
-            <th>Overig</th>
-            <th>Overig Uitleg</th>
-        </tr>
+            <tr>
+                <th>Datum</th>
+                <th>Gewerkt</th>
+                <th>Overwerk</th>
+                <th>Ziekte</th>
+                <th>Vakantie</th>
+                <th>Feestdagen</th>
+                <th>Training</th>
+                <th>Overig</th>
+                <th>Overig Uitleg</th>
+            </tr>
         </thead>
 
         <tbody>
-        @foreach (var hourRow in Model.HourRows)
-        {
-            <tr>
-                <td>@hourRow.Date</td>
-                <td>@hourRow.Worked</td>
-                <td>@hourRow.Overtime</td>
-                <td>@hourRow.Sickness</td>
-                <td>@hourRow.Vacation</td>
-                <td>@hourRow.Holiday</td>
-                <td>@hourRow.Training</td>
-                <td>@hourRow.Other</td>
-                <td>@hourRow.OtherExplanation</td>
-            </tr>
-        }
+            @foreach (var hourRow in Model.HourRows)
+            {
+                <tr>
+                    <td>@hourRow.Date</td>
+                    <td>@hourRow.Worked</td>
+                    <td>@hourRow.Overtime</td>
+                    <td>@hourRow.Sickness</td>
+                    <td>@hourRow.Vacation</td>
+                    <td>@hourRow.Holiday</td>
+                    <td>@hourRow.Training</td>
+                    <td>@hourRow.Other</td>
+                    <td>@hourRow.OtherExplanation</td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>

@@ -5,7 +5,9 @@
     ViewData["Title"] = "Administrator Page";
 }
 
-
+<br>
+<br>
+<br>
 <div align="center">
     <h1>Welkom @ViewBag.User.FirstName</h1>
 </div>
@@ -15,33 +17,33 @@
         <table class="fl-table">
 
             <thead>
-            <tr>
-                <th>Werknemer</th>
-                <th>Werkgever</th>
-            </tr>
+                <tr>
+                    <th>Werknemer</th>
+                    <th>Werkgever</th>
+                </tr>
             </thead>
 
             <tbody>
-            <tr>
-                <td>@ViewBag.User.FirstName @ViewBag.User.LastName</td>
-                <td>@ViewBag.Client.Contact1Name</td>
-            </tr>
-            <tr>
-                <td>@ViewBag.User.Address</td>
-                <td>@ViewBag.Client.CompanyName</td>
-            </tr>
-            <tr>
-                <td>@ViewBag.User.ZIPCode, @ViewBag.User.Residence</td>
-                <td>Postcode en woonplaats</td>
-            </tr>
-            <tr>
-                <td>@ViewBag.User.Phone</td>
-                <td>@ViewBag.Client.Contact1Phone</td>
-            </tr>
-            <tr>
-                <td>@ViewBag.User.Email</td>
-                <td>@ViewBag.Client.Contact1Email</td>
-            </tr>
+                <tr>
+                    <td>@ViewBag.User.FirstName @ViewBag.User.LastName</td>
+                    <td>@ViewBag.Client.Contact1Name</td>
+                </tr>
+                <tr>
+                    <td>@ViewBag.User.Address</td>
+                    <td>@ViewBag.Client.CompanyName</td>
+                </tr>
+                <tr>
+                    <td>@ViewBag.User.ZIPCode, @ViewBag.User.Residence</td>
+                    <td>Postcode en woonplaats</td>
+                </tr>
+                <tr>
+                    <td>@ViewBag.User.Phone</td>
+                    <td>@ViewBag.Client.Contact1Phone</td>
+                </tr>
+                <tr>
+                    <td>@ViewBag.User.Email</td>
+                    <td>@ViewBag.Client.Contact1Email</td>
+                </tr>
             </tbody>
 
         </table>
@@ -57,59 +59,63 @@
 
     <table class="fl-table" align="center">
         <thead>
-        <tr>
-            <th>Maand</th>
-            <th>Uren gewerkt</th>
-            <th>Overwerk</th>
-            <th>Ziekte</th>
-            <th>Status</th>
-            <th>Ingediend</th>
-            <th>Opmerking</th>
-            <th>Inzien</th>
-        </tr>
+            <tr>
+                <th>Maand</th>
+                <th>Uren gewerkt</th>
+                <th>Overwerk</th>
+                <th>Ziekte</th>
+                <th>Status</th>
+                <th>Ingediend</th>
+                <th>Opmerking</th>
+                <th>Inzien</th>
+            </tr>
         </thead>
 
         <tbody>
-        @foreach(var form in Model)
-        {
-            <tr>
-            <td>@form.Month</td>
-            <td>uren gewerkt</td>
-            <td>overwerk</td>
-            <td>Ziekte</td>
+            @foreach (var form in Model)
+            {
+                <tr>
+                    <td>@form.Month</td>
+                    <td>uren gewerkt</td>
+                    <td>overwerk</td>
+                    <td>Ziekte</td>
 
-            <td>
-                @if (form.Approved == true)
-                {
-                    <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
-                }
-                else
-                {
-                    <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
-                }
-            </td>
+                    <td>
+                        @if (form.Approved == true)
+                        {
+                            <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
+                        }
+                        else
+                        {
+                            <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                        }
+                    </td>
 
-            <td>@if (form.Submitted == true)
-                {
-                    <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
-                }
-                else
-                {
-                    <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
-                }</td>
+                    <td>
+                        @if (form.Submitted == true)
+                        {
+                            <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
+                        }
+                        else
+                        {
+                            <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                        }
+                </td>
 
-            <td>@form.Comment</td>
-            <td><a class="nav-link text-dark linkjes" 
-                   asp-area="" 
-                   asp-controller="DeclarationForm" 
-                   asp-action="HourReg"
-                   asp-route-declarationFormId ="@form.FormId" 
-                   asp-route-userId ="@ViewBag.User.EmployeeId" 
-                   asp-route-month ="@form.Month"
-                   asp-route-year ="@form.Year">
-                Inzien
-            </a></td>  
-        </tr>
+                <td>@form.Comment</td>
+                <td>
+                    <a class="nav-link text-dark linkjes"
+                       asp-area=""
+                       asp-controller="DeclarationForm"
+                       asp-action="HourReg"
+                       asp-route-declarationFormId="@form.FormId"
+                       asp-route-userId="@ViewBag.User.EmployeeId"
+                       asp-route-month="@form.Month"
+                       asp-route-year="@form.Year">
+                        Inzien
+                    </a>
+                </td>
+            </tr>
         }
         </tbody>
     </table>
