@@ -48,5 +48,6 @@ namespace UrenRegistratieQien.Controllers
             declarationRepo.SubmitDeclarationForm(decModel);
             return RedirectToAction("Dashboard", "Employee");
         }
+
     }
 }

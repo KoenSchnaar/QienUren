@@ -25,7 +25,10 @@ namespace UrenRegistratieQienTest.Fakes
 
         public List<DeclarationFormModel> GetAllFormsOfUser(string userId)
         {
-            throw new NotImplementedException();
+            var declarationFormModel = new DeclarationFormModel { EmployeeId = userId };
+            var declarationFormList = new List<DeclarationFormModel>();
+            declarationFormList.Add(declarationFormModel);
+            return declarationFormList;
         }
 
         public List<DeclarationFormModel> GetFilteredForms(string employeeId, string month, string approved, string submitted)
