@@ -13,6 +13,11 @@ namespace UrenRegistratieQienTest.Fakes
             throw new NotImplementedException();
         }
 
+        public EmployeeModel GetEmployeeByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<EmployeeModel> GetEmployees()
         {
             throw new NotImplementedException();

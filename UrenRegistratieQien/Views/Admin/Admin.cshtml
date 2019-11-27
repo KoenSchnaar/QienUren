@@ -8,8 +8,12 @@
     var employeeNames = new List<string>();
     foreach(DeclarationFormModel declarationFormModel in ViewBag.AllForms)
     {
-        employeeNames.Add(declarationFormModel.EmployeeName);
+        if (!employeeNames.Contains(declarationFormModel.EmployeeName))
+        {
+            employeeNames.Add(declarationFormModel.EmployeeName);
+        }
     }
+
 
 }
 
