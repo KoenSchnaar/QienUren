@@ -6,35 +6,72 @@ using System.Threading.Tasks;
 using MailKit;
 using MailKit.Net.Smtp;
 using MimeKit;
+using UrenRegistratieQien.Repositories;
 
 namespace UrenRegistratieQien.Controllers
 {
     public class MailserviceController : Controller
     {
+        private readonly IDeclarationFormRepository declarationFormRepo;
+
+        public MailserviceController(IDeclarationFormRepository DeclarationFormRepo)
+        {
+            declarationFormRepo = DeclarationFormRepo;
+        }
 
         public IActionResult MailService()
         {
             var message = new MimeMessage();
 
-            message.From.Add(new MailboxAddress("Liza", "lizavanderkruk@gmail.com"));
+            message.From.Add(new MailboxAddress("Luuk", "LuukvanwolferenQienUrenTest@gmail.com"));
 
-            message.To.Add(new MailboxAddress("Koen", "koenschnaar@gmail.com"));
+            message.To.Add(new MailboxAddress("Luuk", "luuk_wolferen@hotmail.com"));
 
-            message.Subject = "Feestje";
+            message.Subject = "linktest";
             message.Body = new TextPart("plain")
             {
-                Text = "Ha Koen, dit mailtje is hopelijk aangekomen."
+                Text = "www.reddit.com"
             };
 
             using (var client = new SmtpClient())
             {
                 client.ServerCertificateValidationCallback = (s, c, h, e) => true;
                 client.Connect("Smtp.gmail.com", 587, false);
-                client.Authenticate("lizavanderkruk@gmail.com", "");
+                client.Authenticate("LuukvanwolferenQienUrenTest@gmail.com", "QienUrenTest");
                 client.Send(message);
                 client.Disconnect(true);
             }
             return RedirectToRoute(new { controller = "Admin", action = "Admin" });
         }
+
+        public IActionResult ApproveOrReject(string uniqueId, string formId)
+        {
+            // www.hoi.nl/controller/action/?uniqueId="lolololol"?formid="lelelel"
+
+            var formIdAsInt = Convert.ToInt32(formId);
+
+            if (declarationFormRepo.CheckIfIdMatches(uniqueId))
+            {
+                return View(declarationFormRepo.GetFormByFormId(formIdAsInt)); //pagina waar client kan regelen of het is goedgekeurd of niet
+            } else
+            {
+                return View("~/Views/Mailservice/nee.cshtml"); // pagina waar staat unknown id
+            }
+        }
+
+        [HttpPost]
+        public IActionResult ApproveOrReject(string formId, bool approved)
+        {
+            //declarationFormRepo.ApproveOrReject(formId, approved)
+
+            //if approved:
+            // declarationFormRepo.ApproveForm(formId)
+            //else:
+            // declarationFormRepo.RejectForm(formId)
+
+            return View(); //yay het is gelukt nu kun je deze pagina sluiten
+        }
+
+
     }
 }

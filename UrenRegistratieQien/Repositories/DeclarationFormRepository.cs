@@ -750,5 +750,23 @@ namespace UrenRegistratieQien.Repositories
             return counter;
 
         }
+
+        public bool CheckIfIdMatches(string uniqueId)
+        {
+            try
+            {
+                var form = context.DeclarationForms.Include(df => df.HourRows).Single(p => p.uniqueId == uniqueId);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
+
+        }
+
+
+
     }
 }
