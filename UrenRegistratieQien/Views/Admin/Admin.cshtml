@@ -1,5 +1,4 @@
-﻿
-@using UrenRegistratieQien.Models
+﻿@using UrenRegistratieQien.Models
 @using System.Collections.Generic
 @model List<DeclarationFormModel>
 
@@ -9,8 +8,12 @@
     var employeeNames = new List<string>();
     foreach(DeclarationFormModel declarationFormModel in ViewBag.AllForms)
     {
-        employeeNames.Add(declarationFormModel.EmployeeName);
+        if (!employeeNames.Contains(declarationFormModel.EmployeeName))
+        {
+            employeeNames.Add(declarationFormModel.EmployeeName);
+        }
     }
+
 
 }
 
@@ -20,6 +23,10 @@
     <h1>Welkom, administrator</h1>
     <a class="text-dark linkjes" asp-area="Identity" asp-page="/Account/Register">Maak een gebruiker aan</a>
 </div>
+
+<form>
+    <input type="submit" asp-controller="Mailservice" asp-action="MailService" value="verstuur mail naar opdrachtgever">
+</form>
 
 <br />
 <br />

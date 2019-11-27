@@ -68,7 +68,6 @@ namespace UrenRegistratieQien.Controllers
             ViewBag.TotalHoursTraining = declarationFormRepo.TotalHoursTraining(forms, "Januari");
             ViewBag.TotalHoursOther = declarationFormRepo.TotalHoursOther(forms, "Januari");
 
-
             string employeeId;
             if(employeeName != null)
             {
