@@ -41,7 +41,6 @@ namespace UrenRegistratieQien.Controllers
             return View(inputModel);
         }
 
-
         public IActionResult AllClients()
         {
             var clients = clientRepo.GetAllClients();
