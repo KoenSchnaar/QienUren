@@ -2,16 +2,19 @@
 @{
     ViewData["Title"] = "HourReg";
 }
-    <h1 align="center">@Model.Month @Model.Year</h1>
+<br>
+<br>
+<br>
+<h1 align="center">@Model.Month @Model.Year</h1>
 
-    <div class="table-wrapper" align="center">
-        
+<div class="table-wrapper" align="center">
 
 
-        @{ if (Model.Submitted == true)
-            {
-                <table class="fl-table" align="center">
-                    <thead>
+
+    @{ if (Model.Submitted == true)
+        {
+            <table class="fl-table" align="center">
+                <thead>
                     <tr>
                         <th class="tableHeader">Date</th>
                         <th class="tableHeader">Gewerkt</th>
@@ -23,24 +26,24 @@
                         <th class="tableHeader">Overig</th>
                         <th>Overig Uitleg</th>
                     </tr>
-                    </thead>
+                </thead>
 
-                    <tbody>
-                        @Html.DisplayFor(m => Model.HourRows)
-                    </tbody>
-                </table>
-            }
-            else
+                <tbody>
+                    @Html.DisplayFor(m => Model.HourRows)
+                </tbody>
+            </table>
+        }
+        else
+        {
+            @using (Html.BeginForm("HourReg", "DeclarationForm"))
             {
-                @using (Html.BeginForm("HourReg", "DeclarationForm"))
-                {
-                    @Html.HiddenFor(m => m.FormId)
-                    @Html.HiddenFor(m => m.EmployeeId)
-                    @Html.HiddenFor(m => m.Year)
-                    @Html.HiddenFor(m => m.Month)
+                @Html.HiddenFor(m => m.FormId)
+                @Html.HiddenFor(m => m.EmployeeId)
+                @Html.HiddenFor(m => m.Year)
+                @Html.HiddenFor(m => m.Month)
 
-                    <table class="fl-table" align="center">
-                        <thead>
+                <table class="fl-table" align="center">
+                    <thead>
                         <tr>
                             <th class="tableHeader">Date</th>
                             <th class="tableHeader">Gewerkt</th>
@@ -52,16 +55,16 @@
                             <th class="tableHeader">Overig</th>
                             <th>Overig Uitleg</th>
                         </tr>
-                        </thead>
+                    </thead>
 
-                        <tbody>
-                            @Html.EditorFor(m => Model.HourRows)
-                        </tbody>
-                    </table>
-                    <button asp-action="HourReg" asp-controller="DeclarationForm">Opslaan</button>
-                    <button asp-action="HourRegSubmit" asp-controller="DeclarationForm">Opslaan en indienen</button>
-                    <br />
-                }
+                    <tbody>
+                        @Html.EditorFor(m => Model.HourRows)
+                    </tbody>
+                </table>
+                <button asp-action="HourReg" asp-controller="DeclarationForm">Opslaan</button>
+                <button asp-action="HourRegSubmit" asp-controller="DeclarationForm">Opslaan en indienen</button>
+                <br />
             }
         }
-    </div>
+    }
+</div>

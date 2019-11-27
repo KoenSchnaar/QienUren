@@ -8,7 +8,9 @@
 <h1>@ViewData["Title"]</h1>
 
 
-
+<br>
+<br>
+<br>
 <div class="row">
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
@@ -61,8 +63,8 @@
             <div class="form-group">
                 <label asp-for="Input.ClientId"></label>
                 <select asp-for="Input.ClientId">
-                    @{ 
-                        foreach(ClientModel clientModel in Model.clients)
+                    @{
+                        foreach (ClientModel clientModel in Model.clients)
                         {
                             <option value=@clientModel.ClientId>@clientModel.CompanyName</option>
                         }
