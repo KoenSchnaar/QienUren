@@ -70,5 +70,7 @@ namespace UrenRegistratieQien.Controllers
             clientRepo.EditAClient(clientModel);
             return RedirectToAction("AllClients");
         }
+
+        
     }
 }

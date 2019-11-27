@@ -1,31 +1,40 @@
 ﻿@model List<EmployeeModel>
-
+<br>
+<br>
+<br>
 <div class="table-wrapper">
     <table class="fl-table" align="center">
         <thead>
             <tr>
-                <th>Voornaam</th>
-                <th>Achternaam</th>
-                <th>wijzig</th>
+                <th>Naam</th>
+                <th>Type Medewerker</th>
+                <th>wijzig | verwijder</th>
             </tr>
         <thead>
-        
+
         <tbody>
-        @foreach(var employee in Model)
-        {
+            @foreach (var employee in Model)
+            {
                 <tr>
-                    <td>@employee.FirstName</td>
-                    <td>@employee.LastName</td>
+                    <td>@employee.FirstName @employee.LastName</td>
+                    <td>@employee.Role</td>
                     <td>
                         <a asp-area=""
                            asp-controller="Admin"
                            asp-action="ChangeEmployee"
                            asp-route-EmployeeId="@employee.EmployeeId">
-                           Wijzig   
+                            Wijzig
                         </a>
-                    </td>
+                         | 
+                         @Html.ActionLink("Delete", "DeleteEmployee", new { EmployeeId = employee.EmployeeId }, new { onclick = "return confirm('Are sure wants to delete?');" })
+                        @*<a asp-area=""
+                           asp-controller="Admin"
+                           asp-action="DeleteEmployee"
+                           asp-route-EmployeeId="@employee.EmployeeId">
+                           Verwijder   
+                        </a>*@</td>
                 </tr>
-        }
+            }
         </tbody>
     </table>
 </div>

@@ -8,6 +8,7 @@
     var employeeNames = new List<string>();
 
     foreach(DeclarationFormModel declarationFormModel in ViewBag.AllForms)
+
     {
         if (!employeeNames.Contains(declarationFormModel.EmployeeName))
         {
@@ -26,7 +27,9 @@
 
 
 }
-
+<br>
+<br> 
+<br>
 
 
 <div align="center">
@@ -123,7 +126,7 @@
                         </th>
                         <th>
                             Goedgekeurd
-                            @Html.DropDownList("approved", new SelectList(new List<string> { "Goedgekeurd", "Niet goedgekeurd"}), "Geen filter")
+                            @Html.DropDownList("approved", new SelectList(new List<string> { "Goedgekeurd", "Niet goedgekeurd" }), "Geen filter")
                         </th>
                         <th>
                             Ingediend
@@ -138,10 +141,10 @@
 
 
             <tbody>
-                
+
                 @foreach (DeclarationFormModel declarationFormModel in Model)
                 {
-                    
+
                     <tr>
                         <td>@declarationFormModel.EmployeeName</td>
                         <td>@declarationFormModel.Month</td>
@@ -173,17 +176,17 @@
                                asp-action="ViewDeclarationForm"
                                asp-route-formId="@declarationFormModel.FormId">
                                 Inzien
-                      </a>
-                    </td>
-                    <td>
-                        <form asp-controller="admin" 
-                              asp-action="oefenmethode" 
-                              asp-route-oefengetal="@declarationFormModel.FormId">
-                            <button type="submit">click me</button>
-                        </form>
-                    </td>
-                </tr>
-            }
+                            </a>
+                        </td>
+                        <td>
+                            <form asp-controller="admin"
+                                  asp-action="oefenmethode"
+                                  asp-route-oefengetal="@declarationFormModel.FormId">
+                                <button type="submit">click me</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>

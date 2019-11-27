@@ -10,7 +10,7 @@ namespace UrenRegistratieQienTest.Fakes
     {
         public void EditDeclarationForm(DeclarationFormModel formModel)
         {
-            throw new NotImplementedException();
+           
         }
 
         public List<DeclarationFormModel> GetAllForms()
@@ -38,12 +38,18 @@ namespace UrenRegistratieQienTest.Fakes
 
         public DeclarationFormModel GetForm(string userId, string month)
         {
-            throw new NotImplementedException();
+            return new DeclarationFormModel();
         }
 
         public DeclarationFormModel GetForm(int declarationFormId, string userId)
         {
-            throw new NotImplementedException();
+            return new DeclarationFormModel
+            {
+                FormId = declarationFormId,
+                EmployeeId = userId,
+                EmployeeName = "TestName",
+                Month = "Januari"
+            };
         }
 
         public DeclarationFormModel GetFormByFormId(int formId)
@@ -58,7 +64,7 @@ namespace UrenRegistratieQienTest.Fakes
 
         public void SubmitDeclarationForm(DeclarationFormModel formModel)
         {
-            throw new NotImplementedException();
+         
         }
 
         public int TotalHoursHoliday(List<DeclarationFormModel> DeclarationFormList, string Month)

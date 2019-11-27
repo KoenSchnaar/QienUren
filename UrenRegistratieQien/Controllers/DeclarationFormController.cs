@@ -18,7 +18,7 @@ namespace UrenRegistratieQien.Controllers
         private readonly IHourRowRepository hourRowRepo;
         private readonly UserManager<Employee> _userManager;
 
-        public DeclarationFormController(IClientRepository ClientRepo, IDeclarationFormRepository DeclarationRepo, IEmployeeRepository EmployeeRepo, IHourRowRepository HourRowRepo, UserManager<Employee> userManager)
+        public DeclarationFormController(IClientRepository ClientRepo, IDeclarationFormRepository DeclarationRepo, IEmployeeRepository EmployeeRepo, IHourRowRepository HourRowRepo, UserManager<Employee> userManager = null)
         {
             clientRepo = ClientRepo;
             declarationRepo = DeclarationRepo;
