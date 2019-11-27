@@ -41,8 +41,70 @@ namespace UrenRegistratieQienTest
 
             //assert
             Assert.IsInstanceOfType(viewModel, typeof(List<ClientModel>));
+        }
 
 
+
+        /// //////////
+        
+        public void EmployeeControllerDashboardInputModelShouldBeListOfDeclarationForms()
+        {
+            //arrange
+            var employeeController = new EmployeeController(new FakeClientRepository(), new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeHourRowRepository());
+
+            //act
+            var actionResult = employeeController.Dashboard();
+            var viewResult = (ViewResult)actionResult;
+            var viewModel = viewResult.Model;
+            
+            //assert
+            Assert.IsInstanceOfType(viewModel, typeof(List<DeclarationFormModel>));
+
+        }
+
+        [TestMethod]
+        public void EmployeeControllerAddClientViewResultShouldHaveClientModel()
+        {
+            //arrange
+            var employeeController = new EmployeeController(new FakeClientRepository(), new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeHourRowRepository());
+
+            //act
+            var actionResult = employeeController.AddClient();
+            var viewResult = (ViewResult)actionResult;
+            var viewModel = viewResult.Model;
+
+            //assert
+            Assert.IsInstanceOfType(viewModel, typeof(ClientModel));
+        }
+
+        [TestMethod]
+        public void EmployeeControllerPostAddClientShouldReturnRedirect()
+        {
+            //arrange
+            var employeeController = new EmployeeController(new FakeClientRepository(), new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeHourRowRepository());
+
+
+            //act
+            var actionResult = employeeController.AddClient(new ClientModel());
+
+
+            //assert
+            Assert.IsInstanceOfType(actionResult, typeof(RedirectToActionResult));
+        }
+
+        [TestMethod]
+        public void EmployeeControllerPostEditClientShouldReturnRedirect()
+        {
+            //arrange
+            var employeeController = new EmployeeController(new FakeClientRepository(), new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeHourRowRepository());
+
+
+            //act
+            var actionResult = employeeController.EditClient(new ClientModel());
+
+
+            //assert
+            Assert.IsInstanceOfType(actionResult, typeof(RedirectToActionResult));
         }
     }
 }
