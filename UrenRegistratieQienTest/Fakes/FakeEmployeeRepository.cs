@@ -8,6 +8,16 @@ namespace UrenRegistratieQienTest.Fakes
 {
     class FakeEmployeeRepository : IEmployeeRepository
     {
+        public void DeleteEmployee(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EditEmployee(EmployeeModel employeeModel)
+        {
+            throw new NotImplementedException();
+        }
+
         public EmployeeModel GetEmployee(string id)
         {
             throw new NotImplementedException();

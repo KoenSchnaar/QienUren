@@ -31,12 +31,16 @@ namespace UrenRegistratieQien.Controllers
             return null;
         }
 
+
         public IActionResult ShowEmployees()
         {
             var employees = employeeRepo.GetEmployees();
             return View(employees);
         }
 
+        // https://localhost:5001/DeclarationForm/HourReg?declarationFormId=6&userId=43c72a92-1cec-4861-8061-eb0e2791c7e2&month=Januari&year=2018
+
+        [Route("Admin/ChangeEmployee/{EmployeeId}")]
         public IActionResult ChangeEmployee(string EmployeeId)
         {
             var employee = employeeRepo.GetEmployee(EmployeeId);
