@@ -1,0 +1,58 @@
+﻿@model UrenRegistratieQien.Models.ClientModel
+<br>
+<br>
+<br>
+
+<p>Voeg een nieuwe opdrachtgever toe:</p>
+@using (Html.BeginForm("AddClient", "Home"))
+{
+    @Html.HiddenFor(m => m.ClientId)
+<tr>
+    <td>@Html.LabelFor(m => m.CompanyName)</td>
+    <td>@Html.TextBoxFor(m => m.CompanyName)</td>
+</tr>
+<tr>
+    <td>@Html.LabelFor(m => m.CompanyPhone)</td>
+    <td>@Html.TextBoxFor(m => m.CompanyPhone)</td>
+</tr>
+<tr>
+    <td>@Html.LabelFor(m => m.Contact1Name)</td>
+    <td>@Html.TextBoxFor(m => m.Contact1Name)</td>
+</tr>
+<tr>
+    <td>@Html.LabelFor(m => m.Contact1Phone)</td>
+    <td>@Html.TextBoxFor(m => m.Contact1Phone)</td>
+</tr>
+<tr>
+    <td>@Html.LabelFor(m => m.Contact1Email)</td>
+    <td>@Html.TextBoxFor(m => m.Contact1Email)</td>
+</tr>
+<tr>
+    <td>@Html.LabelFor(m => m.Contact2Name)</td>
+    <td>@Html.TextBoxFor(m => m.Contact2Name)</td>
+</tr>
+<tr>
+    <td>@Html.LabelFor(m => m.Contact2Phone)</td>
+    <td>@Html.TextBoxFor(m => m.Contact2Phone)</td>
+</tr>
+<tr>
+    <td>@Html.LabelFor(m => m.Contact2Email)</td>
+    <td>@Html.TextBoxFor(m => m.Contact2Email)</td>
+</tr>
+    
+   
+        
+        
+        
+       
+     
+       
+       
+        
+
+
+    <button type="submit">Voeg toe</button>
+}
+
+
+
