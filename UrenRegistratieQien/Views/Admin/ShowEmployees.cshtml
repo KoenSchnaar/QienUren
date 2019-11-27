@@ -1,5 +1,7 @@
 ﻿@model List<EmployeeModel>
-
+<br>
+<br>
+<br>
 <div class="table-wrapper">
     <table class="fl-table" align="center">
         <thead>
@@ -9,10 +11,10 @@
                 <th>wijzig</th>
             </tr>
         <thead>
-        
+
         <tbody>
-        @foreach(var employee in Model)
-        {
+            @foreach (var employee in Model)
+            {
                 <tr>
                     <td>@employee.FirstName</td>
                     <td>@employee.LastName</td>
@@ -21,11 +23,11 @@
                            asp-controller="Admin"
                            asp-action="ChangeEmployee"
                            asp-route-EmployeeId="@employee.EmployeeId">
-                           Wijzig   
+                            Wijzig
                         </a>
                     </td>
                 </tr>
-        }
+            }
         </tbody>
     </table>
 </div>
