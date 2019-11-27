@@ -22,6 +22,7 @@ namespace UrenRegistratieQien.Repositories
         public int TotalHoursTraining(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
         public int TotalHoursOther(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
 
+        public bool CheckIfIdMatches(string uniqueId);
 
         public List<DeclarationFormModel> GetAllFormsOfMonth(int month);
 
