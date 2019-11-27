@@ -1,0 +1,27 @@
+﻿@model DeclarationFormModel
+@{
+    ViewData["Title"] = "ApproveOrReject";
+}
+
+<h1>Goedkeuren Formulier</h1>
+
+ 
+<table class="fl-table" align="center">
+    <thead>
+        <tr>
+            <th class="tableHeader">Date</th>
+            <th class="tableHeader">Gewerkt</th>
+            <th class="tableHeader">Overwerk</th>
+            <th class="tableHeader">Ziekte</th>
+            <th class="tableHeader">Vakantie</th>
+            <th class="tableHeader">Feestdagen</th>
+            <th class="tableHeader">Training</th>
+            <th class="tableHeader">Overig</th>
+            <th>Overig Uitleg</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @Html.DisplayFor(m => Model.HourRows)
+    </tbody>
+</table>

@@ -67,22 +67,29 @@ namespace UrenRegistratieQien.Controllers
         }
 
 
-        public IActionResult Admin(string month, string employeeName, string approved, string submitted)
+
+        public IActionResult Admin(string month, string employeeName, string approved, string submitted, string totalhoursmonth, int totalhoursyear)
+
         {
 
             ViewBag.AllForms = declarationFormRepo.GetAllForms();
             ViewBag.Months = monthList;
             var forms = declarationFormRepo.GetAllForms();
 
-            // door Januari parameter uit de IRepo en Repo (+if statement) eruit te halen, kan je sowieso alle uren inzien. 
-            // Nu geeft ie alleen januari zoals hieronder staat, selectie andere maand is nog niet werkend
-            ViewBag.TotalHoursWorked = declarationFormRepo.TotalHoursWorked(forms, "Januari");
-            ViewBag.TotalHoursOvertime = declarationFormRepo.TotalHoursOvertime(forms, "Januari");
-            ViewBag.TotalHoursSickness = declarationFormRepo.TotalHoursSickness(forms, "Januari");
-            ViewBag.TotalHoursVacation = declarationFormRepo.TotalHoursVacation(forms, "Januari");
-            ViewBag.TotalHoursHoliday = declarationFormRepo.TotalHoursHoliday(forms, "Januari");
-            ViewBag.TotalHoursTraining = declarationFormRepo.TotalHoursTraining(forms, "Januari");
-            ViewBag.TotalHoursOther = declarationFormRepo.TotalHoursOther(forms, "Januari");
+            if (totalhoursyear == 0)
+            {
+                totalhoursyear = DateTime.Now.Year;
+            }
+
+
+
+            ViewBag.TotalHoursWorked = declarationFormRepo.TotalHoursWorked(forms, totalhoursmonth, totalhoursyear);
+            ViewBag.TotalHoursOvertime = declarationFormRepo.TotalHoursOvertime(forms, totalhoursmonth, totalhoursyear);
+            ViewBag.TotalHoursSickness = declarationFormRepo.TotalHoursSickness(forms, totalhoursmonth, totalhoursyear);
+            ViewBag.TotalHoursVacation = declarationFormRepo.TotalHoursVacation(forms, totalhoursmonth, totalhoursyear);
+            ViewBag.TotalHoursHoliday = declarationFormRepo.TotalHoursHoliday(forms, totalhoursmonth, totalhoursyear);
+            ViewBag.TotalHoursTraining = declarationFormRepo.TotalHoursTraining(forms, totalhoursmonth, totalhoursyear);
+            ViewBag.TotalHoursOther = declarationFormRepo.TotalHoursOther(forms, totalhoursmonth, totalhoursyear);
 
             string employeeId;
             if(employeeName != null)

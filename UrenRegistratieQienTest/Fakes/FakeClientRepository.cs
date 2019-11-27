@@ -10,12 +10,12 @@ namespace UrenRegistratieQienTest.Fakes
     {
         public void AddNewClient(ClientModel clientModel)
         {
-            throw new NotImplementedException();
+            var implemented = true;
         }
 
         public void EditAClient(ClientModel clientModel)
         {
-            throw new NotImplementedException();
+            var implemented = true;
         }
 
         public List<ClientModel> GetAllClients()

@@ -6,11 +6,22 @@
     ViewData["Title"] = "Administrator Page";
 
     var employeeNames = new List<string>();
-    foreach (DeclarationFormModel declarationFormModel in ViewBag.AllForms)
+
+    foreach(DeclarationFormModel declarationFormModel in ViewBag.AllForms)
+
     {
         if (!employeeNames.Contains(declarationFormModel.EmployeeName))
         {
             employeeNames.Add(declarationFormModel.EmployeeName);
+        }
+    }
+
+    var years = new List<int>();
+    foreach(DeclarationFormModel declarationFormModel in ViewBag.AllForms)
+    {
+        if (!years.Contains(declarationFormModel.Year))
+        {
+            years.Add(declarationFormModel.Year);
         }
     }
 
@@ -39,6 +50,7 @@
     <table class="fl-table" align="center">
         <thead>
             <tr>
+                <th>Jaar</th>
                 <th>Maand</th>
                 <th>Uren gewerkt</th>
                 <th>Overwerk</th>
@@ -49,31 +61,30 @@
                 <th>Overig</th>
             </tr>
         <thead>
-
-            <tr>
-                <td>
-                    <select>
-                        @foreach (DeclarationFormModel declarationFormModel in Model)
-                        {
-                            <option onselect="?" value=@declarationFormModel.Month>@declarationFormModel.Month</option>
-
-                        }
-
-                    </select>
-
-                </td>
-                <td>@ViewBag.TotalHoursWorked</td>
-                <td>@ViewBag.TotalHoursOvertime</td>
-                <td>@ViewBag.TotalHoursSickness</td>
-                <td>@ViewBag.TotalHoursVacation</td>
-                <td>@ViewBag.TotalHoursHoliday</td>
-                <td>@ViewBag.TotalHoursTraining</td>
-                <td>@ViewBag.TotalHoursOther</td>
-
-            </tr>
+            @using (Html.BeginForm("Admin", "Admin"))
+            {
+                <input type="submit" value="Filters Toepassen" />
 
 
-    </table>
+                <tr>
+                    <td>
+                        @Html.DropDownList("totalhoursyear", new SelectList(years), DateTime.Now.Year)
+                    </td>
+                    <td>
+                        @Html.DropDownList("totalhoursmonth", new SelectList(Enum.GetValues(typeof(Months))), "Alle maanden")
+                    </td>
+                    <td>@ViewBag.TotalHoursWorked</td>
+                    <td>@ViewBag.TotalHoursOvertime</td>
+                    <td>@ViewBag.TotalHoursSickness</td>
+                    <td>@ViewBag.TotalHoursVacation</td>
+                    <td>@ViewBag.TotalHoursHoliday</td>
+                    <td>@ViewBag.TotalHoursTraining</td>
+                    <td>@ViewBag.TotalHoursOther</td>
+
+                </tr>
+            }
+
+</table>
 </div>
 
 

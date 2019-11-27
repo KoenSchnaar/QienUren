@@ -5,6 +5,7 @@ for details on configuring this project to bundle and minify static web assets. 
     position: fixed; /* Houd de navbar op zijn plek bovenin
     top: 0%; /* Position the navbar at the top of the page */
     width: 100%; /* Full width */
+    z-index: 1;
 }
 
 /* kopregel styles*/
