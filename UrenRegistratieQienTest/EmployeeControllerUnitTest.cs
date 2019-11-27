@@ -12,7 +12,7 @@ using UrenRegistratieQienTest.Fakes;
 namespace UrenRegistratieQienTest
 {
     [TestClass]
-    public class UnitTest1
+    public class EmployeeControllerUnitTest
     {
 
 
