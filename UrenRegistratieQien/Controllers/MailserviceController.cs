@@ -37,7 +37,7 @@ namespace UrenRegistratieQien.Controllers
             message.Subject = $"Urendeclaratieformulier van {decModel.EmployeeName} voor de maand {decModel.Month}";
             message.Body = new TextPart("plain")
             {
-                Text = $"{ decModel.EmployeeName} wilt graag dat u zijn urendeclaratieformulier goedkeurt. Klik op de link om naar het formulier te gaan: https://localhost:5001/Mailservice/ApproveOrReject/?uniqueId=" + uniqueId + "&formId=" + formId
+                Text = $"{ decModel.EmployeeName} wilt graag dat u het urendeclaratieformulier goedkeurt. Klik op de link om naar het formulier te gaan: https://localhost:5001/Mailservice/ApproveOrReject/?uniqueId=" + uniqueId + "&formId=" + formId
             };
 
             using (var client = new SmtpClient())
@@ -105,16 +105,19 @@ namespace UrenRegistratieQien.Controllers
         }
 
         [HttpPost]
-        public IActionResult ApproveOrReject(string formId, bool approved)
+        public IActionResult Approve(string formId)
         {
-            //declarationFormRepo.ApproveOrReject(formId, approved)
-
-            //if approved:
-            // declarationFormRepo.ApproveForm(formId)
-            //else:
-            // declarationFormRepo.RejectForm(formId)
+            declarationFormRepo.ApproveForm(Convert.ToInt32(formId));
 
             return View(); //yay het is gelukt nu kun je deze pagina sluiten
+        }
+
+        [HttpPost]
+        public IActionResult Reject(string formId, string comment)
+        {
+
+            declarationFormRepo.RejectForm(Convert.ToInt32(formId), comment);
+            return View();
         }
 
 
