@@ -27,16 +27,17 @@ namespace UrenRegistratieQien.Controllers
             declarationFormRepo.EditDeclarationForm(decModel);
             declarationFormRepo.SubmitDeclarationForm(decModel);
 
+            //message components
+            string employeeName = decModel.EmployeeName;
+            string month = decModel.Month;
+
             var message = new MimeMessage();
-
             message.From.Add(new MailboxAddress("Hans", "hanshanshans812@gmail.com"));
-
             message.To.Add(new MailboxAddress("Luuk", "luuk_wolferen@hotmail.com"));
-
-            message.Subject = "linktest";
+            message.Subject = $"Urendeclaratieformulier van {decModel.EmployeeName} voor de maand {decModel.Month}";
             message.Body = new TextPart("plain")
             {
-                Text = "https://localhost:5001/Mailservice/ApproveOrReject/?uniqueId=" + uniqueId + "&formId=" + formId
+                Text = $"{ decModel.EmployeeName} wilt graag dat u zijn urendeclaratieformulier goedkeurt. Klik op de link om naar het formulier te gaan: https://localhost:5001/Mailservice/ApproveOrReject/?uniqueId=" + uniqueId + "&formId=" + formId
             };
 
             using (var client = new SmtpClient())
