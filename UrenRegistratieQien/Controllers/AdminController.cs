@@ -84,6 +84,7 @@ namespace UrenRegistratieQien.Controllers
         [HttpPost]
         public IActionResult EditClient(ClientModel clientModel)
         {
+            var x = clientModel.CompanyPhone;
             clientRepo.EditAClient(clientModel);
             return RedirectToAction("ShowClients");
         }
