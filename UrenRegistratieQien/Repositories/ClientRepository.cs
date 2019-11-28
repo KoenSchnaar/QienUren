@@ -117,5 +117,11 @@ namespace UrenRegistratieQien.Repositories
             };
 
         }
+        public void DeleteClient(int clientId)
+        {
+            var client = context.Clients.Single(c => c.ClientId == clientId);
+            context.Clients.Remove(client);
+            context.SaveChanges();
+        }
     }
 }
