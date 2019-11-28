@@ -25,6 +25,10 @@ namespace UrenRegistratieQien.Repositories
         public bool CheckIfIdMatches(string uniqueId);
 
         public List<DeclarationFormModel> GetAllFormsOfMonth(int month);
+        public void CreateForm(string employeeId);
+        public string GenerateUniqueId();
+
+
 
     }
 }

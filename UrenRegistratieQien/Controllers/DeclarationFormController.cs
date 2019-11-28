@@ -50,7 +50,12 @@ namespace UrenRegistratieQien.Controllers
             return RedirectToAction("Dashboard", "Employee");
         }
 
+        public IActionResult CreateForm(string employeeId)
+        {
+            declarationRepo.CreateForm(employeeId);
 
+            return RedirectToAction("Dashboard", "Employee");
+        }
 
     }
 }
