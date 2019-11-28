@@ -7,6 +7,7 @@ using MailKit;
 using MailKit.Net.Smtp;
 using MimeKit;
 using UrenRegistratieQien.Repositories;
+using UrenRegistratieQien.Models;
 
 namespace UrenRegistratieQien.Controllers
 {
@@ -19,11 +20,47 @@ namespace UrenRegistratieQien.Controllers
             declarationFormRepo = DeclarationFormRepo;
         }
 
-        public IActionResult MailService()
+        [HttpPost]
+        public IActionResult MailService(DeclarationFormModel decModel, string uniqueId, string formId)
         {
+
+            declarationFormRepo.EditDeclarationForm(decModel);
+            declarationFormRepo.SubmitDeclarationForm(decModel);
+
             var message = new MimeMessage();
 
-            message.From.Add(new MailboxAddress("Luuk", "LuukvanwolferenQienUrenTest@gmail.com"));
+            message.From.Add(new MailboxAddress("Hans", "hanshanshans812@gmail.com"));
+
+            message.To.Add(new MailboxAddress("Luuk", "luuk_wolferen@hotmail.com"));
+
+            message.Subject = "linktest";
+            message.Body = new TextPart("plain")
+            {
+                Text = "https://localhost:5001/Mailservice/ApproveOrReject/?uniqueId=" + uniqueId + "&formId=" + formId
+            };
+
+            using (var client = new SmtpClient())
+            {
+                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                client.Connect("Smtp.gmail.com", 587, false);
+                client.Authenticate("hanshanshans812@gmail.com", "Hans123!");
+                client.Send(message);
+                client.Disconnect(true);
+            }
+            return RedirectToRoute(new { controller = "Admin", action = "Admin" });
+        }
+
+
+
+
+
+        public IActionResult MailService()
+        {
+
+
+            var message = new MimeMessage();
+
+            message.From.Add(new MailboxAddress("Hans", "hanshanshans812@gmail.com"));
 
             message.To.Add(new MailboxAddress("Luuk", "luuk_wolferen@hotmail.com"));
 
@@ -37,16 +74,23 @@ namespace UrenRegistratieQien.Controllers
             {
                 client.ServerCertificateValidationCallback = (s, c, h, e) => true;
                 client.Connect("Smtp.gmail.com", 587, false);
-                client.Authenticate("LuukvanwolferenQienUrenTest@gmail.com", "QienUrenTest");
+                client.Authenticate("hanshanshans812@gmail.com", "Hans123!");
                 client.Send(message);
                 client.Disconnect(true);
             }
             return RedirectToRoute(new { controller = "Admin", action = "Admin" });
         }
 
+
+
+
+
+
+
+
+
         public IActionResult ApproveOrReject(string uniqueId, string formId)
         {
-            // www.hoi.nl/controller/action/?uniqueId="lolololol"?formid="lelelel"
 
             var formIdAsInt = Convert.ToInt32(formId);
 
@@ -55,7 +99,7 @@ namespace UrenRegistratieQien.Controllers
                 return View(declarationFormRepo.GetFormByFormId(formIdAsInt)); //pagina waar client kan regelen of het is goedgekeurd of niet
             } else
             {
-                return View("~/Views/Mailservice/nee.cshtml"); // pagina waar staat unknown id
+                return View("~/Views/Mailservice/ErrorUnknownId.cshtml"); // pagina waar staat unknown id
             }
         }
 

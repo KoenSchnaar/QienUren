@@ -1,6 +1,8 @@
 ﻿@model UrenRegistratieQien.Models.DeclarationFormModel
 @{
     ViewData["Title"] = "HourReg";
+    var uniqueId = Model.uniqueId;
+    var formId = Model.FormId;
 }
 <br>
 <br>
@@ -62,7 +64,7 @@
                     </tbody>
                 </table>
                 <button asp-action="HourReg" asp-controller="DeclarationForm">Opslaan</button>
-                <button asp-action="HourRegSubmit" asp-controller="DeclarationForm">Opslaan en indienen</button>
+                <button asp-action="Mailservice" asp-controller="Mailservice" asp-route-uniqueId="@uniqueId" asp-route-formId="@formId">Opslaan en indienen</button>
                 <br />
             }
         }

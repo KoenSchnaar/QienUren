@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Administrator Page";
+    var employeeId = Model[0].EmployeeId;
 }
 
 <br>
@@ -59,6 +60,10 @@
 <div align="center">
     <h1>Urenoverzicht</h1>
 </div>
+<form asp-controller="DeclarationForm" asp-action="CreateForm" asp-route-employeeId=@employeeId>
+    <input type="submit" value="Nieuw Formulier Maken"/>
+</form>
+
 
 <div class="table-wrapper">
 
@@ -124,4 +129,5 @@
         }
         </tbody>
     </table>
+
 </div>
