@@ -88,11 +88,18 @@ namespace UrenRegistratieQien.Repositories
         public DeclarationFormModel GetForm(int declarationFormId, string userId)
         {
             var entity = context.DeclarationForms.Single(d => d.DeclarationFormId == declarationFormId);
+
+            var selectedEmployee = context.Users.Single(p => p.Id == entity.EmployeeId);
+            var castedEmployee = (Employee)selectedEmployee;
+            var employeeName = castedEmployee.FirstName + " " + castedEmployee.LastName;
+
+
             var form = new DeclarationFormModel
             {
                 FormId = entity.DeclarationFormId,
                 HourRows = hourRowRepo.GetHourRows(userId, declarationFormId), //niet heel netjes om en andere repo te gebruiken
                 EmployeeId = entity.EmployeeId,
+                EmployeeName = employeeName,
                 Month = entity.Month,
                 Approved = entity.Approved,
                 Submitted = entity.Submitted,

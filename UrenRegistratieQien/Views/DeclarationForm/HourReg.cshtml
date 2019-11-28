@@ -43,6 +43,7 @@
                 @Html.HiddenFor(m => m.EmployeeId)
                 @Html.HiddenFor(m => m.Year)
                 @Html.HiddenFor(m => m.Month)
+                @Html.HiddenFor(m => m.EmployeeName)
 
                 <table class="fl-table" align="center">
                     <thead>
@@ -63,6 +64,7 @@
                         @Html.EditorFor(m => Model.HourRows)
                     </tbody>
                 </table>
+                
                 <button asp-action="HourReg" asp-controller="DeclarationForm">Opslaan</button>
                 <button asp-action="Mailservice" asp-controller="Mailservice" asp-route-uniqueId="@uniqueId" asp-route-formId="@formId">Opslaan en indienen</button>
                 <br />
