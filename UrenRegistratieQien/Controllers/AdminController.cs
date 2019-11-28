@@ -100,7 +100,7 @@ namespace UrenRegistratieQien.Controllers
             return View(form);
         }
 
-        public IActionResult Admin(string month, string employeeName, string approved, string submitted, string totalhoursmonth, int totalhoursyear)
+        public IActionResult Admin(string year, string month, string employeeName, string approved, string submitted, string totalhoursmonth, int totalhoursyear)
 
         {
 
@@ -131,7 +131,7 @@ namespace UrenRegistratieQien.Controllers
             {
                 employeeId = null;
             }
-            return View(declarationFormRepo.GetFilteredForms(employeeId, month, approved, submitted));
+            return View(declarationFormRepo.GetFilteredForms(year, employeeId, month, approved, submitted));
         }
 
         public IActionResult AdminWithEmployeeId(string employeeId)
