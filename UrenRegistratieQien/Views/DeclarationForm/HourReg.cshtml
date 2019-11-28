@@ -27,6 +27,11 @@
     <div class="table-wrapper" align="center">
         @{ if (Model.Submitted == true)
             {
+                @Html.HiddenFor(m => m.FormId)
+                @Html.HiddenFor(m => m.EmployeeId)
+                @Html.HiddenFor(m => m.Year)
+                @Html.HiddenFor(m => m.Month)
+                @Html.HiddenFor(m => m.EmployeeName)
                 <table class="fl-table" align="center">
                     <thead>
                         <tr>

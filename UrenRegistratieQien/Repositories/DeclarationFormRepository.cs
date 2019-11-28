@@ -83,16 +83,36 @@ namespace UrenRegistratieQien.Repositories
             context.SaveChanges();
         }
 
+        public void ApproveForm(int formId)
+        {
+            var form = context.DeclarationForms.Single(p => p.DeclarationFormId == formId);
+            form.Approved = true;
+            context.SaveChanges();
+        }
 
+        public void RejectForm(int formId, string comment)
+        {
+            var form = context.DeclarationForms.Single(p => p.DeclarationFormId == formId);
+            form.Approved = false;
+            form.Comment = comment;
+            context.SaveChanges();
+        }
 
         public DeclarationFormModel GetForm(int declarationFormId, string userId)
         {
             var entity = context.DeclarationForms.Single(d => d.DeclarationFormId == declarationFormId);
+
+            var selectedEmployee = context.Users.Single(p => p.Id == entity.EmployeeId);
+            var castedEmployee = (Employee)selectedEmployee;
+            var employeeName = castedEmployee.FirstName + " " + castedEmployee.LastName;
+
+
             var form = new DeclarationFormModel
             {
                 FormId = entity.DeclarationFormId,
                 HourRows = hourRowRepo.GetHourRows(userId, declarationFormId), //niet heel netjes om en andere repo te gebruiken
                 EmployeeId = entity.EmployeeId,
+                EmployeeName = employeeName,
                 Month = entity.Month,
                 Approved = entity.Approved,
                 Submitted = entity.Submitted,
