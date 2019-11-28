@@ -83,7 +83,20 @@ namespace UrenRegistratieQien.Repositories
             context.SaveChanges();
         }
 
+        public void ApproveForm(int formId)
+        {
+            var form = context.DeclarationForms.Single(p => p.DeclarationFormId == formId);
+            form.Approved = true;
+            context.SaveChanges();
+        }
 
+        public void RejectForm(int formId, string comment)
+        {
+            var form = context.DeclarationForms.Single(p => p.DeclarationFormId == formId);
+            form.Approved = false;
+            form.Comment = comment;
+            context.SaveChanges();
+        }
 
         public DeclarationFormModel GetForm(int declarationFormId, string userId)
         {
