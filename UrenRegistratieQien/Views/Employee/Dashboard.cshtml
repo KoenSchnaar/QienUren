@@ -3,8 +3,9 @@
 
 @{
     ViewData["Title"] = "Administrator Page";
-    var employeeId = Model[0].EmployeeId;
-     var years = new List<int>();
+
+    var employeeId = ViewBag.userId;
+    var years = new List<int>();
     foreach(DeclarationFormModel declarationFormModel in ViewBag.AllForms)
     {
         if (!years.Contains(declarationFormModel.Year))
