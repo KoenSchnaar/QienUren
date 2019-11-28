@@ -1,0 +1,61 @@
+﻿@model UrenRegistratieQien.Models.ClientModel
+<br>
+<br>
+<br>
+
+<p>Maak een nieuwe opdrachtgever aan:</p>
+
+<div class="table-wrapper">
+    <form asp-controller="Admin" asp-action="AddClient">
+        @Html.HiddenFor(m => m.ClientId)
+        <table class="fl-table" align="center">
+            <thead>
+                <tr>
+                    <th>Gegevens</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Html.LabelFor(m => m.CompanyName)</td>
+                    <td>@Html.TextBoxFor(m => m.CompanyName)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(m => m.CompanyPhone)</td>
+                    <td>@Html.TextBoxFor(m => m.CompanyPhone)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(m => m.Contact1Name)</td>
+                    <td>@Html.TextBoxFor(m => m.Contact1Name)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(m => m.Contact1Phone)</td>
+                    <td>@Html.TextBoxFor(m => m.Contact1Phone)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(m => m.Contact1Email)</td>
+                    <td>@Html.TextBoxFor(m => m.Contact1Email)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(m => m.Contact2Name)</td>
+                    <td>@Html.TextBoxFor(m => m.Contact2Name)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(m => m.Contact2Phone)</td>
+                    <td>@Html.TextBoxFor(m => m.Contact2Phone)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(m => m.Contact2Email)</td>
+                    <td>@Html.TextBoxFor(m => m.Contact2Email)</td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <button type="submit">Voeg toe</button>
+    </form>
+
+        
+ </div>
+
+
+

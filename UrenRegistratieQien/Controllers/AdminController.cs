@@ -14,13 +14,15 @@ namespace UrenRegistratieQien.Controllers
         private readonly IDeclarationFormRepository declarationFormRepo;
 
         private readonly IEmployeeRepository employeeRepo;
+        private readonly IClientRepository clientRepo;
         public List<string> monthList { get; set; }
 
-        public AdminController(IDeclarationFormRepository DeclarationFormRepo, IEmployeeRepository EmployeeRepo)
+        public AdminController(IDeclarationFormRepository DeclarationFormRepo, IEmployeeRepository EmployeeRepo, IClientRepository ClientRepo)
         {
 
             declarationFormRepo = DeclarationFormRepo;
             employeeRepo = EmployeeRepo;
+            clientRepo = ClientRepo;
             monthList = new List<string> { "Januari", "Februari", "March", "April", "May", "June", "Juli", "August", "September", "October", "November", "December" };
         }
 
@@ -56,13 +58,47 @@ namespace UrenRegistratieQien.Controllers
             return RedirectToAction("ShowEmployees");
         }
 
+        public IActionResult ShowClients()
+        {
+            var clients = clientRepo.GetAllClients();
+            return View(clients);
+        }
+
+        public IActionResult AddClient()
+        {
+            return View(new ClientModel());
+        }
+
+        [HttpPost]
+        public IActionResult AddClient(ClientModel clientModel)
+        {
+            clientRepo.AddNewClient(clientModel);
+            return RedirectToAction("ShowClients");
+        }
+
+        public IActionResult ChangeClient(int clientId)
+        {
+            return View(clientRepo.GetClient(clientId)); 
+        }
+
+        [HttpPost]
+        public IActionResult EditClient(ClientModel clientModel)
+        {
+            var x = clientModel.CompanyPhone;
+            clientRepo.EditAClient(clientModel);
+            return RedirectToAction("ShowClients");
+        }
+        public IActionResult DeleteClient(int clientId)
+        {
+            clientRepo.DeleteClient(clientId);
+            return RedirectToAction("ShowClients");
+        }
+
         public IActionResult ViewDeclarationForm(int formId)
         {
             var form = declarationFormRepo.GetFormByFormId(formId);
             return View(form);
         }
-
-
 
         public IActionResult Admin(string month, string employeeName, string approved, string submitted, string totalhoursmonth, int totalhoursyear)
 
