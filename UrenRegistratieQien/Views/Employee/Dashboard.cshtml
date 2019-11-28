@@ -13,48 +13,30 @@
 </div>
 
 <div class="Container-1">
-
     <div class="box-1">
-        iets
+        <div class="Naam">@ViewBag.User.FirstName @ViewBag.User.LastName</div>
+        <img class="center" src="..\..\Images\UserImageTest.jpg" style="margin: 0 auto; height: 140px; width: 140px" />
+        <div class="TextInBox">Algemeen</div>
+        <a asp-controller="Employee" asp-action="Info">Info</a><br />
+        <a asp-controller="Employee" asp-action="Dashboard">Dashboard</a>
+        <br />
+        <br />
+        <br />
+        @*<div class="TextInBox">Medewerkers</div>
+        <a asp-controller="Admin" asp-action="ShowEmployees">Medewerkers</a> <br />
+        <a asp-area="Identity" asp-page="/Account/Register">Maak een gebruiker aan</a>
+        <br />
+        <br />
+        <br />
+        <div class="TextInBox">Opdrachtgevers</div>
+        <a asp-controller="Admin" asp-action="ShowClients">Opdrachtgevers</a><br />
+        <a asp-controller="Admin" asp-action="AddClient">Voeg opdrachtgever toe</a>*@
     </div>
-
+    
 
 
     <div class="box-2">
-        <div class="table-wrapper" align="center">
-            <table class="fl-table">
-
-                <thead>
-                    <tr>
-                        <th>Werknemer</th>
-                        <th>Werkgever</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <td>@ViewBag.User.FirstName @ViewBag.User.LastName</td>
-                        <td>@ViewBag.Client.Contact1Name</td>
-                    </tr>
-                    <tr>
-                        <td>@ViewBag.User.Address</td>
-                        <td>@ViewBag.Client.CompanyName</td>
-                    </tr>
-                    <tr>
-                        <td>@ViewBag.User.ZIPCode, @ViewBag.User.Residence</td>
-                        <td>Postcode en woonplaats</td>
-                    </tr>
-                    <tr>
-                        <td>@ViewBag.User.Phone</td>
-                        <td>@ViewBag.Client.Contact1Phone</td>
-                    </tr>
-                    <tr>
-                        <td>@ViewBag.User.Email</td>
-                        <td>@ViewBag.Client.Contact1Email</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        
         <br />
 
         <div align="center">

@@ -3,59 +3,76 @@
 <br>
 <br>
 
-<p>Maak een nieuwe opdrachtgever aan:</p>
-
-<div class="table-wrapper">
-    <form asp-controller="Admin" asp-action="AddClient">
-        @Html.HiddenFor(m => m.ClientId)
-        <table class="fl-table" align="center">
-            <thead>
-                <tr>
-                    <th>Gegevens</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>@Html.LabelFor(m => m.CompanyName)</td>
-                    <td>@Html.TextBoxFor(m => m.CompanyName)</td>
-                </tr>
-                <tr>
-                    <td>@Html.LabelFor(m => m.CompanyPhone)</td>
-                    <td>@Html.TextBoxFor(m => m.CompanyPhone)</td>
-                </tr>
-                <tr>
-                    <td>@Html.LabelFor(m => m.Contact1Name)</td>
-                    <td>@Html.TextBoxFor(m => m.Contact1Name)</td>
-                </tr>
-                <tr>
-                    <td>@Html.LabelFor(m => m.Contact1Phone)</td>
-                    <td>@Html.TextBoxFor(m => m.Contact1Phone)</td>
-                </tr>
-                <tr>
-                    <td>@Html.LabelFor(m => m.Contact1Email)</td>
-                    <td>@Html.TextBoxFor(m => m.Contact1Email)</td>
-                </tr>
-                <tr>
-                    <td>@Html.LabelFor(m => m.Contact2Name)</td>
-                    <td>@Html.TextBoxFor(m => m.Contact2Name)</td>
-                </tr>
-                <tr>
-                    <td>@Html.LabelFor(m => m.Contact2Phone)</td>
-                    <td>@Html.TextBoxFor(m => m.Contact2Phone)</td>
-                </tr>
-                <tr>
-                    <td>@Html.LabelFor(m => m.Contact2Email)</td>
-                    <td>@Html.TextBoxFor(m => m.Contact2Email)</td>
-                </tr>
-            </tbody>
-        </table>
+<div class="Container-1">
+    <div class="box-1">
+        <div class="Naam">Admin</div>
+        <img class="center" src="..\..\Images\UserImageTest.jpg" style="margin: 0 auto; height: 140px; width: 140px" />
+        <div class="TextInBox">Algemeen</div>
+        <a asp-controller="Admin" asp-action="Admin">Dashboard</a>
         <br />
-        <button type="submit">Voeg toe</button>
-    </form>
+        <br />
+        <br />
+        <div class="TextInBox">Medewerkers</div>
+        <a asp-controller="Admin" asp-action="ShowEmployees">Medewerkers</a> <br />
+        <a asp-area="Identity" asp-page="/Account/Register">Maak een gebruiker aan</a>
+        <br />
+        <br />
+        <br />
+        <div class="TextInBox">Opdrachtgevers</div>
+        <a asp-controller="Admin" asp-action="ShowClients">Voeg opdrachtgever toe</a><br />
+        <a asp-controller="Admin" asp-action="AddClient">Opdrachtgevers</a>
+    </div>
 
-        
- </div>
 
+    <div class="table-wrapper box-2">
+        <form asp-controller="Admin" asp-action="AddClient">
+            @Html.HiddenFor(m => m.ClientId)
+            <table class="fl-table" align="center">
+                <thead>
+                    <tr>
+                        <th>Gegevens</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.CompanyName)</td>
+                        <td>@Html.TextBoxFor(m => m.CompanyName)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.CompanyPhone)</td>
+                        <td>@Html.TextBoxFor(m => m.CompanyPhone)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.Contact1Name)</td>
+                        <td>@Html.TextBoxFor(m => m.Contact1Name)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.Contact1Phone)</td>
+                        <td>@Html.TextBoxFor(m => m.Contact1Phone)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.Contact1Email)</td>
+                        <td>@Html.TextBoxFor(m => m.Contact1Email)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.Contact2Name)</td>
+                        <td>@Html.TextBoxFor(m => m.Contact2Name)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.Contact2Phone)</td>
+                        <td>@Html.TextBoxFor(m => m.Contact2Phone)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.Contact2Email)</td>
+                        <td>@Html.TextBoxFor(m => m.Contact2Email)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br />
+            <button type="submit">Voeg toe</button>
+        </form>
+    </div>
+</div>
 
 

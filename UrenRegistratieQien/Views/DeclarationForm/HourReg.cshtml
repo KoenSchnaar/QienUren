@@ -7,43 +7,26 @@
 <br>
 <br>
 <br>
-<h1 align="center">@Model.Month @Model.Year</h1>
+<br>
 
-<div class="table-wrapper" align="center">
+<div class="Container-1">
+    <div class="box-1">
+        <div class="Naam">@ViewBag.User.FirstName @ViewBag.User.LastName</div>
+        <img class="center" src="..\..\Images\UserImageTest.jpg" style="margin: 0 auto; height: 140px; width: 140px" />
+        <div class="TextInBox">Algemeen</div>
+        <a asp-controller="Employee" asp-action="Info">Info</a><br />
+        <a asp-controller="Employee" asp-action="Dashboard">Dashboard</a>
+        <br />
+        <br />
+        <br />
+    </div>
 
+    <div class="box-2"></div>
+    <h1 align="center">@Model.Month @Model.Year</h1>
 
-
-    @{ if (Model.Submitted == true)
-        {
-            <table class="fl-table" align="center">
-                <thead>
-                    <tr>
-                        <th class="tableHeader">Date</th>
-                        <th class="tableHeader">Gewerkt</th>
-                        <th class="tableHeader">Overwerk</th>
-                        <th class="tableHeader">Ziekte</th>
-                        <th class="tableHeader">Vakantie</th>
-                        <th class="tableHeader">Feestdagen</th>
-                        <th class="tableHeader">Training</th>
-                        <th class="tableHeader">Overig</th>
-                        <th>Overig Uitleg</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @Html.DisplayFor(m => Model.HourRows)
-                </tbody>
-            </table>
-        }
-        else
-        {
-            @using (Html.BeginForm("HourReg", "DeclarationForm"))
+    <div class="table-wrapper" align="center">
+        @{ if (Model.Submitted == true)
             {
-                @Html.HiddenFor(m => m.FormId)
-                @Html.HiddenFor(m => m.EmployeeId)
-                @Html.HiddenFor(m => m.Year)
-                @Html.HiddenFor(m => m.Month)
-
                 <table class="fl-table" align="center">
                     <thead>
                         <tr>
@@ -60,13 +43,43 @@
                     </thead>
 
                     <tbody>
-                        @Html.EditorFor(m => Model.HourRows)
+                        @Html.DisplayFor(m => Model.HourRows)
                     </tbody>
                 </table>
-                <button asp-action="HourReg" asp-controller="DeclarationForm">Opslaan</button>
-                <button asp-action="Mailservice" asp-controller="Mailservice" asp-route-uniqueId="@uniqueId" asp-route-formId="@formId">Opslaan en indienen</button>
-                <br />
+            }
+            else
+            {
+                @using (Html.BeginForm("HourReg", "DeclarationForm"))
+                {
+                    @Html.HiddenFor(m => m.FormId)
+                    @Html.HiddenFor(m => m.EmployeeId)
+                    @Html.HiddenFor(m => m.Year)
+                    @Html.HiddenFor(m => m.Month)
+
+                    <table class="fl-table" align="center">
+                        <thead>
+                            <tr>
+                                <th class="tableHeader">Date</th>
+                                <th class="tableHeader">Gewerkt</th>
+                                <th class="tableHeader">Overwerk</th>
+                                <th class="tableHeader">Ziekte</th>
+                                <th class="tableHeader">Vakantie</th>
+                                <th class="tableHeader">Feestdagen</th>
+                                <th class="tableHeader">Training</th>
+                                <th class="tableHeader">Overig</th>
+                                <th>Overig Uitleg</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @Html.EditorFor(m => Model.HourRows)
+                        </tbody>
+                    </table>
+                    <button asp-action="HourReg" asp-controller="DeclarationForm">Opslaan</button>
+                    <button asp-action="Mailservice" asp-controller="Mailservice" asp-route-uniqueId="@uniqueId" asp-route-formId="@formId">Opslaan en indienen</button>
+                    <br />
+                }
             }
         }
-    }
+    </div>
 </div>
