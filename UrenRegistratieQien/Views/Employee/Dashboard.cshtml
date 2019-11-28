@@ -4,6 +4,14 @@
 @{
     ViewData["Title"] = "Administrator Page";
     var employeeId = Model[0].EmployeeId;
+     var years = new List<int>();
+    foreach(DeclarationFormModel declarationFormModel in ViewBag.AllForms)
+    {
+        if (!years.Contains(declarationFormModel.Year))
+        {
+            years.Add(declarationFormModel.Year);
+        }
+    }   
 }
 
 <br>
@@ -63,23 +71,44 @@
 <div class="table-wrapper">
 
     <table class="fl-table" align="center">
-        <thead>
-            <tr>
-                <th>Maand</th>
-                <th>Uren gewerkt</th>
-                <th>Overwerk</th>
-                <th>Ziekte</th>
-                <th>Status</th>
-                <th>Ingediend</th>
-                <th>Opmerking</th>
-                <th>Inzien</th>
-            </tr>
-        </thead>
+        @using (Html.BeginForm("Dashboard", "Employee"))
+        {
+            <input type="submit" value="Filters Toepassen" />
+            <thead>
+                <tr>
+                    <th>
+                        Jaar
+                        @Html.DropDownList("year", new SelectList(years), DateTime.Now.Year)
+                    </th>
+                    <th>
+                        Maand
+                        @Html.DropDownList("month", new SelectList(Enum.GetValues(typeof(Months))), "Geen filter")
+                    </th>
+                    <th>Uren gewerkt</th>
+                    <th>Overwerk</th>
+                    <th>Ziekte</th>
+                    <th>
+                        Status
+                        @Html.DropDownList("approved", new SelectList(new List<string> { "Goedgekeurd", "Niet goedgekeurd" }), "Geen filter")
+
+                    </th>
+                    <th>
+                        Ingediend
+                        @Html.DropDownList("submitted", new SelectList(new List<string> { "Ingediend", "Niet ingediend" }), "Geen filter")
+
+                    </th>
+                    <th>Opmerking</th>
+                    <th>Inzien</th>
+                </tr>
+            </thead>
+
+        }
 
         <tbody>
             @foreach (var form in Model)
             {
                 <tr>
+                    <td>@form.Year</td>
                     <td>@form.Month</td>
                     <td>uren gewerkt</td>
                     <td>overwerk</td>
@@ -105,23 +134,23 @@
                         {
                             <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
                         }
-                </td>
+                    </td>
 
-                <td>@form.Comment</td>
-                <td>
-                    <a class="nav-link text-dark linkjes"
-                       asp-area=""
-                       asp-controller="DeclarationForm"
-                       asp-action="HourReg"
-                       asp-route-declarationFormId="@form.FormId"
-                       asp-route-userId="@ViewBag.User.EmployeeId"
-                       asp-route-month="@form.Month"
-                       asp-route-year="@form.Year">
-                        Inzien
-                    </a>
-                </td>
-            </tr>
-        }
+                    <td>@form.Comment</td>
+                    <td>
+                        <a class="nav-link text-dark linkjes"
+                           asp-area=""
+                           asp-controller="DeclarationForm"
+                           asp-action="HourReg"
+                           asp-route-declarationFormId="@form.FormId"
+                           asp-route-userId="@ViewBag.User.EmployeeId"
+                           asp-route-month="@form.Month"
+                           asp-route-year="@form.Year">
+                            Inzien
+                        </a>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 

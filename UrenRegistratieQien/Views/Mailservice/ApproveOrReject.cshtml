@@ -11,9 +11,6 @@
 <div>
     <br />
     <br />
-    <div>
-        @Model.FormId hier staat formid
-    </div>
     <form method="post">
         <button asp-action="Approve" asp-controller="Mailservice" asp-route-formId=@Model.FormId>Goedkeuren</button>
     </form>
