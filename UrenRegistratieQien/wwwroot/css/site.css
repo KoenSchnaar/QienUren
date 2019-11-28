@@ -152,18 +152,23 @@ body {
 
 .Container-1 {
     display: flex;
-    padding: 10px;
 }
 
 .box-1 {
-    width: 20%;
-    border: solid purple 2px;
+    width: 18%;
     padding: 10px;
+    border: solid purple 2px;
     height: 600px;
 }
 
 .box-2 {
+    width: 82%;
     padding: 10px;
+}
+
+.box-3 {
+    width: 82%;
+    padding-left: 150px;
 }
 
 

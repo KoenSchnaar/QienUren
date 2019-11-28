@@ -5,17 +5,19 @@
     ViewData["Title"] = "Administrator Page";
 }
 
-<br>
-<br>
-<br>
+<br />
+<br />
+<br />
+<br />
+
 <div align="center">
-    <h1>Welkom @ViewBag.User.FirstName</h1>
+    <h1>Urenoverzicht</h1>
 </div>
 
 <div class="Container-1">
     <div class="box-1">
         <div class="Naam">@ViewBag.User.FirstName @ViewBag.User.LastName</div>
-        <img class="center" src="..\..\Images\UserImageTest.jpg" style="margin: 0 auto; height: 140px; width: 140px" />
+        <div align="center"><img src="..\..\Images\UserImageTest.jpg" style="margin: 0 auto; height: 140px; width: 140px" /></div>
         <div class="TextInBox">Algemeen</div>
         <a asp-controller="Employee" asp-action="Info">Info</a><br />
         <a asp-controller="Employee" asp-action="Dashboard">Dashboard</a>
@@ -23,25 +25,19 @@
         <br />
         <br />
         @*<div class="TextInBox">Medewerkers</div>
-        <a asp-controller="Admin" asp-action="ShowEmployees">Medewerkers</a> <br />
-        <a asp-area="Identity" asp-page="/Account/Register">Maak een gebruiker aan</a>
-        <br />
-        <br />
-        <br />
-        <div class="TextInBox">Opdrachtgevers</div>
-        <a asp-controller="Admin" asp-action="ShowClients">Opdrachtgevers</a><br />
-        <a asp-controller="Admin" asp-action="AddClient">Voeg opdrachtgever toe</a>*@
+            <a asp-controller="Admin" asp-action="ShowEmployees">Medewerkers</a> <br />
+            <a asp-area="Identity" asp-page="/Account/Register">Maak een gebruiker aan</a>
+            <br />
+            <br />
+            <br />
+            <div class="TextInBox">Opdrachtgevers</div>
+            <a asp-controller="Admin" asp-action="ShowClients">Opdrachtgevers</a><br />
+            <a asp-controller="Admin" asp-action="AddClient">Voeg opdrachtgever toe</a>*@
     </div>
-    
 
 
     <div class="box-2">
-        
-        <br />
 
-        <div align="center">
-            <h1>Urenoverzicht</h1>
-        </div>
 
         <div class="table-wrapper">
             <table class="fl-table" align="center">
