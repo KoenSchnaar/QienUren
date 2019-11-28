@@ -95,23 +95,27 @@ namespace UrenRegistratieQien.Repositories
         public void DeleteEmployee(string id)
         {
             var employee = context.Users.Single(p => p.Id == id);
-            
+
+            List<int> declarationFormIds = new List<int>();
 
             foreach(DeclarationForm declarationForm in context.DeclarationForms)
             {
-                if(employee.Id == declarationForm.EmployeeId) //
+                if(employee.Id == declarationForm.EmployeeId)
                 {
-                    foreach(HourRow hourRow in context.HourRows)
-                    {
-                        if(hourRow.DeclarationFormId == declarationForm.DeclarationFormId)
-                        {
-                            context.HourRows.Remove(hourRow);
-                        }
-                    }
-
+                    declarationFormIds.Add(declarationForm.DeclarationFormId);
                     context.DeclarationForms.Remove(declarationForm);
                 }
             }
+
+            foreach(HourRow hourRow in context.HourRows)
+            {
+                if (declarationFormIds.Contains(hourRow.DeclarationFormId))
+                {
+                    context.HourRows.Remove(hourRow);
+                }
+            }
+
+
 
             context.Users.Remove(employee);
             context.SaveChanges();
