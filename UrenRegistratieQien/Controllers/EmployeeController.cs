@@ -32,12 +32,14 @@ namespace UrenRegistratieQien.Controllers
             return View();
         }
 
-        public IActionResult Dashboard()
+        public IActionResult Dashboard(string year = null, string month = null, string approved = null, string submitted = null)////// de filter toepassen in de model van deze
         {
             var userId = _userManager.GetUserId(HttpContext.User); //ophalen van userId die is ingelogd
             ViewBag.User = employeeRepo.GetEmployee(userId);
             ViewBag.Client = clientRepo.GetClientByUserId(userId);
-            var inputModel = declarationRepo.GetAllFormsOfUser(userId);
+            ViewBag.AllForms = declarationRepo.GetAllForms();
+            //var inputModel = declarationRepo.GetAllFormsOfUser(userId);
+            var inputModel = declarationRepo.GetFilteredForms(year, userId, month, approved, submitted);
             return View(inputModel);
         }
         public IActionResult Info()

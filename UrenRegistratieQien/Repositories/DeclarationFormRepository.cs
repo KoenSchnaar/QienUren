@@ -223,7 +223,7 @@ namespace UrenRegistratieQien.Repositories
             return forms;
         }
 
-        public List<DeclarationFormModel> GetFilteredForms(string employeeId, string month, string approved, string submitted)
+        public List<DeclarationFormModel> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted)
         {
             if(approved == "Goedgekeurd")
             {
@@ -246,6 +246,18 @@ namespace UrenRegistratieQien.Repositories
                 .OrderByDescending(df => df.DeclarationFormId).ToList();
 
             List<DeclarationForm> holderList = new List<DeclarationForm>();
+
+            if (year != null)
+            {
+                var yearAsInt = Convert.ToInt32(year);
+                foreach (DeclarationForm entity in entities)
+                {
+                    if (entity.Year != yearAsInt)
+                    {
+                        holderList.Add(entity);
+                    }
+                }
+            }
 
             if (employeeId != null){
 
