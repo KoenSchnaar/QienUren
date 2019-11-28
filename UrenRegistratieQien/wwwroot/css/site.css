@@ -150,15 +150,21 @@ body {
     background: #F8F8F8;
 }
 
-.box1 {
-    width: 15%;
-    border: solid purple 1px;
+.Container-1 {
+    display: flex;
     padding: 10px;
-    min-height: 100%;
+    border: solid purple 2px;
 }
 
-.box2 {
-    width: 85%;
-    border: solid black 1px;
+.box-1 {
+    width: 15%;
+    border: solid purple 2px;
     padding: 10px;
+    /*height: 100%;*/
+}
+
+.box-2 {
+    /*width: 85%;
+    border: solid black 1px;
+    padding: 10px;*/
 }
