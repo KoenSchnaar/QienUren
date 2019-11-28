@@ -42,6 +42,13 @@ namespace UrenRegistratieQien.Controllers
             var inputModel = declarationRepo.GetFilteredForms(year, userId, month, approved, submitted);
             return View(inputModel);
         }
+        public IActionResult Info()
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+            var Employee = employeeRepo.GetEmployee(userId);
+            ViewBag.Client = clientRepo.GetClientByUserId(userId);
+            return View(Employee);
+        }
 
         public IActionResult AllClients()
         {

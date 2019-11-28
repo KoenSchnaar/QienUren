@@ -11,90 +11,113 @@
 <br>
 <br>
 <br>
-<div class="row">
-    <div class="col-md-4">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Registreer een nieuw account</h4>
-            <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.FirstName"></label>
-                <input asp-for="Input.FirstName" class="form-control" />
-                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.LastName"></label>
-                <input asp-for="Input.LastName" class="form-control" />
-                <span asp-validation-for="Input.LastName" class="text-danger"></span>
-            </div><div class="form-group">
-                <label asp-for="Input.Adress"></label>
-                <input asp-for="Input.Adress" class="form-control" />
-                <span asp-validation-for="Input.Adress" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.ZIPCode"></label>
-                <input asp-for="Input.ZIPCode" class="form-control" />
-                <span asp-validation-for="Input.ZIPCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Residence"></label>
-                <input asp-for="Input.Residence" class="form-control" />
-                <span asp-validation-for="Input.Residence" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Phone"></label>
-                <input asp-for="Input.Phone" class="form-control" />
-                <span asp-validation-for="Input.Phone" class="text-danger"></span>
-            </div>
 
-
-            @*Role hieronder moet toegevoegd aan employee database class, en dan migration*@
-
-            <div class="form-group">
-                <label asp-for="Input.Role"></label>
-                <select asp-for="Input.Role">
-                    <option value="2">Medewerker</option>
-                    <option value="3">Trainee</option>
-                    <option value="4">Inactief</option>
-                </select>
-                <span asp-validation-for="Input.Role" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Input.ClientId"></label>
-                <select asp-for="Input.ClientId">
-                    @{
-                        foreach (ClientModel clientModel in Model.clients)
-                        {
-                            <option value=@clientModel.ClientId>@clientModel.CompanyName</option>
-                        }
-                    }
-
-                </select>
-                <span asp-validation-for="Input.ClientId" class="text-danger"></span>
-            </div>
-
-
-            <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Password"></label>
-                <input asp-for="Input.Password" class="form-control" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.ConfirmPassword"></label>
-                <input asp-for="Input.ConfirmPassword" class="form-control" />
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-primary">Register</button>
-        </form>
+<div class="Container-1">
+    <div class="box-1">
+        <div class="Naam">Admin</div>
+        <div align="center"><img src="..\..\Images\UserImageTest.jpg" style="margin: 0 auto; height: 140px; width: 140px" /></div>
+        <div class="TextInBox">Algemeen</div>
+        <a asp-controller="Admin" asp-action="Admin">Dashboard</a>
+        <br />
+        <br />
+        <br />
+        <div class="TextInBox">Medewerkers</div>
+        <a asp-controller="Admin" asp-action="ShowEmployees">Medewerkers</a> <br />
+        <a asp-area="Identity" asp-page="/Account/Register">Maak een gebruiker aan</a>
+        <br />
+        <br />
+        <br />
+        <div class="TextInBox">Opdrachtgevers</div>
+        <a asp-controller="Admin" asp-action="ShowClients">Voeg opdrachtgever toe</a><br />
+        <a asp-controller="Admin" asp-action="AddClient">Opdrachtgevers</a>
     </div>
-</div>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+    <div class="box-3">
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                    <h4>Registreer een nieuw account</h4>
+                    <hr />
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Input.FirstName"></label>
+                        <input asp-for="Input.FirstName" class="form-control" />
+                        <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.LastName"></label>
+                        <input asp-for="Input.LastName" class="form-control" />
+                        <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                    </div><div class="form-group">
+                        <label asp-for="Input.Adress"></label>
+                        <input asp-for="Input.Adress" class="form-control" />
+                        <span asp-validation-for="Input.Adress" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.ZIPCode"></label>
+                        <input asp-for="Input.ZIPCode" class="form-control" />
+                        <span asp-validation-for="Input.ZIPCode" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.Residence"></label>
+                        <input asp-for="Input.Residence" class="form-control" />
+                        <span asp-validation-for="Input.Residence" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.Phone"></label>
+                        <input asp-for="Input.Phone" class="form-control" />
+                        <span asp-validation-for="Input.Phone" class="text-danger"></span>
+                    </div>
+
+
+                    @*Role hieronder moet toegevoegd aan employee database class, en dan migration*@
+
+                    <div class="form-group">
+                        <label asp-for="Input.Role"></label>
+                        <select asp-for="Input.Role">
+                            <option value="2">Medewerker</option>
+                            <option value="3">Trainee</option>
+                            <option value="4">Inactief</option>
+                        </select>
+                        <span asp-validation-for="Input.Role" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Input.ClientId"></label>
+                        <select asp-for="Input.ClientId">
+                            @{
+                                foreach (ClientModel clientModel in Model.clients)
+                                {
+                                    <option value=@clientModel.ClientId>@clientModel.CompanyName</option>
+                                }
+                            }
+
+                        </select>
+                        <span asp-validation-for="Input.ClientId" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label asp-for="Input.Email"></label>
+                        <input asp-for="Input.Email" class="form-control" />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.Password"></label>
+                        <input asp-for="Input.Password" class="form-control" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.ConfirmPassword"></label>
+                        <input asp-for="Input.ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+            </div>
+        </div>
+
+        @section Scripts {
+            <partial name="_ValidationScriptsPartial" />
+        }
+    </div>

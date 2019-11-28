@@ -1,37 +1,57 @@
 ﻿@model List<ClientModel>
-<br>
-<br>
-<br>
-<br>
-<div align="center">@Html.ActionLink("Maak nieuwe opdrachtgever aan", "AddClient")</div>
 <br />
-<div class="table-wrapper">
-    <table class="fl-table" align="center">
-        <thead>
-            <tr>
-                <th>Naam opdrachtgever</th>
-                <th>wijzig | verwijder</th>
-            </tr>
-        <thead>
+<br />
+<br />
+<br />
 
-        <tbody>
-            @foreach (var client in Model)
-            {
+<div class="Container-1">
+    <div class="box-1">
+        <div class="Naam">Admin</div>
+        <div align="center"><img src="..\..\Images\UserImageTest.jpg" style="margin: 0 auto; height: 140px; width: 140px" /></div>
+        <div class="TextInBox">Algemeen</div>
+        <a asp-controller="Admin" asp-action="Admin">Dashboard</a>
+        <br />
+        <br />
+        <br />
+        <div class="TextInBox">Medewerkers</div>
+        <a asp-controller="Admin" asp-action="ShowEmployees">Medewerkers</a> <br />
+        <a asp-area="Identity" asp-page="/Account/Register">Maak een gebruiker aan</a>
+        <br />
+        <br />
+        <br />
+        <div class="TextInBox">Opdrachtgevers</div>
+        <a asp-controller="Admin" asp-action="ShowClients">Voeg opdrachtgever toe</a><br />
+        <a asp-controller="Admin" asp-action="AddClient">Opdrachtgevers</a>
+    </div>
+
+    <div class="box-2">
+        <table class="fl-table table-wrapper">
+            <thead>
                 <tr>
-                    <td>@client.CompanyName</td>
-                    <td>
-                        <a asp-area=""
-                           asp-controller="Admin"
-                           asp-action="ChangeClient"
-                           asp-route-ClientId="@client.ClientId">
-                            Wijzig
-                        </a>
-                        |
-                        @Html.ActionLink("Delete", "DeleteClient", new { ClientId = client.ClientId }, new { onclick = "return confirm('Are you sure you want to delete?');" })
-                    </td>
+                    <th>Naam opdrachtgever</th>
+                    <th>wijzig | verwijder</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            <thead>
+
+            <tbody>
+                @foreach (var client in Model)
+                {
+                    <tr>
+                        <td>@client.CompanyName</td>
+                        <td>
+                            <a asp-area=""
+                               asp-controller="Admin"
+                               asp-action="ChangeClient"
+                               asp-route-ClientId="@client.ClientId">
+                                Wijzig
+                            </a>
+                            |
+                            @Html.ActionLink("Delete", "DeleteClient", new { ClientId = client.ClientId }, new { onclick = "return confirm('Are you sure you want to delete?');" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 
