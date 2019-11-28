@@ -149,3 +149,16 @@ body {
 .fl-table tr:nth-child(even) {
     background: #F8F8F8;
 }
+
+.box1 {
+    width: 15%;
+    border: solid purple 1px;
+    padding: 10px;
+    min-height: 100%;
+}
+
+.box2 {
+    width: 85%;
+    border: solid black 1px;
+    padding: 10px;
+}
