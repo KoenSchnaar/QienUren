@@ -31,6 +31,7 @@ namespace UrenRegistratieQien.Controllers
         public IActionResult HourReg(int declarationFormId, string userId, int year, string month)
         {
             hourRowRepo.AddHourRows(year, month, declarationFormId);
+            ViewBag.User = employeeRepo.GetEmployee(userId);
             var inputModel = declarationRepo.GetForm(declarationFormId, userId);
             return View(inputModel);
         }
