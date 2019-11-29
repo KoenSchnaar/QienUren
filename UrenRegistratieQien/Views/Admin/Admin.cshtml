@@ -43,15 +43,15 @@
         <br />
         <div class="TextInBox">Medewerkers</div>
         <a asp-controller="Admin" asp-action="ShowEmployees">Medewerkers</a> <br />
-        <a asp-area="Identity" asp-page="/Account/Register">Maak een gebruiker aan</a>
-        <a asp-controller="Employee" asp-action="Dashboard">Medewerker Dashboard</a>
-        <a asp-controller="Employee" asp-action="Info">Medewerker info</a>
+        <a asp-area="Identity" asp-page="/Account/Register">Aanmaken</a><br />
+        <a asp-controller="Employee" asp-action="Dashboard">Dashboard</a><br />
+        <a asp-controller="Employee" asp-action="Info">info</a>
         <br />
         <br />
         <br />
         <div class="TextInBox">Opdrachtgevers</div>
-        <a asp-controller="Admin" asp-action="ShowClients">Voeg opdrachtgever toe</a><br />
-        <a asp-controller="Admin" asp-action="AddClient">Opdrachtgevers</a>
+        <a asp-controller="Admin" asp-action="ShowClients">opdrachtgevers</a><br />
+        <a asp-controller="Admin" asp-action="AddClient">Toevoegen</a>
     </div>
 
     <div class="box-2">
@@ -195,13 +195,13 @@
                                         Inzien
                                     </a>
                                 </td>
-                                @*<td>
+                                <td>
                                     <form asp-controller="admin"
                                           asp-action="oefenmethode"
                                           asp-route-oefengetal="@declarationFormModel.FormId">
                                         <button type="submit">click me</button>
                                     </form>
-                                </td>*@
+                                </td>
                             </tr>
                         }
                     </tbody>

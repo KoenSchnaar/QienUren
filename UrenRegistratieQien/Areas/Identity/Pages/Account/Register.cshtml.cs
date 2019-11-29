@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using UrenRegistratieQien.DatabaseClasses;
+using UrenRegistratieQien.MailService;
 using UrenRegistratieQien.Models;
 using UrenRegistratieQien.Repositories;
 
@@ -27,6 +28,8 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
         private readonly UserManager<Employee> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        //private readonly IMailservice mailservice;
+
         public List<ClientModel> clients { get; set; }
 
         public RegisterModel(
@@ -35,6 +38,7 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
             SignInManager<Employee> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
+            //IMailservice mailservice)
         {
             
             clientRepo = ClientRepo;
@@ -43,6 +47,7 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            //this.mailservice = mailservice;
         }
         
         
@@ -135,8 +140,22 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
                     Phone = Input.Phone,
                     DateRegistered = DateTime.Now,
                     Role = Input.Role
-
                 };
+
+                var userModel = new EmployeeModel
+                {
+                    FirstName = Input.FirstName,
+                    LastName = Input.LastName,
+                    Email = Input.Email,
+                    ClientId = Input.ClientId,
+                    Address = Input.Adress,
+                    ZIPCode = Input.ZIPCode,
+                    Residence = Input.Residence,
+                    Phone = Input.Phone,
+                    DateRegistered = DateTime.Now,
+                    Role = Input.Role
+                };
+                Mailservice.MailNewUser(userModel);
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
