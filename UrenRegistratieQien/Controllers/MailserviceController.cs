@@ -21,23 +21,22 @@ namespace UrenRegistratieQien.Controllers
         }
 
         [HttpPost]
-        public IActionResult MailService(DeclarationFormModel decModel, string uniqueId, string formId)
+        public IActionResult MailService(DeclarationFormModel decModel, string uniqueId, string formId, string employeeName)
         {
 
             declarationFormRepo.EditDeclarationForm(decModel);
             declarationFormRepo.SubmitDeclarationForm(decModel);
 
             //message components
-            string employeeName = decModel.EmployeeName;
             string month = decModel.Month;
 
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("Hans", "hanshanshans812@gmail.com"));
             message.To.Add(new MailboxAddress("Luuk", "luuk_wolferen@hotmail.com"));
-            message.Subject = $"Urendeclaratieformulier van {decModel.EmployeeName} voor de maand {decModel.Month}";
+            message.Subject = $"Urendeclaratieformulier van {employeeName} voor de maand {decModel.Month}";
             message.Body = new TextPart("plain")
             {
-                Text = $"{ decModel.EmployeeName} wilt graag dat u het urendeclaratieformulier goedkeurt. Klik op de link om naar het formulier te gaan: https://localhost:5001/Mailservice/ApproveOrReject/?uniqueId=" + uniqueId + "&formId=" + formId
+                Text = $"{employeeName} wil graag dat u het urendeclaratieformulier goedkeurt. Klik op de link om naar het formulier te gaan: https://localhost:5001/Mailservice/ApproveOrReject/?uniqueId=" + uniqueId + "&formId=" + formId
             };
 
             using (var client = new SmtpClient())
