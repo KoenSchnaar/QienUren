@@ -44,12 +44,14 @@
         <div class="TextInBox">Medewerkers</div>
         <a asp-controller="Admin" asp-action="ShowEmployees">Medewerkers</a> <br />
         <a asp-area="Identity" asp-page="/Account/Register">Maak een gebruiker aan</a>
+        <a asp-controller="Employee" asp-action="Dashboard">Medewerker Dashboard</a>
+        <a asp-controller="Employee" asp-action="Info">Medewerker info</a>
         <br />
         <br />
         <br />
         <div class="TextInBox">Opdrachtgevers</div>
-        <a asp-controller="Admin" asp-action="ShowClients">Voeg opdrachtgever toe</a><br />
-        <a asp-controller="Admin" asp-action="AddClient">Opdrachtgevers</a>
+        <a asp-controller="Admin" asp-action="ShowClients">opdrachtgevers</a><br />
+        <a asp-controller="Admin" asp-action="AddClient">Voeg opdrachtgever toe</a>
     </div>
 
     <div class="box-2">
@@ -131,6 +133,10 @@
                                     @Html.DropDownList("employeeName", new SelectList(employeeNames), "Geen filter")
                                 </th>
                                 <th>
+                                    Jaar
+                                    @Html.DropDownList("year", new SelectList(years), "Geen filter")
+                                </th>
+                                <th>
                                     Maand
                                     @Html.DropDownList("month", new SelectList(Enum.GetValues(typeof(Months))), "Geen filter")
                                 </th>
@@ -157,6 +163,7 @@
 
                             <tr>
                                 <td>@declarationFormModel.EmployeeName</td>
+                                <td>@declarationFormModel.Year</td>
                                 <td>@declarationFormModel.Month</td>
                                 <td>
                                     @if (declarationFormModel.Approved == true)
@@ -188,13 +195,13 @@
                                         Inzien
                                     </a>
                                 </td>
-                                @*<td>
+                                <td>
                                     <form asp-controller="admin"
                                           asp-action="oefenmethode"
                                           asp-route-oefengetal="@declarationFormModel.FormId">
                                         <button type="submit">click me</button>
                                     </form>
-                                </td>*@
+                                </td>
                             </tr>
                         }
                     </tbody>

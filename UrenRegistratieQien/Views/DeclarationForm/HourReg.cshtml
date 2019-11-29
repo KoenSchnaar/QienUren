@@ -3,6 +3,7 @@
     ViewData["Title"] = "HourReg";
     var uniqueId = Model.uniqueId;
     var formId = Model.FormId;
+    var employeeName = ViewBag.User.FirstName + " " + ViewBag.User.LastName;
 }
 <br>
 <br>
@@ -81,7 +82,7 @@
                         </tbody>
                     </table>
                     <button asp-action="HourReg" asp-controller="DeclarationForm">Opslaan</button>
-                    <button asp-action="Mailservice" asp-controller="Mailservice" asp-route-uniqueId="@uniqueId" asp-route-formId="@formId">Opslaan en indienen</button>
+                    <button asp-action="Mailservice" asp-controller="Mailservice" asp-route-uniqueId="@uniqueId" asp-route-formId="@formId" asp-route-employeeName="@employeeName">Opslaan en indienen</button>
                     <br />
                 }
             }

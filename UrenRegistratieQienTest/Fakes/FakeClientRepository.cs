@@ -13,6 +13,11 @@ namespace UrenRegistratieQienTest.Fakes
             var implemented = true;
         }
 
+        public void DeleteClient(int clientId)
+        {
+            throw new NotImplementedException();
+        }
+
         public void EditAClient(ClientModel clientModel)
         {
             var implemented = true;
@@ -22,7 +27,7 @@ namespace UrenRegistratieQienTest.Fakes
         {
             return new List<ClientModel>();
         }
-        
+
         public ClientModel GetClient(int clientId)
         {
             throw new NotImplementedException();

@@ -22,13 +22,13 @@
         <br />
         <div class="TextInBox">Opdrachtgevers</div>
         <a asp-controller="Admin" asp-action="ShowClients">Voeg opdrachtgever toe</a><br />
-        <a asp-controller="Admin" asp-action="AddClient">Opdrachtgevers</a>
+        <a asp-controller="Admin" asp-action="AddClient">opdrachtgevers</a>
     </div>
 
-    <div class="table-wrapper box-2">
+    <div class="box-2">
         <form asp-controller="Admin" asp-action="EditClient">
-            @Html.HiddenFor(m => m.ClientId);
-            <table class="fl-table" align="center">
+            @Html.HiddenFor(m => m.ClientId)
+            <table class="fl-table table-wrapper" align="center">
                 <thead>
                     <tr>
                         <th>In database</th>
@@ -67,10 +67,6 @@
                     <tr>
                         <td>E-mailadres 2e contactpersoon</td>
                         <td>@Html.TextBoxFor(m => m.Contact2Email)</td>
-                    </tr>
-                    <tr>
-                        <td>Algemeen telefoonnummer</td>
-                        <td>@Html.TextBoxFor(m => m.CompanyPhone)</td>
                     </tr>
                 </tbody>
             </table>

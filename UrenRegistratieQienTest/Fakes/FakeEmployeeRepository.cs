@@ -8,9 +8,24 @@ namespace UrenRegistratieQienTest.Fakes
 {
     class FakeEmployeeRepository : IEmployeeRepository
     {
+        public void DeleteEmployee(string id)
+        {
+
+            string EmployeeId = id;
+
+        }
+
+        public void EditEmployee(EmployeeModel employeeModel)
+        {
+            var implemented = true;
+        }
+
         public EmployeeModel GetEmployee(string id)
         {
-            throw new NotImplementedException();
+            return new EmployeeModel
+            {
+                EmployeeId = id
+            };
         }
 
         public EmployeeModel GetEmployeeByName(string name)
@@ -20,7 +35,7 @@ namespace UrenRegistratieQienTest.Fakes
 
         public List<EmployeeModel> GetEmployees()
         {
-            throw new NotImplementedException();
+            return new List<EmployeeModel>();
         }
 
         public void UpdateEmployee(EmployeeModel employeeModel)
