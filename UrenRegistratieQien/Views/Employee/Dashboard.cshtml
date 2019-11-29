@@ -2,65 +2,52 @@
 
 @{
     ViewData["Title"] = "Administrator Page";
-    var employeeId = Model[0].EmployeeId;
+
+    var employeeId = ViewBag.userId;
+    var years = new List<int>();
+    foreach(DeclarationFormModel declarationFormModel in ViewBag.AllForms)
+    {
+        if (!years.Contains(declarationFormModel.Year))
+        {
+            years.Add(declarationFormModel.Year);
+        }
+    }   
 }
 
-<br>
-<br>
-<br>
-<div align="center">
-    <h1>Welkom @ViewBag.User.FirstName</h1>
-</div>
-
-<div>
-    <div class="table-wrapper" align="center">
-        <table class="fl-table">
-
-            <thead>
-                <tr>
-                    <th>Werknemer</th>
-                    <th>Werkgever</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr>
-                    <td>@ViewBag.User.FirstName @ViewBag.User.LastName</td>
-                    <td>@ViewBag.Client.Contact1Name</td>
-                </tr>
-                <tr>
-                    <td>@ViewBag.User.Address</td>
-                    <td>@ViewBag.Client.CompanyName</td>
-                </tr>
-                <tr>
-                    <td>@ViewBag.User.ZIPCode, @ViewBag.User.Residence</td>
-                    <td>Postcode en woonplaats</td>
-                </tr>
-                <tr>
-                    <td>@ViewBag.User.Phone</td>
-                    <td>@ViewBag.Client.Contact1Phone</td>
-                </tr>
-                <tr>
-                    <td>@ViewBag.User.Email</td>
-                    <td>@ViewBag.Client.Contact1Email</td>
-                </tr>
-            </tbody>
-
-        </table>
-    </div>
-</div>
+<br />
+<br />
+<br />
 <br />
 
-<div align="center">
-    <h1>Urenoverzicht</h1>
-</div>
-<form asp-controller="DeclarationForm" asp-action="CreateForm" asp-route-employeeId=@employeeId>
-    <input type="submit" value="Nieuw Formulier Maken"/>
-</form>
+<div class="Container-1">
+    <div class="box-1">
+        <div class="Naam">@ViewBag.User.FirstName @ViewBag.User.LastName</div>
+        <div align="center"><img src="..\..\Images\UserImageTest.jpg" style="margin: 0 auto; height: 140px; width: 140px" /></div>
+        <div class="TextInBox">Algemeen</div>
+        <a asp-controller="Employee" asp-action="Info">Info</a><br />
+        <a asp-controller="Employee" asp-action="Dashboard">Dashboard</a>
+        <br />
+        <br />
+        <br />
+        @*<div class="TextInBox">Medewerkers</div>
+            <a asp-controller="Admin" asp-action="ShowEmployees">Medewerkers</a> <br />
+            <a asp-area="Identity" asp-page="/Account/Register">Maak een gebruiker aan</a>
+            <br />
+            <br />
+            <br />
+            <div class="TextInBox">Opdrachtgevers</div>
+            <a asp-controller="Admin" asp-action="ShowClients">Opdrachtgevers</a><br />
+            <a asp-controller="Admin" asp-action="AddClient">Voeg opdrachtgever toe</a>*@
+    </div>
 
 
-<div class="table-wrapper">
+    <div class="box-2">
 
+        <div align="center">
+            <h1>Urenoverzicht</h1>
+        </div>
+
+<<<<<<< HEAD
     <table class="fl-table" align="center">
         <thead>
             <tr>
@@ -131,3 +118,76 @@
 
 
 </div>
+=======
+        
+
+        <div class="table-wrapper">
+            <table class="fl-table" align="center">
+                <form asp-controller="DeclarationForm" asp-action="CreateForm" asp-route-employeeId=@employeeId>
+                    <input type="submit" value="Nieuw Formulier Maken" />
+                </form>
+                <thead>
+                    <tr>
+                        <th>Maand</th>
+                        <th>Uren gewerkt</th>
+                        <th>Overwerk</th>
+                        <th>Ziekte</th>
+                        <th>Status</th>
+                        <th>Ingediend</th>
+                        <th>Opmerking</th>
+                        <th>Inzien</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var form in Model)
+                    {
+                        <tr>
+                            <td>@form.Month</td>
+                            <td>uren gewerkt</td>
+                            <td>overwerk</td>
+                            <td>Ziekte</td>
+
+                            <td>
+                                @if (form.Approved == true)
+                                {
+                                    <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
+                                }
+                                else
+                                {
+                                    <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                                }
+                            </td>
+
+                            <td>
+                                @if (form.Submitted == true)
+                                {
+                                    <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
+                                }
+                                else
+                                {
+                                    <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                                }
+                            </td>
+
+                            <td>@form.Comment</td>
+                            <td>
+                                <a class="nav-link text-dark linkjes"
+                                   asp-area=""
+                                   asp-controller="DeclarationForm"
+                                   asp-action="HourReg"
+                                   asp-route-declarationFormId="@form.FormId"
+                                   asp-route-userId="@ViewBag.User.EmployeeId"
+                                   asp-route-month="@form.Month"
+                                   asp-route-year="@form.Year">
+                                    Inzien
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+>>>>>>> master

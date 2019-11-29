@@ -53,46 +53,84 @@ namespace UrenRegistratieQien.Repositories
         public void CreateForm(string employeeId)
         {
             var entities = context.DeclarationForms.Where(p => p.EmployeeId == employeeId).ToList();
-            var entitiesIndex = entities.Count()-1;
-            var entity = entities[entitiesIndex];
-
-            var month = entity.Month;
-            var monthInt = MonthConverter.ConvertMonthToInt(month) + 1;
-            if(monthInt == 13)
+            if(entities.Count() > 0)
             {
-                monthInt = 1;
+                var entitiesIndex = entities.Count() - 1;
+                var entity = entities[entitiesIndex];
 
+                var month = entity.Month;
+                var monthInt = MonthConverter.ConvertMonthToInt(month) + 1;
+                if (monthInt == 13)
+                {
+                    monthInt = 1;
+
+                }
+                var monthString = MonthConverter.ConvertIntToMonth(monthInt);
+                var year = entity.Year;
+                if (monthString == "Januari")
+                {
+                    year = year + 1;
+                }
+
+
+                var form = new DeclarationForm
+                {
+                    EmployeeId = employeeId,
+                    Month = monthString,
+                    Year = year,
+                    uniqueId = GenerateUniqueId()
+                };
+
+                context.DeclarationForms.Add(form);
+            } else
+            {
+                var monthInt = DateTime.Now.Month;
+                var monthString = MonthConverter.ConvertIntToMonth(monthInt);
+                var year = DateTime.Now.Year;
+                var form = new DeclarationForm
+                {
+                    EmployeeId = employeeId,
+                    Month = monthString,
+                    Year = year,
+                    uniqueId = GenerateUniqueId()
+                };
+
+                context.DeclarationForms.Add(form);
             }
-            var monthString = MonthConverter.ConvertIntToMonth(monthInt);
-            var year = entity.Year;
-            if (monthString == "Januari")
-            {
-                year = year + 1;
-            }
 
-            
-            var form = new DeclarationForm
-            {
-                EmployeeId = employeeId,
-                Month = monthString,
-                Year = year,
-                uniqueId = GenerateUniqueId()
-            };
-
-            context.DeclarationForms.Add(form);
             context.SaveChanges();
         }
 
+        public void ApproveForm(int formId)
+        {
+            var form = context.DeclarationForms.Single(p => p.DeclarationFormId == formId);
+            form.Approved = true;
+            context.SaveChanges();
+        }
 
+        public void RejectForm(int formId, string comment)
+        {
+            var form = context.DeclarationForms.Single(p => p.DeclarationFormId == formId);
+            form.Approved = false;
+            form.Comment = comment;
+            context.SaveChanges();
+        }
 
         public DeclarationFormModel GetForm(int declarationFormId, string userId)
         {
             var entity = context.DeclarationForms.Single(d => d.DeclarationFormId == declarationFormId);
+
+            var selectedEmployee = context.Users.Single(p => p.Id == entity.EmployeeId);
+            var castedEmployee = (Employee)selectedEmployee;
+            var employeeName = castedEmployee.FirstName + " " + castedEmployee.LastName;
+
+
             var form = new DeclarationFormModel
             {
                 FormId = entity.DeclarationFormId,
                 HourRows = hourRowRepo.GetHourRows(userId, declarationFormId), //niet heel netjes om en andere repo te gebruiken
                 EmployeeId = entity.EmployeeId,
+                EmployeeName = employeeName,
                 Month = entity.Month,
                 Approved = entity.Approved,
                 Submitted = entity.Submitted,
@@ -203,7 +241,7 @@ namespace UrenRegistratieQien.Repositories
             return forms;
         }
 
-        public List<DeclarationFormModel> GetFilteredForms(string employeeId, string month, string approved, string submitted)
+        public List<DeclarationFormModel> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted)
         {
             if(approved == "Goedgekeurd")
             {
@@ -226,6 +264,18 @@ namespace UrenRegistratieQien.Repositories
                 .OrderByDescending(df => df.DeclarationFormId).ToList();
 
             List<DeclarationForm> holderList = new List<DeclarationForm>();
+
+            if (year != null)
+            {
+                var yearAsInt = Convert.ToInt32(year);
+                foreach (DeclarationForm entity in entities)
+                {
+                    if (entity.Year != yearAsInt)
+                    {
+                        holderList.Add(entity);
+                    }
+                }
+            }
 
             if (employeeId != null){
 

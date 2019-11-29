@@ -1,11 +1,30 @@
 ﻿@model DeclarationFormModel
 @{
     ViewData["Title"] = "ApproveOrReject";
+
 }
+
+
 
 <h1>Goedkeuren Formulier</h1>
 
- 
+<div>
+    <br />
+    <br />
+    <form method="post">
+        <button asp-action="Approve" asp-controller="Mailservice" asp-route-formId=@Model.FormId>Goedkeuren</button>
+    </form>
+    <br />
+    <form method="post">
+        <text>Geef aan waarom je het formulier afkeurt:</text>
+        @Html.TextBox("comment")
+        <button asp-action="Reject" asp-controller="Mailservice" asp-route-formId=@Model.FormId>Afkeuren</button>
+    </form>
+    <br />
+    <br />
+
+</div>
+
 <table class="fl-table" align="center">
     <thead>
         <tr>

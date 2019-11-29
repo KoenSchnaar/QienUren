@@ -5,7 +5,7 @@ namespace UrenRegistratieQien.Repositories
 {
     public interface IDeclarationFormRepository
     {
-        public List<DeclarationFormModel> GetFilteredForms(string employeeId, string month, string approved, string submitted);
+        public List<DeclarationFormModel> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted);
         public List<DeclarationFormModel> GetNotApprovedForms();
         public List<DeclarationFormModel> GetAllForms();
         public DeclarationFormModel GetFormByFormId(int formId);
@@ -28,6 +28,8 @@ namespace UrenRegistratieQien.Repositories
         public void CreateForm(string employeeId);
         public string GenerateUniqueId();
         public int TotalHoursWorkedByFormId(int formId, string month, int year);
+        public void ApproveForm(int formId);
+        public void RejectForm(int formId, string comment);
 
 
 
