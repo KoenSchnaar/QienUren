@@ -1,5 +1,4 @@
-﻿@*nog aanpassen naar juiste model*@
-@model List<UrenRegistratieQien.Models.DeclarationFormModel>
+﻿@model List<UrenRegistratieQien.Models.DeclarationFormModel>
 
 @{
     ViewData["Title"] = "Administrator Page";
@@ -66,6 +65,7 @@
         <thead>
             <tr>
                 <th>Maand</th>
+                <th>Jaar</th>
                 <th>Uren gewerkt</th>
                 <th>Overwerk</th>
                 <th>Ziekte</th>
@@ -79,32 +79,36 @@
         <tbody>
             @foreach (var form in Model)
             {
-                <tr>
-                    <td>@form.Month</td>
-                    <td>uren gewerkt</td>
+            <tr>
+                <td>@form.Month</td>
+                <td>@form.Year</td>
+                @using (Html.BeginForm("DashboardTotal", "Employee"))
+                {
+                    <td>@ViewBag.TotalHoursWorkedByFormId</td>
                     <td>overwerk</td>
                     <td>Ziekte</td>
+                }
 
-                    <td>
-                        @if (form.Approved == true)
-                        {
-                            <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
-                        }
-                        else
-                        {
-                            <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
-                        }
-                    </td>
+                <td>
+                    @if (form.Approved == true)
+                    {
+                        <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
+                    }
+                    else
+                    {
+                        <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                    }
+                </td>
 
-                    <td>
-                        @if (form.Submitted == true)
-                        {
-                            <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
-                        }
-                        else
-                        {
-                            <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
-                        }
+                <td>
+                    @if (form.Submitted == true)
+                    {
+                        <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
+                    }
+                    else
+                    {
+                        <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                    }
                 </td>
 
                 <td>@form.Comment</td>
@@ -121,8 +125,9 @@
                     </a>
                 </td>
             </tr>
-        }
+            }
         </tbody>
     </table>
+
 
 </div>

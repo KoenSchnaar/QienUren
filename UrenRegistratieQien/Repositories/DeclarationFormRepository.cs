@@ -836,7 +836,34 @@ namespace UrenRegistratieQien.Repositories
 
         }
 
-
-
+        public int TotalHoursWorkedByFormId(int formId, string month, int year)
+        {
+            var entity = context.DeclarationForms.Single(p => p.DeclarationFormId == formId);
+            int counter = 0;
+            if (month == null)
+            {               
+                if (entity.Year == year)
+                {
+                    foreach (var HourRow in entity.HourRows)
+                    {
+                        counter += HourRow.Worked;
+                    }
+                }
+            }
+            else
+            {
+                if (entity.Year == year)
+                {
+                    if (entity.Month == month)
+                    {
+                        foreach (var HourRow in entity.HourRows)
+                        {
+                            counter += HourRow.Worked;
+                        }
+}
+                    }
+                }
+            return counter;
+        }        
     }
 }

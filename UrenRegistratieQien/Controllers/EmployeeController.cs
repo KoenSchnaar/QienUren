@@ -41,36 +41,27 @@ namespace UrenRegistratieQien.Controllers
             return View(inputModel);
         }
 
-        public IActionResult AllClients()
-        {
-            var clients = clientRepo.GetAllClients();
-            return View(clients);
-        }
-
-        public IActionResult AddClient()
-        {
-            return View(new ClientModel());
-        }
-
-        [HttpPost]
-        public IActionResult AddClient(ClientModel clientModel)
-        {
-            clientRepo.AddNewClient(clientModel);
-            return RedirectToAction("AllClients");
-        }
-
-        //public IActionResult EditClient()
+        //public IActionResult DashboardTotal(int formId, string totalhoursmonth, int totalhoursyear)
         //{
-        //   return View(clientRepo.GetClient()); //methode om 1 client te krijgen
-        //}
+        //    var userId = _userManager.GetUserId(HttpContext.User); //ophalen van userId die is ingelogd
+        //    ViewBag.User = employeeRepo.GetEmployee(userId);
+        //    ViewBag.Client = clientRepo.GetClientByUserId(userId);
+        //    var x = declarationRepo.TotalHoursWorkedByFormId(formId, totalhoursmonth, totalhoursyear);
+        //    ViewBag.TotalHoursWorkedByFormId = declarationRepo.TotalHoursWorkedByFormId(formId, totalhoursmonth, totalhoursyear);
+        //    var inputModel = declarationRepo.GetAllFormsOfUser(userId);
+        //    return View(inputModel);
 
-        [HttpPost]
-        public IActionResult EditClient(ClientModel clientModel)
-        {
-            clientRepo.EditAClient(clientModel);
-            return RedirectToAction("AllClients");
+
+
+            ////var form = declarationRepo.GetFormByFormId(formId);
+            //declarationRepo.TotalHoursWorkedByFormId(formId, totalhoursmonth, totalhoursyear);
+            //if (totalhoursyear == 0)
+            //{
+            //    totalhoursyear = DateTime.Now.Year;
+            //}
+
+            //return View("Dashboard");
+            //return View(declarationRepo.GetAllFormsOfUser(employeeId));
         }
-
-        
     }
-}
+//}

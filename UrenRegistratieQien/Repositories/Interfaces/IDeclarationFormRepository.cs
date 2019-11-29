@@ -27,6 +27,7 @@ namespace UrenRegistratieQien.Repositories
         public List<DeclarationFormModel> GetAllFormsOfMonth(int month);
         public void CreateForm(string employeeId);
         public string GenerateUniqueId();
+        public int TotalHoursWorkedByFormId(int formId, string month, int year);
 
 
 
