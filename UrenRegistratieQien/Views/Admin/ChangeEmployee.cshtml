@@ -1,5 +1,4 @@
 ﻿@model EmployeeModel
-<<<<<<< HEAD
 @{ 
     var roleAsString = "";
     if(Model.Role == 1)
@@ -19,8 +18,32 @@
             roleAsString = "Inactief";
         }
 }
+<br />
+<br />
+<br />
+<br />
 
-    <div class="table-wrapper">
+<div class="Container-1">
+    <div class="box-1">
+        <div class="Naam">Admin</div>
+        <div align="center"><img src="..\..\Images\UserImageTest.jpg" style="margin: 0 auto; height: 140px; width: 140px" /></div>
+        <div class="TextInBox">Algemeen</div>
+        <a asp-controller="Admin" asp-action="Admin">Dashboard</a>
+        <br />
+        <br />
+        <br />
+        <div class="TextInBox">Medewerkers</div>
+        <a asp-controller="Admin" asp-action="ShowEmployees">Medewerkers</a> <br />
+        <a asp-area="Identity" asp-page="/Account/Register">Maak een gebruiker aan</a>
+        <br />
+        <br />
+        <br />
+        <div class="TextInBox">Opdrachtgevers</div>
+        <a asp-controller="Admin" asp-action="ShowClients">Voeg opdrachtgever toe</a><br />
+        <a asp-controller="Admin" asp-action="AddClient">Opdrachtgevers</a>
+    </div>
+
+    <div class="table-wrapper box-2">
         <form asp-controller="Admin" asp-action="EditEmployee">
             @Html.HiddenFor(m => m.EmployeeId);
             @Html.HiddenFor(m => m.ClientId);
@@ -72,53 +95,4 @@
         <button type="submit">Opslaan</button>
         </form>
     </div>
-=======
-<br>
-<br>
-<br>
-<div class="table-wrapper">
-    <table class="fl-table" align="center">
-        <thead>
-            <tr>
-                <th>In database</th>
-                <th>Nieuw</th>
-            </tr>
-        <thead>
-
-        <tbody>
-            <tr>
-                <td>@Model.FirstName</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>@Model.LastName</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>@Model.Email</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>@Model.Address</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>@Model.Phone</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>@Model.Role</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>@Model.ZIPCode</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>@Model.Residence</td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
 </div>
->>>>>>> master

@@ -22,7 +22,7 @@ namespace UrenRegistratieQien.GlobalClasses
                     return 4;
                 case "may": case "May":
                     return 5;
-                case "juni": case "Juni":
+                case "june": case "June":
                     return 6;
                 case "juli": case "Juli":
                     return 7;

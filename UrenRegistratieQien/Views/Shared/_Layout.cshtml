@@ -14,7 +14,7 @@
         <div class="barfixed">
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
                 <div class="container kopregel">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="https://www.qien.nl/wp-content/uploads/2017/10/logo.svg" width="30" height="30"></a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Admin" asp-action="Admin"><img src="https://www.qien.nl/wp-content/uploads/2017/10/logo.svg" width="30" height="30"></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -22,15 +22,6 @@
                     <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse kopregel">
                         <partial name="_LoginPartial" />
                         <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Admin">Dashboard Admin</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ShowEmployees">Wijzig medewerker</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Dashboard">Dashboard User</a>
-                            </li>
                         </ul>
                     </div>
                 </div>

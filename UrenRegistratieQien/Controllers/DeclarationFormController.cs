@@ -27,9 +27,11 @@ namespace UrenRegistratieQien.Controllers
             _userManager = userManager;
         }
 
+        
         public IActionResult HourReg(int declarationFormId, string userId, int year, string month)
         {
             hourRowRepo.AddHourRows(year, month, declarationFormId);
+            ViewBag.User = employeeRepo.GetEmployee(userId);
             var inputModel = declarationRepo.GetForm(declarationFormId, userId);
             return View(inputModel);
         }
@@ -46,6 +48,13 @@ namespace UrenRegistratieQien.Controllers
         {
             declarationRepo.EditDeclarationForm(decModel);
             declarationRepo.SubmitDeclarationForm(decModel);
+            return RedirectToAction("Dashboard", "Employee");
+        }
+
+        public IActionResult CreateForm(string employeeId)
+        {
+            declarationRepo.CreateForm(employeeId);
+
             return RedirectToAction("Dashboard", "Employee");
         }
 

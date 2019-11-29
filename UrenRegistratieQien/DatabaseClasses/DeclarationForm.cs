@@ -9,12 +9,14 @@ namespace UrenRegistratieQien.DatabaseClasses
     {
         public int DeclarationFormId { get; set; }
         public List<HourRow> HourRows { get; set; }
-        public string EmployeeId { get; set; } //misschien niet goed, even naar kieken
+        public string EmployeeId { get; set; }
         public Employee Employee { get; set; }
         public int Year { get; set; }
         public string Month { get; set; }
         public bool Approved { get; set; }
         public bool Submitted { get; set; }
         public string Comment { get; set; }
+
+        public string uniqueId { get; set; }
     }
 }

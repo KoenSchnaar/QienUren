@@ -18,5 +18,6 @@ namespace UrenRegistratieQien.Models
         public bool Approved { get; set; }
         public bool Submitted { get; set; }
         public string Comment { get; set; }
+        public string uniqueId { get; set; }
     }
 }

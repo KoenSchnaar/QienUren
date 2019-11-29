@@ -1,7 +1,4 @@
-﻿@model DeclarationFormModel
-@{
-    ViewData["Title"] = "ViewDeclarationForm";
-}
+﻿@model List<ClientModel>
 <br />
 <br />
 <br />
@@ -28,37 +25,33 @@
     </div>
 
     <div class="box-2">
-        <table align="center" class="fl-table table-wrapper">
+        <table class="fl-table table-wrapper">
             <thead>
                 <tr>
-                    <th>Datum</th>
-                    <th>Gewerkt</th>
-                    <th>Overwerk</th>
-                    <th>Ziekte</th>
-                    <th>Vakantie</th>
-                    <th>Feestdagen</th>
-                    <th>Training</th>
-                    <th>Overig</th>
-                    <th>Overig Uitleg</th>
+                    <th>Naam opdrachtgever</th>
+                    <th>wijzig | verwijder</th>
                 </tr>
-            </thead>
+            <thead>
 
             <tbody>
-                @foreach (var hourRow in Model.HourRows)
+                @foreach (var client in Model)
                 {
                     <tr>
-                        <td>@hourRow.Date</td>
-                        <td>@hourRow.Worked</td>
-                        <td>@hourRow.Overtime</td>
-                        <td>@hourRow.Sickness</td>
-                        <td>@hourRow.Vacation</td>
-                        <td>@hourRow.Holiday</td>
-                        <td>@hourRow.Training</td>
-                        <td>@hourRow.Other</td>
-                        <td>@hourRow.OtherExplanation</td>
+                        <td>@client.CompanyName</td>
+                        <td>
+                            <a asp-area=""
+                               asp-controller="Admin"
+                               asp-action="ChangeClient"
+                               asp-route-ClientId="@client.ClientId">
+                                Wijzig
+                            </a>
+                            |
+                            @Html.ActionLink("Delete", "DeleteClient", new { ClientId = client.ClientId }, new { onclick = "return confirm('Are you sure you want to delete?');" })
+                        </td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
 </div>
+
