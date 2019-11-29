@@ -53,33 +53,51 @@ namespace UrenRegistratieQien.Repositories
         public void CreateForm(string employeeId)
         {
             var entities = context.DeclarationForms.Where(p => p.EmployeeId == employeeId).ToList();
-            var entitiesIndex = entities.Count()-1;
-            var entity = entities[entitiesIndex];
-
-            var month = entity.Month;
-            var monthInt = MonthConverter.ConvertMonthToInt(month) + 1;
-            if(monthInt == 13)
+            if(entities.Count() > 0)
             {
-                monthInt = 1;
+                var entitiesIndex = entities.Count() - 1;
+                var entity = entities[entitiesIndex];
 
+                var month = entity.Month;
+                var monthInt = MonthConverter.ConvertMonthToInt(month) + 1;
+                if (monthInt == 13)
+                {
+                    monthInt = 1;
+
+                }
+                var monthString = MonthConverter.ConvertIntToMonth(monthInt);
+                var year = entity.Year;
+                if (monthString == "Januari")
+                {
+                    year = year + 1;
+                }
+
+
+                var form = new DeclarationForm
+                {
+                    EmployeeId = employeeId,
+                    Month = monthString,
+                    Year = year,
+                    uniqueId = GenerateUniqueId()
+                };
+
+                context.DeclarationForms.Add(form);
+            } else
+            {
+                var monthInt = DateTime.Now.Month;
+                var monthString = MonthConverter.ConvertIntToMonth(monthInt);
+                var year = DateTime.Now.Year;
+                var form = new DeclarationForm
+                {
+                    EmployeeId = employeeId,
+                    Month = monthString,
+                    Year = year,
+                    uniqueId = GenerateUniqueId()
+                };
+
+                context.DeclarationForms.Add(form);
             }
-            var monthString = MonthConverter.ConvertIntToMonth(monthInt);
-            var year = entity.Year;
-            if (monthString == "Januari")
-            {
-                year = year + 1;
-            }
 
-            
-            var form = new DeclarationForm
-            {
-                EmployeeId = employeeId,
-                Month = monthString,
-                Year = year,
-                uniqueId = GenerateUniqueId()
-            };
-
-            context.DeclarationForms.Add(form);
             context.SaveChanges();
         }
 
