@@ -22,9 +22,9 @@
     </div>
 
     <div class="box-2"></div>
-    <h1 align="center">@Model.Month @Model.Year</h1>
-
+    @*<h1 align="center">@Model.Month @Model.Year</h1>*@
     <div class="table-wrapper" align="center">
+
         @{ if (Model.Submitted == true)
             {
                 @Html.HiddenFor(m => m.FormId)
