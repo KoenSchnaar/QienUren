@@ -182,3 +182,7 @@ body {
     font-size: 18px;
     font-weight: 500;
 }
+
+.validation-failed{
+    color: red;
+}
