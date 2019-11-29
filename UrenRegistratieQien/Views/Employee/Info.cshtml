@@ -1,0 +1,58 @@
+﻿@*nog aanpassen naar juiste model*@
+@model UrenRegistratieQien.Models.EmployeeModel
+
+@{
+    ViewData["Title"] = "Info";
+}
+<br />
+<br />
+<br />
+<br />
+
+<div class="Container-1">
+    <div class="box-1">
+        <div class="Naam">@Model.FirstName @Model.LastName</div>
+        <div align="center"><img src="..\..\Images\UserImageTest.jpg" style="margin: 0 auto; height: 140px; width: 140px" /></div>
+        <div class="TextInBox">Algemeen</div>
+        <a asp-controller="Employee" asp-action="Info">Info</a><br />
+        <a asp-controller="Employee" asp-action="Dashboard">Dashboard</a>
+        <br />
+        <br />
+        <br />
+    </div>
+
+    <div class="table-wrapper box-2" align="center">
+        <table class="fl-table">
+            <thead>
+                <tr>
+                    <th>Werknemer</th>
+                    <th>Werkgever</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>@Model.FirstName @Model.LastName</td>
+                    <td>@ViewBag.Client.Contact1Name</td>
+                </tr>
+                <tr>
+                    <td>@Model.Address</td>
+                    <td>@ViewBag.Client.CompanyName</td>
+                </tr>
+                <tr>
+                    <td>@Model.ZIPCode, @Model.Residence</td>
+                    <td>Postcode en woonplaats</td>
+                </tr>
+                <tr>
+                    <td>@Model.Phone</td>
+                    <td>@ViewBag.Client.Contact1Phone</td>
+                </tr>
+                <tr>
+                    <td>@Model.Email</td>
+                    <td>@ViewBag.Client.Contact1Email</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

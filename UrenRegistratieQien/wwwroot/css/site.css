@@ -149,3 +149,36 @@ body {
 .fl-table tr:nth-child(even) {
     background: #F8F8F8;
 }
+
+.Container-1 {
+    display: flex;
+}
+
+.box-1 {
+    width: 18%;
+    padding: 10px;
+    border: solid purple 2px;
+    height: 600px;
+}
+
+.box-2 {
+    width: 82%;
+    padding: 10px;
+}
+
+.box-3 {
+    width: 82%;
+    padding-left: 150px;
+}
+
+
+/*Overig*/
+.Naam{
+    text-align: center;
+    font-size: 20px;
+}
+
+.TextInBox{
+    font-size: 18px;
+    font-weight: 500;
+}
