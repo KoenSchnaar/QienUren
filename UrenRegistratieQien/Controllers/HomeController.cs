@@ -45,7 +45,7 @@ namespace UrenRegistratieQien.Controllers
                 case 4:
                     return RedirectToAction("Dashboard", "Employee"); //inactief
                 default:
-                    return View("~/Views/Home/AccesDenied.cshtml");
+                    return View("~/Views/Home/AccessDenied.cshtml");
             }
         }
 
