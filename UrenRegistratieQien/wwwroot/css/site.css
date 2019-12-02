@@ -31,15 +31,15 @@ a {
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #9C4AF0;
+    border-color: #fff;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #9C4AF0;
+    
 }
 .linkjes {
     color: black !important;
@@ -185,4 +185,8 @@ body {
 .TextInBox{
     font-size: 18px;
     font-weight: 500;
+}
+
+.validation-failed{
+    color: red;
 }
