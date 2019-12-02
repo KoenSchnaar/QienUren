@@ -134,7 +134,11 @@ namespace UrenRegistratieQien.Repositories
                 Submitted = entity.Submitted,
                 Comment = entity.Comment,
                 Year = entity.Year,
-                uniqueId = entity.uniqueId
+                uniqueId = entity.uniqueId,
+                TotalWorkedHours = entity.TotalWorkedHours,
+                TotalOvertime = entity.TotalOvertime,
+                TotalSickness = entity.TotalSickness,
+                TotalVacation = entity.TotalVacation
             };
             return form;
         }
@@ -177,7 +181,11 @@ namespace UrenRegistratieQien.Repositories
                 Approved = entity.Approved,
                 Submitted = entity.Submitted,
                 Comment = entity.Comment,
-                uniqueId = entity.uniqueId
+                uniqueId = entity.uniqueId,
+                TotalWorkedHours = entity.TotalWorkedHours,
+                TotalOvertime = entity.TotalOvertime,
+                TotalSickness = entity.TotalSickness,
+                TotalVacation = entity.TotalVacation
             };
 
             return newModel;
@@ -231,7 +239,11 @@ namespace UrenRegistratieQien.Repositories
                     Submitted = form.Submitted,
                     Comment = form.Comment,
                     Year = form.Year,
-                    uniqueId = form.uniqueId
+                    uniqueId = form.uniqueId,
+                    TotalWorkedHours = form.TotalWorkedHours,
+                    TotalOvertime = form.TotalOvertime,
+                    TotalSickness = form.TotalSickness,
+                    TotalVacation = form.TotalVacation
                 };
 
                 forms.Add(newModel);
@@ -391,7 +403,11 @@ namespace UrenRegistratieQien.Repositories
                     Submitted = form.Submitted,
                     Comment = form.Comment,
                     Year = form.Year,
-                    uniqueId = form.uniqueId
+                    uniqueId = form.uniqueId,
+                    TotalWorkedHours = form.TotalWorkedHours,
+                    TotalOvertime = form.TotalOvertime,
+                    TotalSickness = form.TotalSickness,
+                    TotalVacation = form.TotalVacation
                 };
 
                 forms.Add(newModel);
@@ -446,7 +462,11 @@ namespace UrenRegistratieQien.Repositories
                     Submitted = form.Submitted,
                     Comment = form.Comment,
                     Year = form.Year,
-                    uniqueId = form.uniqueId
+                    uniqueId = form.uniqueId,
+                    TotalWorkedHours = form.TotalWorkedHours,
+                    TotalOvertime = form.TotalOvertime,
+                    TotalSickness = form.TotalSickness,
+                    TotalVacation = form.TotalVacation
                 };
 
                 forms.Add(newModel);
@@ -500,7 +520,11 @@ namespace UrenRegistratieQien.Repositories
                     Submitted = form.Submitted,
                     Comment = form.Comment,
                     Year = form.Year,
-                    uniqueId = form.uniqueId
+                    uniqueId = form.uniqueId,
+                    TotalWorkedHours = form.TotalWorkedHours,
+                    TotalOvertime = form.TotalOvertime,
+                    TotalSickness = form.TotalSickness,
+                    TotalVacation = form.TotalVacation
                 };
                 forms.Add(newModel);
             }
@@ -553,7 +577,11 @@ namespace UrenRegistratieQien.Repositories
                     Submitted = form.Submitted,
                     Comment = form.Comment,
                     Year = form.Year,
-                    uniqueId = form.uniqueId
+                    uniqueId = form.uniqueId,
+                    TotalWorkedHours = form.TotalWorkedHours,
+                    TotalOvertime = form.TotalOvertime,
+                    TotalSickness = form.TotalSickness,
+                    TotalVacation = form.TotalVacation
                 };
                 forms.Add(newModel);
             }
@@ -880,11 +908,18 @@ namespace UrenRegistratieQien.Repositories
             {
                 return false;
             }
-            
-
         }
-
-
-
+        public void CalculateTotalHours(DeclarationFormModel decModel)
+        {
+            foreach (var HourRow in decModel.HourRows)
+            {
+                var declarationformEntity = context.DeclarationForms.Single(df => df.DeclarationFormId == decModel.FormId);
+                declarationformEntity.TotalWorkedHours += HourRow.Worked;
+                declarationformEntity.TotalOvertime += HourRow.Overtime;
+                declarationformEntity.TotalSickness += HourRow.Sickness;
+                declarationformEntity.TotalVacation += HourRow.Vacation;
+            }
+            context.SaveChanges();
+        }
     }
 }

@@ -6,20 +6,25 @@ using Microsoft.AspNetCore.Mvc;
 using UrenRegistratieQien.Repositories;
 using UrenRegistratieQien.Models;
 using UrenRegistratieQien.GlobalClasses;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using UrenRegistratieQien.DatabaseClasses;
 
 namespace UrenRegistratieQien.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         private readonly IDeclarationFormRepository declarationFormRepo;
-
+        private readonly UserManager<Employee> _userManager;
         private readonly IEmployeeRepository employeeRepo;
         private readonly IClientRepository clientRepo;
         public List<string> monthList { get; set; }
 
-        public AdminController(IDeclarationFormRepository DeclarationFormRepo, IEmployeeRepository EmployeeRepo, IClientRepository ClientRepo)
+        public AdminController(IDeclarationFormRepository DeclarationFormRepo, IEmployeeRepository EmployeeRepo, IClientRepository ClientRepo, UserManager<Employee> userManager = null)
         {
 
+            _userManager = userManager;
             declarationFormRepo = DeclarationFormRepo;
             employeeRepo = EmployeeRepo;
             clientRepo = ClientRepo;
@@ -35,126 +40,253 @@ namespace UrenRegistratieQien.Controllers
 
         public IActionResult ShowEmployees()
         {
-            var employees = employeeRepo.GetEmployees();
-            return View(employees);
+            if (UserIsAdmin())
+            {
+                var employees = employeeRepo.GetEmployees();
+                return View(employees);
+            } else
+            {
+                return AccessDeniedView();
+            }
+            
         }
 
         public IActionResult ChangeEmployee(string EmployeeId)
         {
-            var employee = employeeRepo.GetEmployee(EmployeeId);
-            return View(employee);
+            if (UserIsAdmin())
+            {
+                var employee = employeeRepo.GetEmployee(EmployeeId);
+                return View(employee);
+            }
+            else
+            {
+                return AccessDeniedView();
+            }
+
         }
         
         public IActionResult DeleteEmployee(string employeeId)
         {
-            employeeRepo.DeleteEmployee(employeeId);
-            return RedirectToAction("ShowEmployees");
+            if (UserIsAdmin())
+            {
+                employeeRepo.DeleteEmployee(employeeId);
+                return RedirectToAction("ShowEmployees");
+            }
+            else
+            {
+                return AccessDeniedView();
+            }
+
         }
 
         [HttpPost]
         public IActionResult EditEmployee(EmployeeModel empModel)
         {
-            employeeRepo.EditEmployee(empModel);
-            return RedirectToAction("ShowEmployees");
+            if (UserIsAdmin())
+            {
+                employeeRepo.EditEmployee(empModel);
+                return RedirectToAction("ShowEmployees");
+            }
+            else
+            {
+                return AccessDeniedView();
+            }
+
         }
 
         public IActionResult ShowClients()
         {
-            var clients = clientRepo.GetAllClients();
-            return View(clients);
+            if (UserIsAdmin())
+            {
+                var clients = clientRepo.GetAllClients();
+                return View(clients);
+            }
+            else
+            {
+                return AccessDeniedView();
+            }
+
         }
 
         public IActionResult AddClient()
         {
-            return View(new ClientModel());
+            if (UserIsAdmin())
+            {
+                return View(new ClientModel());
+
+            } else
+            {
+                return AccessDeniedView();
+            }
         }
 
         [HttpPost]
         public IActionResult AddClient(ClientModel clientModel)
         {
-            clientRepo.AddNewClient(clientModel);
-            return RedirectToAction("ShowClients");
+            if (UserIsAdmin())
+            {
+
+                clientRepo.AddNewClient(clientModel);
+                return RedirectToAction("ShowClients");
+            } else
+            {
+                return AccessDeniedView();
+            }
         }
 
         public IActionResult ChangeClient(int clientId)
         {
-            return View(clientRepo.GetClient(clientId)); 
+            if (UserIsAdmin())
+            {
+
+                return View(clientRepo.GetClient(clientId));
+            } else
+            {
+                return AccessDeniedView();
+            }
         }
 
         [HttpPost]
         public IActionResult EditClient(ClientModel clientModel)
         {
-            var x = clientModel.CompanyPhone;
-            clientRepo.EditAClient(clientModel);
-            return RedirectToAction("ShowClients");
+            if (UserIsAdmin())
+            {
+                clientRepo.EditAClient(clientModel);
+                return RedirectToAction("ShowClients");
+
+            } else
+            {
+                return AccessDeniedView();
+            }
         }
         public IActionResult DeleteClient(int clientId)
         {
-            clientRepo.DeleteClient(clientId);
-            return RedirectToAction("ShowClients");
+            if (UserIsAdmin())
+            {
+                clientRepo.DeleteClient(clientId);
+                return RedirectToAction("ShowClients");
+
+            } else
+            {
+                return AccessDeniedView();
+            }
         }
 
         public IActionResult ViewDeclarationForm(int formId)
         {
-            var form = declarationFormRepo.GetFormByFormId(formId);
-            return View(form);
+            if (UserIsAdmin())
+            {
+                var form = declarationFormRepo.GetFormByFormId(formId);
+                return View(form);
+            } else
+            {
+                return AccessDeniedView();
+            }
         }
 
         public IActionResult Admin(string year, string month, string employeeName, string approved, string submitted, string totalhoursmonth, int totalhoursyear)
 
         {
-
-            ViewBag.AllForms = declarationFormRepo.GetAllForms();
-            ViewBag.Months = monthList;
-            var forms = declarationFormRepo.GetAllForms();
-
-            if (totalhoursyear == 0)
+            if (UserIsAdmin())
             {
-                totalhoursyear = DateTime.Now.Year;
-            }
 
-            ViewBag.TotalHoursWorked = declarationFormRepo.TotalHoursWorked(forms, totalhoursmonth, totalhoursyear);
-            ViewBag.TotalHoursOvertime = declarationFormRepo.TotalHoursOvertime(forms, totalhoursmonth, totalhoursyear);
-            ViewBag.TotalHoursSickness = declarationFormRepo.TotalHoursSickness(forms, totalhoursmonth, totalhoursyear);
-            ViewBag.TotalHoursVacation = declarationFormRepo.TotalHoursVacation(forms, totalhoursmonth, totalhoursyear);
-            ViewBag.TotalHoursHoliday = declarationFormRepo.TotalHoursHoliday(forms, totalhoursmonth, totalhoursyear);
-            ViewBag.TotalHoursTraining = declarationFormRepo.TotalHoursTraining(forms, totalhoursmonth, totalhoursyear);
-            ViewBag.TotalHoursOther = declarationFormRepo.TotalHoursOther(forms, totalhoursmonth, totalhoursyear);
+                ViewBag.AllForms = declarationFormRepo.GetAllForms();
+                ViewBag.Months = monthList;
+                var forms = declarationFormRepo.GetAllForms();
 
-            string employeeId;
-            if(employeeName != null)
-            {
-                employeeId = employeeRepo.GetEmployeeByName(employeeName).EmployeeId;
+                if (totalhoursyear == 0)
+                {
+                    totalhoursyear = DateTime.Now.Year;
+                }
+
+                ViewBag.TotalHoursWorked = declarationFormRepo.TotalHoursWorked(forms, totalhoursmonth, totalhoursyear);
+                ViewBag.TotalHoursOvertime = declarationFormRepo.TotalHoursOvertime(forms, totalhoursmonth, totalhoursyear);
+                ViewBag.TotalHoursSickness = declarationFormRepo.TotalHoursSickness(forms, totalhoursmonth, totalhoursyear);
+                ViewBag.TotalHoursVacation = declarationFormRepo.TotalHoursVacation(forms, totalhoursmonth, totalhoursyear);
+                ViewBag.TotalHoursHoliday = declarationFormRepo.TotalHoursHoliday(forms, totalhoursmonth, totalhoursyear);
+                ViewBag.TotalHoursTraining = declarationFormRepo.TotalHoursTraining(forms, totalhoursmonth, totalhoursyear);
+                ViewBag.TotalHoursOther = declarationFormRepo.TotalHoursOther(forms, totalhoursmonth, totalhoursyear);
+
+                string employeeId;
+                if (employeeName != null)
+                {
+                    employeeId = employeeRepo.GetEmployeeByName(employeeName).EmployeeId;
+                }
+                else
+                {
+                    employeeId = null;
+                }
+                return View(declarationFormRepo.GetFilteredForms(year, employeeId, month, approved, submitted));
             } else
             {
-                employeeId = null;
+                return AccessDeniedView();
             }
-            return View(declarationFormRepo.GetFilteredForms(year, employeeId, month, approved, submitted));
         }
 
         public IActionResult AdminWithEmployeeId(string employeeId)
         {
+            if (UserIsAdmin())
+            {
+                ViewBag.AllForms = declarationFormRepo.GetAllForms();
+                ViewBag.Months = monthList;
+                var forms = declarationFormRepo.GetAllFormsOfUser(employeeId);
+                return View("~/Views/Admin/Admin.cshtml", forms);
+            } else
+            {
+                return AccessDeniedView();
+            }
 
-            ViewBag.AllForms = declarationFormRepo.GetAllForms();
-            ViewBag.Months = monthList;
-            var forms = declarationFormRepo.GetAllFormsOfUser(employeeId);
-            return View("~/Views/Admin/Admin.cshtml", forms);
+
         }
 
         public IActionResult AdminWithMonthYear(string month, int year)
         {
-            ViewBag.AllForms = declarationFormRepo.GetAllForms();
-            ViewBag.Months = monthList;
-            var forms = declarationFormRepo.GetAllFormsOfMonth(MonthConverter.ConvertMonthToInt(month));
-            return View("~/Views/Admin/Admin.cshtml", forms);
+            if (UserIsAdmin())
+            {
+                ViewBag.AllForms = declarationFormRepo.GetAllForms();
+                ViewBag.Months = monthList;
+                var forms = declarationFormRepo.GetAllFormsOfMonth(MonthConverter.ConvertMonthToInt(month));
+                return View("~/Views/Admin/Admin.cshtml", forms);
+
+            } else
+            {
+                return AccessDeniedView();
+            }
         }
 
 
 
         public IActionResult EmployeeForms(string employeeId)
         {
-            var forms = declarationFormRepo.GetAllFormsOfUser(employeeId);
-            return View(forms);
+            if (UserIsAdmin())
+            {
+                var forms = declarationFormRepo.GetAllFormsOfUser(employeeId);
+                return View(forms);
+
+            } else
+            {
+                return AccessDeniedView();
+            }
         }
+
+        public bool UserIsAdmin()
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+            var user = employeeRepo.GetEmployee(userId);
+
+            if (user.Role == 1)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+
+        public ViewResult AccessDeniedView()
+        {
+            return View("~/Views/Home/AccessDenied.cshtml");
+        }
+        
     }
 }
