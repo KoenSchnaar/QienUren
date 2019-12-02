@@ -53,7 +53,7 @@ namespace UrenRegistratieQien.Repositories
         public void CreateForm(string employeeId)
         {
             var entities = context.DeclarationForms.Where(p => p.EmployeeId == employeeId).ToList();
-            if(entities.Count() > 0)
+            if (entities.Count() > 0)
             {
                 var entitiesIndex = entities.Count() - 1;
                 var entity = entities[entitiesIndex];
@@ -82,7 +82,8 @@ namespace UrenRegistratieQien.Repositories
                 };
 
                 context.DeclarationForms.Add(form);
-            } else
+            }
+            else
             {
                 var monthInt = DateTime.Now.Month;
                 var monthString = MonthConverter.ConvertIntToMonth(monthInt);
@@ -243,11 +244,11 @@ namespace UrenRegistratieQien.Repositories
 
         public List<DeclarationFormModel> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted)
         {
-            if(approved == "Goedgekeurd")
+            if (approved == "Goedgekeurd")
             {
                 approved = "true";
             }
-            if(approved == "Niet goedgekeurd")
+            if (approved == "Niet goedgekeurd")
             {
                 approved = "false";
             }
@@ -277,7 +278,8 @@ namespace UrenRegistratieQien.Repositories
                 }
             }
 
-            if (employeeId != null){
+            if (employeeId != null)
+            {
 
                 foreach (DeclarationForm entity in entities)
                 {
@@ -287,13 +289,15 @@ namespace UrenRegistratieQien.Repositories
                     }
                 }
             }
-            foreach(DeclarationForm declarationForm in holderList)
+            foreach (DeclarationForm declarationForm in holderList)
             {
-                if (entities.Contains(declarationForm)){
+                if (entities.Contains(declarationForm))
+                {
                     entities.Remove(declarationForm);
                 }
             }
-            if (month != null) {
+            if (month != null)
+            {
 
                 foreach (DeclarationForm entity in entities)
                 {
@@ -311,19 +315,20 @@ namespace UrenRegistratieQien.Repositories
                     entities.Remove(declarationForm);
                 }
             }
-            if (approved != null){
+            if (approved != null)
+            {
 
                 bool boolApproved = Convert.ToBoolean(approved);
                 foreach (DeclarationForm entity in entities)
-                    {
-                    
-                        if (entity.Approved != boolApproved)
-                        {
-                            holderList.Add(entity);
-                        }
-                    }
+                {
 
+                    if (entity.Approved != boolApproved)
+                    {
+                        holderList.Add(entity);
+                    }
                 }
+
+            }
             foreach (DeclarationForm declarationForm in holderList)
             {
                 if (entities.Contains(declarationForm))
@@ -331,18 +336,19 @@ namespace UrenRegistratieQien.Repositories
                     entities.Remove(declarationForm);
                 }
             }
-            if (submitted != null){
+            if (submitted != null)
+            {
 
                 bool boolSubmitted = Convert.ToBoolean(submitted);
-                    foreach (DeclarationForm entity in entities)
+                foreach (DeclarationForm entity in entities)
+                {
+                    if (entity.Submitted != boolSubmitted)
                     {
-                        if (entity.Submitted != boolSubmitted)
-                        {
-                            holderList.Add(entity);
-                        }
+                        holderList.Add(entity);
                     }
-
                 }
+
+            }
             foreach (DeclarationForm declarationForm in holderList)
             {
                 if (entities.Contains(declarationForm))
@@ -462,13 +468,13 @@ namespace UrenRegistratieQien.Repositories
             var entities = context.DeclarationForms.Include(df => df.HourRows).Where(d => d.EmployeeId == userId).ToList();
             var forms = new List<DeclarationFormModel>();
 
-            
+
 
             foreach (var form in entities)
             {
                 List<HourRowModel> ListOfHourRowModels = new List<HourRowModel>();
 
-                foreach(HourRow hourRow in form.HourRows)
+                foreach (HourRow hourRow in form.HourRows)
                 {
                     HourRowModel newHourRowModel = new HourRowModel
                     {
@@ -592,11 +598,11 @@ namespace UrenRegistratieQien.Repositories
         {
 
             int counter = 0;
-            if(Month == null)
+            if (Month == null)
             {
-                foreach(var Form in DeclarationFormList)
+                foreach (var Form in DeclarationFormList)
                 {
-                    if(Form.Year == Year)
+                    if (Form.Year == Year)
                     {
                         foreach (var HourRow in Form.HourRows)
                         {
@@ -605,11 +611,12 @@ namespace UrenRegistratieQien.Repositories
                     }
 
                 }
-            } else
+            }
+            else
             {
                 foreach (var Form in DeclarationFormList)
                 {
-                    if(Form.Year == Year)
+                    if (Form.Year == Year)
                     {
                         if (Form.Month == Month)
                         {
@@ -882,38 +889,28 @@ namespace UrenRegistratieQien.Repositories
             {
                 return false;
             }
-            
-
         }
 
-        public int TotalHoursWorkedByFormId(int formId, string month, int year)
+        public Tuple<int, int, int> CalculateTotalHours(DeclarationFormModel decModel)
         {
-            var entity = context.DeclarationForms.Single(p => p.DeclarationFormId == formId);
-            int counter = 0;
-            if (month == null)
-            {               
-                if (entity.Year == year)
-                {
-                    foreach (var HourRow in entity.HourRows)
-                    {
-                        counter += HourRow.Worked;
-                    }
-                }
-            }
-            else
+            foreach (var HourRow in decModel.HourRows)
             {
-                if (entity.Year == year)
-                {
-                    if (entity.Month == month)
-                    {
-                        foreach (var HourRow in entity.HourRows)
-                        {
-                            counter += HourRow.Worked;
-                        }
-}
-                    }
-                }
-            return counter;
-        }        
+                decModel.TotalWorkedHours += HourRow.Worked;
+                decModel.TotalOvertime += HourRow.Overtime;
+                decModel.TotalSickness += HourRow.Sickness;
+            }
+            return Tuple.Create(decModel.TotalWorkedHours, decModel.TotalOvertime, decModel.TotalSickness);
+        }
+        //public int TotalHoursOvertimeByFormId(int formId)
+        //{
+        //    var entity = context.DeclarationForms.Include(df => df.HourRows).Single(p => p.DeclarationFormId == formId);
+        //    int counter = 0;
+        //    foreach (var HourRow in entity.HourRows)
+        //    {
+        //        counter += HourRow.Overtime;
+        //    }
+        //    return counter;
+        //}
     }
 }
+

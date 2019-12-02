@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UrenRegistratieQien.Models;
 
 namespace UrenRegistratieQien.Repositories
@@ -27,9 +28,9 @@ namespace UrenRegistratieQien.Repositories
         public List<DeclarationFormModel> GetAllFormsOfMonth(int month);
         public void CreateForm(string employeeId);
         public string GenerateUniqueId();
-        public int TotalHoursWorkedByFormId(int formId, string month, int year);
         public void ApproveForm(int formId);
         public void RejectForm(int formId, string comment);
+        public Tuple<int, int, int> CalculateTotalHours(DeclarationFormModel decModel);
 
 
 

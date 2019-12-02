@@ -50,28 +50,5 @@ namespace UrenRegistratieQien.Controllers
             ViewBag.Client = clientRepo.GetClientByUserId(userId);
             return View(Employee);
         }
-
-        //public IActionResult DashboardTotal(int formId, string totalhoursmonth, int totalhoursyear)
-        //{
-        //    var userId = _userManager.GetUserId(HttpContext.User); //ophalen van userId die is ingelogd
-        //    ViewBag.User = employeeRepo.GetEmployee(userId);
-        //    ViewBag.Client = clientRepo.GetClientByUserId(userId);
-        //    var x = declarationRepo.TotalHoursWorkedByFormId(formId, totalhoursmonth, totalhoursyear);
-        //    ViewBag.TotalHoursWorkedByFormId = declarationRepo.TotalHoursWorkedByFormId(formId, totalhoursmonth, totalhoursyear);
-        //    var inputModel = declarationRepo.GetAllFormsOfUser(userId);
-        //    return View(inputModel);
-
-
-
-            ////var form = declarationRepo.GetFormByFormId(formId);
-            //declarationRepo.TotalHoursWorkedByFormId(formId, totalhoursmonth, totalhoursyear);
-            //if (totalhoursyear == 0)
-            //{
-            //    totalhoursyear = DateTime.Now.Year;
-            //}
-
-            //return View("Dashboard");
-            //return View(declarationRepo.GetAllFormsOfUser(employeeId));
         }
     }
-//}

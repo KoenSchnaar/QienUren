@@ -31,7 +31,6 @@ namespace UrenRegistratieQien.Controllers
         public IActionResult HourReg(int declarationFormId, string userId, int year, string month)
         {
             hourRowRepo.AddHourRows(year, month, declarationFormId);
-            //declarationRepo.TotalHoursWorkedByFormId(declarationFormId, month, year);
             ViewBag.User = employeeRepo.GetEmployee(userId);
             var inputModel = declarationRepo.GetForm(declarationFormId, userId);
             return View(inputModel);
@@ -41,6 +40,11 @@ namespace UrenRegistratieQien.Controllers
         public IActionResult HourReg(DeclarationFormModel decModel)
         {
             declarationRepo.EditDeclarationForm(decModel);
+            declarationRepo.CalculateTotalHours(decModel);
+            ViewBag.TotalWorkedHours = declarationRepo.CalculateTotalHours(decModel).Item1;
+            ViewBag.TotalOvertime = declarationRepo.CalculateTotalHours(decModel).Item2;
+            ViewBag.TotalSickness = declarationRepo.CalculateTotalHours(decModel).Item3;
+            //return View("~/ Views / Employee / Dashboard.cshtml");
             return RedirectToAction("Dashboard", "Employee");
         }
 
