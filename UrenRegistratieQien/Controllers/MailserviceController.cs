@@ -35,6 +35,7 @@ namespace UrenRegistratieQien.Controllers
             message.To.Add(new MailboxAddress("Luuk", "luuk_wolferen@hotmail.com"));
             message.Subject = $"Urendeclaratieformulier van {employeeName} voor de maand {decModel.Month}";
             message.Body = new TextPart("plain")
+            
             {
                 Text = $"{employeeName} wil graag dat u het urendeclaratieformulier goedkeurt. Klik op de link om naar het formulier te gaan: https://localhost:5001/Mailservice/ApproveOrReject/?uniqueId=" + uniqueId + "&formId=" + formId
             };
