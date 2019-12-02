@@ -102,14 +102,14 @@ namespace UrenRegistratieQien.Repositories
         public void ApproveForm(int formId)
         {
             var form = context.DeclarationForms.Single(p => p.DeclarationFormId == formId);
-            form.Approved = true;
+            form.Approved = "Approved";
             context.SaveChanges();
         }
 
         public void RejectForm(int formId, string comment)
         {
             var form = context.DeclarationForms.Single(p => p.DeclarationFormId == formId);
-            form.Approved = false;
+            form.Approved = "Rejected";
             form.Comment = comment;
             context.SaveChanges();
         }
@@ -243,11 +243,11 @@ namespace UrenRegistratieQien.Repositories
         {
             if(approved == "Goedgekeurd")
             {
-                approved = "true";
+                approved = "Approved";
             }
             if(approved == "Niet goedgekeurd")
             {
-                approved = "false";
+                approved = "Rejected";
             }
             if (submitted == "Ingediend")
             {
@@ -315,7 +315,7 @@ namespace UrenRegistratieQien.Repositories
                 foreach (DeclarationForm entity in entities)
                     {
                     
-                        if (entity.Approved != boolApproved)
+                        if (entity.Approved == "Rejected")
                         {
                             holderList.Add(entity);
                         }
