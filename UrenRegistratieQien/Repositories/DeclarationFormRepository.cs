@@ -130,7 +130,7 @@ namespace UrenRegistratieQien.Repositories
                 EmployeeId = entity.EmployeeId,
                 EmployeeName = employeeName,
                 Month = entity.Month,
-                Approved = entity.Approved,
+                //Approved = entity.Approved,
                 Submitted = entity.Submitted,
                 Comment = entity.Comment,
                 Year = entity.Year,
@@ -178,7 +178,7 @@ namespace UrenRegistratieQien.Repositories
                 EmployeeId = entity.EmployeeId,
                 EmployeeName = employeeName,
                 Month = entity.Month,
-                Approved = entity.Approved,
+                //Approved = entity.Approved,
                 Submitted = entity.Submitted,
                 Comment = entity.Comment,
                 uniqueId = entity.uniqueId,
@@ -194,7 +194,7 @@ namespace UrenRegistratieQien.Repositories
         //get forms die niet goedgekeurd zijn
         public List<DeclarationFormModel> GetNotApprovedForms()
         {
-            var entities = context.DeclarationForms.Include(df => df.HourRows).OrderByDescending(df => df.DeclarationFormId).Where(df => df.Approved == false).ToList();
+            var entities = context.DeclarationForms.Include(df => df.HourRows).OrderByDescending(df => df.DeclarationFormId).Where(df => df.Approved == "Rejected").ToList();
 
             var forms = new List<DeclarationFormModel>();
 
@@ -235,7 +235,7 @@ namespace UrenRegistratieQien.Repositories
                     EmployeeId = form.EmployeeId,
                     EmployeeName = employeeName,
                     Month = form.Month,
-                    Approved = form.Approved,
+                    //Approved = form.Approved,
                     Submitted = form.Submitted,
                     Comment = form.Comment,
                     Year = form.Year,
@@ -399,7 +399,7 @@ namespace UrenRegistratieQien.Repositories
                     EmployeeId = form.EmployeeId,
                     EmployeeName = employeeName,
                     Month = form.Month,
-                    Approved = form.Approved,
+                    //Approved = form.Approved,
                     Submitted = form.Submitted,
                     Comment = form.Comment,
                     Year = form.Year,
@@ -458,7 +458,7 @@ namespace UrenRegistratieQien.Repositories
                     EmployeeId = form.EmployeeId,
                     EmployeeName = employeeName,
                     Month = form.Month,
-                    Approved = form.Approved,
+                    //Approved = form.Approved,
                     Submitted = form.Submitted,
                     Comment = form.Comment,
                     Year = form.Year,
@@ -516,7 +516,7 @@ namespace UrenRegistratieQien.Repositories
                     HourRows = ListOfHourRowModels,
                     EmployeeId = form.EmployeeId,
                     Month = form.Month,
-                    Approved = form.Approved,
+                    //Approved = form.Approved,
                     Submitted = form.Submitted,
                     Comment = form.Comment,
                     Year = form.Year,
@@ -573,7 +573,7 @@ namespace UrenRegistratieQien.Repositories
                     HourRows = ListOfHourRowModels,
                     EmployeeId = form.EmployeeId,
                     Month = form.Month,
-                    Approved = form.Approved,
+                    //Approved = form.Approved,
                     Submitted = form.Submitted,
                     Comment = form.Comment,
                     Year = form.Year,
