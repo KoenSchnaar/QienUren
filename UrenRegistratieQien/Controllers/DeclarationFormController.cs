@@ -41,9 +41,6 @@ namespace UrenRegistratieQien.Controllers
         {
             declarationRepo.EditDeclarationForm(decModel);
             declarationRepo.CalculateTotalHours(decModel);
-            ViewBag.TotalWorkedHours = declarationRepo.CalculateTotalHours(decModel).Item1;
-            ViewBag.TotalOvertime = declarationRepo.CalculateTotalHours(decModel).Item2;
-            ViewBag.TotalSickness = declarationRepo.CalculateTotalHours(decModel).Item3;
             //return View("~/ Views / Employee / Dashboard.cshtml");
             return RedirectToAction("Dashboard", "Employee");
         }
@@ -53,6 +50,7 @@ namespace UrenRegistratieQien.Controllers
         {
             declarationRepo.EditDeclarationForm(decModel);
             declarationRepo.SubmitDeclarationForm(decModel);
+            declarationRepo.CalculateTotalHours(decModel);
             return RedirectToAction("Dashboard", "Employee");
         }
 

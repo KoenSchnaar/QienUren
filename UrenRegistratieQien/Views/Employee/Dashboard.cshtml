@@ -6,9 +6,6 @@
     var employeeId = ViewBag.userId;
     var years = new List<int>();
     var employeeName = ViewBag.User.FirstName + " " + ViewBag.User.LastName;
-    var TotalWorkedHours = ViewBag.TotalWorkedHours;
-    var TotalOvertime = ViewBag.TotalOvertime;
-    var TotalSickness = ViewBag.TotalSickness;
     foreach(DeclarationFormModel declarationFormModel in ViewBag.AllForms)
     {
         if (!years.Contains(declarationFormModel.Year))
@@ -91,9 +88,9 @@
                     <tr>
                         <td>@form.Year</td>
                         <td>@form.Month</td>
-                        <td>@TotalWorkedHours</td>
-                        <td>@TotalOvertime</td>
-                        <td>@TotalSickness</td>
+                        <td>@form.TotalWorkedHours</td>
+                        <td>@form.TotalOvertime</td>
+                        <td>@form.TotalSickness</td>
                         <td>
                             @if (form.Approved == true)
                             {

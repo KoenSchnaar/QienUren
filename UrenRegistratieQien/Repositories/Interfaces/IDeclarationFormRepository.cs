@@ -30,8 +30,8 @@ namespace UrenRegistratieQien.Repositories
         public string GenerateUniqueId();
         public void ApproveForm(int formId);
         public void RejectForm(int formId, string comment);
-        public Tuple<int, int, int> CalculateTotalHours(DeclarationFormModel decModel);
-
+        //public Tuple<int, int, int> CalculateTotalHours(DeclarationFormModel decModel);
+        public void CalculateTotalHours(DeclarationFormModel decModel);
 
 
     }
