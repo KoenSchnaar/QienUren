@@ -70,16 +70,19 @@ namespace UrenRegistratieQien.Repositories
                 {
                     year = year + 1;
                 }
-
-
-                var form = new DeclarationForm
-                {
-                    EmployeeId = employeeId,
-                    Month = monthString,
-                    Year = year,
-                    uniqueId = GenerateUniqueId()
-                };
-                context.DeclarationForms.Add(form);
+                //var monthNow = DateTime.Now.Month;
+                //if (monthInt == monthNow)
+                //{
+                    var form = new DeclarationForm
+                    {
+                        EmployeeId = employeeId,
+                        Month = monthString,
+                        Year = year,
+                        uniqueId = GenerateUniqueId()
+                    };
+                    context.DeclarationForms.Add(form);
+                //}
+                
             } else
             {
                 var monthInt = DateTime.Now.Month;
