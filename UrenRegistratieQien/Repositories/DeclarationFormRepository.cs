@@ -104,7 +104,8 @@ namespace UrenRegistratieQien.Repositories
                     TotalWorkedHours = 0,
                     TotalOvertime = 0,
                     TotalSickness = 0,
-                    TotalVacation = 0
+                    TotalVacation = 0,
+                    DateCreated = DateTime.Now
                 };
                 context.DeclarationForms.Add(form);
             } else
@@ -123,7 +124,8 @@ namespace UrenRegistratieQien.Repositories
                     TotalWorkedHours = 0,
                     TotalOvertime = 0,
                     TotalSickness = 0,
-                    TotalVacation = 0
+                    TotalVacation = 0,
+                    DateCreated = DateTime.Now
                 };
 
                 context.DeclarationForms.Add(form);
@@ -165,6 +167,7 @@ namespace UrenRegistratieQien.Repositories
                     Training = hourRow.Training,
                     Other = hourRow.Other,
                     OtherExplanation = hourRow.OtherExplanation
+                    
                 };
 
                 ListOfHourRowModels.Add(newHourRowModel);
@@ -188,7 +191,8 @@ namespace UrenRegistratieQien.Repositories
                 TotalWorkedHours = entity.TotalWorkedHours,
                 TotalOvertime = entity.TotalOvertime,
                 TotalSickness = entity.TotalSickness,
-                TotalVacation = entity.TotalVacation
+                TotalVacation = entity.TotalVacation,
+                DateCreated = entity.DateCreated
             };
             return newModel;
 
@@ -240,7 +244,8 @@ namespace UrenRegistratieQien.Repositories
                     TotalWorkedHours = form.TotalWorkedHours,
                     TotalOvertime = form.TotalOvertime,
                     TotalSickness = form.TotalSickness,
-                    TotalVacation = form.TotalVacation
+                    TotalVacation = form.TotalVacation,
+                    DateCreated = form.DateCreated
                 };
 
                 forms.Add(newModel);
@@ -270,7 +275,7 @@ namespace UrenRegistratieQien.Repositories
             return notApprovedForms;
         }
 
-        public List<DeclarationFormModel> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted)
+        public List<DeclarationFormModel> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted, string sortDate)
         {
             if(approved == "Goedgekeurd")
             {
@@ -289,8 +294,17 @@ namespace UrenRegistratieQien.Repositories
                 submitted = "false";
             }
 
-            var entities = context.DeclarationForms.Include(df => df.HourRows)
+            var entities = new List<DeclarationForm>();
+            if(sortDate == "Ascending")
+            {
+                entities = context.DeclarationForms.Include(df => df.HourRows)
+                .OrderBy(df => df.DeclarationFormId).ToList();
+            } else
+            {
+                entities = context.DeclarationForms.Include(df => df.HourRows)
                 .OrderByDescending(df => df.DeclarationFormId).ToList();
+            }
+           
 
             List<DeclarationForm> holderList = new List<DeclarationForm>();
 
@@ -342,7 +356,6 @@ namespace UrenRegistratieQien.Repositories
             }
             if (approved != null){
 
-                bool boolApproved = Convert.ToBoolean(approved);
                 foreach (DeclarationForm entity in entities)
                     {
                     

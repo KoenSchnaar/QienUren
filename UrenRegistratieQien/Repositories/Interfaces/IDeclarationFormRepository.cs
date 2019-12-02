@@ -6,7 +6,7 @@ namespace UrenRegistratieQien.Repositories
 {
     public interface IDeclarationFormRepository
     {
-        public List<DeclarationFormModel> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted);
+        public List<DeclarationFormModel> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted, string sortDate);
         public List<DeclarationFormModel> GetNotApprovedForms();
         public List<DeclarationFormModel> GetAllForms();
         public DeclarationFormModel GetForm(int formId);
