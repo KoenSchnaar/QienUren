@@ -52,27 +52,27 @@ namespace UrenRegistratieQien.Repositories
 
         public void CreateForm(string employeeId)
         {
-            var entities = context.DeclarationForms.Where(p => p.EmployeeId == employeeId).ToList();
-            if(entities.Count() > 0)
+            int maxforms = 1;
+            for (int i = 0; i <= maxforms; i++)
             {
-                var entitiesIndex = entities.Count() - 1;
-                var entity = entities[entitiesIndex];
+                var entities = context.DeclarationForms.Where(p => p.EmployeeId == employeeId).ToList();
+                if (entities.Count() > 0)
+                {
+                    var entitiesIndex = entities.Count() - 1;
+                    var entity = entities[entitiesIndex];
 
-                var month = entity.Month;
-                var monthInt = MonthConverter.ConvertMonthToInt(month) + 1;
-                if (monthInt == 13)
-                {
-                    monthInt = 1;
-                }
-                var monthString = MonthConverter.ConvertIntToMonth(monthInt);
-                var year = entity.Year;
-                if (monthString == "Januari")
-                {
-                    year = year + 1;
-                }
-                //var monthNow = DateTime.Now.Month;
-                //if (monthInt == monthNow)
-                //{
+                    var month = entity.Month;
+                    var monthInt = MonthConverter.ConvertMonthToInt(month) + 1;
+                    if (monthInt == 13)
+                    {
+                        monthInt = 1;
+                    }
+                    var monthString = MonthConverter.ConvertIntToMonth(monthInt);
+                    var year = entity.Year;
+                    if (monthString == "Januari")
+                    {
+                        year = year + 1;
+                    }
                     var form = new DeclarationForm
                     {
                         EmployeeId = employeeId,
@@ -81,25 +81,26 @@ namespace UrenRegistratieQien.Repositories
                         uniqueId = GenerateUniqueId()
                     };
                     context.DeclarationForms.Add(form);
-                //}
-                
-            } else
-            {
-                var monthInt = DateTime.Now.Month;
-                var monthString = MonthConverter.ConvertIntToMonth(monthInt);
-                var year = DateTime.Now.Year;
-                var form = new DeclarationForm
+
+                }
+                else
                 {
-                    EmployeeId = employeeId,
-                    Month = monthString,
-                    Year = year,
-                    uniqueId = GenerateUniqueId()
-                };
+                    var monthInt = DateTime.Now.Month;
+                    var monthString = MonthConverter.ConvertIntToMonth(monthInt);
+                    var year = DateTime.Now.Year;
+                    var form = new DeclarationForm
+                    {
+                        EmployeeId = employeeId,
+                        Month = monthString,
+                        Year = year,
+                        uniqueId = GenerateUniqueId()
+                    };
 
-                context.DeclarationForms.Add(form);
+                    context.DeclarationForms.Add(form);
+                }
+
+                context.SaveChanges();
             }
-
-            context.SaveChanges();
         }
 
         public void ApproveForm(int formId)
