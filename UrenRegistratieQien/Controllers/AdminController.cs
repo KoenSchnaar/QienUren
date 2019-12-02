@@ -113,8 +113,6 @@ namespace UrenRegistratieQien.Controllers
                 totalhoursyear = DateTime.Now.Year;
             }
 
-
-
             ViewBag.TotalHoursWorked = declarationFormRepo.TotalHoursWorked(forms, totalhoursmonth, totalhoursyear);
             ViewBag.TotalHoursOvertime = declarationFormRepo.TotalHoursOvertime(forms, totalhoursmonth, totalhoursyear);
             ViewBag.TotalHoursSickness = declarationFormRepo.TotalHoursSickness(forms, totalhoursmonth, totalhoursyear);

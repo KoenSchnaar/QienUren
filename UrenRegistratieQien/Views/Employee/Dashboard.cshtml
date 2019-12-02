@@ -1,5 +1,4 @@
-﻿@*nog aanpassen naar juiste model*@
-@model List<UrenRegistratieQien.Models.DeclarationFormModel>
+﻿@model List<UrenRegistratieQien.Models.DeclarationFormModel>
 
 @{
     ViewData["Title"] = "Administrator Page";
@@ -42,9 +41,10 @@
             <a asp-controller="Admin" asp-action="AddClient">Voeg opdrachtgever toe</a>*@
     </div>
 
-
-
     <div class="box-2">
+        <div align="center">
+            <h1>Urenoverzicht</h1>
+        </div>
         <form asp-controller="DeclarationForm" asp-action="CreateForm" asp-route-employeeId=@employeeId>
             <input type="submit" value="Nieuw Formulier Maken" />
         </form>
@@ -88,10 +88,9 @@
                     <tr>
                         <td>@form.Year</td>
                         <td>@form.Month</td>
-                        <td>uren gewerkt</td>
-                        <td>overwerk</td>
-                        <td>Ziekte</td>
-
+                        <td>@form.TotalWorkedHours</td>
+                        <td>@form.TotalOvertime</td>
+                        <td>@form.TotalSickness</td>
                         <td>
                             @if (form.Approved == true)
                             {
@@ -129,9 +128,9 @@
                             </a>
                         </td>
                     </tr>
-                }
+                    }
             </tbody>
         </table>
-
     </div>
 </div>
+
