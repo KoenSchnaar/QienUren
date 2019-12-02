@@ -1,27 +1,8 @@
 ﻿@model List<EmployeeModel>
-<br />
-<br />
-<br />
-<br />
 
 <div class="Container-1">
     <div class="box-1">
-        <div class="Naam">Admin</div>
-        <div align="center"><img src="..\..\Images\UserImageTest.jpg" style="margin: 0 auto; height: 140px; width: 140px" /></div>
-        <div class="TextInBox">Algemeen</div>
-        <a asp-controller="Admin" asp-action="Admin">Dashboard</a>
-        <br />
-        <br />
-        <br />
-        <div class="TextInBox">Medewerkers</div>
-        <a asp-controller="Admin" asp-action="ShowEmployees">Medewerkers</a> <br />
-        <a asp-area="Identity" asp-page="/Account/Register">Maak een gebruiker aan</a>
-        <br />
-        <br />
-        <br />
-        <div class="TextInBox">Opdrachtgevers</div>
-        <a asp-controller="Admin" asp-action="ShowClients">Voeg opdrachtgever toe</a><br />
-        <a asp-controller="Admin" asp-action="AddClient">opdrachtgevers</a>
+        @Html.Partial("_SideBoxAdmin")
     </div>
 
     <div class="box-2">

@@ -40,6 +40,8 @@ namespace UrenRegistratieQien.Controllers
         public IActionResult HourReg(DeclarationFormModel decModel)
         {
             declarationRepo.EditDeclarationForm(decModel);
+            declarationRepo.CalculateTotalHours(decModel);
+            //return View("~/ Views / Employee / Dashboard.cshtml");
             return RedirectToAction("Dashboard", "Employee");
         }
 
@@ -48,6 +50,7 @@ namespace UrenRegistratieQien.Controllers
         {
             declarationRepo.EditDeclarationForm(decModel);
             declarationRepo.SubmitDeclarationForm(decModel);
+            declarationRepo.CalculateTotalHours(decModel);
             return RedirectToAction("Dashboard", "Employee");
         }
 
