@@ -31,16 +31,19 @@ a {
 }
 
 .btn-primary {
-    color: #fff;
-    background-color: #9C4AF0;
-    border-color: #fff;
-}
-
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-    color: #fff;
+    
     background-color: #9C4AF0;
     
 }
+
+    .btn-primary:hover {
+        background-color: #9C4AF0;
+    }
+
+    .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+        color: #fff;
+        background-color: #9C4AF0;
+    }
 .linkjes {
     color: black !important;
 }

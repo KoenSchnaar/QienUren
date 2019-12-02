@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using UrenRegistratieQien.DatabaseClasses;
+using MimeKit;
+using MailKit.Net.Smtp;
 
 namespace UrenRegistratieQien.Areas.Identity.Pages.Account.Manage
 {
@@ -99,15 +101,34 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account.Manage
                     pageHandler: null,
                     values: new { userId = userId, email = Input.NewEmail, code = code },
                     protocol: Request.Scheme);
-                await _emailSender.SendEmailAsync(
-                    Input.NewEmail,
-                    "Confirm your email",
-                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                StatusMessage = "Confirmation link to change email sent. Please check your email.";
-                return RedirectToPage();
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress("Hans", "hanshanshans812@gmail.com"));
+                message.To.Add(new MailboxAddress(Input.NewEmail, Input.NewEmail));
+                message.Subject = "Bevestiging Wijzigen E-mail Adres";
+                message.Body = new TextPart("html")
+                {
+                    Text = $"Beste,<br>Je mail is gewijzigd naar {Input.NewEmail} <br> Met vriendelijke groet" +
+                    $"Please confirm your account by < a href = '{HtmlEncoder.Default.Encode(callbackUrl)}' > clicking here </a>."
+                };
+
+
+                using (var client = new SmtpClient())
+                {
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    client.Connect("Smtp.gmail.com", 587, false);
+                    client.Authenticate("hanshanshans812@gmail.com", "Hans123!"); //
+                    client.Send(message);
+                    client.Disconnect(true);
+
+
+
+                    StatusMessage = "Bevestigings link is naar uw e-mail verstuurd.";
+                    return RedirectToPage();
+                }
+
+
             }
-
             StatusMessage = "Your email is unchanged.";
             return RedirectToPage();
         }
@@ -135,13 +156,29 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account.Manage
                 pageHandler: null,
                 values: new { area = "Identity", userId = userId, code = code },
                 protocol: Request.Scheme);
-            await _emailSender.SendEmailAsync(
-                email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-            StatusMessage = "Verification email sent. Please check your email.";
-            return RedirectToPage();
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Hans", "hanshanshans812@gmail.com"));
+            message.To.Add(new MailboxAddress("Qien", Input.NewEmail));
+            message.Subject = "Bevestiging Wijzigen E-mail Adres";
+            message.Body = new TextPart("html")
+            {
+                Text = $"MAIL 2 UIT DE CODE!,<br>Je mail is gewijzigd naar {Input.NewEmail} <br> Met vriendelijke groet" +
+                $"Please confirm your account by < a href = '{HtmlEncoder.Default.Encode(callbackUrl)}' > clicking here </a>."
+            };
+
+
+            using (var client = new SmtpClient())
+            {
+                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                client.Connect("Smtp.gmail.com", 587, false);
+                client.Authenticate("hanshanshans812@gmail.com", "Hans123!"); //
+                client.Send(message);
+                client.Disconnect(true);
+                StatusMessage = "Verification email sent. Please check your email.";
+                return RedirectToPage();
+            }
         }
     }
 }
+

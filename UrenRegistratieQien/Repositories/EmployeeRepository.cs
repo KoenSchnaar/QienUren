@@ -121,7 +121,12 @@ namespace UrenRegistratieQien.Repositories
             context.SaveChanges();
         }
 
-
+        public void EditEmployeeMail(string employeeMail) {
+            
+            var dbEmp = context.Users.Single(p => p.Email == employeeMail );
+            dbEmp.Email = employeeMail;
+            context.SaveChanges();
+        }
         public void EditEmployee(EmployeeModel employeeModel)
         {
             var databaseEmployee = context.Users.Single(p => p.Id == employeeModel.EmployeeId);
