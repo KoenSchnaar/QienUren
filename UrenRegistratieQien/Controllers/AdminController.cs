@@ -9,6 +9,7 @@ using UrenRegistratieQien.GlobalClasses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using UrenRegistratieQien.DatabaseClasses;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace UrenRegistratieQien.Controllers
 {
@@ -287,6 +288,19 @@ namespace UrenRegistratieQien.Controllers
         {
             return View("~/Views/Home/AccessDenied.cshtml");
         }
-        
+
+        public IActionResult CreateFormForUser()
+        {
+            ViewBag.Employees = employeeRepo.getEmployeeSelectList();
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateFormForUser(string employeeId, string month, int year)
+        {
+            declarationFormRepo.CreateFormForUser(employeeId, month, year);
+            return RedirectToAction("Admin");
+        }
+
     }
 }

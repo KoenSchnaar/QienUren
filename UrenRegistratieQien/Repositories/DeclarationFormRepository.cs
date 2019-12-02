@@ -50,6 +50,28 @@ namespace UrenRegistratieQien.Repositories
             return URL;
         }
 
+
+        public void CreateFormForUser(string EmployeeId, string month, int year)
+        {
+            var newForm = new DeclarationForm
+            {
+                EmployeeId = EmployeeId,
+                Month = month,
+                Year = year,
+                uniqueId = GenerateUniqueId(),
+                Approved = "Pending",
+                Submitted = false,
+                TotalWorkedHours = 0,
+                TotalOvertime = 0,
+                TotalSickness = 0,
+                TotalVacation = 0
+            };
+
+            context.DeclarationForms.Add(newForm);
+            context.SaveChanges();
+        }
+
+
         public void CreateForm(string employeeId)
         {
             var entities = context.DeclarationForms.Where(p => p.EmployeeId == employeeId).ToList();
