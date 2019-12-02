@@ -612,6 +612,7 @@ namespace UrenRegistratieQien.Repositories
         {
             var form = context.DeclarationForms.Single(d => d.DeclarationFormId == formModel.FormId);
             form.Submitted = true;
+            form.Approved = "Pending";
             context.SaveChanges();
         }
         public int TotalHoursWorked(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
