@@ -51,55 +51,19 @@ namespace UrenRegistratieQien.Controllers
         }
 
 
+        public IActionResult ApproveOrReject(string uniqueId, string formId, bool commentNotValid)
 
-
-
-        public IActionResult MailService()
-        {
-
-
-            var message = new MimeMessage();
-
-            message.From.Add(new MailboxAddress("Hans", "hanshanshans812@gmail.com"));
-
-            message.To.Add(new MailboxAddress("Luuk", "luuk_wolferen@hotmail.com"));
-
-            message.Subject = "linktest";
-            message.Body = new TextPart("plain")
-            {
-                Text = "www.reddit.com"
-            };
-
-            using (var client = new SmtpClient())
-            {
-                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                client.Connect("Smtp.gmail.com", 587, false);
-                client.Authenticate("hanshanshans812@gmail.com", "Hans123!");
-                client.Send(message);
-                client.Disconnect(true);
-            }
-            return RedirectToRoute(new { controller = "Admin", action = "Admin" });
-        }
-
-
-
-
-
-
-
-
-
-        public IActionResult ApproveOrReject(string uniqueId, string formId)
         {
 
             var formIdAsInt = Convert.ToInt32(formId);
 
             if (declarationFormRepo.CheckIfIdMatches(uniqueId))
             {
-                return View(declarationFormRepo.GetFormByFormId(formIdAsInt)); //pagina waar client kan regelen of het is goedgekeurd of niet
+                var declarationFormModel = declarationFormRepo.GetFormByFormId(formIdAsInt);
+                return View(new RejectFormModel { declarationFormModel = declarationFormModel, commentNotValid = commentNotValid});
             } else
             {
-                return View("~/Views/Mailservice/ErrorUnknownId.cshtml"); // pagina waar staat unknown id
+                return View("~/Views/Mailservice/ErrorUnknownId.cshtml");
             }
         }
 
@@ -108,17 +72,24 @@ namespace UrenRegistratieQien.Controllers
         {
             declarationFormRepo.ApproveForm(Convert.ToInt32(formId));
 
-            return View(); //yay het is gelukt nu kun je deze pagina sluiten
-        }
-
-        [HttpPost]
-        public IActionResult Reject(string formId, string comment)
-        {
-
-            declarationFormRepo.RejectForm(Convert.ToInt32(formId), comment);
             return View();
         }
 
-
+        [HttpPost]
+        public IActionResult Reject(int FormId, RejectFormModel rejectFormModel)
+        {
+            var declarationFormModel = declarationFormRepo.GetFormByFormId(FormId);
+            var uniqueId = declarationFormModel.uniqueId;
+            var comment = rejectFormModel.comment;
+            var modelstate = ModelState.IsValid;
+            if (ModelState.IsValid)
+            {
+                declarationFormRepo.RejectForm(FormId, comment);
+                return View();
+            } else
+            {
+                return RedirectToAction("ApproveOrReject", new { uniqueId = uniqueId, formId = FormId, commentNotValid = true});
+            }
+        }
     }
 }
