@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UrenRegistratieQien.Models;
 
 namespace UrenRegistratieQien.Repositories
@@ -29,7 +30,7 @@ namespace UrenRegistratieQien.Repositories
         public string GenerateUniqueId();
         public void ApproveForm(int formId);
         public void RejectForm(int formId, string comment);
-
+        public void CalculateTotalHours(DeclarationFormModel decModel);
 
 
     }
