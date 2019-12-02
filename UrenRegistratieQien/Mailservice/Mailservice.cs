@@ -22,22 +22,17 @@ namespace UrenRegistratieQien.MailService
             message.Subject = $"Uw inloggegevens wijzigen van uw Qien-medewerkers account";
             message.Body = new TextPart("plain")
             {
-                Text = $"Beste {employee.FirstName} {employee.LastName}," +
-                $"" +
-                $"Welkom bij Qien. Er is een medewerkers account voor je aangemaakt met de volgende gegevens:" +
-                $"Inlognaam: {employee.Email}" +
-                $"Wachtwoord: {employee.FirstName}{employee.LastName}" +
-                $"" +
-                $"Log hier in om je wachtwoord te veranderen https://www.iets.nl" + //veranderen site
-                $"" +
-                $"Met vriendelijke groet," +
-                $"" +
+                Text = $"Beste {employee.FirstName} {employee.LastName}," + Environment.NewLine +
+                $"" + Environment.NewLine +
+                $"Welkom bij Qien. Er is een medewerkers account voor je aangemaakt met de volgende gegevens:" + Environment.NewLine +
+                $"Inlognaam: {employee.Email}" + Environment.NewLine +
+                $"Wachtwoord: {employee.FirstName}{employee.LastName}" + Environment.NewLine +
+                $"" + Environment.NewLine +
+                $"Log hier in om je wachtwoord te veranderen https://localhost:5001/Identity/Account/Manage/ChangePassword" + Environment.NewLine + //veranderen site 
+                $"" + Environment.NewLine +
+                $"Met vriendelijke groet," + Environment.NewLine +
+                $"" + Environment.NewLine +
                 $"Team Qien" 
-
-                //$"{employeeName} wil graag dat u het urendeclaratieformulier goedkeurt. " +
-                //$"Klik op de link om naar het formulier te gaan: " +
-                //$"https://localhost:5001/Mailservice/ApproveOrReject/?uniqueId=" + uniqueId + 
-                //"&formId=" + formId
             };
 
             using (var client = new SmtpClient())
