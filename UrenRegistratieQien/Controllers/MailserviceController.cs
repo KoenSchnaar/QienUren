@@ -60,7 +60,7 @@ namespace UrenRegistratieQien.Controllers
 
             if (declarationFormRepo.CheckIfIdMatches(uniqueId))
             {
-                var declarationFormModel = declarationFormRepo.GetFormByFormId(formIdAsInt);
+                var declarationFormModel = declarationFormRepo.GetForm(formIdAsInt);
                 return View(new RejectFormModel { declarationFormModel = declarationFormModel, commentNotValid = commentNotValid});
             } else
             {
@@ -79,7 +79,7 @@ namespace UrenRegistratieQien.Controllers
         [HttpPost]
         public IActionResult Reject(int FormId, RejectFormModel rejectFormModel)
         {
-            var declarationFormModel = declarationFormRepo.GetFormByFormId(FormId);
+            var declarationFormModel = declarationFormRepo.GetForm(FormId);
             var uniqueId = declarationFormModel.uniqueId;
             var comment = rejectFormModel.comment;
             var modelstate = ModelState.IsValid;

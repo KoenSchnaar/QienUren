@@ -114,36 +114,9 @@ namespace UrenRegistratieQien.Repositories
             context.SaveChanges();
         }
 
-        public DeclarationFormModel GetForm(int declarationFormId, string userId)
-        {
-            var entity = context.DeclarationForms.Single(d => d.DeclarationFormId == declarationFormId);
-
-            var selectedEmployee = context.Users.Single(p => p.Id == entity.EmployeeId);
-            var castedEmployee = (Employee)selectedEmployee;
-            var employeeName = castedEmployee.FirstName + " " + castedEmployee.LastName;
 
 
-            var form = new DeclarationFormModel
-            {
-                FormId = entity.DeclarationFormId,
-                HourRows = hourRowRepo.GetHourRows(userId, declarationFormId), //niet heel netjes om en andere repo te gebruiken
-                EmployeeId = entity.EmployeeId,
-                EmployeeName = employeeName,
-                Month = entity.Month,
-                Approved = entity.Approved,
-                Submitted = entity.Submitted,
-                Comment = entity.Comment,
-                Year = entity.Year,
-                uniqueId = entity.uniqueId,
-                TotalWorkedHours = entity.TotalWorkedHours,
-                TotalOvertime = entity.TotalOvertime,
-                TotalSickness = entity.TotalSickness,
-                TotalVacation = entity.TotalVacation
-            };
-            return form;
-        }
-
-        public DeclarationFormModel GetFormByFormId(int formId)
+        public DeclarationFormModel GetForm(int formId)
         {
             var entity = context.DeclarationForms.Include(df => df.HourRows).Single(d => d.DeclarationFormId == formId);
             List<HourRowModel> ListOfHourRowModels = new List<HourRowModel>();
