@@ -3,22 +3,12 @@
 
 @{
     ViewData["Title"] = "Info";
+    ViewBag.User = Model;
 }
-<br />
-<br />
-<br />
-<br />
 
 <div class="Container-1">
     <div class="box-1">
-        <div class="Naam">@Model.FirstName @Model.LastName</div>
-        <div align="center"><img src="..\..\Images\UserImageTest.jpg" style="margin: 0 auto; height: 140px; width: 140px" /></div>
-        <div class="TextInBox">Algemeen</div>
-        <a asp-controller="Employee" asp-action="Info">Info</a><br />
-        <a asp-controller="Employee" asp-action="Dashboard">Dashboard</a>
-        <br />
-        <br />
-        <br />
+        @Html.Partial("_SideBoxEmployee")
     </div>
 
     <div class="box-2" align="center">
