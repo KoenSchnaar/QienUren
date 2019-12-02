@@ -184,7 +184,7 @@ namespace UrenRegistratieQien.Controllers
             }
         }
 
-        public IActionResult Admin(string year, string month, string employeeName, string approved, string submitted, string totalhoursmonth, int totalhoursyear)
+        public IActionResult Admin(string year, string month, string employeeName, string approved, string submitted, string totalhoursmonth, int totalhoursyear, string sortDate)
 
         {
             if (UserIsAdmin())
@@ -192,6 +192,7 @@ namespace UrenRegistratieQien.Controllers
 
                 ViewBag.AllForms = declarationFormRepo.GetAllForms();
                 ViewBag.Months = monthList;
+                ViewBag.sortDate = sortDate;
                 var forms = declarationFormRepo.GetAllForms();
 
                 if (totalhoursyear == 0)
@@ -216,7 +217,7 @@ namespace UrenRegistratieQien.Controllers
                 {
                     employeeId = null;
                 }
-                return View(declarationFormRepo.GetFilteredForms(year, employeeId, month, approved, submitted));
+                return View(declarationFormRepo.GetFilteredForms(year, employeeId, month, approved, submitted, sortDate));
             } else
             {
                 return AccessDeniedView();

@@ -24,6 +24,8 @@
             years.Add(declarationFormModel.Year);
         }
     }
+    var stringAscending = "Ascending";
+    var stringDescending = "Descending";
 }
 
 
@@ -107,6 +109,19 @@
                             <input type="submit" value="Filters Toepassen" />
                             <tr>
                                 <th>
+                                    Datum Aangemaakt
+                                    @{
+                                        if (ViewBag.SortDate == stringAscending)
+                                        {
+                                            <button type="submit" asp-route-sortDate=@stringDescending><img src="..\..\Images\sortbyAscending.png" width="17"></button>
+                                        } else
+                                        
+                                        {
+                                            <button type="submit" asp-route-sortDate=@stringAscending><img src="..\..\Images\sortbyDescending.png" width="17"></button>
+                                        }
+                                    }
+                                </th>
+                                <th>
                                     Medewerker Naam
                                     @Html.DropDownList("employeeName", new SelectList(employeeNames), "Geen filter")
                                 </th>
@@ -140,6 +155,7 @@
                         {
 
                             <tr>
+                                <td>@declarationFormModel.DateCreated</td>
                                 <td>@declarationFormModel.EmployeeName</td>
                                 <td>@declarationFormModel.Year</td>
                                 <td>@declarationFormModel.Month</td>
