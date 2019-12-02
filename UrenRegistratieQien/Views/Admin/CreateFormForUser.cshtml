@@ -1,0 +1,34 @@
+﻿@model UrenRegistratieQien.Models.DeclarationFormModel
+
+@{
+    var lijst = ViewBag.Employees;
+ }
+
+    <div class="Container-1">
+
+        <div class="box-1">
+            @Html.Partial("_SideBoxAdmin")
+        </div>
+
+
+        <div class="box-2">
+            <form asp-action="CreateFormForUser" asp-controller="Admin">
+                <table align="center">
+                    <tr>
+                        <td>Naam medewerker</td>
+                        <td>@Html.DropDownList("employeeId", lijst, "Selecteer naam", null)</td>
+                    </tr>
+                    <tr>
+                        <td>Maand</td>
+                        <td>@Html.DropDownList("month", new SelectList(Enum.GetValues(typeof(Months))), "Selecteer maand")</td>
+                    </tr>
+                    <tr>
+                        <td>Jaar</td>
+                        <td> <input asp-for="Year" type="number" value="@DateTime.Now.Year" min="1990" max="2100"> </td>
+                    </tr>
+                </table>
+                <button type="submit">Voeg toe</button>
+            </form>
+        </div>
+        
+    </div>
