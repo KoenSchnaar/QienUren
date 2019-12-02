@@ -9,9 +9,8 @@ namespace UrenRegistratieQien.Repositories
         public List<DeclarationFormModel> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted);
         public List<DeclarationFormModel> GetNotApprovedForms();
         public List<DeclarationFormModel> GetAllForms();
-        public DeclarationFormModel GetFormByFormId(int formId);
+        public DeclarationFormModel GetForm(int formId);
 
-        public DeclarationFormModel GetForm(int declarationFormId, string userId);
         public List<DeclarationFormModel> GetAllFormsOfUser(string userId);
         public void EditDeclarationForm(DeclarationFormModel formModel);
         public void SubmitDeclarationForm(DeclarationFormModel formModel);

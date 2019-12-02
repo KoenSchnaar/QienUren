@@ -176,7 +176,7 @@ namespace UrenRegistratieQien.Controllers
         {
             if (UserIsAdmin())
             {
-                var form = declarationFormRepo.GetFormByFormId(formId);
+                var form = declarationFormRepo.GetForm(formId);
                 return View(form);
             } else
             {

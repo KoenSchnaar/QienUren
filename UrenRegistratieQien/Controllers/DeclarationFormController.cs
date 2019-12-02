@@ -32,7 +32,7 @@ namespace UrenRegistratieQien.Controllers
         {
             hourRowRepo.AddHourRows(year, month, declarationFormId);
             ViewBag.User = employeeRepo.GetEmployee(userId);
-            var inputModel = declarationRepo.GetForm(declarationFormId, userId);
+            var inputModel = declarationRepo.GetForm(declarationFormId);
             return View(inputModel);
         }
 
