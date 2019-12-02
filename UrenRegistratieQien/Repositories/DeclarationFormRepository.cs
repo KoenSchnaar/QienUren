@@ -253,7 +253,7 @@ namespace UrenRegistratieQien.Repositories
             return notApprovedForms;
         }
 
-        public List<DeclarationFormModel> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted)
+        public List<DeclarationFormModel> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted, string sortDate)
         {
             if(approved == "Goedgekeurd")
             {
@@ -272,8 +272,17 @@ namespace UrenRegistratieQien.Repositories
                 submitted = "false";
             }
 
-            var entities = context.DeclarationForms.Include(df => df.HourRows)
+            var entities = new List<DeclarationForm>();
+            if(sortDate == "Ascending")
+            {
+                entities = context.DeclarationForms.Include(df => df.HourRows)
+                .OrderBy(df => df.DeclarationFormId).ToList();
+            } else
+            {
+                entities = context.DeclarationForms.Include(df => df.HourRows)
                 .OrderByDescending(df => df.DeclarationFormId).ToList();
+            }
+           
 
             List<DeclarationForm> holderList = new List<DeclarationForm>();
 
