@@ -246,7 +246,7 @@ namespace UrenRegistratieQien.Repositories
                     TotalWorkedHours = form.TotalWorkedHours,
                     TotalOvertime = form.TotalOvertime,
                     TotalSickness = form.TotalSickness,
-                    TotalVacation = entity.TotalVacation
+                    TotalVacation = form.TotalVacation
                 };
 
                 forms.Add(newModel);
