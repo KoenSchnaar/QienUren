@@ -48,7 +48,7 @@ namespace UrenRegistratieQien.Controllers
                 client.Send(message);
                 client.Disconnect(true);
             }
-            return RedirectToRoute(new { controller = "Admin", action = "Admin" });
+            return RedirectToRoute(new { controller = "Home", action = "Index" });
         }
 
 

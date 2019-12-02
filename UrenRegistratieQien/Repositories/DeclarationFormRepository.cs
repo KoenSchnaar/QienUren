@@ -105,14 +105,14 @@ namespace UrenRegistratieQien.Repositories
         public void ApproveForm(int formId)
         {
             var form = context.DeclarationForms.Single(p => p.DeclarationFormId == formId);
-            form.Approved = true;
+            form.Approved = "Approved";
             context.SaveChanges();
         }
 
         public void RejectForm(int formId, string comment)
         {
             var form = context.DeclarationForms.Single(p => p.DeclarationFormId == formId);
-            form.Approved = false;
+            form.Approved = "Rejected";
             form.Comment = comment;
             context.SaveChanges();
         }
@@ -133,7 +133,7 @@ namespace UrenRegistratieQien.Repositories
                 EmployeeId = entity.EmployeeId,
                 EmployeeName = employeeName,
                 Month = entity.Month,
-                Approved = entity.Approved,
+                //Approved = entity.Approved,
                 Submitted = entity.Submitted,
                 Comment = entity.Comment,
                 Year = entity.Year,
@@ -181,7 +181,7 @@ namespace UrenRegistratieQien.Repositories
                 EmployeeId = entity.EmployeeId,
                 EmployeeName = employeeName,
                 Month = entity.Month,
-                Approved = entity.Approved,
+                //Approved = entity.Approved,
                 Submitted = entity.Submitted,
                 Comment = entity.Comment,
                 uniqueId = entity.uniqueId,
@@ -197,7 +197,7 @@ namespace UrenRegistratieQien.Repositories
         //get forms die niet goedgekeurd zijn
         public List<DeclarationFormModel> GetNotApprovedForms()
         {
-            var entities = context.DeclarationForms.Include(df => df.HourRows).OrderByDescending(df => df.DeclarationFormId).Where(df => df.Approved == false).ToList();
+            var entities = context.DeclarationForms.Include(df => df.HourRows).OrderByDescending(df => df.DeclarationFormId).Where(df => df.Approved == "Rejected").ToList();
 
             var forms = new List<DeclarationFormModel>();
 
@@ -238,7 +238,7 @@ namespace UrenRegistratieQien.Repositories
                     EmployeeId = form.EmployeeId,
                     EmployeeName = employeeName,
                     Month = form.Month,
-                    Approved = form.Approved,
+                    //Approved = form.Approved,
                     Submitted = form.Submitted,
                     Comment = form.Comment,
                     Year = form.Year,
@@ -258,11 +258,11 @@ namespace UrenRegistratieQien.Repositories
         {
             if(approved == "Goedgekeurd")
             {
-                approved = "true";
+                approved = "Approved";
             }
             if(approved == "Niet goedgekeurd")
             {
-                approved = "false";
+                approved = "Rejected";
             }
             if (submitted == "Ingediend")
             {
@@ -330,7 +330,7 @@ namespace UrenRegistratieQien.Repositories
                 foreach (DeclarationForm entity in entities)
                     {
                     
-                        if (entity.Approved != boolApproved)
+                        if (entity.Approved == "Rejected")
                         {
                             holderList.Add(entity);
                         }

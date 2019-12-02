@@ -13,7 +13,7 @@ namespace UrenRegistratieQien.DatabaseClasses
         public Employee Employee { get; set; }
         public int Year { get; set; }
         public string Month { get; set; }
-        public bool Approved { get; set; }
+        public string Approved { get; set; }
         public bool Submitted { get; set; }
         public string Comment { get; set; }
 
