@@ -64,7 +64,8 @@ namespace UrenRegistratieQien.Repositories
                 TotalWorkedHours = 0,
                 TotalOvertime = 0,
                 TotalSickness = 0,
-                TotalVacation = 0
+                TotalVacation = 0,
+                DateCreated = DateTime.Now
             };
 
             context.DeclarationForms.Add(newForm);

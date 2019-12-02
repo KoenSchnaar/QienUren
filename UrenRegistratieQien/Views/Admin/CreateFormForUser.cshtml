@@ -24,7 +24,7 @@
                     </tr>
                     <tr>
                         <td>Jaar</td>
-                        <td> <input type="number" value="2019" min="1990" max="2100"></td>
+                        <td> <input asp-for="Year" type="number" value="@DateTime.Now.Year" min="1990" max="2100"> </td>
                     </tr>
                 </table>
                 <button type="submit">Voeg toe</button>
