@@ -24,8 +24,11 @@ namespace UrenRegistratieQien.Controllers
         public async Task<IActionResult> MailService(DeclarationFormModel decModel, string uniqueId, string formId, string employeeName)
         {
 
+
             await declarationFormRepo.EditDeclarationForm(decModel);
             await declarationFormRepo.SubmitDeclarationForm(decModel);
+            await declarationFormRepo.CalculateTotalHours(decModel);
+
 
             //message components
             string month = decModel.Month;

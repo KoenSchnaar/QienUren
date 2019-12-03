@@ -76,7 +76,7 @@ namespace UrenRegistratieQien.Repositories
         public async Task CreateForm(string employeeId)
         {
             var entities = context.DeclarationForms.Where(p => p.EmployeeId == employeeId).ToList();
-            if(entities.Count() > 0)
+            if (entities.Count() > 0)
             {
                 var entitiesIndex = entities.Count() - 1;
                 var entity = entities[entitiesIndex];
@@ -94,22 +94,38 @@ namespace UrenRegistratieQien.Repositories
                     year = year + 1;
                 }
 
-                var form = new DeclarationForm
+                if (monthInt == 1) 
                 {
-                    EmployeeId = employeeId,
-                    Month = monthString,
-                    Year = year,
-                    uniqueId = await GenerateUniqueId(),
-                    Approved = "Pending",
-                    Submitted = false,
-                    TotalWorkedHours = 0,
-                    TotalOvertime = 0,
-                    TotalSickness = 0,
-                    TotalVacation = 0,
-                    DateCreated = DateTime.Now
-                };
+                    monthInt = 13;
+                }
+                if (monthInt == 2 && DateTime.Now.Month != 1)
+                {
+                    monthInt = 14;
+                }
+                if (monthInt <= DateTime.Now.Month +1)
+                {
+                    var form = new DeclarationForm
+                    {
+                        EmployeeId = employeeId,
+                        Month = monthString,
+                        Year = year,
+                        uniqueId = await GenerateUniqueId(),
+                        Approved = "Pending",
+                        Submitted = false,
+                        TotalWorkedHours = 0,
+                        TotalOvertime = 0,
+                        TotalSickness = 0,
+                        TotalVacation = 0,
+                        DateCreated = DateTime.Now
+                    };
                 context.DeclarationForms.Add(form);
-            } else
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
             {
                 var monthInt = DateTime.Now.Month;
                 var monthString = MonthConverter.ConvertIntToMonth(monthInt);
@@ -761,6 +777,12 @@ namespace UrenRegistratieQien.Repositories
         {
             var entity = context.DeclarationForms.Single(d => d.DeclarationFormId == formId);
             entity.Submitted = false;
+            context.SaveChanges();
+        }
+        public async Task DeleteDeclarationForm(int FormId)
+        {
+            var form = context.DeclarationForms.Single(df => df.DeclarationFormId == FormId);
+            context.DeclarationForms.Remove(form);
             context.SaveChanges();
         }
     }

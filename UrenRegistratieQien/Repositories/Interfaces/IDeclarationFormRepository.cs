@@ -33,5 +33,7 @@ namespace UrenRegistratieQien.Repositories
         public Task CalculateTotalHours(DeclarationFormModel decModel);
         public Task CreateFormForUser(string EmployeeId, string month, int year);
         public Task ReopenForm(int formId);
+
+        public Task DeleteDeclarationForm(int FormId);
     }
 }

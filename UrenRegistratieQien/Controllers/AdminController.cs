@@ -50,6 +50,7 @@ namespace UrenRegistratieQien.Controllers
                 return await AccessDeniedView();
             }
             
+
         }
 
         public async Task<IActionResult> ChangeEmployee(string EmployeeId)
@@ -63,7 +64,6 @@ namespace UrenRegistratieQien.Controllers
             {
                 return await AccessDeniedView();
             }
-
         }
         
         public async Task<IActionResult> DeleteEmployee(string employeeId)
@@ -95,7 +95,17 @@ namespace UrenRegistratieQien.Controllers
 
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> EditEmployeeMailAdres(string employeeMailold, string employeeMailnew)
+        {
+
+            await employeeRepo.EditEmployeeMail(employeeMailold, employeeMailnew);
+            return RedirectToAction("ShowEmployees");
+        }
+
         public async Task<IActionResult> ShowClients()
+
         {
             if (await UserIsAdmin())
             {
@@ -300,6 +310,19 @@ namespace UrenRegistratieQien.Controllers
         {
             await declarationFormRepo.CreateFormForUser(employeeId, month, year);
             return RedirectToAction("Admin");
+        }
+
+        public async Task<IActionResult> DeleteDeclarationForm(int FormId)
+        {
+            if (await UserIsAdmin())
+            {
+                await declarationFormRepo.DeleteDeclarationForm(FormId);
+                return RedirectToAction("Admin");
+            }
+            else
+            {
+                return await AccessDeniedView();
+            }
         }
 
     }

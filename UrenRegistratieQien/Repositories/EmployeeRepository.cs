@@ -120,6 +120,14 @@ namespace UrenRegistratieQien.Repositories
             context.SaveChanges();
         }
 
+        public async Task EditEmployeeMail(string employeeMailold, string employeeMailnew)
+        {
+
+            var dbEmp = context.Users.Single(p => p.Email == employeeMailold);
+            var CastedDatabaseEmployee = (Employee)dbEmp;
+            CastedDatabaseEmployee.Email = employeeMailnew;
+            context.SaveChanges();
+        }
 
         public async Task EditEmployee(EmployeeModel employeeModel)
         {

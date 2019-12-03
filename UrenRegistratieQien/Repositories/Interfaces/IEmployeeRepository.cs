@@ -16,5 +16,7 @@ namespace UrenRegistratieQien.Repositories
         Task EditEmployee(EmployeeModel employeeModel);
         Task DeleteEmployee(string id);
         Task<SelectList> getEmployeeSelectList();
+        Task EditEmployeeMail(string employeeMailold, string employeeMailnew);
+
     }
 }
