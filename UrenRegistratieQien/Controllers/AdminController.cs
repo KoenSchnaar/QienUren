@@ -9,6 +9,7 @@ using UrenRegistratieQien.GlobalClasses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using UrenRegistratieQien.DatabaseClasses;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace UrenRegistratieQien.Controllers
 {
@@ -32,10 +33,10 @@ namespace UrenRegistratieQien.Controllers
         }
 
         [HttpPost]
-        public IActionResult oefenmethode(int oefengetal)
+        public IActionResult ReopenForm(int formId)
         {
-            var x = oefengetal;
-            return null;
+            declarationFormRepo.ReopenForm(formId);
+            return RedirectToAction("Admin");
         }
 
         public IActionResult ShowEmployees()
@@ -92,6 +93,15 @@ namespace UrenRegistratieQien.Controllers
                 return AccessDeniedView();
             }
 
+        }
+
+        [HttpPost]
+        public IActionResult EditEmployeeMailAdres(string employeeMailold, string employeeMailnew)
+        {
+          
+                employeeRepo.EditEmployeeMail(employeeMailold, employeeMailnew);
+                return RedirectToAction("ShowEmployees");
+         
         }
 
         public IActionResult ShowClients()
@@ -184,7 +194,7 @@ namespace UrenRegistratieQien.Controllers
             }
         }
 
-        public IActionResult Admin(string year, string month, string employeeName, string approved, string submitted, string totalhoursmonth, int totalhoursyear)
+        public IActionResult Admin(string year, string month, string employeeName, string approved, string submitted, string totalhoursmonth, int totalhoursyear, string sortDate)
 
         {
             if (UserIsAdmin())
@@ -192,6 +202,7 @@ namespace UrenRegistratieQien.Controllers
 
                 ViewBag.AllForms = declarationFormRepo.GetAllForms();
                 ViewBag.Months = monthList;
+                ViewBag.sortDate = sortDate;
                 var forms = declarationFormRepo.GetAllForms();
 
                 if (totalhoursyear == 0)
@@ -216,7 +227,7 @@ namespace UrenRegistratieQien.Controllers
                 {
                     employeeId = null;
                 }
-                return View(declarationFormRepo.GetFilteredForms(year, employeeId, month, approved, submitted));
+                return View(declarationFormRepo.GetFilteredForms(year, employeeId, month, approved, submitted, sortDate));
             } else
             {
                 return AccessDeniedView();
@@ -262,7 +273,6 @@ namespace UrenRegistratieQien.Controllers
             {
                 var forms = declarationFormRepo.GetAllFormsOfUser(employeeId);
                 return View(forms);
-
             } else
             {
                 return AccessDeniedView();
@@ -287,6 +297,19 @@ namespace UrenRegistratieQien.Controllers
         {
             return View("~/Views/Home/AccessDenied.cshtml");
         }
-        
+
+        public IActionResult CreateFormForUser()
+        {
+            ViewBag.Employees = employeeRepo.getEmployeeSelectList();
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateFormForUser(string employeeId, string month, int year)
+        {
+            declarationFormRepo.CreateFormForUser(employeeId, month, year);
+            return RedirectToAction("Admin");
+        }
+
     }
 }

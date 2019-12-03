@@ -50,6 +50,29 @@ namespace UrenRegistratieQien.Repositories
             return URL;
         }
 
+
+        public void CreateFormForUser(string EmployeeId, string month, int year)
+        {
+            var newForm = new DeclarationForm
+            {
+                EmployeeId = EmployeeId,
+                Month = month,
+                Year = year,
+                uniqueId = GenerateUniqueId(),
+                Approved = "Pending",
+                Submitted = false,
+                TotalWorkedHours = 0,
+                TotalOvertime = 0,
+                TotalSickness = 0,
+                TotalVacation = 0,
+                DateCreated = DateTime.Now
+            };
+
+            context.DeclarationForms.Add(newForm);
+            context.SaveChanges();
+        }
+
+
         public void CreateForm(string employeeId)
         {
             var entities = context.DeclarationForms.Where(p => p.EmployeeId == employeeId).ToList();
@@ -261,7 +284,7 @@ namespace UrenRegistratieQien.Repositories
             return notApprovedForms;
         }
 
-        public List<DeclarationFormModel> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted)
+        public List<DeclarationFormModel> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted, string sortDate)
         {
             if(approved == "Goedgekeurd")
             {
@@ -280,8 +303,17 @@ namespace UrenRegistratieQien.Repositories
                 submitted = "false";
             }
 
-            var entities = context.DeclarationForms.Include(df => df.HourRows)
+            var entities = new List<DeclarationForm>();
+            if(sortDate == "Ascending")
+            {
+                entities = context.DeclarationForms.Include(df => df.HourRows)
+                .OrderBy(df => df.DeclarationFormId).ToList();
+            } else
+            {
+                entities = context.DeclarationForms.Include(df => df.HourRows)
                 .OrderByDescending(df => df.DeclarationFormId).ToList();
+            }
+           
 
             List<DeclarationForm> holderList = new List<DeclarationForm>();
 
@@ -729,6 +761,13 @@ namespace UrenRegistratieQien.Repositories
                 declarationformEntity.TotalSickness += HourRow.Sickness;
                 declarationformEntity.TotalVacation += HourRow.Vacation;
             }
+            context.SaveChanges();
+        }
+
+        public void ReopenForm(int formId)
+        {
+            var entity = context.DeclarationForms.Single(d => d.DeclarationFormId == formId);
+            entity.Submitted = false;
             context.SaveChanges();
         }
     }

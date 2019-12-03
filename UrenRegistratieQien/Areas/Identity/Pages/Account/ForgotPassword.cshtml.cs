@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using UrenRegistratieQien.DatabaseClasses;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
+using MimeKit;
+using MailKit.Net.Smtp;
 
 namespace UrenRegistratieQien.Areas.Identity.Pages.Account
 {
@@ -57,15 +60,33 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
                     values: new { area = "Identity", code },
                     protocol: Request.Scheme);
 
-                await _emailSender.SendEmailAsync(
-                    Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                //await _emailSender.SendEmailAsync(
+                //    Input.Email,
 
-                return RedirectToPage("./ForgotPasswordConfirmation");
+
+                
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress("Hans", "hanshanshans812@gmail.com"));
+                message.To.Add(new MailboxAddress("Qien", Input.Email));
+                message.Subject = "Reset Wachtwoord";
+                message.Body = new TextPart("html") { Text = $"Beste, <br> Om je wachtwoord te resetten: <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Klik hier!</a>. <br> Met vriendelijke groet" };
+                   
+
+                using (var client = new SmtpClient())
+                {
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    client.Connect("Smtp.gmail.com", 587, false);
+                    client.Authenticate("hanshanshans812@gmail.com", "Hans123!"); //
+                    client.Send(message);
+                    client.Disconnect(true);
+
+
+                    return RedirectToPage("./ForgotPasswordConfirmation");
+                }
+
+                //return Page();
             }
-
-            return Page();
+            return RedirectToPage("./ForgotPasswordConfirmation");
         }
     }
 }

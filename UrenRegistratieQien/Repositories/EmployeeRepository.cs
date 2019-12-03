@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -121,7 +122,13 @@ namespace UrenRegistratieQien.Repositories
             context.SaveChanges();
         }
 
-
+        public void EditEmployeeMail(string employeeMailold, string employeeMailnew) {
+            
+            var dbEmp = context.Users.Single(p => p.Email == employeeMailold);
+            var CastedDatabaseEmployee = (Employee)dbEmp;
+            CastedDatabaseEmployee.Email = employeeMailnew;
+            context.SaveChanges();
+        }
         public void EditEmployee(EmployeeModel employeeModel)
         {
             var databaseEmployee = context.Users.Single(p => p.Id == employeeModel.EmployeeId);
@@ -186,9 +193,16 @@ namespace UrenRegistratieQien.Repositories
             }
         }
 
-        public string searchName(int id)
+        public SelectList getEmployeeSelectList()
         {
-            return null;
+            var EmployeeList = new SelectList(context.Employees, "Id", "FirstName");
+
+            return EmployeeList;
+        }
+
+        public List<string> getEmployeeNames()
+        {
+            throw new NotImplementedException();
         }
     }
 }

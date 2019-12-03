@@ -24,6 +24,8 @@
             years.Add(declarationFormModel.Year);
         }
     }
+    var stringAscending = "Ascending";
+    var stringDescending = "Descending";
 }
 
 
@@ -36,54 +38,61 @@
         <div align="center">
             <h1>Uren Totaal Overzicht</h1>
         </div>
-
-        <div class="table-wrapper">
-            <table class="fl-table" align="center">
-                <thead>
-                    <tr>
-                        <th>Jaar</th>
-                        <th>Maand</th>
-                        <th>Uren gewerkt</th>
-                        <th>Overwerk</th>
-                        <th>Ziekte</th>
-                        <th>Vakantie</th>
-                        <th>Feestdagen</th>
-                        <th>Training</th>
-                        <th>Overig</th>
-                    </tr>
-                <thead>
-                    @using (Html.BeginForm("Admin", "Admin"))
-                    {
-                        <input type="submit" value="Filters Toepassen" />
+        
+      
+            </td>
+            <div>
+                <div class="table-wrapper">
+                    <table class="fl-table" align="center">
 
 
-                        <tr>
-                            <td>
-                                @Html.DropDownList("totalhoursyear", new SelectList(years), DateTime.Now.Year)
-                            </td>
-                            <td>
-                                @Html.DropDownList("totalhoursmonth", new SelectList(Enum.GetValues(typeof(Months))), "Alle maanden")
-                            </td>
-                            <td>@ViewBag.TotalHoursWorked</td>
-                            <td>@ViewBag.TotalHoursOvertime</td>
-                            <td>@ViewBag.TotalHoursSickness</td>
-                            <td>@ViewBag.TotalHoursVacation</td>
-                            <td>@ViewBag.TotalHoursHoliday</td>
-                            <td>@ViewBag.TotalHoursTraining</td>
-                            <td>@ViewBag.TotalHoursOther</td>
-
-                        </tr>
-                    }
-
-            </table>
-        </div>
 
 
-        <br />
-        <br />
+                        <thead>
+                            <tr>
+                                <th>Jaar</th>
+                                <th>Maand</th>
+                                <th>Uren gewerkt</th>
+                                <th>Overwerk</th>
+                                <th>Ziekte</th>
+                                <th>Vakantie</th>
+                                <th>Feestdagen</th>
+                                <th>Training</th>
+                                <th>Overig</th>
+                            </tr>
+                        <thead>
+                            @using (Html.BeginForm("Admin", "Admin"))
+                            {
+                                <input type="submit" class="btn-primary" value="Filters Toepassen" />
+
+                                <tr>
+
+                                    <td>
+                                        @Html.DropDownList("totalhoursyear", new SelectList(years), DateTime.Now.Year)
+                                    </td>
+                                    <td>
+                                        @Html.DropDownList("totalhoursmonth", new SelectList(Enum.GetValues(typeof(Months))), "Alle maanden")
+                                    </td>
+                                    <td>@ViewBag.TotalHoursWorked</td>
+                                    <td>@ViewBag.TotalHoursOvertime</td>
+                                    <td>@ViewBag.TotalHoursSickness</td>
+                                    <td>@ViewBag.TotalHoursVacation</td>
+                                    <td>@ViewBag.TotalHoursHoliday</td>
+                                    <td>@ViewBag.TotalHoursTraining</td>
+                                    <td>@ViewBag.TotalHoursOther</td>
+
+                                </tr>
+                            }
+
+                    </table>
+                </div>
+            
+            </div>
+            <br />
+            <br />
 
 
-        @*@using (Html.BeginForm("Invoeradres", "Admin"))
+            @*@using (Html.BeginForm("Invoeradres", "Admin"))
         {
             @Html.TextBox("invoerid")
             <input type="submit" />
@@ -92,6 +101,100 @@
         }*@
 
 
+
+@*<<<<<<< HEAD
+            <div>
+                <div align="center">
+                    <h1>Totaaloverzicht</h1>
+                </div>
+
+
+                <div class="table-wrapper">
+                    <table class="fl-table" align="center">
+                        <thead>
+                            @using (Html.BeginForm("Admin", "Admin"))
+                            {
+                                <input type="submit" value="Filters Toepassen" />
+                                <tr>
+                                    <th>
+                                        Medewerker Naam
+                                        @Html.DropDownList("employeeName", new SelectList(employeeNames), "Geen filter")
+                                    </th>
+                                    <th>
+                                        Jaar
+                                        @Html.DropDownList("year", new SelectList(years), "Geen filter")
+                                    </th>
+                                    <th>
+                                        Maand
+                                        @Html.DropDownList("month", new SelectList(Enum.GetValues(typeof(Months))), "Geen filter")
+                                    </th>
+                                    <th>
+                                        Goedgekeurd
+                                        @Html.DropDownList("approved", new SelectList(new List<string> { "Goedgekeurd", "Niet goedgekeurd" }), "Geen filter")
+                                    </th>
+                                    <th>
+                                        Ingediend
+                                        @Html.DropDownList("submitted", new SelectList(new List<string> { "Ingediend", "Niet ingediend" }), "Geen filter")
+                                    </th>
+                                    <th>Commentaar</th>
+                                    <th>Inzien</th>
+                                </tr>
+
+                            }
+                        </thead>
+
+
+                        <tbody>
+
+                            @foreach (DeclarationFormModel declarationFormModel in Model)
+                            {
+
+                                <tr>
+                                    <td>@declarationFormModel.EmployeeName</td>
+                                    <td>@declarationFormModel.Year</td>
+                                    <td>@declarationFormModel.Month</td>
+                                    <td>
+                                        @if (declarationFormModel.Approved == true)
+                                        {
+                                            <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
+                                        }
+                                        else
+                                        {
+                                            <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (declarationFormModel.Submitted == true)
+                                        {
+                                            <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
+                                        }
+                                        else
+                                        {
+                                            <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                                        }
+                                    </td>
+                                    <td>@declarationFormModel.Comment</td>
+                                    <td>
+                                        <a class="nav-link text-dark linkjes"
+                                           asp-area=""
+                                           asp-controller="Admin"
+                                           asp-action="ViewDeclarationForm"
+                                           asp-route-formId="@declarationFormModel.FormId">
+                                            Inzien
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <form asp-controller="admin"
+                                              asp-action="oefenmethode"
+                                              asp-route-oefengetal="@declarationFormModel.FormId">
+                                            <button type="submit">click me</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>*@
 
         <div>
             <div align="center">
@@ -106,6 +209,19 @@
                         {
                             <input type="submit" value="Filters Toepassen" />
                             <tr>
+                                <th>
+                                    Datum Aangemaakt
+                                    @{
+                                        if (ViewBag.SortDate == stringAscending)
+                                        {
+                                            <button type="submit" asp-route-sortDate=@stringDescending><img src="..\..\Images\sortbyAscending.png" width="17"></button>
+                                        } else
+                                        
+                                        {
+                                            <button type="submit" asp-route-sortDate=@stringAscending><img src="..\..\Images\sortbyDescending.png" width="17"></button>
+                                        }
+                                    }
+                                </th>
                                 <th>
                                     Medewerker Naam
                                     @Html.DropDownList("employeeName", new SelectList(employeeNames), "Geen filter")
@@ -140,6 +256,7 @@
                         {
 
                             <tr>
+                                <td>@declarationFormModel.DateCreated</td>
                                 <td>@declarationFormModel.EmployeeName</td>
                                 <td>@declarationFormModel.Year</td>
                                 <td>@declarationFormModel.Month</td>
@@ -180,16 +297,16 @@
                                 </td>
                                 <td>
                                     <form asp-controller="admin"
-                                          asp-action="oefenmethode"
-                                          asp-route-oefengetal="@declarationFormModel.FormId">
-                                        <button type="submit">click me</button>
+                                          asp-action="ReopenForm"
+                                          asp-route-formId="@declarationFormModel.FormId">
+                                        <button type="submit"></button>
                                     </form>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
+
             </div>
         </div>
-    </div>
 </div>
