@@ -32,188 +32,192 @@ namespace UrenRegistratieQien.Controllers
             monthList = new List<string> { "Januari", "Februari", "March", "April", "May", "June", "Juli", "August", "September", "October", "November", "December" };
         }
 
-        public IActionResult ReopenForm(int formId)
+        [HttpPost]
+        public async Task<IActionResult> ReopenForm(int formId)
         {
-            declarationFormRepo.ReopenForm(formId);
+            await declarationFormRepo.ReopenForm(formId);
             return RedirectToAction("Admin");
         }
 
-        public IActionResult ShowEmployees()
+        public async Task<IActionResult> ShowEmployees()
         {
-            if (UserIsAdmin())
+            if (await UserIsAdmin())
             {
-                var employees = employeeRepo.GetEmployees();
+                var employees = await employeeRepo.GetEmployees();
                 return View(employees);
             } else
             {
-                return AccessDeniedView();
-            } 
+                return await AccessDeniedView();
+            }
+            
+
         }
 
-        public IActionResult ChangeEmployee(string EmployeeId)
+        public async Task<IActionResult> ChangeEmployee(string EmployeeId)
         {
-            if (UserIsAdmin())
+            if (await UserIsAdmin())
             {
-                var employee = employeeRepo.GetEmployee(EmployeeId);
+                var employee = await employeeRepo.GetEmployee(EmployeeId);
                 return View(employee);
             }
             else
             {
-                return AccessDeniedView();
+                return await AccessDeniedView();
             }
         }
         
-        public IActionResult DeleteEmployee(string employeeId)
+        public async Task<IActionResult> DeleteEmployee(string employeeId)
         {
-            if (UserIsAdmin())
+            if (await UserIsAdmin())
             {
-                employeeRepo.DeleteEmployee(employeeId);
+                await employeeRepo.DeleteEmployee(employeeId);
                 return RedirectToAction("ShowEmployees");
             }
             else
             {
-                return AccessDeniedView();
+                return await AccessDeniedView();
             }
 
         }
 
         [HttpPost]
-        public IActionResult EditEmployee(EmployeeModel empModel)
+        public async Task<IActionResult> EditEmployee(EmployeeModel empModel)
         {
-            if (UserIsAdmin())
+            if (await UserIsAdmin())
             {
-                employeeRepo.EditEmployee(empModel);
+                await employeeRepo.EditEmployee(empModel);
                 return RedirectToAction("ShowEmployees");
             }
             else
             {
-                return AccessDeniedView();
+                return await AccessDeniedView();
             }
 
         }
 
+
         [HttpPost]
-        public IActionResult EditEmployeeMailAdres(string employeeMailold, string employeeMailnew)
+        public async Task<IActionResult> EditEmployeeMailAdres(string employeeMailold, string employeeMailnew)
         {
-          
-                employeeRepo.EditEmployeeMail(employeeMailold, employeeMailnew);
-                return RedirectToAction("ShowEmployees");
-         
+
+            await employeeRepo.EditEmployeeMail(employeeMailold, employeeMailnew);
+            return RedirectToAction("ShowEmployees");
         }
 
-        public IActionResult ShowClients()
+        public async Task<IActionResult> ShowClients()
+
         {
-            if (UserIsAdmin())
+            if (await UserIsAdmin())
             {
                 var clients = clientRepo.GetAllClients();
                 return View(clients);
             }
             else
             {
-                return AccessDeniedView();
+                return await AccessDeniedView();
             }
 
         }
 
-        public IActionResult AddClient()
+        public async Task<IActionResult> AddClient()
         {
-            if (UserIsAdmin())
+            if (await UserIsAdmin())
             {
                 return View(new ClientModel());
 
             } else
             {
-                return AccessDeniedView();
+                return await AccessDeniedView();
             }
         }
 
         [HttpPost]
-        public IActionResult AddClient(ClientModel clientModel)
+        public async Task<IActionResult> AddClient(ClientModel clientModel)
         {
-            if (UserIsAdmin())
+            if (await UserIsAdmin())
             {
 
-                clientRepo.AddNewClient(clientModel);
+                await clientRepo.AddNewClient(clientModel);
                 return RedirectToAction("ShowClients");
             } else
             {
-                return AccessDeniedView();
+                return await AccessDeniedView();
             }
         }
 
-        public IActionResult ChangeClient(int clientId)
+        public async Task<IActionResult> ChangeClient(int clientId)
         {
-            if (UserIsAdmin())
+            if (await UserIsAdmin())
             {
 
-                return View(clientRepo.GetClient(clientId));
+                return View(await clientRepo.GetClient(clientId));
             } else
             {
-                return AccessDeniedView();
+                return await AccessDeniedView();
             }
         }
 
         [HttpPost]
-        public IActionResult EditClient(ClientModel clientModel)
+        public async Task<IActionResult> EditClient(ClientModel clientModel)
         {
-            if (UserIsAdmin())
+            if (await UserIsAdmin())
             {
-                clientRepo.EditAClient(clientModel);
+                await clientRepo.EditAClient(clientModel);
                 return RedirectToAction("ShowClients");
 
             } else
             {
-                return AccessDeniedView();
+                return await AccessDeniedView();
             }
         }
-        public IActionResult DeleteClient(int clientId)
+        public async Task<IActionResult> DeleteClient(int clientId)
         {
-            if (UserIsAdmin())
+            if (await UserIsAdmin())
             {
-                clientRepo.DeleteClient(clientId);
+                await clientRepo.DeleteClient(clientId);
                 return RedirectToAction("ShowClients");
 
             } else
             {
-                return AccessDeniedView();
+                return await AccessDeniedView();
             }
         }
 
-        public IActionResult ViewDeclarationForm(int formId)
+        public async Task<IActionResult> ViewDeclarationForm(int formId)
         {
-            if (UserIsAdmin())
+            if (await UserIsAdmin())
             {
-                var form = declarationFormRepo.GetForm(formId);
+                var form = await declarationFormRepo.GetForm(formId);
                 return View(form);
             } else
             {
-                return AccessDeniedView();
+                return await AccessDeniedView();
             }
         }
 
-        public IActionResult Admin(string year, string month, string employeeName, string approved, string submitted, string totalhoursmonth, int totalhoursyear, string sortDate)
+        public async Task<IActionResult> Admin(string year, string month, string employeeName, string approved, string submitted, string totalhoursmonth, int totalhoursyear, string sortDate)
 
         {
-            if (UserIsAdmin())
+            if (await UserIsAdmin())
             {
 
-                ViewBag.AllForms = declarationFormRepo.GetAllForms();
+                ViewBag.AllForms = await declarationFormRepo.GetAllForms();
                 ViewBag.Months = monthList;
                 ViewBag.sortDate = sortDate;
-                var forms = declarationFormRepo.GetAllForms();
+                var forms = await declarationFormRepo.GetAllForms();
 
                 if (totalhoursyear == 0)
                 {
                     totalhoursyear = DateTime.Now.Year;
                 }
 
-                ViewBag.TotalHoursWorked = declarationFormRepo.TotalHoursWorked(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursOvertime = declarationFormRepo.TotalHoursOvertime(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursSickness = declarationFormRepo.TotalHoursSickness(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursVacation = declarationFormRepo.TotalHoursVacation(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursHoliday = declarationFormRepo.TotalHoursHoliday(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursTraining = declarationFormRepo.TotalHoursTraining(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursOther = declarationFormRepo.TotalHoursOther(forms, totalhoursmonth, totalhoursyear);
+                ViewBag.TotalHoursWorked = await declarationFormRepo.TotalHoursWorked(forms, totalhoursmonth, totalhoursyear);
+                ViewBag.TotalHoursOvertime = await declarationFormRepo.TotalHoursOvertime(forms, totalhoursmonth, totalhoursyear);
+                ViewBag.TotalHoursSickness = await declarationFormRepo.TotalHoursSickness(forms, totalhoursmonth, totalhoursyear);
+                ViewBag.TotalHoursVacation = await declarationFormRepo.TotalHoursVacation(forms, totalhoursmonth, totalhoursyear);
+                ViewBag.TotalHoursHoliday = await declarationFormRepo.TotalHoursHoliday(forms, totalhoursmonth, totalhoursyear);
+                ViewBag.TotalHoursTraining = await declarationFormRepo.TotalHoursTraining(forms, totalhoursmonth, totalhoursyear);
+                ViewBag.TotalHoursOther = await declarationFormRepo.TotalHoursOther(forms, totalhoursmonth, totalhoursyear);
 
                 string employeeId;
                 if (employeeName != null)
@@ -224,62 +228,62 @@ namespace UrenRegistratieQien.Controllers
                 {
                     employeeId = null;
                 }
-                return View(declarationFormRepo.GetFilteredForms(year, employeeId, month, approved, submitted, sortDate));
+                return View(await declarationFormRepo.GetFilteredForms(year, employeeId, month, approved, submitted, sortDate));
             } else
             {
-                return AccessDeniedView();
+                return await AccessDeniedView();
             }
         }
 
-        public IActionResult AdminWithEmployeeId(string employeeId)
+        public async Task<IActionResult> AdminWithEmployeeId(string employeeId)
         {
-            if (UserIsAdmin())
+            if (await UserIsAdmin())
             {
-                ViewBag.AllForms = declarationFormRepo.GetAllForms();
+                ViewBag.AllForms = await declarationFormRepo.GetAllForms();
                 ViewBag.Months = monthList;
                 var forms = declarationFormRepo.GetAllFormsOfUser(employeeId);
                 return View("~/Views/Admin/Admin.cshtml", forms);
             } else
             {
-                return AccessDeniedView();
+                return await AccessDeniedView();
             }
 
 
         }
 
-        public IActionResult AdminWithMonthYear(string month, int year)
+        public async Task<IActionResult> AdminWithMonthYear(string month, int year)
         {
-            if (UserIsAdmin())
+            if (await UserIsAdmin())
             {
-                ViewBag.AllForms = declarationFormRepo.GetAllForms();
+                ViewBag.AllForms = await declarationFormRepo.GetAllForms();
                 ViewBag.Months = monthList;
-                var forms = declarationFormRepo.GetAllFormsOfMonth(MonthConverter.ConvertMonthToInt(month));
+                var forms = await declarationFormRepo.GetAllFormsOfMonth(MonthConverter.ConvertMonthToInt(month));
                 return View("~/Views/Admin/Admin.cshtml", forms);
 
             } else
             {
-                return AccessDeniedView();
+                return await AccessDeniedView();
             }
         }
 
 
 
-        public IActionResult EmployeeForms(string employeeId)
+        public async Task<IActionResult> EmployeeForms(string employeeId)
         {
-            if (UserIsAdmin())
+            if (await UserIsAdmin())
             {
                 var forms = declarationFormRepo.GetAllFormsOfUser(employeeId);
                 return View(forms);
             } else
             {
-                return AccessDeniedView();
+                return await AccessDeniedView();
             }
         }
 
-        public bool UserIsAdmin()
+        public async Task<bool> UserIsAdmin()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
-            var user = employeeRepo.GetEmployee(userId);
+            var user = await employeeRepo.GetEmployee(userId);
 
             if (user.Role == 1)
             {
@@ -290,34 +294,34 @@ namespace UrenRegistratieQien.Controllers
             }
         }
 
-        public ViewResult AccessDeniedView()
+        public async Task<ViewResult> AccessDeniedView()
         {
             return View("~/Views/Home/AccessDenied.cshtml");
         }
 
-        public IActionResult CreateFormForUser()
+        public async Task<IActionResult> CreateFormForUser()
         {
-            ViewBag.Employees = employeeRepo.getEmployeeSelectList();
+            ViewBag.Employees = await employeeRepo.getEmployeeSelectList();
             return View();
         }
 
         [HttpPost]
-        public IActionResult CreateFormForUser(string employeeId, string month, int year)
+        public async Task<IActionResult> CreateFormForUser(string employeeId, string month, int year)
         {
-            declarationFormRepo.CreateFormForUser(employeeId, month, year);
+            await declarationFormRepo.CreateFormForUser(employeeId, month, year);
             return RedirectToAction("Admin");
         }
 
-        public IActionResult DeleteDeclarationForm(int FormId)
+        public async Task<IActionResult> DeleteDeclarationForm(int FormId)
         {
-            if (UserIsAdmin())
+            if (await UserIsAdmin())
             {
-                declarationFormRepo.DeleteDeclarationForm(FormId);
+                await declarationFormRepo.DeleteDeclarationForm(FormId);
                 return RedirectToAction("Admin");
             }
             else
             {
-                return AccessDeniedView();
+                return await AccessDeniedView();
             }
         }
 

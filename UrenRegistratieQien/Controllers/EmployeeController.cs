@@ -27,27 +27,27 @@ namespace UrenRegistratieQien.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
         }
 
-        public IActionResult Dashboard(string year = null, string month = null, string approved = null, string submitted = null, string sortDate = null)////// de filter toepassen in de model van deze
+        public async Task<IActionResult> Dashboard(string year = null, string month = null, string approved = null, string submitted = null, string sortDate = null)////// de filter toepassen in de model van deze
         {
             var userId = _userManager.GetUserId(HttpContext.User); //ophalen van userId die is ingelogd
             ViewBag.userId = userId;
-            ViewBag.User = employeeRepo.GetEmployee(userId);
-            ViewBag.Client = clientRepo.GetClientByUserId(userId);
-            ViewBag.AllForms = declarationRepo.GetAllForms();
+            ViewBag.User = await employeeRepo.GetEmployee(userId);
+            ViewBag.Client = await clientRepo.GetClientByUserId(userId);
+            ViewBag.AllForms = await declarationRepo.GetAllForms();
             //var inputModel = declarationRepo.GetAllFormsOfUser(userId);
             var inputModel = declarationRepo.GetFilteredForms(year, userId, month, approved, submitted, sortDate);
             return View(inputModel);
         }
-        public IActionResult Info()
+        public async Task<IActionResult> Info()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
-            var Employee = employeeRepo.GetEmployee(userId);
-            ViewBag.Client = clientRepo.GetClientByUserId(userId);
+            var Employee = await employeeRepo.GetEmployee(userId);
+            ViewBag.Client = await clientRepo.GetClientByUserId(userId);
             return View(Employee);
         }
         }

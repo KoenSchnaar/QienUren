@@ -21,12 +21,14 @@ namespace UrenRegistratieQien.Controllers
         }
 
         [HttpPost]
-        public IActionResult MailService(DeclarationFormModel decModel, string uniqueId, string formId, string employeeName)
+        public async Task<IActionResult> MailService(DeclarationFormModel decModel, string uniqueId, string formId, string employeeName)
         {
 
-            declarationFormRepo.EditDeclarationForm(decModel);
-            declarationFormRepo.SubmitDeclarationForm(decModel);
-            declarationFormRepo.CalculateTotalHours(decModel);
+
+            await declarationFormRepo.EditDeclarationForm(decModel);
+            await declarationFormRepo.SubmitDeclarationForm(decModel);
+            await declarationFormRepo.CalculateTotalHours(decModel);
+
 
             //message components
             string month = decModel.Month;
@@ -53,15 +55,15 @@ namespace UrenRegistratieQien.Controllers
         }
 
 
-        public IActionResult ApproveOrReject(string uniqueId, string formId, bool commentNotValid)
+        public async Task<IActionResult> ApproveOrReject(string uniqueId, string formId, bool commentNotValid)
 
         {
 
             var formIdAsInt = Convert.ToInt32(formId);
 
-            if (declarationFormRepo.CheckIfIdMatches(uniqueId))
+            if (await declarationFormRepo.CheckIfIdMatches(uniqueId))
             {
-                var declarationFormModel = declarationFormRepo.GetForm(formIdAsInt);
+                var declarationFormModel = await declarationFormRepo.GetForm(formIdAsInt);
                 return View(new RejectFormModel { declarationFormModel = declarationFormModel, commentNotValid = commentNotValid});
             } else
             {
@@ -70,23 +72,23 @@ namespace UrenRegistratieQien.Controllers
         }
 
         [HttpPost]
-        public IActionResult Approve(string formId)
+        public async Task<IActionResult> Approve(string formId)
         {
-            declarationFormRepo.ApproveForm(Convert.ToInt32(formId));
+            await declarationFormRepo.ApproveForm(Convert.ToInt32(formId));
 
             return View();
         }
 
         [HttpPost]
-        public IActionResult Reject(int FormId, RejectFormModel rejectFormModel)
+        public async Task<IActionResult> Reject(int FormId, RejectFormModel rejectFormModel)
         {
-            var declarationFormModel = declarationFormRepo.GetForm(FormId);
+            var declarationFormModel = await declarationFormRepo.GetForm(FormId);
             var uniqueId = declarationFormModel.uniqueId;
             var comment = rejectFormModel.comment;
             var modelstate = ModelState.IsValid;
             if (ModelState.IsValid)
             {
-                declarationFormRepo.RejectForm(FormId, comment);
+                await declarationFormRepo.RejectForm(FormId, comment);
                 return View();
             } else
             {

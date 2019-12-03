@@ -23,7 +23,7 @@ namespace UrenRegistratieQien.Repositories
         }
 
 
-        public string GenerateUniqueId()
+        public async Task<string> GenerateUniqueId()
         {
 
             string URL = "";
@@ -51,14 +51,14 @@ namespace UrenRegistratieQien.Repositories
         }
 
 
-        public void CreateFormForUser(string EmployeeId, string month, int year)
+        public async Task CreateFormForUser(string EmployeeId, string month, int year)
         {
             var newForm = new DeclarationForm
             {
                 EmployeeId = EmployeeId,
                 Month = month,
                 Year = year,
-                uniqueId = GenerateUniqueId(),
+                uniqueId = await GenerateUniqueId(),
                 Approved = "Pending",
                 Submitted = false,
                 TotalWorkedHours = 0,
@@ -73,7 +73,7 @@ namespace UrenRegistratieQien.Repositories
         }
 
 
-        public void CreateForm(string employeeId)
+        public async Task CreateForm(string employeeId)
         {
             var entities = context.DeclarationForms.Where(p => p.EmployeeId == employeeId).ToList();
             if (entities.Count() > 0)
@@ -109,7 +109,7 @@ namespace UrenRegistratieQien.Repositories
                         EmployeeId = employeeId,
                         Month = monthString,
                         Year = year,
-                        uniqueId = GenerateUniqueId(),
+                        uniqueId = await GenerateUniqueId(),
                         Approved = "Pending",
                         Submitted = false,
                         TotalWorkedHours = 0,
@@ -135,7 +135,7 @@ namespace UrenRegistratieQien.Repositories
                     EmployeeId = employeeId,
                     Month = monthString,
                     Year = year,
-                    uniqueId = GenerateUniqueId(),
+                    uniqueId = await GenerateUniqueId(),
                     Approved = "Pending",
                     Submitted = false,
                     TotalWorkedHours = 0,
@@ -151,14 +151,14 @@ namespace UrenRegistratieQien.Repositories
             context.SaveChanges();
         }
 
-        public void ApproveForm(int formId)
+        public async Task ApproveForm(int formId)
         {
             var form = context.DeclarationForms.Single(p => p.DeclarationFormId == formId);
             form.Approved = "Approved";
             context.SaveChanges();
         }
 
-        public void RejectForm(int formId, string comment)
+        public async Task RejectForm(int formId, string comment)
         {
             var form = context.DeclarationForms.Single(p => p.DeclarationFormId == formId);
             form.Approved = "Rejected";
@@ -166,7 +166,7 @@ namespace UrenRegistratieQien.Repositories
             context.SaveChanges();
         }
 
-        public DeclarationFormModel GetFormModelFromEntity(DeclarationForm entity)
+        public async Task<DeclarationFormModel> GetFormModelFromEntity(DeclarationForm entity)
         {
             List<HourRowModel> ListOfHourRowModels = new List<HourRowModel>();
             foreach (HourRow hourRow in entity.HourRows)
@@ -270,29 +270,30 @@ namespace UrenRegistratieQien.Repositories
             return forms;
         }
 
-        public DeclarationFormModel GetForm(int formId)
+        public async Task<DeclarationFormModel> GetForm(int formId)
         {
             var entity = context.DeclarationForms.Include(df => df.HourRows).Single(d => d.DeclarationFormId == formId);
-            return GetFormModelFromEntity(entity);
+            return await GetFormModelFromEntity(entity);
         }
 
 
+        //werd niet gebruikt****************************************************************************************************************************************************************
 
-        public List<DeclarationFormModel> GetNotApprovedForms()
-        {
-            var allForms = GetAllForms();
-            var notApprovedForms = new List<DeclarationFormModel>();
-            foreach(DeclarationFormModel form in allForms)
-            {
-                if(form.Approved != "Rejected")
-                {
-                    notApprovedForms.Add(form);
-                }
-            }
-            return notApprovedForms;
-        }
+        //public List<DeclarationFormModel> GetNotApprovedForms()
+        //{
+        //    var allForms = GetAllForms();
+        //    var notApprovedForms = new List<DeclarationFormModel>();
+        //    foreach (DeclarationFormModel form in allForms)
+        //    {
+        //        if (form.Approved != "Rejected")
+        //        {
+        //            notApprovedForms.Add(form);
+        //        }
+        //    }
+        //    return notApprovedForms;
+        //}
 
-        public List<DeclarationFormModel> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted, string sortDate)
+        public async Task<List<DeclarationFormModel>> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted, string sortDate)
         {
             if(approved == "Goedgekeurd")
             {
@@ -414,7 +415,7 @@ namespace UrenRegistratieQien.Repositories
             return forms;
         }
 
-        public List<DeclarationFormModel> GetAllForms()
+        public async Task<List<DeclarationFormModel>> GetAllForms()
         {
             var entities = context.DeclarationForms.Include(df => df.HourRows).OrderByDescending(df => df.DeclarationFormId).ToList();
             var forms = GetFormModelsFromEntities(entities);
@@ -422,14 +423,14 @@ namespace UrenRegistratieQien.Repositories
         }
 
 
-        public List<DeclarationFormModel> GetAllFormsOfUser(string userId)
+        public async Task<List<DeclarationFormModel>> GetAllFormsOfUser(string userId)
         {
             var entities = context.DeclarationForms.Include(df => df.HourRows).Where(d => d.EmployeeId == userId).ToList();
             var forms = GetFormModelsFromEntities(entities);
             return forms;
         }
 
-        public List<DeclarationFormModel> GetAllFormsOfMonth(int month)
+        public async Task<List<DeclarationFormModel>> GetAllFormsOfMonth(int month)
         {
             var monthString = MonthConverter.ConvertIntToMonth(month);
             var entities = context.DeclarationForms.Include(df => df.HourRows).Where(d => d.Month == monthString).ToList();
@@ -437,7 +438,7 @@ namespace UrenRegistratieQien.Repositories
             return forms;
         }
 
-        public void EditDeclarationForm(DeclarationFormModel formModel)
+        public async Task EditDeclarationForm(DeclarationFormModel formModel)
         {
             var form = context.DeclarationForms.Single(d => d.DeclarationFormId == formModel.FormId);
             var hourList = new List<HourRow>();
@@ -457,14 +458,14 @@ namespace UrenRegistratieQien.Repositories
             context.SaveChanges();
         }
 
-        public void SubmitDeclarationForm(DeclarationFormModel formModel)
+        public async Task SubmitDeclarationForm(DeclarationFormModel formModel)
         {
             var form = context.DeclarationForms.Single(d => d.DeclarationFormId == formModel.FormId);
             form.Submitted = true;
             form.Approved = "Pending";
             context.SaveChanges();
         }
-        public int TotalHoursWorked(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
+        public async Task<int> TotalHoursWorked(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
         {
 
             int counter = 0;
@@ -504,7 +505,7 @@ namespace UrenRegistratieQien.Repositories
 
         }
 
-        public int TotalHoursOvertime(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
+        public async Task<int> TotalHoursOvertime(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
         {
 
             int counter = 0;
@@ -545,7 +546,7 @@ namespace UrenRegistratieQien.Repositories
 
         }
 
-        public int TotalHoursSickness(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
+        public async Task<int> TotalHoursSickness(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
         {
 
             int counter = 0;
@@ -586,7 +587,7 @@ namespace UrenRegistratieQien.Repositories
 
         }
 
-        public int TotalHoursVacation(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
+        public async Task<int> TotalHoursVacation(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
         {
 
             int counter = 0;
@@ -626,7 +627,7 @@ namespace UrenRegistratieQien.Repositories
             return counter;
 
         }
-        public int TotalHoursHoliday(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
+        public async Task<int> TotalHoursHoliday(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
         {
 
             int counter = 0;
@@ -666,7 +667,7 @@ namespace UrenRegistratieQien.Repositories
             return counter;
 
         }
-        public int TotalHoursTraining(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
+        public async Task<int> TotalHoursTraining(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
         {
 
             int counter = 0;
@@ -706,7 +707,7 @@ namespace UrenRegistratieQien.Repositories
             return counter;
 
         }
-        public int TotalHoursOther(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
+        public async Task<int> TotalHoursOther(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
         {
 
             int counter = 0;
@@ -747,7 +748,7 @@ namespace UrenRegistratieQien.Repositories
 
         }
 
-        public bool CheckIfIdMatches(string uniqueId)
+        public async Task<bool> CheckIfIdMatches(string uniqueId)
         {
             try
             {
@@ -759,7 +760,7 @@ namespace UrenRegistratieQien.Repositories
                 return false;
             }
         }
-        public void CalculateTotalHours(DeclarationFormModel decModel)
+        public async Task CalculateTotalHours(DeclarationFormModel decModel)
         {
             foreach (var HourRow in decModel.HourRows)
             {
@@ -772,13 +773,13 @@ namespace UrenRegistratieQien.Repositories
             context.SaveChanges();
         }
 
-        public void ReopenForm(int formId)
+        public async Task ReopenForm(int formId)
         {
             var entity = context.DeclarationForms.Single(d => d.DeclarationFormId == formId);
             entity.Submitted = false;
             context.SaveChanges();
         }
-        public void DeleteDeclarationForm(int FormId)
+        public async Task DeleteDeclarationForm(int FormId)
         {
             var form = context.DeclarationForms.Single(df => df.DeclarationFormId == FormId);
             context.DeclarationForms.Remove(form);

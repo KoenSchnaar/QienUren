@@ -1,5 +1,6 @@
 
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using UrenRegistratieQien.Models;
 
 
@@ -11,12 +12,10 @@ namespace UrenRegistratieQien.Repositories
     {
 
         List<ClientModel> GetAllClients();
-        void AddNewClient(ClientModel clientModel);
-        void EditAClient(ClientModel clientModel);
-        ClientModel GetClient(int clientId);
-        public ClientModel GetClientByUserId(string userId);
-        public void DeleteClient(int clientId);
-
-
+        Task AddNewClient(ClientModel clientModel);
+        Task EditAClient(ClientModel clientModel);
+        Task<ClientModel> GetClient(int clientId);
+        Task<ClientModel> GetClientByUserId(string userId);
+        Task DeleteClient(int clientId);
     }
 }

@@ -18,7 +18,7 @@ namespace UrenRegistratieQien.Repositories
         {
             this.context = context;
         }
-        public List<EmployeeModel> GetEmployees()
+        public async Task<List<EmployeeModel>> GetEmployees()
         {
             List<EmployeeModel> employeeModelList = new List<EmployeeModel>();
             foreach(IdentityUser employee in context.Users)
@@ -44,7 +44,7 @@ namespace UrenRegistratieQien.Repositories
             return employeeModelList;
         }
 
-        public EmployeeModel GetEmployee(string id)
+        public async Task<EmployeeModel> GetEmployee(string id)
         {
             var employee = context.Users.Single(p => p.Id == id);
 
@@ -63,8 +63,6 @@ namespace UrenRegistratieQien.Repositories
                 ZIPCode = employeeCasted.ZIPCode,
                 Residence = employeeCasted.Residence
             };
-            
-
         }
 
         public EmployeeModel GetEmployeeByName(string name)
@@ -93,7 +91,7 @@ namespace UrenRegistratieQien.Repositories
             };
         }
 
-        public void DeleteEmployee(string id)
+        public async Task DeleteEmployee(string id)
         {
             var employee = context.Users.Single(p => p.Id == id);
 
@@ -122,14 +120,16 @@ namespace UrenRegistratieQien.Repositories
             context.SaveChanges();
         }
 
-        public void EditEmployeeMail(string employeeMailold, string employeeMailnew) {
-            
+        public async Task EditEmployeeMail(string employeeMailold, string employeeMailnew)
+        {
+
             var dbEmp = context.Users.Single(p => p.Email == employeeMailold);
             var CastedDatabaseEmployee = (Employee)dbEmp;
             CastedDatabaseEmployee.Email = employeeMailnew;
             context.SaveChanges();
         }
-        public void EditEmployee(EmployeeModel employeeModel)
+
+        public async Task EditEmployee(EmployeeModel employeeModel)
         {
             var databaseEmployee = context.Users.Single(p => p.Id == employeeModel.EmployeeId);
             var CastedDatabaseEmployee = (Employee)databaseEmployee;
@@ -168,7 +168,7 @@ namespace UrenRegistratieQien.Repositories
 
 
 
-        public void CheckIfYearPassedForAllTrainees()
+        public async Task CheckIfYearPassedForAllTrainees()
         {
             List<Employee> Trainees = new List<Employee>();
             foreach(Employee employee in context.Users)
@@ -193,14 +193,14 @@ namespace UrenRegistratieQien.Repositories
             }
         }
 
-        public SelectList getEmployeeSelectList()
+        public async Task<SelectList> getEmployeeSelectList()
         {
             var EmployeeList = new SelectList(context.Employees, "Id", "FirstName");
 
             return EmployeeList;
         }
 
-        public List<string> getEmployeeNames()
+        public async Task<List<string>> getEmployeeNames()
         {
             throw new NotImplementedException();
         }
