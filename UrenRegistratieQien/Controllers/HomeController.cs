@@ -60,17 +60,5 @@ namespace UrenRegistratieQien.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        //public IActionResult User()
-        //{
-        //    return View();
-        //}
-        //public IActionResult CreateUser()
-        //{
-        //    return View();
-        //}
-        //public IActionResult HourReg()
-        //{
-        //    return View();
-        //}
     }
 }

@@ -4,28 +4,51 @@
     ViewData["Title"] = "ApproveOrReject";
 
 }
-<h1>Goedkeuren Formulier</h1>
+    <h1 class="title">Urendeclaratieformulier</h1>
 
-<div>
+<div class="approvereject Container-1">
     <br />
     <br />
-    <form method="post">
-        <button asp-action="Approve" asp-controller="Mailservice" asp-route-formId=@Model.declarationFormModel.FormId>Goedkeuren</button>
-    </form>
+    <div class="box-30left">
+        <div>
+            Medewerker: @Model.declarationFormModel.EmployeeName
+            <br />
+            Maand: @Model.declarationFormModel.Month
+
+        </div>
+
+        <br />
+        Op dit scherm kunt u kiezen of u het urendeclaratieformulier van @Model.declarationFormModel.EmployeeName goedkeurt of afkeurt. Geef bij het afkeuren ook aan waarom het formulier wordt afgekeurd.
+    </div>
     <br />
-    <form method="post">
-        <text>Geef aan waarom je het formulier afkeurt.</text>
-        @Html.HiddenFor(p => p.declarationFormModel.FormId)
-        @Html.ValidationMessageFor(p => p.comment)
-        @if (Model.commentNotValid)
-        {
-            <div class="validation-failed">
-                Dit veld is verplicht!
+    <div class="box-70right">
+        <div class="Container-1">
+            <div class="box-5050">
+                <form method="post">
+                    <button class="btn-primary" asp-action="Approve" asp-controller="Mailservice" asp-route-formId=@Model.declarationFormModel.FormId>Goedkeuren</button>
+                </form>
             </div>
-        }
-        @Html.TextBoxFor(p => p.comment)
-        <button asp-action="Reject" asp-controller="Mailservice" asp-route-formId=@Model.declarationFormModel.FormId>Afkeuren</button>
-    </form>
+            <div class="box-5050">
+                <form method="post">
+
+                    <button class="btn-primary" asp-action="Reject" asp-controller="Mailservice" asp-route-formId=@Model.declarationFormModel.FormId>Afkeuren</button>
+                    <br />
+                    <br />
+                    @Html.HiddenFor(p => p.declarationFormModel.FormId)
+                    @Html.ValidationMessageFor(p => p.comment)
+                    @if (Model.commentNotValid)
+                    {
+                        <div class="validation-failed">
+                            Dit veld is verplicht!
+                        </div>
+                    }
+                    @Html.TextAreaFor(p => p.comment, 5, 40, new { @class = "wide-textbox" })
+                    @*@Html.TextBoxFor(p => p.comment, new { @class= "wide-textbox" })*@
+                </form>
+            </div>
+        </div>
+        <br />
+    </div>
     <br />
     <br />
 
