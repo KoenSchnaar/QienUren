@@ -778,5 +778,11 @@ namespace UrenRegistratieQien.Repositories
             entity.Submitted = false;
             context.SaveChanges();
         }
+        public void DeleteDeclarationForm(int FormId)
+        {
+            var form = context.DeclarationForms.Single(df => df.DeclarationFormId == FormId);
+            context.DeclarationForms.Remove(form);
+            context.SaveChanges();
+        }
     }
 }

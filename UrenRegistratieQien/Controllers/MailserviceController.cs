@@ -26,6 +26,7 @@ namespace UrenRegistratieQien.Controllers
 
             declarationFormRepo.EditDeclarationForm(decModel);
             declarationFormRepo.SubmitDeclarationForm(decModel);
+            declarationFormRepo.CalculateTotalHours(decModel);
 
             //message components
             string month = decModel.Month;
