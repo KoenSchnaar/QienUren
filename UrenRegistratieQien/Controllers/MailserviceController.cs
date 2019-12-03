@@ -34,10 +34,11 @@ namespace UrenRegistratieQien.Controllers
             message.From.Add(new MailboxAddress("Hans", "hanshanshans812@gmail.com"));
             message.To.Add(new MailboxAddress("Luuk", "luuk_wolferen@hotmail.com"));
             message.Subject = $"Urendeclaratieformulier van {employeeName} voor de maand {decModel.Month}";
-            message.Body = new TextPart("plain")
+            var link = "https://localhost:5001/Mailservice/ApproveOrReject/?uniqueId=" + uniqueId + "&formId=" + formId;
+            message.Body = new TextPart("html")
             
             {
-                Text = $"{employeeName} wil graag dat u het urendeclaratieformulier goedkeurt. Klik op de link om naar het formulier te gaan: https://localhost:5001/Mailservice/ApproveOrReject/?uniqueId=" + uniqueId + "&formId=" + formId
+                Text = $"{employeeName} wil graag dat u het urendeclaratieformulier goedkeurt. <br/> Klik op de link om naar het formulier te gaan: <a href={link}>Klik hier!</a>"
             };
 
             using (var client = new SmtpClient())
