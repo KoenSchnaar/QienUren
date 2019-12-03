@@ -38,7 +38,7 @@ namespace UrenRegistratieQien.Repositories
 
             return clientModelList;
         }
-        public void AddNewClient(ClientModel clientModel)
+        public async Task AddNewClient(ClientModel clientModel)
         {
             context.Clients.Add(new DatabaseClasses.Client
             {
@@ -56,7 +56,7 @@ namespace UrenRegistratieQien.Repositories
             context.SaveChanges();
         }
 
-        public void EditAClient(ClientModel clientModel)
+        public async Task EditAClient(ClientModel clientModel)
         {
             var clientEntity = context.Clients.Single(c => c.ClientId == clientModel.ClientId);
 
@@ -74,7 +74,7 @@ namespace UrenRegistratieQien.Repositories
         }
             
 
-        public ClientModel GetClient(int clientId)
+        public async Task<ClientModel> GetClient(int clientId)
         {
             var databaseClient = context.Clients.Single(p => p.ClientId == clientId);
 
@@ -94,7 +94,7 @@ namespace UrenRegistratieQien.Repositories
 
         }
 
-        public ClientModel GetClientByUserId(string userId)
+        public async Task<ClientModel> GetClientByUserId(string userId)
         {
             var employee = context.Users.Single(u => u.Id == userId);
 
@@ -117,7 +117,7 @@ namespace UrenRegistratieQien.Repositories
             };
 
         }
-        public void DeleteClient(int clientId)
+        public async Task DeleteClient(int clientId)
         {
             var client = context.Clients.Single(c => c.ClientId == clientId);
             context.Clients.Remove(client);

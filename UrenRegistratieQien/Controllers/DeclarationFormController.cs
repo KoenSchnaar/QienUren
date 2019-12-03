@@ -28,35 +28,35 @@ namespace UrenRegistratieQien.Controllers
         }
 
         
-        public IActionResult HourReg(int declarationFormId, string userId, int year, string month)
+        public async Task<IActionResult> HourReg(int declarationFormId, string userId, int year, string month)
         {
-            hourRowRepo.AddHourRows(year, month, declarationFormId);
-            ViewBag.User = employeeRepo.GetEmployee(userId);
-            var inputModel = declarationRepo.GetForm(declarationFormId);
+            await hourRowRepo.AddHourRows(year, month, declarationFormId);
+            ViewBag.User = await employeeRepo.GetEmployee(userId);
+            var inputModel = await declarationRepo.GetForm(declarationFormId);
             return View(inputModel);
         }
 
         [HttpPost]
-        public IActionResult HourReg(DeclarationFormModel decModel)
+        public async Task<IActionResult> HourReg(DeclarationFormModel decModel)
         {
-            declarationRepo.EditDeclarationForm(decModel);
-            declarationRepo.CalculateTotalHours(decModel);
+            await declarationRepo.EditDeclarationForm(decModel);
+            await declarationRepo.CalculateTotalHours(decModel);
             //return View("~/ Views / Employee / Dashboard.cshtml");
             return RedirectToAction("Dashboard", "Employee");
         }
 
         [HttpPost]
-        public IActionResult HourRegSubmit(DeclarationFormModel decModel)
+        public async Task<IActionResult> HourRegSubmit(DeclarationFormModel decModel)
         {
-            declarationRepo.EditDeclarationForm(decModel);
-            declarationRepo.SubmitDeclarationForm(decModel);
-            declarationRepo.CalculateTotalHours(decModel);
+            await declarationRepo.EditDeclarationForm(decModel);
+            await declarationRepo.SubmitDeclarationForm(decModel);
+            await declarationRepo.CalculateTotalHours(decModel);
             return RedirectToAction("Dashboard", "Employee");
         }
 
-        public IActionResult CreateForm(string employeeId)
+        public async Task<IActionResult> CreateForm(string employeeId)
         {
-            declarationRepo.CreateForm(employeeId);
+            await declarationRepo.CreateForm(employeeId);
 
             return RedirectToAction("Dashboard", "Employee");
         }

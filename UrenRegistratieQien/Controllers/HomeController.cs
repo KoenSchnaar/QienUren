@@ -28,10 +28,10 @@ namespace UrenRegistratieQien.Controllers
             employeeRepo = EmployeeRepo;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
-            var user = employeeRepo.GetEmployee(userId);
+            var user = await employeeRepo.GetEmployee(userId);
             //checkrole
 
             switch (user.Role)
@@ -49,28 +49,16 @@ namespace UrenRegistratieQien.Controllers
             }
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> Privacy()
         {
             return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public async Task<IActionResult> Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        //public IActionResult User()
-        //{
-        //    return View();
-        //}
-        //public IActionResult CreateUser()
-        //{
-        //    return View();
-        //}
-        //public IActionResult HourReg()
-        //{
-        //    return View();
-        //}
     }
 }
