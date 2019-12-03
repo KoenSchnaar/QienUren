@@ -31,6 +31,6 @@ namespace UrenRegistratieQien.Repositories
         public void RejectForm(int formId, string comment);
         public void CalculateTotalHours(DeclarationFormModel decModel);
         public void CreateFormForUser(string EmployeeId, string month, int year);
-
+        public void ReopenForm(int formId);
     }
 }
