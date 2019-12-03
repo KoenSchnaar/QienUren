@@ -756,7 +756,7 @@ namespace UrenRegistratieQien.Repositories
             context.SaveChanges();
         }
 
-        public void UnsubmitForm(int formId)
+        public void ReopenForm(int formId)
         {
             var entity = context.DeclarationForms.Single(d => d.DeclarationFormId == formId);
             entity.Submitted = false;

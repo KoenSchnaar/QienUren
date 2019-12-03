@@ -33,9 +33,9 @@ namespace UrenRegistratieQien.Controllers
         }
 
         [HttpPost]
-        public IActionResult UnsubmitForm(int formId)
+        public IActionResult ReopenForm(int formId)
         {
-            declarationFormRepo.UnsubmitForm(formId);
+            declarationFormRepo.ReopenForm(formId);
             return RedirectToAction("Admin");
         }
 
