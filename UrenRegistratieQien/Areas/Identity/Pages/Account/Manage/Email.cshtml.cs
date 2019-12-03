@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using UrenRegistratieQien.DatabaseClasses;
 using MimeKit;
 using MailKit.Net.Smtp;
+using UrenRegistratieQien.Repositories;
 
 namespace UrenRegistratieQien.Areas.Identity.Pages.Account.Manage
 {
@@ -21,15 +22,19 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<Employee> _userManager;
         private readonly SignInManager<Employee> _signInManager;
         private readonly IEmailSender _emailSender;
+        private readonly IEmployeeRepository employeeRepo;
 
+   
         public EmailModel(
             UserManager<Employee> userManager,
             SignInManager<Employee> signInManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IEmployeeRepository EmployeeRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            employeeRepo = EmployeeRepo;
         }
 
         public string Username { get; set; }
@@ -103,15 +108,22 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account.Manage
                     protocol: Request.Scheme);
 
                 var message = new MimeMessage();
-                message.From.Add(new MailboxAddress("Hans", "hanshanshans812@gmail.com"));
+                message.From.Add(new MailboxAddress("Qien", "hanshanshans812@gmail.com"));
                 message.To.Add(new MailboxAddress(Input.NewEmail, Input.NewEmail));
                 message.Subject = "Bevestiging Wijzigen E-mail Adres";
                 message.Body = new TextPart("html")
                 {
-                    Text = $"Beste,<br>Je mail is gewijzigd naar {Input.NewEmail} <br> Met vriendelijke groet" +
-                    $"Please confirm your account by < a href = '{HtmlEncoder.Default.Encode(callbackUrl)}' > clicking here </a>."
+                    Text = $"Beste,<br>Je mail is gewijzigd naar {Input.NewEmail} <br> Met vriendelijke groet <br> Please confirm your account by < a href = '{HtmlEncoder.Default.Encode(callbackUrl)}' > clicking here </a>."
                 };
 
+                var message1 = new MimeMessage();
+                message1.From.Add(new MailboxAddress("Qien", "hanshanshans812@gmail.com"));
+                message1.To.Add(new MailboxAddress(Input.NewEmail, Input.NewEmail));
+                message1.Subject = "Bevestiging Wijzigen E-mail Adres Voor Admin";
+                message1.Body = new TextPart("html")
+                {
+                    Text = $"Beste,<br>... mail is gewijzigd van: {email} <br> naar: {Input.NewEmail} <br> Met vriendelijke groet"
+                };
 
                 using (var client = new SmtpClient())
                 {
@@ -119,11 +131,12 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account.Manage
                     client.Connect("Smtp.gmail.com", 587, false);
                     client.Authenticate("hanshanshans812@gmail.com", "Hans123!"); //
                     client.Send(message);
+                    client.Send(message1);
                     client.Disconnect(true);
 
-
-
+                    
                     StatusMessage = "Bevestigings link is naar uw e-mail verstuurd.";
+                    employeeRepo.EditEmployeeMail(email, Input.NewEmail);
                     return RedirectToPage();
                 }
 
@@ -157,28 +170,29 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account.Manage
                 values: new { area = "Identity", userId = userId, code = code },
                 protocol: Request.Scheme);
 
-            var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("Hans", "hanshanshans812@gmail.com"));
-            message.To.Add(new MailboxAddress("Qien", Input.NewEmail));
-            message.Subject = "Bevestiging Wijzigen E-mail Adres";
-            message.Body = new TextPart("html")
-            {
-                Text = $"MAIL 2 UIT DE CODE!,<br>Je mail is gewijzigd naar {Input.NewEmail} <br> Met vriendelijke groet" +
-                $"Please confirm your account by < a href = '{HtmlEncoder.Default.Encode(callbackUrl)}' > clicking here </a>."
-            };
+            //var message = new MimeMessage();
+            //message.From.Add(new MailboxAddress("Hans", "hanshanshans812@gmail.com"));
+            //message.To.Add(new MailboxAddress("Qien", Input.NewEmail));
+            //message.Subject = "Bevestiging Wijzigen E-mail Adres";
+            //message.Body = new TextPart("html")
+            //{
+            //    Text = $"MAIL 2 UIT DE CODE!,<br>Je mail is gewijzigd naar {Input.NewEmail} <br> Met vriendelijke groet" +
+            //    $"Please confirm your account by < a href = '{HtmlEncoder.Default.Encode(callbackUrl)}' > clicking here </a>."
+            //};
 
 
-            using (var client = new SmtpClient())
-            {
-                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                client.Connect("Smtp.gmail.com", 587, false);
-                client.Authenticate("hanshanshans812@gmail.com", "Hans123!"); //
-                client.Send(message);
-                client.Disconnect(true);
+            //using (var client = new SmtpClient())
+            //{
+            //    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+            //    client.Connect("Smtp.gmail.com", 587, false);
+            //    client.Authenticate("hanshanshans812@gmail.com", "Hans123!"); //
+            //    client.Send(message);
+            //    client.Disconnect(true);
                 StatusMessage = "Verification email sent. Please check your email.";
                 return RedirectToPage();
             }
         }
     }
-}
+
+
 

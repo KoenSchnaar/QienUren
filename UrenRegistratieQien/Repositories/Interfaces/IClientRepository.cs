@@ -16,5 +16,7 @@ namespace UrenRegistratieQien.Repositories
         ClientModel GetClient(int clientId);
         public ClientModel GetClientByUserId(string userId);
         public void DeleteClient(int clientId);
+
+
     }
 }
