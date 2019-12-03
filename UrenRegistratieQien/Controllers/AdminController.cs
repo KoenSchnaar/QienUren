@@ -32,7 +32,6 @@ namespace UrenRegistratieQien.Controllers
             monthList = new List<string> { "Januari", "Februari", "March", "April", "May", "June", "Juli", "August", "September", "October", "November", "December" };
         }
 
-        [HttpPost]
         public IActionResult ReopenForm(int formId)
         {
             declarationFormRepo.ReopenForm(formId);
@@ -48,8 +47,7 @@ namespace UrenRegistratieQien.Controllers
             } else
             {
                 return AccessDeniedView();
-            }
-            
+            } 
         }
 
         public IActionResult ChangeEmployee(string EmployeeId)
@@ -63,7 +61,6 @@ namespace UrenRegistratieQien.Controllers
             {
                 return AccessDeniedView();
             }
-
         }
         
         public IActionResult DeleteEmployee(string employeeId)
@@ -309,6 +306,19 @@ namespace UrenRegistratieQien.Controllers
         {
             declarationFormRepo.CreateFormForUser(employeeId, month, year);
             return RedirectToAction("Admin");
+        }
+
+        public IActionResult DeleteDeclarationForm(int FormId)
+        {
+            if (UserIsAdmin())
+            {
+                declarationFormRepo.DeleteDeclarationForm(FormId);
+                return RedirectToAction("Admin");
+            }
+            else
+            {
+                return AccessDeniedView();
+            }
         }
 
     }
