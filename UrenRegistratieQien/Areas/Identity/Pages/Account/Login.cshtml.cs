@@ -46,11 +46,11 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Vul een E-mailadres in")]
             [EmailAddress]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Vul een wachtwoord in")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 

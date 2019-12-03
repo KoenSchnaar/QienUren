@@ -7,7 +7,7 @@
 
     var employeeNames = new List<string>();
 
-    foreach(DeclarationFormModel declarationFormModel in ViewBag.AllForms)
+    foreach (DeclarationFormModel declarationFormModel in ViewBag.AllForms)
 
     {
         if (!employeeNames.Contains(declarationFormModel.EmployeeName))
@@ -17,7 +17,7 @@
     }
 
     var years = new List<int>();
-    foreach(DeclarationFormModel declarationFormModel in ViewBag.AllForms)
+    foreach (DeclarationFormModel declarationFormModel in ViewBag.AllForms)
     {
         if (!years.Contains(declarationFormModel.Year))
         {
@@ -28,18 +28,17 @@
     var stringDescending = "Descending";
 }
 
-
-<div class="Container-1">
-    <div class="box-1">
-        @Html.Partial("_SideBoxAdmin")
-    </div>
-
-    <div class="box-2">
-        <div align="center">
-            <h1>Uren Totaal Overzicht</h1>
+    <div class="Container-1">
+        <div class="box-1">
+            @Html.Partial("_SideBoxAdmin")
         </div>
-        
-      
+
+        <div class="box-2">
+            <div align="center">
+                <h1>Uren Totaal Overzicht</h1>
+            </div>
+
+
             </td>
             <div>
                 <div class="table-wrapper">
@@ -63,7 +62,7 @@
                         <thead>
                             @using (Html.BeginForm("Admin", "Admin"))
                             {
-                                <input type="submit" class="btn-primary" value="Filters Toepassen" />
+                                <input type="submit" class="btn-primary" value="Filter ->" />
 
                                 <tr>
 
@@ -86,23 +85,116 @@
 
                     </table>
                 </div>
-            
+
             </div>
             <br />
             <br />
 
 
             @*@using (Html.BeginForm("Invoeradres", "Admin"))
-        {
-            @Html.TextBox("invoerid")
-            <input type="submit" />
-            @Html.DropDownList("maand")
+                {
+                    @Html.TextBox("invoerid")
+                    <input type="submit" />
+                    @Html.DropDownList("maand")
 
-        }*@
+                }*@
 
 
 
-@*<<<<<<< HEAD
+            @*<<<<<<< HEAD
+                <div>
+                    <div align="center">
+                        <h1>Totaaloverzicht</h1>
+                    </div>
+
+
+                    <div class="table-wrapper">
+                        <table class="fl-table" align="center">
+                            <thead>
+                                @using (Html.BeginForm("Admin", "Admin"))
+                                {
+                                    <input type="submit" value="Filters Toepassen" />
+                                    <tr>
+                                        <th>
+                                            Medewerker Naam
+                                            @Html.DropDownList("employeeName", new SelectList(employeeNames), "Geen filter")
+                                        </th>
+                                        <th>
+                                            Jaar
+                                            @Html.DropDownList("year", new SelectList(years), "Geen filter")
+                                        </th>
+                                        <th>
+                                            Maand
+                                            @Html.DropDownList("month", new SelectList(Enum.GetValues(typeof(Months))), "Geen filter")
+                                        </th>
+                                        <th>
+                                            Goedgekeurd
+                                            @Html.DropDownList("approved", new SelectList(new List<string> { "Goedgekeurd", "Niet goedgekeurd" }), "Geen filter")
+                                        </th>
+                                        <th>
+                                            Ingediend
+                                            @Html.DropDownList("submitted", new SelectList(new List<string> { "Ingediend", "Niet ingediend" }), "Geen filter")
+                                        </th>
+                                        <th>Commentaar</th>
+                                        <th>Inzien</th>
+                                    </tr>
+
+                                }
+                            </thead>
+
+
+                            <tbody>
+
+                                @foreach (DeclarationFormModel declarationFormModel in Model)
+                                {
+
+                                    <tr>
+                                        <td>@declarationFormModel.EmployeeName</td>
+                                        <td>@declarationFormModel.Year</td>
+                                        <td>@declarationFormModel.Month</td>
+                                        <td>
+                                            @if (declarationFormModel.Approved == true)
+                                            {
+                                                <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
+                                            }
+                                            else
+                                            {
+                                                <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (declarationFormModel.Submitted == true)
+                                            {
+                                                <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
+                                            }
+                                            else
+                                            {
+                                                <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                                            }
+                                        </td>
+                                        <td>@declarationFormModel.Comment</td>
+                                        <td>
+                                            <a class="nav-link text-dark linkjes"
+                                               asp-area=""
+                                               asp-controller="Admin"
+                                               asp-action="ViewDeclarationForm"
+                                               asp-route-formId="@declarationFormModel.FormId">
+                                                Inzien
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <form asp-controller="admin"
+                                                  asp-action="oefenmethode"
+                                                  asp-route-oefengetal="@declarationFormModel.FormId">
+                                                <button type="submit">click me</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>*@
+
             <div>
                 <div align="center">
                     <h1>Totaaloverzicht</h1>
@@ -116,6 +208,20 @@
                             {
                                 <input type="submit" value="Filters Toepassen" />
                                 <tr>
+                                    <th>
+                                        Datum Aangemaakt
+                                        @{
+                                            if (ViewBag.SortDate == stringAscending)
+                                            {
+                                                <button type="submit" asp-route-sortDate=@stringDescending><img src="..\..\Images\sortbyAscending.png" width="17"></button>
+                                            }
+                                            else
+
+                                            {
+                                                <button type="submit" asp-route-sortDate=@stringAscending><img src="..\..\Images\sortbyDescending.png" width="17"></button>
+                                            }
+                                        }
+                                    </th>
                                     <th>
                                         Medewerker Naam
                                         @Html.DropDownList("employeeName", new SelectList(employeeNames), "Geen filter")
@@ -150,27 +256,33 @@
                             {
 
                                 <tr>
+                                    <td>@declarationFormModel.DateCreated</td>
                                     <td>@declarationFormModel.EmployeeName</td>
                                     <td>@declarationFormModel.Year</td>
                                     <td>@declarationFormModel.Month</td>
                                     <td>
-                                        @if (declarationFormModel.Approved == true)
+                                        @if (declarationFormModel.Approved == "Approved")
                                         {
-                                            <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
+                                            <img class="center" title="Goedgekeurd" src="..\..\Images\Checkmark.png" style="margin: 0 auto; height: 15px; width: 25px" />
                                         }
-                                        else
+                                        else if (declarationFormModel.Approved == "Rejected")
                                         {
-                                            <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                                            <img class="center" title="Afgewezen" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
                                         }
+                                        else if (declarationFormModel.Approved == "Pending")
+                                        {
+                                            <img class="center" title="Pending" src="..\..\Images\Pending.jpg" style="margin: 0 auto; height: 25px; width: 25px" />
+                                        }
+
                                     </td>
                                     <td>
                                         @if (declarationFormModel.Submitted == true)
                                         {
-                                            <img class="center" src="..\..\Images\Checkmark.jpg" style="margin: 0 auto; height: 15px; width: 20px" />
+                                            <img class="center" title="Goedgekeurd" src="..\..\Images\Checkmark.png" style="margin: 0 auto; height: 15px; width: 25px" />
                                         }
                                         else
                                         {
-                                            <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                                            <img class="center" title="Afgewezen" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
                                         }
                                     </td>
                                     <td>@declarationFormModel.Comment</td>
@@ -185,128 +297,16 @@
                                     </td>
                                     <td>
                                         <form asp-controller="admin"
-                                              asp-action="oefenmethode"
-                                              asp-route-oefengetal="@declarationFormModel.FormId">
-                                            <button type="submit">click me</button>
+                                              asp-action="ReopenForm"
+                                              asp-route-formId="@declarationFormModel.FormId">
+                                            <button type="submit"></button>
                                         </form>
                                     </td>
                                 </tr>
                             }
                         </tbody>
                     </table>
-                </div>*@
 
-        <div>
-            <div align="center">
-                <h1>Totaaloverzicht</h1>
-            </div>
-
-
-            <div class="table-wrapper">
-                <table class="fl-table" align="center">
-                    <thead>
-                        @using (Html.BeginForm("Admin", "Admin"))
-                        {
-                            <input type="submit" value="Filters Toepassen" />
-                            <tr>
-                                <th>
-                                    Datum Aangemaakt
-                                    @{
-                                        if (ViewBag.SortDate == stringAscending)
-                                        {
-                                            <button type="submit" asp-route-sortDate=@stringDescending><img src="..\..\Images\sortbyAscending.png" width="17"></button>
-                                        } else
-                                        
-                                        {
-                                            <button type="submit" asp-route-sortDate=@stringAscending><img src="..\..\Images\sortbyDescending.png" width="17"></button>
-                                        }
-                                    }
-                                </th>
-                                <th>
-                                    Medewerker Naam
-                                    @Html.DropDownList("employeeName", new SelectList(employeeNames), "Geen filter")
-                                </th>
-                                <th>
-                                    Jaar
-                                    @Html.DropDownList("year", new SelectList(years), "Geen filter")
-                                </th>
-                                <th>
-                                    Maand
-                                    @Html.DropDownList("month", new SelectList(Enum.GetValues(typeof(Months))), "Geen filter")
-                                </th>
-                                <th>
-                                    Goedgekeurd
-                                    @Html.DropDownList("approved", new SelectList(new List<string> { "Goedgekeurd", "Niet goedgekeurd" }), "Geen filter")
-                                </th>
-                                <th>
-                                    Ingediend
-                                    @Html.DropDownList("submitted", new SelectList(new List<string> { "Ingediend", "Niet ingediend" }), "Geen filter")
-                                </th>
-                                <th>Commentaar</th>
-                                <th>Inzien</th>
-                            </tr>
-
-                        }
-                    </thead>
-
-
-                    <tbody>
-
-                        @foreach (DeclarationFormModel declarationFormModel in Model)
-                        {
-
-                            <tr>
-                                <td>@declarationFormModel.DateCreated</td>
-                                <td>@declarationFormModel.EmployeeName</td>
-                                <td>@declarationFormModel.Year</td>
-                                <td>@declarationFormModel.Month</td>
-                                <td>
-                                    @if (declarationFormModel.Approved == "Approved")
-                                    {
-                                        <img class="center" src="..\..\Images\Checkmark.png" style="margin: 0 auto; height: 15px; width: 25px" />
-                                    }
-                                    else if (declarationFormModel.Approved == "Rejected")
-                                    {
-                                        <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
-                                    }
-                                    else if (declarationFormModel.Approved == "Pending")
-                                    {
-                                        <img class="center" src="..\..\Images\Pending.jpg" style="margin: 0 auto; height: 25px; width: 25px" />
-                                    }
-
-                                </td>
-                                <td>
-                                    @if (declarationFormModel.Submitted == true)
-                                    {
-                                        <img class="center" src="..\..\Images\Checkmark.png" style="margin: 0 auto; height: 15px; width: 25px" />
-                                    }
-                                    else
-                                    {
-                                        <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
-                                    }
-                                </td>
-                                <td>@declarationFormModel.Comment</td>
-                                <td>
-                                    <a class="nav-link text-dark linkjes"
-                                       asp-area=""
-                                       asp-controller="Admin"
-                                       asp-action="ViewDeclarationForm"
-                                       asp-route-formId="@declarationFormModel.FormId">
-                                        Inzien
-                                    </a>
-                                </td>
-                                <td>
-                                    <form asp-controller="admin"
-                                          asp-action="ReopenForm"
-                                          asp-route-formId="@declarationFormModel.FormId">
-                                        <button type="submit"></button>
-                                    </form>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-
+                </div>
             </div>
         </div>
-</div>
