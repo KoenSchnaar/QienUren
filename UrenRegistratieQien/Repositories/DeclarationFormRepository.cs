@@ -52,28 +52,27 @@ namespace UrenRegistratieQien.Repositories
 
         public void CreateForm(string employeeId)
         {
-            int currentMonth = 0;  
-            if (currentMonth == DateTime.Now.Month || currentMonth == (DateTime.Now.Month + 1))
+            var entities = context.DeclarationForms.Where(p => p.EmployeeId == employeeId).ToList();
+            if (entities.Count() > 0)
             {
-                var entities = context.DeclarationForms.Where(p => p.EmployeeId == employeeId).ToList();
-                if (entities.Count() > 0)
+                var entitiesIndex = entities.Count() - 1;
+                var entity = entities[entitiesIndex];
+
+                var month = entity.Month;
+                var monthInt = MonthConverter.ConvertMonthToInt(month) + 1;
+                if (monthInt == 13)
                 {
-                    var entitiesIndex = entities.Count() - 1;
-                    var entity = entities[entitiesIndex];
+                    monthInt = 1;
+                }
+                var monthString = MonthConverter.ConvertIntToMonth(monthInt);
+                var year = entity.Year;
+                if (monthString == "Januari")
+                {
+                    year = year + 1;
+                }
 
-                    var month = entity.Month;
-                    var monthInt = MonthConverter.ConvertMonthToInt(month) + 1;
-                    if (monthInt == 13)
-                    {
-                        monthInt = 1;
-                    }
-                    var monthString = MonthConverter.ConvertIntToMonth(monthInt);
-                    var year = entity.Year;
-                    if (monthString == "Januari")
-                    {
-                        year = year + 1;
-                    }
-
+                if (monthInt == DateTime.Now.Month)
+                {
                     var form = new DeclarationForm
                     {
                         EmployeeId = employeeId,
@@ -85,38 +84,40 @@ namespace UrenRegistratieQien.Repositories
                         TotalWorkedHours = 0,
                         TotalOvertime = 0,
                         TotalSickness = 0,
-                        TotalVacation = 0
+                        TotalVacation = 0,
+                        DateCreated = DateTime.Now
                     };
-                    context.DeclarationForms.Add(form);
+                context.DeclarationForms.Add(form);
                 }
                 else
                 {
-                    var monthInt = DateTime.Now.Month;
-                    var monthString = MonthConverter.ConvertIntToMonth(monthInt);
-                    var year = DateTime.Now.Year;
-                    var form = new DeclarationForm
-                    {
-                        EmployeeId = employeeId,
-                        Month = monthString,
-                        Year = year,
-                        uniqueId = GenerateUniqueId(),
-                        Approved = "Pending",
-                        Submitted = false,
-                        TotalWorkedHours = 0,
-                        TotalOvertime = 0,
-                        TotalSickness = 0,
-                        TotalVacation = 0
-                    };
-
-                    context.DeclarationForms.Add(form);
+                    return;
                 }
-
-                context.SaveChanges();
             }
             else
             {
-                return;
+                var monthInt = DateTime.Now.Month;
+                var monthString = MonthConverter.ConvertIntToMonth(monthInt);
+                var year = DateTime.Now.Year;
+                var form = new DeclarationForm
+                {
+                    EmployeeId = employeeId,
+                    Month = monthString,
+                    Year = year,
+                    uniqueId = GenerateUniqueId(),
+                    Approved = "Pending",
+                    Submitted = false,
+                    TotalWorkedHours = 0,
+                    TotalOvertime = 0,
+                    TotalSickness = 0,
+                    TotalVacation = 0,
+                    DateCreated = DateTime.Now
+                };
+
+                context.DeclarationForms.Add(form);
             }
+
+            context.SaveChanges();
         }
 
         public void ApproveForm(int formId)
@@ -152,6 +153,7 @@ namespace UrenRegistratieQien.Repositories
                     Training = hourRow.Training,
                     Other = hourRow.Other,
                     OtherExplanation = hourRow.OtherExplanation
+                    
                 };
 
                 ListOfHourRowModels.Add(newHourRowModel);
@@ -175,7 +177,8 @@ namespace UrenRegistratieQien.Repositories
                 TotalWorkedHours = entity.TotalWorkedHours,
                 TotalOvertime = entity.TotalOvertime,
                 TotalSickness = entity.TotalSickness,
-                TotalVacation = entity.TotalVacation
+                TotalVacation = entity.TotalVacation,
+                DateCreated = entity.DateCreated
             };
             return newModel;
 
@@ -227,7 +230,8 @@ namespace UrenRegistratieQien.Repositories
                     TotalWorkedHours = form.TotalWorkedHours,
                     TotalOvertime = form.TotalOvertime,
                     TotalSickness = form.TotalSickness,
-                    TotalVacation = form.TotalVacation
+                    TotalVacation = form.TotalVacation,
+                    DateCreated = form.DateCreated
                 };
 
                 forms.Add(newModel);
@@ -329,7 +333,6 @@ namespace UrenRegistratieQien.Repositories
             }
             if (approved != null){
 
-                bool boolApproved = Convert.ToBoolean(approved);
                 foreach (DeclarationForm entity in entities)
                     {
                     
