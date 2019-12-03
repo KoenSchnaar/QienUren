@@ -7,7 +7,7 @@
 
     var employeeNames = new List<string>();
 
-    foreach(DeclarationFormModel declarationFormModel in ViewBag.AllForms)
+    foreach (DeclarationFormModel declarationFormModel in ViewBag.AllForms)
 
     {
         if (!employeeNames.Contains(declarationFormModel.EmployeeName))
@@ -17,7 +17,7 @@
     }
 
     var years = new List<int>();
-    foreach(DeclarationFormModel declarationFormModel in ViewBag.AllForms)
+    foreach (DeclarationFormModel declarationFormModel in ViewBag.AllForms)
     {
         if (!years.Contains(declarationFormModel.Year))
         {
@@ -38,47 +38,47 @@
         <div align="center">
             <h1>Uren Totaal Overzicht</h1>
         </div>
-            </td>
-            <div>
-                <div class="table-wrapper">
-                    <table class="fl-table" align="center">
-                        <thead>
+        </td>
+        <div>
+            <div class="table-wrapper">
+                <table class="fl-table" align="center">
+                    <thead>
+                        <tr>
+                            <th>Jaar</th>
+                            <th>Maand</th>
+                            <th>Uren gewerkt</th>
+                            <th>Overwerk</th>
+                            <th>Ziekte</th>
+                            <th>Vakantie</th>
+                            <th>Feestdagen</th>
+                            <th>Training</th>
+                            <th>Overig</th>
+                        </tr>
+                    <thead>
+                        @using (Html.BeginForm("Admin", "Admin"))
+                        {
+                            <input type="submit" class="btn-primary" value="Filter ->" />
                             <tr>
-                                <th>Jaar</th>
-                                <th>Maand</th>
-                                <th>Uren gewerkt</th>
-                                <th>Overwerk</th>
-                                <th>Ziekte</th>
-                                <th>Vakantie</th>
-                                <th>Feestdagen</th>
-                                <th>Training</th>
-                                <th>Overig</th>
+                                <td>
+                                    @Html.DropDownList("totalhoursyear", new SelectList(years), DateTime.Now.Year)
+                                </td>
+                                <td>
+                                    @Html.DropDownList("totalhoursmonth", new SelectList(Enum.GetValues(typeof(Months))), "Alle maanden")
+                                </td>
+                                <td>@ViewBag.TotalHoursWorked</td>
+                                <td>@ViewBag.TotalHoursOvertime</td>
+                                <td>@ViewBag.TotalHoursSickness</td>
+                                <td>@ViewBag.TotalHoursVacation</td>
+                                <td>@ViewBag.TotalHoursHoliday</td>
+                                <td>@ViewBag.TotalHoursTraining</td>
+                                <td>@ViewBag.TotalHoursOther</td>
                             </tr>
-                        <thead>
-                            @using (Html.BeginForm("Admin", "Admin"))
-                            {
-                                <input type="submit" class="btn-primary" value="Filters Toepassen" />
-                                <tr>
-                                    <td>
-                                        @Html.DropDownList("totalhoursyear", new SelectList(years), DateTime.Now.Year)
-                                    </td>
-                                    <td>
-                                        @Html.DropDownList("totalhoursmonth", new SelectList(Enum.GetValues(typeof(Months))), "Alle maanden")
-                                    </td>
-                                    <td>@ViewBag.TotalHoursWorked</td>
-                                    <td>@ViewBag.TotalHoursOvertime</td>
-                                    <td>@ViewBag.TotalHoursSickness</td>
-                                    <td>@ViewBag.TotalHoursVacation</td>
-                                    <td>@ViewBag.TotalHoursHoliday</td>
-                                    <td>@ViewBag.TotalHoursTraining</td>
-                                    <td>@ViewBag.TotalHoursOther</td>
-                                </tr>
-                            }
-                    </table>
-                </div>     
+                        }
+                </table>
             </div>
-            <br />
-            <br />
+        </div>
+        <br />
+        <br />
         <div>
             <div align="center">
                 <h1>Totaaloverzicht</h1>
@@ -96,7 +96,8 @@
                                         if (ViewBag.SortDate == stringAscending)
                                         {
                                             <button type="submit" asp-route-sortDate=@stringDescending><img src="..\..\Images\sortbyAscending.png" width="17"></button>
-                                        } else
+                                        }
+                                        else
                                         {
                                             <button type="submit" asp-route-sortDate=@stringAscending><img src="..\..\Images\sortbyDescending.png" width="17"></button>
                                         }
@@ -131,57 +132,57 @@
                     <tbody>
                         @foreach (DeclarationFormModel declarationFormModel in Model)
                         {
-                        <tr>
-                            <td>@declarationFormModel.DateCreated</td>
-                            <td>@declarationFormModel.EmployeeName</td>
-                            <td>@declarationFormModel.Year</td>
-                            <td>@declarationFormModel.Month</td>
-                            <td>
-                                @if (declarationFormModel.Approved == "Approved")
-                                {
-                                    <img class="center" src="..\..\Images\Checkmark.png" style="margin: 0 auto; height: 15px; width: 25px" />
-                                }
-                                else if (declarationFormModel.Approved == "Rejected")
-                                {
-                                    <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
-                                }
-                                else if (declarationFormModel.Approved == "Pending")
-                                {
-                                    <img class="center" src="..\..\Images\Pending.jpg" style="margin: 0 auto; height: 25px; width: 25px" />
-                                }
-                            </td>
-                            <td>
-                                @if (declarationFormModel.Submitted == true)
-                                {
-                                    <img class="center" src="..\..\Images\Checkmark.png" style="margin: 0 auto; height: 15px; width: 25px" />
-                                }
-                                else
-                                {
-                                    <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
-                                }
-                            </td>
-                            <td>@declarationFormModel.Comment</td>
-                            <td>
-                                <a asp-area=""
-                                   asp-controller="Admin"
-                                   asp-action="ViewDeclarationForm"
-                                   asp-route-formId="@declarationFormModel.FormId">
-                                    Inzien
-                                </a>
-                                |
-                                <a asp-area=""
-                                   asp-controller="Admin"
-                                   asp-action="ReopenForm"
-                                   asp-route-formId="@declarationFormModel.FormId">
-                                    Heropenen
-                                </a>
-                                |
-                                @Html.ActionLink("Delete", "DeleteDeclarationForm", new { FormId = declarationFormModel.FormId }, new { onclick = "return confirm('Are you sure you want to delete?');" })
-                            </td>   
-                        </tr>
+                            <tr>
+                                <td>@declarationFormModel.DateCreated</td>
+                                <td>@declarationFormModel.EmployeeName</td>
+                                <td>@declarationFormModel.Year</td>
+                                <td>@declarationFormModel.Month</td>
+                                <td>
+                                    @if (declarationFormModel.Approved == "Approved")
+                                    {
+                                        <img class="center" title="Goedgekeurd" src="..\..\Images\Checkmark.png" style="margin: 0 auto; height: 15px; width: 25px" />
+                                    }
+                                    else if (declarationFormModel.Approved == "Rejected")
+                                    {
+                                        <img class="center" title="Afgekeurd" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                                    }
+                                    else if (declarationFormModel.Approved == "Pending")
+                                    {
+                                        <img class="center" title="Pending" src="..\..\Images\Pending.jpg" style="margin: 0 auto; height: 25px; width: 25px" />
+                                    }
+                                </td>
+                                <td>
+                                    @if (declarationFormModel.Submitted == true)
+                                    {
+                                        <img class="center" title="Goedgekeurd" src="..\..\Images\Checkmark.png" style="margin: 0 auto; height: 15px; width: 25px" />
+                                    }
+                                    else
+                                    {
+                                        <img class="center" title="Afgekeurd" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                                    }
+                                </td>
+                                <td>@declarationFormModel.Comment</td>
+                                <td>
+                                    <a asp-area=""
+                                       asp-controller="Admin"
+                                       asp-action="ViewDeclarationForm"
+                                       asp-route-formId="@declarationFormModel.FormId">
+                                        Inzien
+                                    </a>
+                                    |
+                                    <a asp-area=""
+                                       asp-controller="Admin"
+                                       asp-action="ReopenForm"
+                                       asp-route-formId="@declarationFormModel.FormId">
+                                        Heropenen
+                                    </a>
+                                    |
+                                    @Html.ActionLink("Delete", "DeleteDeclarationForm", new { FormId = declarationFormModel.FormId }, new { onclick = "return confirm('Are you sure you want to delete?');" })
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>
             </div>
         </div>
-</div>
+    </div>
