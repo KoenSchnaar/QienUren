@@ -7,12 +7,37 @@ for details on configuring this project to bundle and minify static web assets. 
     width: 100%; /* Full width */
     z-index: 1;
 }
+.centerLogin {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    float: left; /* add this */
+}
+.logo-class-wrapper {
+    width: 300px;
+    overflow: hidden; /* add this to contain floated children */
+}
+
+.logo-class{
+    
+    width: 200px;
+    float: left; /* add this */
+}
+
+<<<<<<< HEAD
+.loginBGColor {
+    background: linear-gradient(0deg, rgba(156,74,240,0.35647762522977944) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);
+}
 
 /* kopregel styles*/
 
 .title{
     padding-bottom: 50px;
 }
+
 
 .kopregel {
     background-color: #9C4AF0;
@@ -35,9 +60,8 @@ a {
 }
 
 .btn-primary {
-    
     background-color: #9C4AF0;
-    
+    border-color: #9C4AF0;
 }
 
     .btn-primary:hover {

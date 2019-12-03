@@ -50,5 +50,5 @@ namespace UrenRegistratieQien.Controllers
             ViewBag.Client = await clientRepo.GetClientByUserId(userId);
             return View(Employee);
         }
-        }
     }
+}
