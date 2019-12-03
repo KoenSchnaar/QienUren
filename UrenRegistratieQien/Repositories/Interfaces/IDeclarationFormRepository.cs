@@ -1,36 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UrenRegistratieQien.Models;
 
 namespace UrenRegistratieQien.Repositories
 {
     public interface IDeclarationFormRepository
     {
-        public List<DeclarationFormModel> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted, string sortDate);
-        public List<DeclarationFormModel> GetNotApprovedForms();
-        public List<DeclarationFormModel> GetAllForms();
-        public DeclarationFormModel GetForm(int formId);
+        public Task<List<DeclarationFormModel>> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted, string sortDate);
+        //public List<DeclarationFormModel> GetNotApprovedForms();
+        public Task<List<DeclarationFormModel>> GetAllForms();
+        public Task<DeclarationFormModel> GetForm(int formId);
 
-        public List<DeclarationFormModel> GetAllFormsOfUser(string userId);
-        public void EditDeclarationForm(DeclarationFormModel formModel);
-        public void SubmitDeclarationForm(DeclarationFormModel formModel);
-        public int TotalHoursWorked(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
-        public int TotalHoursOvertime(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
-        public int TotalHoursSickness(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
-        public int TotalHoursVacation(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
-        public int TotalHoursHoliday(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
-        public int TotalHoursTraining(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
-        public int TotalHoursOther(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
+        public Task<List<DeclarationFormModel>> GetAllFormsOfUser(string userId);
+        public Task EditDeclarationForm(DeclarationFormModel formModel);
+        public Task SubmitDeclarationForm(DeclarationFormModel formModel);
+        public Task<int> TotalHoursWorked(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
+        public Task<int> TotalHoursOvertime(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
+        public Task<int> TotalHoursSickness(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
+        public Task<int> TotalHoursVacation(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
+        public Task<int> TotalHoursHoliday(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
+        public Task<int> TotalHoursTraining(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
+        public Task<int> TotalHoursOther(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
 
-        public bool CheckIfIdMatches(string uniqueId);
+        public Task<bool> CheckIfIdMatches(string uniqueId);
 
-        public List<DeclarationFormModel> GetAllFormsOfMonth(int month);
-        public void CreateForm(string employeeId);
-        public string GenerateUniqueId();
-        public void ApproveForm(int formId);
-        public void RejectForm(int formId, string comment);
-        public void CalculateTotalHours(DeclarationFormModel decModel);
-        public void CreateFormForUser(string EmployeeId, string month, int year);
-        public void ReopenForm(int formId);
+        public Task<List<DeclarationFormModel>> GetAllFormsOfMonth(int month);
+        public Task CreateForm(string employeeId);
+        public Task<string> GenerateUniqueId();
+        public Task ApproveForm(int formId);
+        public Task RejectForm(int formId, string comment);
+        public Task CalculateTotalHours(DeclarationFormModel decModel);
+        public Task CreateFormForUser(string EmployeeId, string month, int year);
+        public Task ReopenForm(int formId);
+
+        public Task DeleteDeclarationForm(int FormId);
     }
 }
