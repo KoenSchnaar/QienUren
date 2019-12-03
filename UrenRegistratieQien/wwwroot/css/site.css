@@ -18,7 +18,7 @@ for details on configuring this project to bundle and minify static web assets. 
     background-color: #9C4AF0;
 }
 .text-dark{
-    color: white !important; /*hierdoor wordt ook het woordje Login wit op het beginscherm*/
+    color: white !important; /*hierdoor wordt ook het woordje Login wit op het beginscherm, aangepast met .linkjes*/
 }
 .navbar-expand-sm {
     background-color: #9C4AF0 !important;
