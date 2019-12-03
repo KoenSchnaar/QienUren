@@ -40,7 +40,7 @@ namespace UrenRegistratieQien.Controllers
             ViewBag.Client = await clientRepo.GetClientByUserId(userId);
             ViewBag.AllForms = await declarationRepo.GetAllForms();
             //var inputModel = declarationRepo.GetAllFormsOfUser(userId);
-            var inputModel = declarationRepo.GetFilteredForms(year, userId, month, approved, submitted, sortDate);
+            var inputModel = await declarationRepo.GetFilteredForms(year, userId, month, approved, submitted, sortDate);
             return View(inputModel);
         }
         public async Task<IActionResult> Info()
