@@ -13,12 +13,22 @@ namespace UrenRegistratieQienTest.Fakes
             throw new NotImplementedException();
         }
 
+        public void CalculateTotalHours(DeclarationFormModel decModel)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool CheckIfIdMatches(string uniqueId)
         {
             throw new NotImplementedException();
         }
 
         public void CreateForm(string employeeId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CreateFormForUser(DeclarationFormModel inputModel)
         {
             throw new NotImplementedException();
         }
@@ -75,6 +85,11 @@ namespace UrenRegistratieQienTest.Fakes
                 EmployeeName = "TestName",
                 Month = "Januari"
             };
+        }
+
+        public DeclarationFormModel GetForm(int formId)
+        {
+            throw new NotImplementedException();
         }
 
         public DeclarationFormModel GetFormByFormId(int formId)

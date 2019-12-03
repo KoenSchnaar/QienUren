@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -192,9 +193,16 @@ namespace UrenRegistratieQien.Repositories
             }
         }
 
-        public string searchName(int id)
+        public SelectList getEmployeeSelectList()
         {
-            return null;
+            var EmployeeList = new SelectList(context.Employees, "Id", "FirstName");
+
+            return EmployeeList;
+        }
+
+        public List<string> getEmployeeNames()
+        {
+            throw new NotImplementedException();
         }
     }
 }
