@@ -207,13 +207,13 @@ namespace UrenRegistratieQien.Controllers
                     totalhoursyear = DateTime.Now.Year;
                 }
 
-                ViewBag.TotalHoursWorked = declarationFormRepo.TotalHoursWorked(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursOvertime = declarationFormRepo.TotalHoursOvertime(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursSickness = declarationFormRepo.TotalHoursSickness(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursVacation = declarationFormRepo.TotalHoursVacation(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursHoliday = declarationFormRepo.TotalHoursHoliday(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursTraining = declarationFormRepo.TotalHoursTraining(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursOther = declarationFormRepo.TotalHoursOther(forms, totalhoursmonth, totalhoursyear);
+                //ViewBag.TotalHoursWorked = declarationFormRepo.TotalHoursWorked(forms, totalhoursmonth, totalhoursyear);
+                //ViewBag.TotalHoursOvertime = declarationFormRepo.TotalHoursOvertime(forms, totalhoursmonth, totalhoursyear);
+                //ViewBag.TotalHoursSickness = declarationFormRepo.TotalHoursSickness(forms, totalhoursmonth, totalhoursyear);
+                //ViewBag.TotalHoursVacation = declarationFormRepo.TotalHoursVacation(forms, totalhoursmonth, totalhoursyear);
+                //ViewBag.TotalHoursHoliday = declarationFormRepo.TotalHoursHoliday(forms, totalhoursmonth, totalhoursyear);
+                //ViewBag.TotalHoursTraining = declarationFormRepo.TotalHoursTraining(forms, totalhoursmonth, totalhoursyear);
+                //ViewBag.TotalHoursOther = declarationFormRepo.TotalHoursOther(forms, totalhoursmonth, totalhoursyear);
 
                 string employeeId;
                 if (employeeName != null)

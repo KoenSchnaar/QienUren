@@ -464,288 +464,288 @@ namespace UrenRegistratieQien.Repositories
             form.Approved = "Pending";
             context.SaveChanges();
         }
-        public int TotalHoursWorked(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
-        {
+        //public int TotalHoursWorked(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
+        //{
 
-            int counter = 0;
-            if(Month == null)
-            {
-                foreach(var Form in DeclarationFormList)
-                {
-                    if(Form.Year == Year)
-                    {
-                        foreach (var HourRow in Form.HourRows)
-                        {
-                            counter += HourRow.Worked;
-                        }
-                    }
+        //    int counter = 0;
+        //    if(Month == null)
+        //    {
+        //        foreach(var Form in DeclarationFormList)
+        //        {
+        //            if(Form.Year == Year)
+        //            {
+        //                foreach (var HourRow in Form.HourRows)
+        //                {
+        //                    counter += HourRow.Worked;
+        //                }
+        //            }
 
-                }
-            } else
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if(Form.Year == Year)
-                    {
-                        if (Form.Month == Month)
-                        {
-                            foreach (var HourRow in Form.HourRows)
-                            {
-                                counter += HourRow.Worked;
+        //        }
+        //    } else
+        //    {
+        //        foreach (var Form in DeclarationFormList)
+        //        {
+        //            if(Form.Year == Year)
+        //            {
+        //                if (Form.Month == Month)
+        //                {
+        //                    foreach (var HourRow in Form.HourRows)
+        //                    {
+        //                        counter += HourRow.Worked;
 
-                            }
-                        }
-                    }
+        //                    }
+        //                }
+        //            }
 
-                }
-            }
+        //        }
+        //    }
 
-            return counter;
+        //    return counter;
 
-        }
+        //}
 
-        public int TotalHoursOvertime(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
-        {
+        //public int TotalHoursOvertime(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
+        //{
 
-            int counter = 0;
-            if (Month == null)
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        foreach (var HourRow in Form.HourRows)
-                        {
-                            counter += HourRow.Overtime;
-                        }
-                    }
+        //    int counter = 0;
+        //    if (Month == null)
+        //    {
+        //        foreach (var Form in DeclarationFormList)
+        //        {
+        //            if (Form.Year == Year)
+        //            {
+        //                foreach (var HourRow in Form.HourRows)
+        //                {
+        //                    counter += HourRow.Overtime;
+        //                }
+        //            }
 
-                }
-            }
-            else
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        if (Form.Month == Month)
-                        {
-                            foreach (var HourRow in Form.HourRows)
-                            {
-                                counter += HourRow.Overtime;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        foreach (var Form in DeclarationFormList)
+        //        {
+        //            if (Form.Year == Year)
+        //            {
+        //                if (Form.Month == Month)
+        //                {
+        //                    foreach (var HourRow in Form.HourRows)
+        //                    {
+        //                        counter += HourRow.Overtime;
 
-                            }
-                        }
-                    }
+        //                    }
+        //                }
+        //            }
 
-                }
-            }
+        //        }
+        //    }
 
-            return counter;
+        //    return counter;
 
-        }
+        //}
 
-        public int TotalHoursSickness(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
-        {
+        //public int TotalHoursSickness(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
+        //{
 
-            int counter = 0;
-            if (Month == null)
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        foreach (var HourRow in Form.HourRows)
-                        {
-                            counter += HourRow.Sickness;
-                        }
-                    }
+        //    int counter = 0;
+        //    if (Month == null)
+        //    {
+        //        foreach (var Form in DeclarationFormList)
+        //        {
+        //            if (Form.Year == Year)
+        //            {
+        //                foreach (var HourRow in Form.HourRows)
+        //                {
+        //                    counter += HourRow.Sickness;
+        //                }
+        //            }
 
-                }
-            }
-            else
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        if (Form.Month == Month)
-                        {
-                            foreach (var HourRow in Form.HourRows)
-                            {
-                                counter += HourRow.Sickness;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        foreach (var Form in DeclarationFormList)
+        //        {
+        //            if (Form.Year == Year)
+        //            {
+        //                if (Form.Month == Month)
+        //                {
+        //                    foreach (var HourRow in Form.HourRows)
+        //                    {
+        //                        counter += HourRow.Sickness;
 
-                            }
-                        }
-                    }
+        //                    }
+        //                }
+        //            }
 
-                }
-            }
+        //        }
+        //    }
 
-            return counter;
+        //    return counter;
 
-        }
+        //}
 
-        public int TotalHoursVacation(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
-        {
+        //public int TotalHoursVacation(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
+        //{
 
-            int counter = 0;
-            if (Month == null)
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        foreach (var HourRow in Form.HourRows)
-                        {
-                            counter += HourRow.Vacation;
-                        }
-                    }
+        //    int counter = 0;
+        //    if (Month == null)
+        //    {
+        //        foreach (var Form in DeclarationFormList)
+        //        {
+        //            if (Form.Year == Year)
+        //            {
+        //                foreach (var HourRow in Form.HourRows)
+        //                {
+        //                    counter += HourRow.Vacation;
+        //                }
+        //            }
 
-                }
-            }
-            else
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        if (Form.Month == Month)
-                        {
-                            foreach (var HourRow in Form.HourRows)
-                            {
-                                counter += HourRow.Vacation;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        foreach (var Form in DeclarationFormList)
+        //        {
+        //            if (Form.Year == Year)
+        //            {
+        //                if (Form.Month == Month)
+        //                {
+        //                    foreach (var HourRow in Form.HourRows)
+        //                    {
+        //                        counter += HourRow.Vacation;
 
-                            }
-                        }
-                    }
+        //                    }
+        //                }
+        //            }
 
-                }
-            }
+        //        }
+        //    }
 
-            return counter;
+        //    return counter;
 
-        }
-        public int TotalHoursHoliday(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
-        {
+        //}
+        //public int TotalHoursHoliday(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
+        //{
 
-            int counter = 0;
-            if (Month == null)
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        foreach (var HourRow in Form.HourRows)
-                        {
-                            counter += HourRow.Holiday;
-                        }
-                    }
+        //    int counter = 0;
+        //    if (Month == null)
+        //    {
+        //        foreach (var Form in DeclarationFormList)
+        //        {
+        //            if (Form.Year == Year)
+        //            {
+        //                foreach (var HourRow in Form.HourRows)
+        //                {
+        //                    counter += HourRow.Holiday;
+        //                }
+        //            }
 
-                }
-            }
-            else
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        if (Form.Month == Month)
-                        {
-                            foreach (var HourRow in Form.HourRows)
-                            {
-                                counter += HourRow.Holiday;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        foreach (var Form in DeclarationFormList)
+        //        {
+        //            if (Form.Year == Year)
+        //            {
+        //                if (Form.Month == Month)
+        //                {
+        //                    foreach (var HourRow in Form.HourRows)
+        //                    {
+        //                        counter += HourRow.Holiday;
 
-                            }
-                        }
-                    }
+        //                    }
+        //                }
+        //            }
 
-                }
-            }
+        //        }
+        //    }
 
-            return counter;
+        //    return counter;
 
-        }
-        public int TotalHoursTraining(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
-        {
+        //}
+        //public int TotalHoursTraining(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
+        //{
 
-            int counter = 0;
-            if (Month == null)
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        foreach (var HourRow in Form.HourRows)
-                        {
-                            counter += HourRow.Training;
-                        }
-                    }
+        //    int counter = 0;
+        //    if (Month == null)
+        //    {
+        //        foreach (var Form in DeclarationFormList)
+        //        {
+        //            if (Form.Year == Year)
+        //            {
+        //                foreach (var HourRow in Form.HourRows)
+        //                {
+        //                    counter += HourRow.Training;
+        //                }
+        //            }
 
-                }
-            }
-            else
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        if (Form.Month == Month)
-                        {
-                            foreach (var HourRow in Form.HourRows)
-                            {
-                                counter += HourRow.Training;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        foreach (var Form in DeclarationFormList)
+        //        {
+        //            if (Form.Year == Year)
+        //            {
+        //                if (Form.Month == Month)
+        //                {
+        //                    foreach (var HourRow in Form.HourRows)
+        //                    {
+        //                        counter += HourRow.Training;
 
-                            }
-                        }
-                    }
+        //                    }
+        //                }
+        //            }
 
-                }
-            }
+        //        }
+        //    }
 
-            return counter;
+        //    return counter;
 
-        }
-        public int TotalHoursOther(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
-        {
+        //}
+        //public int TotalHoursOther(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
+        //{
 
-            int counter = 0;
-            if (Month == null)
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        foreach (var HourRow in Form.HourRows)
-                        {
-                            counter += HourRow.Other;
-                        }
-                    }
+        //    int counter = 0;
+        //    if (Month == null)
+        //    {
+        //        foreach (var Form in DeclarationFormList)
+        //        {
+        //            if (Form.Year == Year)
+        //            {
+        //                foreach (var HourRow in Form.HourRows)
+        //                {
+        //                    counter += HourRow.Other;
+        //                }
+        //            }
 
-                }
-            }
-            else
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        if (Form.Month == Month)
-                        {
-                            foreach (var HourRow in Form.HourRows)
-                            {
-                                counter += HourRow.Other;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        foreach (var Form in DeclarationFormList)
+        //        {
+        //            if (Form.Year == Year)
+        //            {
+        //                if (Form.Month == Month)
+        //                {
+        //                    foreach (var HourRow in Form.HourRows)
+        //                    {
+        //                        counter += HourRow.Other;
 
-                            }
-                        }
-                    }
+        //                    }
+        //                }
+        //            }
 
-                }
-            }
+        //        }
+        //    }
 
-            return counter;
+        //    return counter;
 
-        }
+        //}
 
         public bool CheckIfIdMatches(string uniqueId)
         {
@@ -759,7 +759,7 @@ namespace UrenRegistratieQien.Repositories
                 return false;
             }
         }
-        public void CalculateTotalHours(DeclarationFormModel decModel)
+        public void CalculateTotalHours(DeclarationFormModel decModel) //voor 1 employee
         {
             foreach (var HourRow in decModel.HourRows)
             {
@@ -771,6 +771,55 @@ namespace UrenRegistratieQien.Repositories
             }
             context.SaveChanges();
         }
+
+        public void CalculateTotalHoursOfAll(List<DeclarationFormModel> DeclarationFormList, string Month, int Year) //voor alle employees
+        {
+            if (Month == null)
+            {
+                foreach (var Form in DeclarationFormList)
+                {
+                    if (Form.Year == Year)
+                    {
+                        foreach (var HourRow in Form.HourRows)
+                        {
+                            //var declarationformEntities = context.DeclarationForms.Include(df => df.HourRows);
+                            Form.TotalWorkedHours += HourRow.Worked;
+                            Form.TotalOvertime += HourRow.Overtime;
+                            Form.TotalSickness += HourRow.Sickness;
+                            Form.TotalVacation += HourRow.Vacation;
+                            Form.TotalHoliday += HourRow.Holiday;
+                            Form.TotalTraining += HourRow.Training;
+                            Form.TotalOther += HourRow.Other;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach (var Form in DeclarationFormList)
+                {
+                    if (Form.Year == Year)
+                    {
+                        if (Form.Month == Month)
+                        {
+                            foreach (var HourRow in Form.HourRows)
+                            {
+                                Form.TotalWorkedHours += HourRow.Worked;
+                                Form.TotalOvertime += HourRow.Overtime;
+                                Form.TotalSickness += HourRow.Sickness;
+                                Form.TotalVacation += HourRow.Vacation;
+                                Form.TotalHoliday += HourRow.Holiday;
+                                Form.TotalTraining += HourRow.Training;
+                                Form.TotalOther += HourRow.Other;
+                            }
+                        }
+                    }
+                }
+            }
+            context.SaveChanges();
+        }
+
+            
 
         public void ReopenForm(int formId)
         {

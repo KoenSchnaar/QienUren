@@ -14,13 +14,13 @@ namespace UrenRegistratieQien.Repositories
         public List<DeclarationFormModel> GetAllFormsOfUser(string userId);
         public void EditDeclarationForm(DeclarationFormModel formModel);
         public void SubmitDeclarationForm(DeclarationFormModel formModel);
-        public int TotalHoursWorked(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
-        public int TotalHoursOvertime(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
-        public int TotalHoursSickness(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
-        public int TotalHoursVacation(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
-        public int TotalHoursHoliday(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
-        public int TotalHoursTraining(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
-        public int TotalHoursOther(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
+        //public int TotalHoursWorked(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
+        //public int TotalHoursOvertime(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
+        //public int TotalHoursSickness(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
+        //public int TotalHoursVacation(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
+        //public int TotalHoursHoliday(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
+        //public int TotalHoursTraining(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
+        //public int TotalHoursOther(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
 
         public bool CheckIfIdMatches(string uniqueId);
 
@@ -30,6 +30,7 @@ namespace UrenRegistratieQien.Repositories
         public void ApproveForm(int formId);
         public void RejectForm(int formId, string comment);
         public void CalculateTotalHours(DeclarationFormModel decModel);
+        public void CalculateTotalHoursOfAll(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
         public void CreateFormForUser(string EmployeeId, string month, int year);
         public void ReopenForm(int formId);
         public void DeleteDeclarationForm(int FormId);
