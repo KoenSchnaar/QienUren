@@ -94,7 +94,15 @@ namespace UrenRegistratieQien.Repositories
                     year = year + 1;
                 }
 
-                if (monthInt == DateTime.Now.Month)
+                if (monthInt == 1) 
+                {
+                    monthInt = 13;
+                }
+                if (monthInt == 2 && DateTime.Now.Month != 1)
+                {
+                    monthInt = 14;
+                }
+                if (monthInt <= DateTime.Now.Month +1)
                 {
                     var form = new DeclarationForm
                     {
