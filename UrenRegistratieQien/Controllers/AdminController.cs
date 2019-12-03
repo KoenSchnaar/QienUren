@@ -95,6 +95,15 @@ namespace UrenRegistratieQien.Controllers
 
         }
 
+        [HttpPost]
+        public IActionResult EditEmployeeMailAdres(string employeeMailold, string employeeMailnew)
+        {
+          
+                employeeRepo.EditEmployeeMail(employeeMailold, employeeMailnew);
+                return RedirectToAction("ShowEmployees");
+         
+        }
+
         public IActionResult ShowClients()
         {
             if (UserIsAdmin())

@@ -12,6 +12,7 @@ namespace UrenRegistratieQien.Repositories
         EmployeeModel GetEmployee(string id);
         public EmployeeModel GetEmployeeByName(string name);
 
+        public void EditEmployeeMail(string employeeMailold, string employeeMailnew);
         public void EditEmployee(EmployeeModel employeeModel);
         public void DeleteEmployee(string id);
         public SelectList getEmployeeSelectList();
