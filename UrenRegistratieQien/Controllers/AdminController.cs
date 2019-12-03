@@ -33,10 +33,10 @@ namespace UrenRegistratieQien.Controllers
         }
 
         [HttpPost]
-        public IActionResult oefenmethode(int oefengetal)
+        public IActionResult UnsubmitForm(int formId)
         {
-            var x = oefengetal;
-            return null;
+            declarationFormRepo.UnsubmitForm(formId);
+            return RedirectToAction("Admin");
         }
 
         public IActionResult ShowEmployees()
@@ -264,7 +264,6 @@ namespace UrenRegistratieQien.Controllers
             {
                 var forms = declarationFormRepo.GetAllFormsOfUser(employeeId);
                 return View(forms);
-
             } else
             {
                 return AccessDeniedView();
