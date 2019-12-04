@@ -26,6 +26,7 @@
     }
     var stringAscending = "Ascending";
     var stringDescending = "Descending";
+    var totalHours = (TotalsModel)ViewBag.TotalHours;
 }
 
 
@@ -65,13 +66,13 @@
                                 <td>
                                     @Html.DropDownList("totalhoursmonth", new SelectList(Enum.GetValues(typeof(Months))), "Alle maanden")
                                 </td>
-                                <td>@ViewBag.TotalHoursWorked</td>
-                                <td>@ViewBag.TotalHoursOvertime</td>
-                                <td>@ViewBag.TotalHoursSickness</td>
-                                <td>@ViewBag.TotalHoursVacation</td>
-                                <td>@ViewBag.TotalHoursHoliday</td>
-                                <td>@ViewBag.TotalHoursTraining</td>
-                                <td>@ViewBag.TotalHoursOther</td>
+                                <td>@totalHours.TotalWorkedHours</td>
+                                <td>@totalHours.TotalOvertime</td>
+                                <td>@totalHours.TotalSickness</td>
+                                <td>@totalHours.TotalVacation</td>
+                                <td>@totalHours.TotalHoliday</td>
+                                <td>@totalHours.TotalTraining</td>
+                                <td>@totalHours.TotalOther</td>
                             </tr>
                         }
                 </table>

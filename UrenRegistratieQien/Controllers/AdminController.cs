@@ -198,14 +198,8 @@ namespace UrenRegistratieQien.Controllers
                 {
                     totalhoursyear = DateTime.Now.Year;
                 }
-               
-                ViewBag.TotalHoursWorked = await declarationFormRepo.TotalHoursWorked(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursOvertime = await declarationFormRepo.TotalHoursOvertime(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursSickness = await declarationFormRepo.TotalHoursSickness(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursVacation = await declarationFormRepo.TotalHoursVacation(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursHoliday = await declarationFormRepo.TotalHoursHoliday(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursTraining = await declarationFormRepo.TotalHoursTraining(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursOther = await declarationFormRepo.TotalHoursOther(forms, totalhoursmonth, totalhoursyear);
+                ViewBag.TotalHours = await declarationFormRepo.CalculateTotalHoursOfAll(forms, totalhoursmonth, totalhoursyear);
+      
 
                 string employeeId;
                 if (employeeName != null)
