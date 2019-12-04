@@ -185,6 +185,27 @@ namespace UrenRegistratieQien.Controllers
             }
         }
 
+        public FileContentResult DownloadTotalHoursCSV(int totalWorked, int totalOvertime, int totalSickness, int totalVacation, int totalHoliday, int totalTraining, int totalOther) //eventueel filters meenemen..
+        {
+            List<string> downloadableList = new List<string>
+            {
+                Convert.ToString(totalWorked),
+                Convert.ToString(totalOvertime),
+                Convert.ToString(totalSickness),
+                Convert.ToString(totalVacation),
+                Convert.ToString(totalHoliday),
+                Convert.ToString(totalTraining),
+                Convert.ToString(totalOther)
+            };
+            Download download = new Download();
+            string fileName = "Totalhours.txt";
+            download.MakeCSV(downloadableList, fileName);
+
+
+            byte[] fileBytes = System.IO.File.ReadAllBytes("Downloads/" + fileName);
+            return File(fileBytes, "text/plain", fileName);
+        }
+
         public async Task<IActionResult> Admin(string year, string month, string employeeName, string approved, string submitted, string totalhoursmonth, int totalhoursyear, string sortDate)
         {
             if (await UserIsAdmin())
@@ -198,14 +219,8 @@ namespace UrenRegistratieQien.Controllers
                 {
                     totalhoursyear = DateTime.Now.Year;
                 }
-               
-                ViewBag.TotalHoursWorked = await declarationFormRepo.TotalHoursWorked(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursOvertime = await declarationFormRepo.TotalHoursOvertime(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursSickness = await declarationFormRepo.TotalHoursSickness(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursVacation = await declarationFormRepo.TotalHoursVacation(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursHoliday = await declarationFormRepo.TotalHoursHoliday(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursTraining = await declarationFormRepo.TotalHoursTraining(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursOther = await declarationFormRepo.TotalHoursOther(forms, totalhoursmonth, totalhoursyear);
+                ViewBag.TotalHours = await declarationFormRepo.CalculateTotalHoursOfAll(forms, totalhoursmonth, totalhoursyear);
+      
 
                 string employeeId;
                 if (employeeName != null)
