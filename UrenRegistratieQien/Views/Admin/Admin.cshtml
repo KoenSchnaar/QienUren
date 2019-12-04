@@ -40,24 +40,25 @@
         </div>
         </td>
         <div>
-            <div class="table-wrapper">
-                <table class="fl-table" align="center">
-                    <thead>
-                        <tr>
-                            <th>Jaar</th>
-                            <th>Maand</th>
-                            <th>Uren gewerkt</th>
-                            <th>Overwerk</th>
-                            <th>Ziekte</th>
-                            <th>Vakantie</th>
-                            <th>Feestdagen</th>
-                            <th>Training</th>
-                            <th>Overig</th>
-                        </tr>
-                    <thead>
-                        @using (Html.BeginForm("Admin", "Admin"))
-                        {
-                            <input type="submit" class="btn-primary" value="Filter ->" />
+            @using (Html.BeginForm("Admin", "Admin"))
+            {
+                <input type="submit" class="btn-primary btn" value="Filter ->" />
+                <div class="table-wrapper">
+                    <table class="fl-table" align="center">
+                        <thead>
+                            <tr>
+                                <th>Jaar</th>
+                                <th>Maand</th>
+                                <th>Uren gewerkt</th>
+                                <th>Overwerk</th>
+                                <th>Ziekte</th>
+                                <th>Vakantie</th>
+                                <th>Feestdagen</th>
+                                <th>Training</th>
+                                <th>Overig</th>
+                            </tr>
+                        <thead>
+
                             <tr>
                                 <td>
                                     @Html.DropDownList("totalhoursyear", new SelectList(years), DateTime.Now.Year)
@@ -73,62 +74,61 @@
                                 <td>@ViewBag.TotalHoursTraining</td>
                                 <td>@ViewBag.TotalHoursOther</td>
                             </tr>
-                        }
-                </table>
-            </div>
+                    </table>
+                </div>
+            }
         </div>
-        <br />
-        <br />
-        <div>
-            <div align="center">
-                <h1>Totaaloverzicht</h1>
-            </div>
+
+
+
+@* tabel 2*************************************************************************************************************** *@
+    <div>
+        <div align="center">
+            <h1>Totaaloverzicht</h1>
+        </div>
+        @using (Html.BeginForm("Admin", "Admin"))
+        {
+            <input type="submit" class="btn-primary btn" value="Filters Toepassen" />
             <div class="table-wrapper">
                 <table class="fl-table" align="center">
                     <thead>
-                        @using (Html.BeginForm("Admin", "Admin"))
-                        {
-                            <input type="submit" value="Filters Toepassen" />
-                            <tr>
-                                <th>
-                                    Datum Aangemaakt
-                                    @{
-                                        if (ViewBag.SortDate == stringAscending)
-                                        {
-                                            <button type="submit" asp-route-sortDate=@stringDescending><img src="..\..\Images\sortbyAscending.png" width="17"></button>
-                                        }
-                                        else
-                                        {
-                                            <button type="submit" asp-route-sortDate=@stringAscending><img src="..\..\Images\sortbyDescending.png" width="17"></button>
-                                        }
+                        <tr>
+                            <th>
+                                Aangemaakt
+                                @{
+                                    if (ViewBag.SortDate == stringAscending)
+                                    {
+                                        <button type="submit" class="btn-primary btn" asp-route-sortDate=@stringDescending><img src="..\..\Images\sortbyAscending.png" width="17"></button>
                                     }
-                                </th>
-                                <th>
-                                    Medewerker Naam
-                                    @Html.DropDownList("employeeName", new SelectList(employeeNames), "Geen filter")
-                                </th>
-                                <th>
-                                    Jaar
-                                    @Html.DropDownList("year", new SelectList(years), "Geen filter")
-                                </th>
-                                <th>
-                                    Maand
-                                    @Html.DropDownList("month", new SelectList(Enum.GetValues(typeof(Months))), "Geen filter")
-                                </th>
-                                <th>
-                                    Goedgekeurd
-                                    @Html.DropDownList("approved", new SelectList(new List<string> { "Goedgekeurd", "Niet goedgekeurd" }), "Geen filter")
-                                </th>
-                                <th>
-                                    Ingediend
-                                    @Html.DropDownList("submitted", new SelectList(new List<string> { "Ingediend", "Niet ingediend" }), "Geen filter")
-                                </th>
-                                <th>Commentaar</th>
-                                <th></th>
-
-                            </tr>
-
-                        }
+                                    else
+                                    {
+                                        <button type="submit" class="btn-primary btn" asp-route-sortDate=@stringAscending><img src="..\..\Images\sortbyDescending.png" width="17"></button>
+                                    }
+                                }
+                            </th>
+                            <th>
+                                Naam
+                                @Html.DropDownList("employeeName", new SelectList(employeeNames), "Geen filter")
+                            </th>
+                            <th>
+                                Jaar
+                                @Html.DropDownList("year", new SelectList(years), "Geen filter")
+                            </th>
+                            <th>
+                                Maand
+                                @Html.DropDownList("month", new SelectList(Enum.GetValues(typeof(Months))), "Geen filter")
+                            </th>
+                            <th>
+                                Goedgekeurd
+                                @Html.DropDownList("approved", new SelectList(new List<string> { "Goedgekeurd", "Niet goedgekeurd" }), "Geen filter")
+                            </th>
+                            <th>
+                                Ingediend
+                                @Html.DropDownList("submitted", new SelectList(new List<string> { "Ingediend", "Niet ingediend" }), "Geen filter")
+                            </th>
+                            <th>Commentaar</th>
+                            <th></th>
+                        </tr>
                     </thead>
                     <tbody>
                         @foreach (DeclarationFormModel declarationFormModel in Model)
@@ -176,7 +176,7 @@
                                        asp-route-formId="@declarationFormModel.FormId">
                                         Heropenen
                                     </a>
-                                    
+
                                     @Html.ActionLink("Delete", "DeleteDeclarationForm", new { FormId = declarationFormModel.FormId }, new { onclick = "return confirm('Are you sure you want to delete?');" })
                                 </td>
                             </tr>
@@ -184,5 +184,6 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        }
     </div>
+</div>
