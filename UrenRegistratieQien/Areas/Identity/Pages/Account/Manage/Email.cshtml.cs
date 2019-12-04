@@ -51,9 +51,9 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
-            [Display(Name = "New email")]
+            [Required (ErrorMessage = "Vul een emailadres in")]
+            [EmailAddress(ErrorMessage = "Vul een emailadres in")]
+            [Display(Name = "nieuwe email")]
             public string NewEmail { get; set; }
         }
 

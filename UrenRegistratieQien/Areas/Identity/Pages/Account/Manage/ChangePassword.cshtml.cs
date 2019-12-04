@@ -35,20 +35,20 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required]
-            [DataType(DataType.Password)]
-            [Display(Name = "Current password")]
+            [Required (ErrorMessage = "Vul het huidige wachtwoord in")]
+            [DataType(DataType.Password, ErrorMessage = "Ongeldig wachtwoord")]
+            [Display(Name = "huidige wachtwoord")]
             public string OldPassword { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-            [DataType(DataType.Password)]
-            [Display(Name = "New password")]
+            [Required(ErrorMessage = "Vul een nieuw wachtwoord in")]
+            [StringLength(24, ErrorMessage = "Het {0} moet minstens {2} en max {1} karakters lang zijn.", MinimumLength = 6)]
+            [DataType(DataType.Password, ErrorMessage = "Ongeldig wachtwoord")]
+            [Display(Name = "nieuwe wachtwoord")]
             public string NewPassword { get; set; }
 
-            [DataType(DataType.Password)]
-            [Display(Name = "Confirm new password")]
-            [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+            [DataType(DataType.Password, ErrorMessage ="Ongeldig wachtwoord")]
+            [Display(Name = "Bevestig nieuw wachtwoord")]
+            [Compare("NewPassword", ErrorMessage = "Het nieuwe wachtwoord en bevestigings wachtwoord komen niet overeen.")]
             public string ConfirmPassword { get; set; }
         }
 

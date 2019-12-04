@@ -34,8 +34,8 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required (ErrorMessage = "Vul een e-mailadres in")]
+            [EmailAddress(ErrorMessage = "Ongeldig e-mailadres")]
             public string Email { get; set; }
         }
 
