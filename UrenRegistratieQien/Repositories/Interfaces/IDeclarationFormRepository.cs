@@ -24,16 +24,17 @@ namespace UrenRegistratieQien.Repositories
         public Task<int> TotalHoursOther(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
 
         public Task<bool> CheckIfIdMatches(string uniqueId);
-
         public Task<List<DeclarationFormModel>> GetAllFormsOfMonth(int month);
         public Task CreateForm(string employeeId);
         public Task<string> GenerateUniqueId();
         public Task ApproveForm(int formId);
         public Task RejectForm(int formId, string comment);
         public Task CalculateTotalHours(DeclarationFormModel decModel);
+        public Task CalculateTotalHoursOfAll(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
         public Task CreateFormForUser(string EmployeeId, string month, int year);
         public Task ReopenForm(int formId);
 
         public Task DeleteDeclarationForm(int FormId);
+
     }
 }
