@@ -1,11 +1,13 @@
 ﻿@model UrenRegistratieQien.Models.EmployeeModel
 
-@{ 
+@{
     var path = $@"..\..\ProfilePictures\{Model.EmployeeId}.png";
 }
 
 <div class="Naam">@ViewBag.User.FirstName @ViewBag.User.LastName</div>
-<div align="center"><img src="@path" style="margin: 0 auto; height: 120px; width: 120px; border-radius: 50%" /></div>
+<br />
+<div align="right"><img src="@path" style="margin: 0 auto; height: 120px; width: 120px; border-radius: 50%" ; padding: 0 /></div>
+<br />
 <div class="TextInBox">Algemeen</div>
 <a asp-controller="Employee" asp-action="Info">Info</a>
 <br />
