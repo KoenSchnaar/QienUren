@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using UrenRegistratieQien.Data;
@@ -13,10 +16,12 @@ namespace UrenRegistratieQien.Repositories
     public class EmployeeRepository : IEmployeeRepository
     {
         private readonly ApplicationDbContext context;
+        private readonly IHostingEnvironment he;
 
-        public EmployeeRepository(ApplicationDbContext context)
+        public EmployeeRepository(ApplicationDbContext context, IHostingEnvironment he)
         {
             this.context = context;
+            this.he = he;
         }
         public async Task<List<EmployeeModel>> GetEmployees()
         {
@@ -203,6 +208,20 @@ namespace UrenRegistratieQien.Repositories
         public async Task<List<string>> getEmployeeNames()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task UploadPicture(IFormFile picture, string userId)
+        {
+            if (picture != null)
+            {
+                var fileName = Path.Combine(he.WebRootPath + "/ProfilePictures", Path.GetFileName(userId +".png"));
+                picture.CopyTo(new FileStream(fileName, FileMode.Create));
+            }
+        }
+
+        public async Task ChangePicture()
+        {
+
         }
     }
 }

@@ -5,7 +5,7 @@
     ViewData["Title"] = "Registreer";
 }
 
-<h1>@ViewData["Title"]</h1>
+@*<h1>@ViewData["Title"]</h1>*@
 
 <div class="Container-1">
     <div class="box-1">
@@ -18,7 +18,7 @@
                 <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
                     <h4>Registreer een nieuw account</h4>
                     <hr />
-                    <div asp-validation-summary="All" class="text-danger"></div>
+                    @*<div asp-validation-summary="All" class="text-danger"></div>*@
                     <div class="form-group">
                         <label asp-for="Input.FirstName"></label>
                         <input asp-for="Input.FirstName" class="form-control" />

@@ -47,11 +47,11 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required(ErrorMessage = "Vul een E-mailadres in")]
-            [EmailAddress]
+            [EmailAddress(ErrorMessage = "Dit is geen geldig mailadres")]
             public string Email { get; set; }
 
             [Required(ErrorMessage = "Vul een wachtwoord in")]
-            [DataType(DataType.Password)]
+            [DataType(DataType.Password, ErrorMessage = "Dit is geen geldig wachtwoord")]
             public string Password { get; set; }
 
             [Display(Name = "Remember me?")]

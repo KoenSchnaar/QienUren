@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using UrenRegistratieQien.DatabaseClasses;
@@ -17,14 +20,21 @@ namespace UrenRegistratieQien.Controllers
         private readonly IEmployeeRepository employeeRepo;
         private readonly IHourRowRepository hourRowRepo;
         private readonly UserManager<Employee> _userManager;
+        private readonly IHostingEnvironment he;
 
-        public EmployeeController(IClientRepository ClientRepo, IDeclarationFormRepository DeclarationRepo, IEmployeeRepository EmployeeRepo, IHourRowRepository HourRowRepo, UserManager<Employee> userManager = null)
+        public EmployeeController(IClientRepository ClientRepo, 
+                                  IDeclarationFormRepository DeclarationRepo, 
+                                  IEmployeeRepository EmployeeRepo, 
+                                  IHourRowRepository HourRowRepo, 
+                                  IHostingEnvironment he,
+                                  UserManager<Employee> userManager = null)
         {
             clientRepo = ClientRepo;
             declarationRepo = DeclarationRepo;
             employeeRepo = EmployeeRepo;
             hourRowRepo = HourRowRepo;
             _userManager = userManager;
+            this.he = he;
         }
 
         public async Task<IActionResult> Index()
@@ -49,6 +59,18 @@ namespace UrenRegistratieQien.Controllers
             var Employee = await employeeRepo.GetEmployee(userId);
             ViewBag.Client = await clientRepo.GetClientByUserId(userId);
             return View(Employee);
+        }
+        public async Task<IActionResult> ChangePicture()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePicture(IFormFile picture)
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+            await employeeRepo.UploadPicture(picture, userId);
+            return RedirectToAction("Dashboard");
         }
     }
 }
