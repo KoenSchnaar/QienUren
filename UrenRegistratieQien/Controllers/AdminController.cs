@@ -185,6 +185,27 @@ namespace UrenRegistratieQien.Controllers
             }
         }
 
+        public FileContentResult DownloadTotalHoursCSV(int totalWorked, int totalOvertime, int totalSickness, int totalVacation, int totalHoliday, int totalTraining, int totalOther) //eventueel filters meenemen..
+        {
+            List<string> downloadableList = new List<string>
+            {
+                Convert.ToString(totalWorked),
+                Convert.ToString(totalOvertime),
+                Convert.ToString(totalSickness),
+                Convert.ToString(totalVacation),
+                Convert.ToString(totalHoliday),
+                Convert.ToString(totalTraining),
+                Convert.ToString(totalOther)
+            };
+            Download download = new Download();
+            string fileName = "Totalhours.txt";
+            download.MakeCSV(downloadableList, fileName);
+
+
+            byte[] fileBytes = System.IO.File.ReadAllBytes("Downloads/" + fileName);
+            return File(fileBytes, "text/plain", fileName);
+        }
+
         public async Task<IActionResult> Admin(string year, string month, string employeeName, string approved, string submitted, string totalhoursmonth, int totalhoursyear, string sortDate)
         {
             if (await UserIsAdmin())
