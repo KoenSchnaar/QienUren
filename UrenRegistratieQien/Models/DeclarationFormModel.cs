@@ -23,6 +23,9 @@ namespace UrenRegistratieQien.Models
         public int TotalOvertime { get; set; }
         public int TotalSickness { get; set; }
         public int TotalVacation { get; set; }
+        public int TotalHoliday { get; set; }
+        public int TotalTraining { get; set; }
+        public int TotalOther { get; set; }
         public DateTime DateCreated { get; set; }
     }
 }
