@@ -67,27 +67,27 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
             [Display(Name = "Client ID")]
             public int ClientId { get; set; }
 
-            [Required]
+            [Required (ErrorMessage ="Voornaam is verplicht")]
             [Display(Name = "Voornaam")]
             public string FirstName { get; set; }
 
-            [Required]
+            [Required (ErrorMessage = "Achternaam is verplicht")]
             [Display(Name = "Achternaam")]
             public string LastName { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Straat/Huisnummer is verplicht")]
             [Display(Name = "Straatnaam + Huisnummer")]
             public string Adress { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Postcode is verplicht")]
             [Display(Name = "Postcode")]
             public string ZIPCode { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Woonplaats is verplicht")]
             [Display(Name = "Woonplaats")]
             public string Residence { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Telefoonnummer is verplicht")]
             [Display(Name = "Telefoonnummer")]
             public int Phone { get; set; }
 
@@ -95,8 +95,8 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
             [Display(Name = "Type gebruiker")]
             public int Role { get; set; }
 
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "Email is verplicht")]
+            [EmailAddress(ErrorMessage = "Ongeldig e-mailadres")]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
@@ -104,15 +104,15 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
             public  DateTime DateRegistered { get; set; }
 
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-            [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Required(ErrorMessage = "Wachtwoord is verplicht")]
+            [StringLength(24, ErrorMessage = "Het {0} moet minstens {2} en max {1} karakters lang zijn.", MinimumLength = 6)]
+            [DataType(DataType.Password, ErrorMessage = "Ongeldig wachtwoord")]
+            [Display(Name = "nieuwe wachtwoord")]
             public string Password { get; set; }
 
-            [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [DataType(DataType.Password, ErrorMessage = "Ongeldig wachtwoord")]
+            [Display(Name = "bevestig wachtwoord")]
+            [Compare("Password", ErrorMessage = "Het wachtwoord en de bevestigings wachtwoord komen niet overeen.")]
             public string ConfirmPassword { get; set; }
         }
 
