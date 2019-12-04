@@ -209,6 +209,9 @@ namespace UrenRegistratieQien.Repositories
                 TotalOvertime = entity.TotalOvertime,
                 TotalSickness = entity.TotalSickness,
                 TotalVacation = entity.TotalVacation,
+                TotalHoliday = entity.TotalHoliday,
+                TotalTraining = entity.TotalTraining,
+                TotalOther = entity.TotalOther,
                 DateCreated = entity.DateCreated
             };
             return newModel;
@@ -262,6 +265,9 @@ namespace UrenRegistratieQien.Repositories
                     TotalOvertime = form.TotalOvertime,
                     TotalSickness = form.TotalSickness,
                     TotalVacation = form.TotalVacation,
+                    TotalHoliday = form.TotalHoliday,
+                    TotalTraining = form.TotalTraining,
+                    TotalOther = form.TotalOther,
                     DateCreated = form.DateCreated
                 };
 
@@ -779,7 +785,7 @@ namespace UrenRegistratieQien.Repositories
             }
             context.SaveChanges();
         }
-        public void CalculateTotalHoursOfAll(List<DeclarationFormModel> DeclarationFormList, string Month, int Year) //voor alle employees
+        public async Task CalculateTotalHoursOfAll(List<DeclarationFormModel> DeclarationFormList, string Month, int Year) //voor alle employees
         {
             if (Month == null)
             {
@@ -794,9 +800,9 @@ namespace UrenRegistratieQien.Repositories
                             Form.TotalOvertime += HourRow.Overtime;
                             Form.TotalSickness += HourRow.Sickness;
                             Form.TotalVacation += HourRow.Vacation;
-                            //Form.TotalHoliday += HourRow.Holiday;
-                            //Form.TotalTraining += HourRow.Training;
-                            //Form.TotalOther += HourRow.Other;
+                            Form.TotalHoliday += HourRow.Holiday;
+                            Form.TotalTraining += HourRow.Training;
+                            Form.TotalOther += HourRow.Other;
                         }
                     }
                 }
@@ -815,9 +821,9 @@ namespace UrenRegistratieQien.Repositories
                                 Form.TotalOvertime += HourRow.Overtime;
                                 Form.TotalSickness += HourRow.Sickness;
                                 Form.TotalVacation += HourRow.Vacation;
-                                //Form.TotalHoliday += HourRow.Holiday;
-                                //Form.TotalTraining += HourRow.Training;
-                                //Form.TotalOther += HourRow.Other;
+                                Form.TotalHoliday += HourRow.Holiday;
+                                Form.TotalTraining += HourRow.Training;
+                                Form.TotalOther += HourRow.Other;
                             }
                         }
                     }
