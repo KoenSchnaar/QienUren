@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UrenRegistratieQien.Models;
@@ -17,6 +18,6 @@ namespace UrenRegistratieQien.Repositories
         Task DeleteEmployee(string id);
         Task<SelectList> getEmployeeSelectList();
         Task EditEmployeeMail(string employeeMailold, string employeeMailnew);
-
+        Task UploadPicture(IFormFile picture, string userId);
     }
 }
