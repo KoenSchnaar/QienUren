@@ -56,9 +56,22 @@
                             <th>Overig</th>
                         </tr>
                     <thead>
+
                         @using (Html.BeginForm("Admin", "Admin"))
                         {
                             <input type="submit" class="btn-primary" value="Filter ->" />
+                            <button 
+                                    asp-controller="Admin" 
+                                    asp-action="DownloadTotalHoursCSV" 
+                                    asp-route-totals=@totalHours 
+                                    asp-route-totalWorked=@totalHours.TotalWorkedHours
+                                    asp-route-totalOvertime=@totalHours.TotalOvertime
+                                    asp-route-totalSickness=@totalHours.TotalSickness
+                                    asp-route-totalVacation=@totalHours.TotalVacation
+                                    asp-route-totalHoliday=@totalHours.TotalHoliday
+                                    asp-route-totalTraining=@totalHours.TotalTraining
+                                    asp-route-totalOther=@totalHours.TotalOther
+                                    >Download als CSV</button>
                             <tr>
                                 <td>
                                     @Html.DropDownList("totalhoursyear", new SelectList(years), DateTime.Now.Year)
@@ -75,7 +88,7 @@
                                 <td>@totalHours.TotalOther</td>
                             </tr>
                         }
-                </table>
+</table>
             </div>
         </div>
         <br />
@@ -89,7 +102,7 @@
                     <thead>
                         @using (Html.BeginForm("Admin", "Admin"))
                         {
-                            <input type="submit" value="Filters Toepassen" />
+                            <input type="submit" class="btn-primary" value="Filter ->" />
                             <tr>
                                 <th>
                                     Datum Aangemaakt
