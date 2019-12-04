@@ -41,7 +41,6 @@ namespace UrenRegistratieQien.Controllers
         {
             await declarationRepo.EditDeclarationForm(decModel);
             await declarationRepo.CalculateTotalHours(decModel);
-            //return View("~/ Views / Employee / Dashboard.cshtml");
             return RedirectToAction("Dashboard", "Employee");
         }
 
