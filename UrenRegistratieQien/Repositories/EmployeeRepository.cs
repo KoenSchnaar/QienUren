@@ -139,22 +139,27 @@ namespace UrenRegistratieQien.Repositories
             var databaseEmployee = context.Users.Single(p => p.Id == employeeModel.EmployeeId);
             var CastedDatabaseEmployee = (Employee)databaseEmployee;
             var role = 0;
+            DateTime startdaterole = DateTime.MinValue;
 
             if(employeeModel.RoleAsString == "Admin")
             {
                 role = 1;
+                startdaterole = DateTime.Now;
             }
             else if (employeeModel.RoleAsString == "Medewerker")
             {
                 role = 2;
+                startdaterole = DateTime.Now;
             }
             else if(employeeModel.RoleAsString == "Trainee")
             {
                 role = 3;
+                startdaterole = DateTime.Now;
             }
             else if (employeeModel.RoleAsString == "Inactief")
             {
                 role = 4;
+                startdaterole = DateTime.Now;
             }
 
             CastedDatabaseEmployee.ClientId = employeeModel.ClientId;
@@ -166,6 +171,7 @@ namespace UrenRegistratieQien.Repositories
             CastedDatabaseEmployee.Role = role;
             CastedDatabaseEmployee.ZIPCode = employeeModel.ZIPCode;
             CastedDatabaseEmployee.Residence = employeeModel.Residence;
+            CastedDatabaseEmployee.StartDateRole = startdaterole;
 
             context.SaveChanges();
 
@@ -180,8 +186,6 @@ namespace UrenRegistratieQien.Repositories
             {
                 var roleBridge = context.UserRoles.Single(p => p.UserId == employee.Id);
 
-
-
                 var roleName = context.Roles.Single(p => p.Id == roleBridge.RoleId).Name;
 
                 if(roleName == "Trainee")
@@ -195,6 +199,23 @@ namespace UrenRegistratieQien.Repositories
                         context.SaveChanges();
                     }
                 }
+            }
+        }
+
+        public async Task<bool> UserIsOneMonthInactive(string employeeId)
+        {
+            var employee = (Employee)context.Users.Single(e => e.Id == employeeId);
+            var roleId = employee.Role;
+            //var roleBridge = context.UserRoles.Single(p => p.UserId == employee.Id);
+            //var roleName = context.Roles.Single(r => r.Id == roleBridge.RoleId).Name;
+
+            if (roleId == 4 && DateTime.Now >= employee.StartDateRole.AddMonths(1))
+            {
+                return employee.OutOfService = true;   
+            }
+            else
+            {
+                return employee.OutOfService = false;
             }
         }
 

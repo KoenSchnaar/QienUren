@@ -43,6 +43,13 @@ namespace UrenRegistratieQien
             services.AddControllersWithViews();
             services.AddRazorPages();
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminAccessPolicy", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("EmployeeAccessPolicy", policy => policy.RequireRole("Medewerker"));
+                options.AddPolicy("TraineeAccessPolicy", policy => policy.RequireRole("Trainee"));
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
