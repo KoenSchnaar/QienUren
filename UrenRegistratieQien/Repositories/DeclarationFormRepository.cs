@@ -310,14 +310,14 @@ namespace UrenRegistratieQien.Repositories
 
         public async Task<List<DeclarationFormModel>> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted, string sortDate)
         {
-            if (approved == "Goedgekeurd")
-            {
-                approved = "Approved";
-            }
-            if (approved == "Niet goedgekeurd")
-            {
-                approved = "Rejected";
-            }
+            //if (approved == "Goedgekeurd")
+            //{
+            //    approved = "Approved";
+            //}
+            //if (approved == "Niet goedgekeurd")
+            //{
+            //    approved = "Rejected";
+            //}
             if (submitted == "Ingediend")
             {
                 submitted = "true";
@@ -365,13 +365,6 @@ namespace UrenRegistratieQien.Repositories
                     }
                 }
             }
-            foreach (DeclarationForm declarationForm in holderList)
-            {
-                if (entities.Contains(declarationForm))
-                {
-                    entities.Remove(declarationForm);
-                }
-            }
             if (month != null)
             {
 
@@ -384,32 +377,18 @@ namespace UrenRegistratieQien.Repositories
                 }
 
             }
-            foreach (DeclarationForm declarationForm in holderList)
-            {
-                if (entities.Contains(declarationForm))
-                {
-                    entities.Remove(declarationForm);
-                }
-            }
             if (approved != null)
             {
 
                 foreach (DeclarationForm entity in entities)
                 {
 
-                    if (entity.Approved == "Rejected")
+                    if (entity.Approved != approved)
                     {
                         holderList.Add(entity);
                     }
                 }
 
-            }
-            foreach (DeclarationForm declarationForm in holderList)
-            {
-                if (entities.Contains(declarationForm))
-                {
-                    entities.Remove(declarationForm);
-                }
             }
             if (submitted != null)
             {
