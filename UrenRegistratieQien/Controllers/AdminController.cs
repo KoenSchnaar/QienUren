@@ -198,7 +198,8 @@ namespace UrenRegistratieQien.Controllers
             };
             Download download = new Download();
             string fileName = "Totalhours.txt";
-            download.MakeCSV(downloadableList, fileName);
+            string header = "gewerkt, overuren, ziekte, vakantie, feestdagen, training, anders";
+            download.MakeCSV(header, downloadableList, fileName);
 
 
             byte[] fileBytes = System.IO.File.ReadAllBytes("Downloads/" + fileName);

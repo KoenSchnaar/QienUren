@@ -149,7 +149,7 @@
                             @foreach (DeclarationFormModel declarationFormModel in Model)
                             {
                                 <tr>
-                                    <td>@declarationFormModel.DateCreated</td>
+                                    <td>@declarationFormModel.DateCreated.Day/@declarationFormModel.DateCreated.Month/@declarationFormModel.DateCreated.Year</td>
                                     <td>@declarationFormModel.EmployeeName</td>
                                     <td>@declarationFormModel.Year</td>
                                     <td>@declarationFormModel.Month</td>
@@ -185,13 +185,20 @@
                                            asp-route-formId="@declarationFormModel.FormId">
                                             Inzien
                                         </a>
-                                        <a asp-area=""
-                                           asp-controller="Admin"
-                                           asp-action="ReopenForm"
-                                           asp-route-formId="@declarationFormModel.FormId">
-                                            Heropenen
-                                        </a>
-                                        @Html.ActionLink("Delete", "DeleteDeclarationForm", new { FormId = declarationFormModel.FormId }, new { onclick = "return confirm('Are you sure you want to delete?');" })
+                                        @*<a asp-area=""
+                                                asp-controller="Admin"
+                                                asp-action="ReopenForm"
+                                                asp-route-formId="@declarationFormModel.FormId">
+                                                Heropenen
+                                            </a>*@
+                                        @{
+                                            if (!(declarationFormModel.Approved == "Approved") && (declarationFormModel.Submitted == true))
+                                            {
+                                                @Html.ActionLink("Heropenen", "ReopenForm", new { FormId = declarationFormModel.FormId }, new { onclick = "return confirm('Weet je zeker dat je het formulier wil heropenen?');" })
+                                            }
+                                        }
+
+                                        @Html.ActionLink("Verwijderen", "DeleteDeclarationForm", new { FormId = declarationFormModel.FormId }, new { onclick = "return confirm('Weet je zeker dat je het formulier wil verwijderen?');" })
                                     </td>
                                 </tr>
                             }
