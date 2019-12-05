@@ -185,12 +185,12 @@
                                     asp-route-formId="@declarationFormModel.FormId">
                                     Inzien
                                 </a>
-                                @*<a asp-area=""
+                                <a asp-area=""
                                     asp-controller="Admin"
-                                    asp-action="ReopenForm"
+                                    asp-action="DownloadExcel"
                                     asp-route-formId="@declarationFormModel.FormId">
-                                    Heropenen
-                                </a>*@
+                                    downloadexcel
+                                </a>
                                 @{ 
                                     if(!(declarationFormModel.Approved == "Approved") && (declarationFormModel.Submitted == true))
                                     {

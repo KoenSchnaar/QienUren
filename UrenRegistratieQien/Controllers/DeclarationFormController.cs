@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UrenRegistratieQien.DatabaseClasses;
+using UrenRegistratieQien.GlobalClasses;
 using UrenRegistratieQien.Models;
 using UrenRegistratieQien.Repositories;
 
@@ -59,6 +60,30 @@ namespace UrenRegistratieQien.Controllers
 
             return RedirectToAction("Dashboard", "Employee");
         }
+
+
+
+        //public FileContentResult DownloadTotalHoursCSV(int totalWorked, int totalOvertime, int totalSickness, int totalVacation, int totalHoliday, int totalTraining, int totalOther) //eventueel filters meenemen..
+        //{
+        //    List<string> downloadableList = new List<string>
+        //    {
+        //        Convert.ToString(totalWorked),
+        //        Convert.ToString(totalOvertime),
+        //        Convert.ToString(totalSickness),
+        //        Convert.ToString(totalVacation),
+        //        Convert.ToString(totalHoliday),
+        //        Convert.ToString(totalTraining),
+        //        Convert.ToString(totalOther)
+        //    };
+        //    Download download = new Download();
+        //    string fileName = "Totalhours.txt";
+        //    string header = "gewerkt, overuren, ziekte, vakantie, feestdagen, training, anders";
+        //    download.MakeCSV(header, downloadableList, fileName);
+
+
+        //    byte[] fileBytes = System.IO.File.ReadAllBytes("Downloads/" + fileName);
+        //    return File(fileBytes, "text/plain", fileName);
+        //}
 
     }
 }

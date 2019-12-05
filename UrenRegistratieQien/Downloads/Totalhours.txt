@@ -1,2 +1,2 @@
 gewerkt, overuren, ziekte, vakantie, feestdagen, training, anders
-16,8,8,8,8,8,8,
+84,16,30,16,16,16,16,

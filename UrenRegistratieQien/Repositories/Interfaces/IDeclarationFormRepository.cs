@@ -28,6 +28,7 @@ namespace UrenRegistratieQien.Repositories
         public Task ReopenForm(int formId);
 
         public Task DeleteDeclarationForm(int FormId);
+        public DeclarationFormModel GetFormNotAsync(int formId);
 
     }
 }
