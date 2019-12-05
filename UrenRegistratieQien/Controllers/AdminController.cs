@@ -32,7 +32,6 @@ namespace UrenRegistratieQien.Controllers
             monthList = new List<string> { "Januari", "Februari", "March", "April", "May", "June", "Juli", "August", "September", "October", "November", "December" };
         }
 
-        [HttpPost]
         public async Task<IActionResult> ReopenForm(int formId)
         {
             await declarationFormRepo.ReopenForm(formId);
@@ -307,7 +306,7 @@ namespace UrenRegistratieQien.Controllers
         public async Task<IActionResult> CreateFormForUser(string employeeId, string month, int year)
         {
             await declarationFormRepo.CreateFormForUser(employeeId, month, year);
-            return RedirectToAction("Admin");
+            return RedirectToAction("CreateFormForUser");
         }
 
         public async Task<IActionResult> DeleteDeclarationForm(int FormId)
