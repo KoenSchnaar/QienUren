@@ -135,7 +135,7 @@
                         </th>
                         <th>
                             Goedgekeurd
-                            @Html.DropDownList("approved", new SelectList(new List<string> { "Goedgekeurd", "Niet goedgekeurd" }), "Geen filter")
+                            @Html.DropDownList("approved", new SelectList(Enum.GetValues(typeof(Status))), "Geen filter")
                         </th>
                         <th>
                             Ingediend
