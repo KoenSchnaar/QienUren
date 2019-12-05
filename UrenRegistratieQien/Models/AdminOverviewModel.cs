@@ -14,4 +14,9 @@ namespace UrenRegistratieQien.Models
     {
         Januari, Februari, March, April, May, June, Juli, August, September, October, November, December
     }
+
+    public enum Status
+    {
+        Approved, Rejected, Pending
+    }
 }
