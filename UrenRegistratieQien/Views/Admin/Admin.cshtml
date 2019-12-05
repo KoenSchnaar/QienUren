@@ -149,7 +149,7 @@
                     @foreach (DeclarationFormModel declarationFormModel in Model)
                     {
                         <tr>
-                            <td>@declarationFormModel.DateCreated</td>
+                            <td>@declarationFormModel.DateCreated.Day/@declarationFormModel.DateCreated.Month/@declarationFormModel.DateCreated.Year</td>
                             <td>@declarationFormModel.EmployeeName</td>
                             <td>@declarationFormModel.Year</td>
                             <td>@declarationFormModel.Month</td>
