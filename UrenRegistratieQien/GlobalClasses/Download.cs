@@ -18,7 +18,7 @@ namespace UrenRegistratieQien.GlobalClasses
     {
         public HttpResponse Response { get; set; }
 
-        public void MakeCSV(List<string> downloadList, string fileName)
+        public void MakeCSV(string header, List<string> downloadList, string fileName)
         {
             string downloadString = "";
             for(var i=0; i<downloadList.Count(); i++)
@@ -36,6 +36,7 @@ namespace UrenRegistratieQien.GlobalClasses
 
             using (StreamWriter file = new StreamWriter(@filePath, false))
             {
+                file.WriteLine(header);
                 file.WriteLine(downloadString);
             }
 
