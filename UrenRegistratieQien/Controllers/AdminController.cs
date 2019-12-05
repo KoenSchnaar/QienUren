@@ -32,7 +32,6 @@ namespace UrenRegistratieQien.Controllers
             monthList = new List<string> { "Januari", "Februari", "March", "April", "May", "June", "Juli", "August", "September", "October", "November", "December" };
         }
 
-        [HttpPost]
         public async Task<IActionResult> ReopenForm(int formId)
         {
             await declarationFormRepo.ReopenForm(formId);

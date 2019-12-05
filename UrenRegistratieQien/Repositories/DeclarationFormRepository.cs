@@ -162,9 +162,9 @@ namespace UrenRegistratieQien.Repositories
 
         public async Task ApproveForm(int formId)
         {
-            var form = context.DeclarationForms.Single(p => p.DeclarationFormId == formId);
+            var form = await context.DeclarationForms.SingleAsync(p => p.DeclarationFormId == formId);
             form.Approved = "Approved";
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public async Task RejectForm(int formId, string comment)
