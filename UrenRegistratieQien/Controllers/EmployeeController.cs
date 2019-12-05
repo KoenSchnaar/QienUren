@@ -46,7 +46,7 @@ namespace UrenRegistratieQien.Controllers
 
         public async Task<IActionResult> Dashboard(string year = null, string month = null, string approved = null, string submitted = null, string sortDate = null)////// de filter toepassen in de model van deze
         {
-            if (await UserIsEmployeeOrTrainee())
+            if (await UserIsEmployeeOrTrainee() || await UserIsOutOfService())
             {
                 var userId = _userManager.GetUserId(HttpContext.User); //ophalen van userId die is ingelogd
                 ViewBag.userId = userId;
@@ -112,6 +112,21 @@ namespace UrenRegistratieQien.Controllers
             var user = await employeeRepo.GetEmployee(userId);
 
             if (user.Role == 2 || user.Role == 3)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> UserIsOutOfService()
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+            bool outofservice = await employeeRepo.UserIsOneMonthInactive(userId);
+
+            if (outofservice == false)
             {
                 return true;
             }

@@ -31,7 +31,7 @@ namespace UrenRegistratieQien.Controllers
         
         public async Task<IActionResult> HourReg(int declarationFormId, string userId, int year, string month)
         {
-            if (await UserIsEmployeeOrTrainee())
+            if (await UserIsEmployeeOrTrainee() || await UserIsOutOfService())
             {
                 await hourRowRepo.AddHourRows(year, month, declarationFormId);
                 ViewBag.User = await employeeRepo.GetEmployee(userId);
@@ -94,6 +94,20 @@ namespace UrenRegistratieQien.Controllers
             var user = await employeeRepo.GetEmployee(userId);
 
             if (user.Role == 2 || user.Role == 3)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public async Task<bool> UserIsOutOfService()
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+            bool outofservice = await employeeRepo.UserIsOneMonthInactive(userId);
+
+            if (outofservice == false)
             {
                 return true;
             }

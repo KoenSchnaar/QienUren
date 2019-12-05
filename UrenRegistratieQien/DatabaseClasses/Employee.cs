@@ -17,8 +17,10 @@ namespace UrenRegistratieQien.DatabaseClasses
         public string ZIPCode { get; set; }
         public string Residence { get; set; }
         public DateTime DateRegistered { get; set; }
+        public DateTime StartDateRole { get; set; }
 
         public int Role { get; set; }
+        public bool OutOfService { get; set; }
 
     }
 }

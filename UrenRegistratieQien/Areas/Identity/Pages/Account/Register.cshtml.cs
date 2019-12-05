@@ -139,7 +139,9 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
                     Residence = Input.Residence,
                     Phone = Input.Phone,
                     DateRegistered = DateTime.Now,
-                    Role = Input.Role
+                    Role = Input.Role,
+                    StartDateRole = DateTime.Now,
+                    OutOfService = false
                 };
 
                 var userModel = new EmployeeModel
@@ -153,7 +155,9 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
                     Residence = Input.Residence,
                     Phone = Input.Phone,
                     DateRegistered = DateTime.Now,
-                    Role = Input.Role
+                    Role = Input.Role,
+                    StartDateRole = DateTime.Now,
+                    OutOfService = false
                 };
                 Mailservice.MailNewUser(userModel);
                 var result = await _userManager.CreateAsync(user, Input.Password);
