@@ -579,7 +579,7 @@ namespace UrenRegistratieQien.Repositories
             context.SaveChanges();
         }
 
-        public async Task<List<TotalsForChartModel>> TotalHoursForCharts(List<DeclarationFormModel> DeclarationFormList)
+        public async Task<List<TotalsForChartModel>> TotalHoursForCharts()
         {
             var totalHoursList = new List<TotalsForChartModel>();
             

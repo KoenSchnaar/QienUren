@@ -85,7 +85,6 @@ namespace UrenRegistratieQien.GlobalClasses
                     row.CreateCell(8).SetCellValue(Convert.ToString(hourRow.OtherExplanation));
                     rowIndex += 1;
                 }
-
                 workbook.Write(fs);
             }
         }

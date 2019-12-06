@@ -195,12 +195,17 @@ namespace UrenRegistratieQien.Controllers
 
             byte[] fileBytes = System.IO.File.ReadAllBytes("Downloads/" + fileName);
             return File(fileBytes, "Application/x-msexcel", fileName);
-
         }
 
+        //public async Task<FileContentResult> DownloadPdf(string fileName)
+        //{
+        //    byte[] fileBytes = System.IO.File.ReadAllBytes("wwwroot/Uploads/" + fileName);
+        //    return File(fileBytes, "application/pdf", fileName);
+        //}
 
 
-        
+
+
 
 
         public FileContentResult DownloadTotalHoursCSV(int totalWorked, int totalOvertime, int totalSickness, int totalVacation, int totalHoliday, int totalTraining, int totalOther) //eventueel filters meenemen..
@@ -359,8 +364,7 @@ namespace UrenRegistratieQien.Controllers
 
         public async Task<IActionResult> Charts()
         {
-            var allForms = await declarationFormRepo.GetAllForms();
-            List<TotalsForChartModel> lstModel = await declarationFormRepo.TotalHoursForCharts(allForms);
+            List<TotalsForChartModel> lstModel = await declarationFormRepo.TotalHoursForCharts();
 
             return View(lstModel);
         }
