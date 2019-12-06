@@ -26,12 +26,12 @@
             <h1>Urenoverzicht</h1>
         </div>
         <form asp-controller="DeclarationForm" asp-action="CreateForm" asp-route-employeeId=@employeeId>
-            <input type="submit" value="Nieuw Formulier Maken" />
+            <input class="btn-primary btn" type="submit" value="Nieuw Formulier Maken" />
         </form>
         <table class="fl-table table-wrapper" align="center">
             @using (Html.BeginForm("Dashboard", "Employee"))
             {
-                <input type="submit" value="Filters Toepassen" />
+                <input class="btn-primary btn" type="submit" value="Filters Toepassen" />
                 <thead>
                     <tr>
                         <th>
