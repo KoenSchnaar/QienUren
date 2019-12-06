@@ -227,9 +227,13 @@ namespace UrenRegistratieQien.Repositories
             }
         }
 
-        public async Task ChangePicture()
+        public async Task UploadFile(IFormFile file, int formId)
         {
-
+            if (file != null)
+            {
+                var fileName = Path.Combine(he.WebRootPath + "/Uploads", formId+"-" + Path.GetFileName(file.FileName));
+                file.CopyTo(new FileStream(fileName, FileMode.Create));
+            }
         }
     }
 }
