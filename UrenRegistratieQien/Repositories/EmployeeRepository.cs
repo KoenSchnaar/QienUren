@@ -179,30 +179,21 @@ namespace UrenRegistratieQien.Repositories
 
         public async Task CheckIfYearPassedForAllTrainees()
         {
-            List<Employee> Trainees = new List<Employee>();
-            foreach(Employee employee in context.Users)
+            List<Employee> traineeList = context.Employees.Where(p => p.Role == 3).ToList();
+
+            foreach (Employee employee in traineeList)
             {
-                var roleBridge = context.UserRoles.Single(p => p.UserId == employee.Id);
-
-                var roleName = context.Roles.Single(p => p.Id == roleBridge.RoleId).Name;
-
-                if(roleName == "Trainee")
+                if (DateTime.Now >= employee.DateRegistered.AddYears(1))
                 {
-                    var Date = DateTime.Now;
-
-                    if (employee.DateRegistered == Date.AddYears(-1))
-                    {
-                        roleBridge.RoleId = "4";
-
-                        context.SaveChanges();
-                    }
+                   employee.Role = 4; 
                 }
             }
+            context.SaveChanges();
         }
 
         public async Task<bool> UserIsOneMonthInactive(string employeeId)
         {
-            var employee = (Employee)context.Users.Single(e => e.Id == employeeId);
+            var employee = context.Employees.Single(e => e.Id == employeeId);
             var roleId = employee.Role;
 
             if (roleId == 4 && DateTime.Now >= employee.StartDateRole.AddMonths(1))

@@ -51,7 +51,6 @@ namespace UrenRegistratieQien.Controllers
                 var userId = _userManager.GetUserId(HttpContext.User); //ophalen van userId die is ingelogd
                 ViewBag.userId = userId;
                 ViewBag.User = await employeeRepo.GetEmployee(userId);
-                await employeeRepo.CheckIfYearPassedForAllTrainees();
                 ViewBag.Client = await clientRepo.GetClientByUserId(userId);
                 ViewBag.AllForms = await declarationRepo.GetAllForms();
                 //var inputModel = declarationRepo.GetAllFormsOfUser(userId);
