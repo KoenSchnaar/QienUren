@@ -177,8 +177,6 @@ namespace UrenRegistratieQien.Repositories
 
         }
 
-
-
         public async Task CheckIfYearPassedForAllTrainees()
         {
             List<Employee> Trainees = new List<Employee>();
@@ -206,8 +204,6 @@ namespace UrenRegistratieQien.Repositories
         {
             var employee = (Employee)context.Users.Single(e => e.Id == employeeId);
             var roleId = employee.Role;
-            //var roleBridge = context.UserRoles.Single(p => p.UserId == employee.Id);
-            //var roleName = context.Roles.Single(r => r.Id == roleBridge.RoleId).Name;
 
             if (roleId == 4 && DateTime.Now >= employee.StartDateRole.AddMonths(1))
             {
