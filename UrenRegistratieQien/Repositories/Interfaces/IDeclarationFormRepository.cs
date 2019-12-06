@@ -26,7 +26,7 @@ namespace UrenRegistratieQien.Repositories
         public Task<TotalsModel> CalculateTotalHoursOfAll(List<DeclarationFormModel> DeclarationFormList, string Month, int Year);
         public Task CreateFormForUser(string EmployeeId, string month, int year);
         public Task ReopenForm(int formId);
-
+        public Task<List<TotalsForChartModel>> TotalHoursForCharts(List<DeclarationFormModel> DeclarationFormList);
         public Task DeleteDeclarationForm(int FormId);
         public DeclarationFormModel GetFormNotAsync(int formId);
 

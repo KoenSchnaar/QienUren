@@ -356,5 +356,13 @@ namespace UrenRegistratieQien.Controllers
                 return await AccessDeniedView();
             }
         }
+
+        public async Task<IActionResult> Charts()
+        {
+            var allForms = await declarationFormRepo.GetAllForms();
+            List<TotalsForChartModel> lstModel = await declarationFormRepo.TotalHoursForCharts(allForms);
+
+            return View(lstModel);
+        }
     }
 }
