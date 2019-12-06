@@ -185,15 +185,17 @@ namespace UrenRegistratieQien.Controllers
         }
 
 
-        public async Task<IActionResult> DownloadExcel(int formId)
+        public async Task<FileContentResult> DownloadExcel(int formId)
         {
-            var x = formId;
             Download download = new Download();
             DeclarationFormModel declarationForm = await declarationFormRepo.GetForm(formId);
 
             download.MakeExcel(Convert.ToString(formId), declarationForm.HourRows);
+            var fileName = Convert.ToString(formId) + ".xlsx";
 
-            return RedirectToAction("ViewDeclarationForm", new { formId = formId });
+            byte[] fileBytes = System.IO.File.ReadAllBytes("Downloads/" + fileName);
+            return File(fileBytes, "Application/x-msexcel", fileName);
+
         }
 
 
