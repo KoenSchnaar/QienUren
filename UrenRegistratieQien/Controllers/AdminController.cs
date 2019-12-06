@@ -184,8 +184,28 @@ namespace UrenRegistratieQien.Controllers
             }
         }
 
+
+        public async Task<FileContentResult> DownloadExcel(int formId)
+        {
+            Download download = new Download();
+            DeclarationFormModel declarationForm = await declarationFormRepo.GetForm(formId);
+
+            download.MakeExcel(Convert.ToString(formId), declarationForm.HourRows);
+            var fileName = Convert.ToString(formId) + ".xlsx";
+
+            byte[] fileBytes = System.IO.File.ReadAllBytes("Downloads/" + fileName);
+            return File(fileBytes, "Application/x-msexcel", fileName);
+
+        }
+
+
+
+        
+
+
         public FileContentResult DownloadTotalHoursCSV(int totalWorked, int totalOvertime, int totalSickness, int totalVacation, int totalHoliday, int totalTraining, int totalOther) //eventueel filters meenemen..
         {
+            Console.WriteLine("er gebeurt download CSV");
             List<string> downloadableList = new List<string>
             {
                 Convert.ToString(totalWorked),
