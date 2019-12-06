@@ -525,6 +525,36 @@ namespace UrenRegistratieQien.Repositories
             context.DeclarationForms.Remove(form);
             context.SaveChanges();
         }
+
+        public async Task<List<TotalsForChartModel>> TotalHoursForCharts(List<DeclarationFormModel> DeclarationFormList)
+        {
+            var totalHoursList = new List<TotalsForChartModel>();
+            
+            for (int i = 1; i < 13; i++)
+            {
+                var totalsModel = new TotalsForChartModel
+                {
+                    Month = MonthConverter.ConvertIntToMonth(i)
+                };
+                totalHoursList.Add(totalsModel);
+            }
+
+            foreach(var model in totalHoursList)
+            {
+                var entities = context.DeclarationForms.Where(d => d.Month == model.Month).ToList();
+                foreach(var entity in entities)
+                {
+                    model.TotalHoliday += entity.TotalHoliday;
+                    model.TotalOther += entity.TotalOther;
+                    model.TotalOvertime += entity.TotalOvertime;
+                    model.TotalSickness += entity.TotalSickness;
+                    model.TotalTraining += entity.TotalTraining;
+                    model.TotalVacation += entity.TotalVacation;
+                    model.TotalWorkedHours += entity.TotalWorkedHours;
+                };
+            }
+            return totalHoursList;
+        }
     }
 }
 
