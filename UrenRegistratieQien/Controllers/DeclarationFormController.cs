@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -31,34 +32,94 @@ namespace UrenRegistratieQien.Controllers
         
         public async Task<IActionResult> HourReg(int declarationFormId, string userId, int year, string month)
         {
-            await hourRowRepo.AddHourRows(year, month, declarationFormId);
-            ViewBag.User = await employeeRepo.GetEmployee(userId);
-            var inputModel = await declarationRepo.GetForm(declarationFormId);
-            return View(inputModel);
+            if (await UserIsEmployeeOrTrainee() || await UserIsOutOfService())
+            {
+                await hourRowRepo.AddHourRows(year, month, declarationFormId);
+                ViewBag.User = await employeeRepo.GetEmployee(userId);
+                var inputModel = await declarationRepo.GetForm(declarationFormId);
+                return View(inputModel);
+            }
+            else
+            {
+                return await AccessDeniedView();
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> HourReg(DeclarationFormModel decModel)
         {
-            await declarationRepo.EditDeclarationForm(decModel);
-            await declarationRepo.CalculateTotalHours(decModel);
-            return RedirectToAction("Dashboard", "Employee");
+            if (await UserIsEmployeeOrTrainee())
+            {
+                await declarationRepo.EditDeclarationForm(decModel);
+                await declarationRepo.CalculateTotalHours(decModel);
+                return RedirectToAction("Dashboard", "Employee");
+            }
+            else
+            {
+                return await AccessDeniedView();
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> HourRegSubmit(DeclarationFormModel decModel)
         {
-            await declarationRepo.EditDeclarationForm(decModel);
-            await declarationRepo.SubmitDeclarationForm(decModel);
-            await declarationRepo.CalculateTotalHours(decModel);
-            return RedirectToAction("Dashboard", "Employee");
+            if (await UserIsEmployeeOrTrainee())
+            {
+                await declarationRepo.EditDeclarationForm(decModel);
+                await declarationRepo.SubmitDeclarationForm(decModel);
+                await declarationRepo.CalculateTotalHours(decModel);
+                return RedirectToAction("Dashboard", "Employee");
+            }
+            else
+            {
+                return await AccessDeniedView();
+            }
         }
 
         public async Task<IActionResult> CreateForm(string employeeId)
         {
-            await declarationRepo.CreateForm(employeeId);
+            if (await UserIsEmployeeOrTrainee())
+            {
+                await declarationRepo.CreateForm(employeeId);
+                return RedirectToAction("Dashboard", "Employee");
+            }
+            else
+            {
+                return await AccessDeniedView();
+            }
+        }
 
-            return RedirectToAction("Dashboard", "Employee");
+        public async Task<bool> UserIsEmployeeOrTrainee()
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+            var user = await employeeRepo.GetEmployee(userId);
+
+            if (user.Role == 2 || user.Role == 3)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public async Task<bool> UserIsOutOfService()
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+            bool outofservice = await employeeRepo.UserIsOneMonthInactive(userId);
+
+            if (outofservice == false)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public async Task<ViewResult> AccessDeniedView()
+        {
+            return View("~/Views/Home/AccessDenied.cshtml");
         }
 
 

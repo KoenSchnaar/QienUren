@@ -19,5 +19,6 @@ namespace UrenRegistratieQien.Repositories
         Task<SelectList> getEmployeeSelectList();
         Task EditEmployeeMail(string employeeMailold, string employeeMailnew);
         Task UploadPicture(IFormFile picture, string userId);
+        Task<bool> UserIsOneMonthInactive(string employeeId);
     }
 }

@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace UrenRegistratieQien.Controllers
 {
-    [Authorize]
+    //[Authorize(Policy = "AdminAccessPolicy")]
     public class AdminController : Controller
     {
         private readonly IDeclarationFormRepository declarationFormRepo;
@@ -319,15 +319,29 @@ namespace UrenRegistratieQien.Controllers
 
         public async Task<IActionResult> CreateFormForUser()
         {
-            ViewBag.Employees = await employeeRepo.getEmployeeSelectList();
-            return View();
+            if (await UserIsAdmin())
+            {
+                ViewBag.Employees = await employeeRepo.getEmployeeSelectList();
+                return View();
+            }
+            else
+            {
+                return await AccessDeniedView();
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateFormForUser(string employeeId, string month, int year)
         {
-            await declarationFormRepo.CreateFormForUser(employeeId, month, year);
-            return RedirectToAction("CreateFormForUser");
+            if (await UserIsAdmin())
+            {
+                await declarationFormRepo.CreateFormForUser(employeeId, month, year);
+                return RedirectToAction("CreateFormForUser");
+            }
+            else
+            {
+                return await AccessDeniedView();
+            }
         }
 
         public async Task<IActionResult> DeleteDeclarationForm(int FormId)
