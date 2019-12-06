@@ -13,11 +13,12 @@
             years.Add(declarationFormModel.Year);
         }
     }
+    var model = (EmployeeModel)ViewBag.User;
 }
 
 <div class="Container-1">
     <div class="box-1">
-        @Html.Partial("_SideBoxEmployee")
+        @Html.Partial("_SideBoxEmployee", model)
     </div>
 
     <div class="box-2">
@@ -25,12 +26,12 @@
             <h1>Urenoverzicht</h1>
         </div>
         <form asp-controller="DeclarationForm" asp-action="CreateForm" asp-route-employeeId=@employeeId>
-            <input type="submit" value="Nieuw Formulier Maken" />
+            <input class="btn-primary btn" type="submit" value="Nieuw Formulier Maken" />
         </form>
         <table class="fl-table table-wrapper" align="center">
             @using (Html.BeginForm("Dashboard", "Employee"))
             {
-                <input type="submit" value="Filters Toepassen" />
+                <input class="btn-primary btn" type="submit" value="Filters Toepassen" />
                 <thead>
                     <tr>
                         <th>
@@ -108,6 +109,12 @@
                                asp-route-month="@form.Month"
                                asp-route-year="@form.Year">
                                 Inzien
+                            </a>
+                            <a asp-area=""
+                               asp-controller="Employee"
+                               asp-action="DownloadExcel"
+                               asp-route-formId="@form.FormId">
+                                Download Excel
                             </a>
                         </td>
                     </tr>

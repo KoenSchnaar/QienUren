@@ -139,7 +139,10 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
                     Residence = Input.Residence,
                     Phone = Input.Phone,
                     DateRegistered = DateTime.Now,
-                    Role = Input.Role
+                    Role = Input.Role,
+                    StartDateRole = DateTime.Now,
+                    OutOfService = false,
+                    EmailConfirmed = true
                 };
 
                 var userModel = new EmployeeModel
@@ -153,7 +156,9 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
                     Residence = Input.Residence,
                     Phone = Input.Phone,
                     DateRegistered = DateTime.Now,
-                    Role = Input.Role
+                    Role = Input.Role,
+                    StartDateRole = DateTime.Now,
+                    OutOfService = false
                 };
                 Mailservice.MailNewUser(userModel);
                 var result = await _userManager.CreateAsync(user, Input.Password);
@@ -169,8 +174,8 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                    //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

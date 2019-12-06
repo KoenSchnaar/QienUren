@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace UrenRegistratieQien.Controllers
 {
-    [Authorize]
+    //[Authorize(Policy = "AdminAccessPolicy")]
     public class AdminController : Controller
     {
         private readonly IDeclarationFormRepository declarationFormRepo;
@@ -32,7 +32,6 @@ namespace UrenRegistratieQien.Controllers
             monthList = new List<string> { "Januari", "Februari", "March", "April", "May", "June", "Juli", "August", "September", "October", "November", "December" };
         }
 
-        [HttpPost]
         public async Task<IActionResult> ReopenForm(int formId)
         {
             await declarationFormRepo.ReopenForm(formId);
@@ -43,7 +42,7 @@ namespace UrenRegistratieQien.Controllers
         {
             if (await UserIsAdmin())
             {
-                var employees = await employeeRepo.GetEmployees();
+                var employees = employeeRepo.GetFilteredNames();
                 return View(employees);
             } else
             {
@@ -185,6 +184,53 @@ namespace UrenRegistratieQien.Controllers
             }
         }
 
+
+        public async Task<FileContentResult> DownloadExcel(int formId)
+        {
+            Download download = new Download();
+            DeclarationFormModel declarationForm = await declarationFormRepo.GetForm(formId);
+
+            download.MakeExcel(Convert.ToString(formId), declarationForm.HourRows);
+            var fileName = Convert.ToString(formId) + ".xlsx";
+
+            byte[] fileBytes = System.IO.File.ReadAllBytes("Downloads/" + fileName);
+            return File(fileBytes, "Application/x-msexcel", fileName);
+        }
+
+        //public async Task<FileContentResult> DownloadPdf(string fileName)
+        //{
+        //    byte[] fileBytes = System.IO.File.ReadAllBytes("wwwroot/Uploads/" + fileName);
+        //    return File(fileBytes, "application/pdf", fileName);
+        //}
+
+
+
+
+
+
+        public FileContentResult DownloadTotalHoursCSV(int totalWorked, int totalOvertime, int totalSickness, int totalVacation, int totalHoliday, int totalTraining, int totalOther) //eventueel filters meenemen..
+        {
+            Console.WriteLine("er gebeurt download CSV");
+            List<string> downloadableList = new List<string>
+            {
+                Convert.ToString(totalWorked),
+                Convert.ToString(totalOvertime),
+                Convert.ToString(totalSickness),
+                Convert.ToString(totalVacation),
+                Convert.ToString(totalHoliday),
+                Convert.ToString(totalTraining),
+                Convert.ToString(totalOther)
+            };
+            Download download = new Download();
+            string fileName = "Totalhours.txt";
+            string header = "gewerkt, overuren, ziekte, vakantie, feestdagen, training, anders";
+            download.MakeCSV(header, downloadableList, fileName);
+
+
+            byte[] fileBytes = System.IO.File.ReadAllBytes("Downloads/" + fileName);
+            return File(fileBytes, "text/plain", fileName);
+        }
+
         public async Task<IActionResult> Admin(string year, string month, string employeeName, string approved, string submitted, string totalhoursmonth, int totalhoursyear, string sortDate)
         {
             if (await UserIsAdmin())
@@ -198,14 +244,8 @@ namespace UrenRegistratieQien.Controllers
                 {
                     totalhoursyear = DateTime.Now.Year;
                 }
-               
-                ViewBag.TotalHoursWorked = await declarationFormRepo.TotalHoursWorked(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursOvertime = await declarationFormRepo.TotalHoursOvertime(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursSickness = await declarationFormRepo.TotalHoursSickness(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursVacation = await declarationFormRepo.TotalHoursVacation(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursHoliday = await declarationFormRepo.TotalHoursHoliday(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursTraining = await declarationFormRepo.TotalHoursTraining(forms, totalhoursmonth, totalhoursyear);
-                ViewBag.TotalHoursOther = await declarationFormRepo.TotalHoursOther(forms, totalhoursmonth, totalhoursyear);
+                ViewBag.TotalHours = await declarationFormRepo.CalculateTotalHoursOfAll(forms, totalhoursmonth, totalhoursyear);
+      
 
                 string employeeId;
                 if (employeeName != null)
@@ -284,15 +324,29 @@ namespace UrenRegistratieQien.Controllers
 
         public async Task<IActionResult> CreateFormForUser()
         {
-            ViewBag.Employees = await employeeRepo.getEmployeeSelectList();
-            return View();
+            if (await UserIsAdmin())
+            {
+                ViewBag.Employees = await employeeRepo.getEmployeeSelectList();
+                return View();
+            }
+            else
+            {
+                return await AccessDeniedView();
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateFormForUser(string employeeId, string month, int year)
         {
-            await declarationFormRepo.CreateFormForUser(employeeId, month, year);
-            return RedirectToAction("Admin");
+            if (await UserIsAdmin())
+            {
+                await declarationFormRepo.CreateFormForUser(employeeId, month, year);
+                return RedirectToAction("CreateFormForUser");
+            }
+            else
+            {
+                return await AccessDeniedView();
+            }
         }
 
         public async Task<IActionResult> DeleteDeclarationForm(int FormId)
@@ -306,6 +360,13 @@ namespace UrenRegistratieQien.Controllers
             {
                 return await AccessDeniedView();
             }
+        }
+
+        public async Task<IActionResult> Charts()
+        {
+            List<TotalsForChartModel> lstModel = await declarationFormRepo.TotalHoursForCharts();
+
+            return View(lstModel);
         }
     }
 }

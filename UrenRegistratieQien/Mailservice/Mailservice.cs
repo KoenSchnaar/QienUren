@@ -18,7 +18,7 @@ namespace UrenRegistratieQien.MailService
             //message components
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("Hans", "hanshanshans812@gmail.com"));
-            message.To.Add(new MailboxAddress("Koen", "koenschnaar@gmail.com"));
+            message.To.Add(new MailboxAddress("Liza", "lizavanderkruk@gmail.com"));
             message.Subject = $"Uw inloggegevens wijzigen van uw Qien-medewerkers account";
             message.Body = new TextPart("plain")
             {

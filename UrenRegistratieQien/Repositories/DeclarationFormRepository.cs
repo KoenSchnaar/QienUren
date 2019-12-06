@@ -65,6 +65,9 @@ namespace UrenRegistratieQien.Repositories
                 TotalOvertime = 0,
                 TotalSickness = 0,
                 TotalVacation = 0,
+                TotalHoliday = 0,
+                TotalTraining = 0,
+                TotalOther = 0,
                 DateCreated = DateTime.Now
             };
 
@@ -116,6 +119,9 @@ namespace UrenRegistratieQien.Repositories
                         TotalOvertime = 0,
                         TotalSickness = 0,
                         TotalVacation = 0,
+                        TotalHoliday = 0,
+                        TotalTraining = 0,
+                        TotalOther = 0,
                         DateCreated = DateTime.Now
                     };
                     context.DeclarationForms.Add(form);
@@ -142,6 +148,9 @@ namespace UrenRegistratieQien.Repositories
                     TotalOvertime = 0,
                     TotalSickness = 0,
                     TotalVacation = 0,
+                    TotalHoliday = 0,
+                    TotalTraining = 0,
+                    TotalOther = 0,
                     DateCreated = DateTime.Now
                 };
 
@@ -153,9 +162,9 @@ namespace UrenRegistratieQien.Repositories
 
         public async Task ApproveForm(int formId)
         {
-            var form = context.DeclarationForms.Single(p => p.DeclarationFormId == formId);
+            var form = await context.DeclarationForms.SingleAsync(p => p.DeclarationFormId == formId);
             form.Approved = "Approved";
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public async Task RejectForm(int formId, string comment)
@@ -282,33 +291,86 @@ namespace UrenRegistratieQien.Repositories
             return await GetFormModelFromEntity(entity);
         }
 
-
-        //werd niet gebruikt****************************************************************************************************************************************************************
-
-        //public List<DeclarationFormModel> GetNotApprovedForms()
-        //{
-        //    var allForms = GetAllForms();
-        //    var notApprovedForms = new List<DeclarationFormModel>();
-        //    foreach (DeclarationFormModel form in allForms)
-        //    {
-        //        if (form.Approved != "Rejected")
-        //        {
-        //            notApprovedForms.Add(form);
-        //        }
-        //    }
-        //    return notApprovedForms;
-        //}
-
-        public async Task<List<DeclarationFormModel>> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted, string sortDate)
+        public DeclarationFormModel GetFormNotAsync(int formId)
         {
-            if (approved == "Goedgekeurd")
+            var entity = context.DeclarationForms.Include(df => df.HourRows).Single(d => d.DeclarationFormId == formId);
+
+            List<HourRowModel> ListOfHourRowModels = new List<HourRowModel>();
+            foreach (HourRow hourRow in entity.HourRows)
             {
-                approved = "Approved";
+                HourRowModel newHourRowModel = new HourRowModel
+                {
+                    HourRowId = hourRow.HourRowId,
+                    EmployeeId = entity.EmployeeId,
+                    Date = hourRow.Date,
+                    Worked = hourRow.Worked,
+                    Overtime = hourRow.Overtime,
+                    Sickness = hourRow.Sickness,
+                    Vacation = hourRow.Vacation,
+                    Holiday = hourRow.Holiday,
+                    Training = hourRow.Training,
+                    Other = hourRow.Other,
+                    OtherExplanation = hourRow.OtherExplanation
+
+                };
+
+                ListOfHourRowModels.Add(newHourRowModel);
             }
-            if (approved == "Niet goedgekeurd")
+
+            var selectedEmployee = context.Users.Single(p => p.Id == entity.EmployeeId);
+            var castedEmployee = (Employee)selectedEmployee;
+            var employeeName = castedEmployee.FirstName + " " + castedEmployee.LastName;
+
+            var newModel = new DeclarationFormModel
             {
-                approved = "Rejected";
-            }
+                FormId = entity.DeclarationFormId,
+                HourRows = ListOfHourRowModels,
+                EmployeeId = entity.EmployeeId,
+                EmployeeName = employeeName,
+                Month = entity.Month,
+                Approved = entity.Approved,
+                Submitted = entity.Submitted,
+                Comment = entity.Comment,
+                uniqueId = entity.uniqueId,
+                TotalWorkedHours = entity.TotalWorkedHours,
+                TotalOvertime = entity.TotalOvertime,
+                TotalSickness = entity.TotalSickness,
+                TotalVacation = entity.TotalVacation,
+                TotalHoliday = entity.TotalHoliday,
+                TotalTraining = entity.TotalTraining,
+                TotalOther = entity.TotalOther,
+                DateCreated = entity.DateCreated
+            };
+
+            return newModel;
+        }
+
+            //werd niet gebruikt****************************************************************************************************************************************************************
+
+            //public List<DeclarationFormModel> GetNotApprovedForms()
+            //{
+            //    var allForms = GetAllForms();
+            //    var notApprovedForms = new List<DeclarationFormModel>();
+            //    foreach (DeclarationFormModel form in allForms)
+            //    {
+            //        if (form.Approved != "Rejected")
+            //        {
+            //            notApprovedForms.Add(form);
+            //        }
+            //    }
+            //    return notApprovedForms;
+            //}
+
+            public async Task<List<DeclarationFormModel>> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted, string sortDate)
+        {
+            //if (approved == "Goedgekeurd")
+            //{
+            //    approved = "Approved";
+            //}
+            //if (approved == "Niet goedgekeurd")
+            //{
+            //    approved = "Rejected";
+            //}
             if (submitted == "Ingediend")
             {
                 submitted = "true";
@@ -356,13 +418,6 @@ namespace UrenRegistratieQien.Repositories
                     }
                 }
             }
-            foreach (DeclarationForm declarationForm in holderList)
-            {
-                if (entities.Contains(declarationForm))
-                {
-                    entities.Remove(declarationForm);
-                }
-            }
             if (month != null)
             {
 
@@ -375,32 +430,18 @@ namespace UrenRegistratieQien.Repositories
                 }
 
             }
-            foreach (DeclarationForm declarationForm in holderList)
-            {
-                if (entities.Contains(declarationForm))
-                {
-                    entities.Remove(declarationForm);
-                }
-            }
             if (approved != null)
             {
 
                 foreach (DeclarationForm entity in entities)
                 {
 
-                    if (entity.Approved == "Rejected")
+                    if (entity.Approved != approved)
                     {
                         holderList.Add(entity);
                     }
                 }
 
-            }
-            foreach (DeclarationForm declarationForm in holderList)
-            {
-                if (entities.Contains(declarationForm))
-                {
-                    entities.Remove(declarationForm);
-                }
             }
             if (submitted != null)
             {
@@ -454,7 +495,7 @@ namespace UrenRegistratieQien.Repositories
         {
             var form = context.DeclarationForms.Single(d => d.DeclarationFormId == formModel.FormId);
             var hourList = new List<HourRow>();
-
+            
             foreach (var row in formModel.HourRows)
             {
                 var entity = context.HourRows.Single(h => h.HourRowId == row.HourRowId);
@@ -476,289 +517,6 @@ namespace UrenRegistratieQien.Repositories
             form.Submitted = true;
             form.Approved = "Pending";
             context.SaveChanges();
-        }
-        public async Task<int> TotalHoursWorked(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
-        {
-
-            int counter = 0;
-            if (Month == null)
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        foreach (var HourRow in Form.HourRows)
-                        {
-                            counter += HourRow.Worked;
-                        }
-                    }
-
-                }
-            }
-            else
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        if (Form.Month == Month)
-                        {
-                            foreach (var HourRow in Form.HourRows)
-                            {
-                                counter += HourRow.Worked;
-
-                            }
-                        }
-                    }
-
-                }
-            }
-
-            return counter;
-
-        }
-
-        public async Task<int> TotalHoursOvertime(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
-        {
-
-            int counter = 0;
-            if (Month == null)
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        foreach (var HourRow in Form.HourRows)
-                        {
-                            counter += HourRow.Overtime;
-                        }
-                    }
-
-                }
-            }
-            else
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        if (Form.Month == Month)
-                        {
-                            foreach (var HourRow in Form.HourRows)
-                            {
-                                counter += HourRow.Overtime;
-
-                            }
-                        }
-                    }
-
-                }
-            }
-
-            return counter;
-
-        }
-
-        public async Task<int> TotalHoursSickness(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
-        {
-
-            int counter = 0;
-            if (Month == null)
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        foreach (var HourRow in Form.HourRows)
-                        {
-                            counter += HourRow.Sickness;
-                        }
-                    }
-
-                }
-            }
-            else
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        if (Form.Month == Month)
-                        {
-                            foreach (var HourRow in Form.HourRows)
-                            {
-                                counter += HourRow.Sickness;
-
-                            }
-                        }
-                    }
-
-                }
-            }
-
-            return counter;
-
-        }
-
-        public async Task<int> TotalHoursVacation(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
-        {
-
-            int counter = 0;
-            if (Month == null)
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        foreach (var HourRow in Form.HourRows)
-                        {
-                            counter += HourRow.Vacation;
-                        }
-                    }
-
-                }
-            }
-            else
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        if (Form.Month == Month)
-                        {
-                            foreach (var HourRow in Form.HourRows)
-                            {
-                                counter += HourRow.Vacation;
-
-                            }
-                        }
-                    }
-
-                }
-            }
-
-            return counter;
-
-        }
-        public async Task<int> TotalHoursHoliday(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
-        {
-
-            int counter = 0;
-            if (Month == null)
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        foreach (var HourRow in Form.HourRows)
-                        {
-                            counter += HourRow.Holiday;
-                        }
-                    }
-
-                }
-            }
-            else
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        if (Form.Month == Month)
-                        {
-                            foreach (var HourRow in Form.HourRows)
-                            {
-                                counter += HourRow.Holiday;
-
-                            }
-                        }
-                    }
-
-                }
-            }
-
-            return counter;
-
-        }
-        public async Task<int> TotalHoursTraining(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
-        {
-
-            int counter = 0;
-            if (Month == null)
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        foreach (var HourRow in Form.HourRows)
-                        {
-                            counter += HourRow.Training;
-                        }
-                    }
-
-                }
-            }
-            else
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        if (Form.Month == Month)
-                        {
-                            foreach (var HourRow in Form.HourRows)
-                            {
-                                counter += HourRow.Training;
-
-                            }
-                        }
-                    }
-
-                }
-            }
-
-            return counter;
-
-        }
-        public async Task<int> TotalHoursOther(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
-        {
-
-            int counter = 0;
-            if (Month == null)
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        foreach (var HourRow in Form.HourRows)
-                        {
-                            counter += HourRow.Other;
-                        }
-                    }
-
-                }
-            }
-            else
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        if (Form.Month == Month)
-                        {
-                            foreach (var HourRow in Form.HourRows)
-                            {
-                                counter += HourRow.Other;
-
-                            }
-                        }
-                    }
-
-                }
-            }
-
-            return counter;
-
         }
 
         public async Task<bool> CheckIfIdMatches(string uniqueId)
@@ -782,55 +540,31 @@ namespace UrenRegistratieQien.Repositories
                 declarationformEntity.TotalOvertime += HourRow.Overtime;
                 declarationformEntity.TotalSickness += HourRow.Sickness;
                 declarationformEntity.TotalVacation += HourRow.Vacation;
+                declarationformEntity.TotalHoliday += HourRow.Holiday;
+                declarationformEntity.TotalTraining += HourRow.Training;
+                declarationformEntity.TotalOther += HourRow.Other;
             }
             context.SaveChanges();
         }
-        public async Task CalculateTotalHoursOfAll(List<DeclarationFormModel> DeclarationFormList, string Month, int Year) //voor alle employees
+        public async Task<TotalsModel> CalculateTotalHoursOfAll(List<DeclarationFormModel> DeclarationFormList, string Month, int Year) //voor alle employees
         {
-            if (Month == null)
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        foreach (var HourRow in Form.HourRows)
-                        {
-                            //var declarationformEntities = context.DeclarationForms.Include(df => df.HourRows);
-                            Form.TotalWorkedHours += HourRow.Worked;
-                            Form.TotalOvertime += HourRow.Overtime;
-                            Form.TotalSickness += HourRow.Sickness;
-                            Form.TotalVacation += HourRow.Vacation;
-                            Form.TotalHoliday += HourRow.Holiday;
-                            Form.TotalTraining += HourRow.Training;
-                            Form.TotalOther += HourRow.Other;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                foreach (var Form in DeclarationFormList)
-                {
-                    if (Form.Year == Year)
-                    {
-                        if (Form.Month == Month)
-                        {
-                            foreach (var HourRow in Form.HourRows)
-                            {
-                                Form.TotalWorkedHours += HourRow.Worked;
-                                Form.TotalOvertime += HourRow.Overtime;
-                                Form.TotalSickness += HourRow.Sickness;
-                                Form.TotalVacation += HourRow.Vacation;
-                                Form.TotalHoliday += HourRow.Holiday;
-                                Form.TotalTraining += HourRow.Training;
-                                Form.TotalOther += HourRow.Other;
-                            }
-                        }
-                    }
-                }
-            }
-            context.SaveChanges();
+            var filterMonth = !string.IsNullOrEmpty(Month);
+            var declarationForms = DeclarationFormList.Where(df => df.Year == Year);
+            if (filterMonth)
+                declarationForms = declarationForms.Where(df => df.Month == Month);
+            var totalsmodel = new TotalsModel();
+
+                totalsmodel.TotalWorkedHours = declarationForms.Sum(df => df.TotalWorkedHours);
+                totalsmodel.TotalOvertime = declarationForms.Sum(df => df.TotalOvertime);
+                totalsmodel.TotalSickness = declarationForms.Sum(df => df.TotalSickness);
+                totalsmodel.TotalVacation = declarationForms.Sum(df => df.TotalVacation);
+                totalsmodel.TotalHoliday = declarationForms.Sum(df => df.TotalHoliday);
+                totalsmodel.TotalTraining = declarationForms.Sum(df => df.TotalTraining);
+                totalsmodel.TotalOther = declarationForms.Sum(df => df.TotalOther);
+
+            return totalsmodel;
         }
+                      
 
         public async Task ReopenForm(int formId)
         {
@@ -843,6 +577,36 @@ namespace UrenRegistratieQien.Repositories
             var form = context.DeclarationForms.Single(df => df.DeclarationFormId == FormId);
             context.DeclarationForms.Remove(form);
             context.SaveChanges();
+        }
+
+        public async Task<List<TotalsForChartModel>> TotalHoursForCharts()
+        {
+            var totalHoursList = new List<TotalsForChartModel>();
+            
+            for (int i = 1; i < 13; i++)
+            {
+                var totalsModel = new TotalsForChartModel
+                {
+                    Month = MonthConverter.ConvertIntToMonth(i)
+                };
+                totalHoursList.Add(totalsModel);
+            }
+
+            foreach(var model in totalHoursList)
+            {
+                var entities = context.DeclarationForms.Where(d => d.Month == model.Month).ToList();
+                foreach(var entity in entities)
+                {
+                    model.TotalHoliday += entity.TotalHoliday;
+                    model.TotalOther += entity.TotalOther;
+                    model.TotalOvertime += entity.TotalOvertime;
+                    model.TotalSickness += entity.TotalSickness;
+                    model.TotalTraining += entity.TotalTraining;
+                    model.TotalVacation += entity.TotalVacation;
+                    model.TotalWorkedHours += entity.TotalWorkedHours;
+                };
+            }
+            return totalHoursList;
         }
     }
 }

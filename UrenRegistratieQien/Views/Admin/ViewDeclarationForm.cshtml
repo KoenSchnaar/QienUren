@@ -9,6 +9,21 @@
     </div>
 
     <div class="box-2">
+        <form>
+            @*<button type="submit" class="btn-primary btn"
+                asp-controller="Admin"
+                asp-action="DownloadExcel"
+                asp-route-declarationForm=@Model>
+            Download als Excel
+        </button>*@
+            <a asp-area=""
+               asp-controller="Admin"
+               asp-action="DownloadExcel"
+               asp-route-formId="@Model.FormId">
+                Download Excel
+            </a>
+        </form>
+
         <table align="center" class="fl-table table-wrapper">
             <thead>
                 <tr>

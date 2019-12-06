@@ -102,11 +102,12 @@ button.accept-policy {
   line-height: inherit;
 }
 
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
@@ -185,7 +186,7 @@ body {
 }
 
 .box-1 {
-    text-align: right;
+    text-align: center;
     width: 15%;
     padding: 10px;
     padding-right: 30px;
@@ -221,7 +222,10 @@ body {
     flex: 50%;
 }
 
-
+.btnCenter{
+    align-content: center;
+    text-align: center;
+}
 /*Overig*/
 .wide-textbox {
     /*width: 500px;*/
@@ -230,8 +234,8 @@ body {
 }
 
 .Naam {
-    text-align: center;
     font-size: 20px;
+    font-weight: 500;   
 }
 
 .TextInBox{

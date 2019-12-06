@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using UrenRegistratieQien.Data;
@@ -13,10 +17,12 @@ namespace UrenRegistratieQien.Repositories
     public class EmployeeRepository : IEmployeeRepository
     {
         private readonly ApplicationDbContext context;
+        private readonly IHostingEnvironment he;
 
-        public EmployeeRepository(ApplicationDbContext context)
+        public EmployeeRepository(ApplicationDbContext context, IHostingEnvironment he)
         {
             this.context = context;
+            this.he = he;
         }
         public async Task<List<EmployeeModel>> GetEmployees()
         {
@@ -64,6 +70,33 @@ namespace UrenRegistratieQien.Repositories
                 Residence = employeeCasted.Residence
             };
         }
+
+        public async Task<List<EmployeeModel>> GetAllAccounts(string searchString)
+        {
+            var Allemployee = new List<EmployeeModel>();
+            // (x.FirstName.ToString + " " + x.LastName.ToString).Contains(searchString)
+
+            foreach (var employee in await context.Employees.Where
+                (x => x.FirstName.Contains(searchString) || x.LastName.Contains(searchString)
+               || searchString == null).ToListAsync())
+
+                Allemployee.Add(new EmployeeModel
+                {
+                    EmployeeId = employee.Id,
+                    ClientId = employee.ClientId,
+                    FirstName = employee.FirstName,
+                    LastName = employee.LastName,
+                    Email = employee.Email,
+                    Address = employee.Address,
+                    Phone = employee.Phone,
+                    Role = employee.Role,
+                    ZIPCode = employee.ZIPCode,
+                    Residence = employee.Residence
+                });
+
+            return Allemployee;
+        }
+
 
         public EmployeeModel GetEmployeeByName(string name)
         {
@@ -134,22 +167,27 @@ namespace UrenRegistratieQien.Repositories
             var databaseEmployee = context.Users.Single(p => p.Id == employeeModel.EmployeeId);
             var CastedDatabaseEmployee = (Employee)databaseEmployee;
             var role = 0;
+            DateTime startdaterole = DateTime.MinValue;
 
             if(employeeModel.RoleAsString == "Admin")
             {
                 role = 1;
+                startdaterole = DateTime.Now;
             }
             else if (employeeModel.RoleAsString == "Medewerker")
             {
                 role = 2;
+                startdaterole = DateTime.Now;
             }
             else if(employeeModel.RoleAsString == "Trainee")
             {
                 role = 3;
+                startdaterole = DateTime.Now;
             }
             else if (employeeModel.RoleAsString == "Inactief")
             {
                 role = 4;
+                startdaterole = DateTime.Now;
             }
 
             CastedDatabaseEmployee.ClientId = employeeModel.ClientId;
@@ -161,35 +199,38 @@ namespace UrenRegistratieQien.Repositories
             CastedDatabaseEmployee.Role = role;
             CastedDatabaseEmployee.ZIPCode = employeeModel.ZIPCode;
             CastedDatabaseEmployee.Residence = employeeModel.Residence;
+            CastedDatabaseEmployee.StartDateRole = startdaterole;
 
             context.SaveChanges();
 
         }
 
-
-
         public async Task CheckIfYearPassedForAllTrainees()
         {
-            List<Employee> Trainees = new List<Employee>();
-            foreach(Employee employee in context.Users)
+            List<Employee> traineeList = context.Employees.Where(p => p.Role == 3).ToList();
+
+            foreach (Employee employee in traineeList)
             {
-                var roleBridge = context.UserRoles.Single(p => p.UserId == employee.Id);
-
-
-
-                var roleName = context.Roles.Single(p => p.Id == roleBridge.RoleId).Name;
-
-                if(roleName == "Trainee")
+                if (DateTime.Now >= employee.DateRegistered.AddYears(1))
                 {
-                    var Date = DateTime.Now;
-
-                    if (employee.DateRegistered == Date.AddYears(-1))
-                    {
-                        roleBridge.RoleId = "4";
-
-                        context.SaveChanges();
-                    }
+                   employee.Role = 4; 
                 }
+            }
+            context.SaveChanges();
+        }
+
+        public async Task<bool> UserIsOneMonthInactive(string employeeId)
+        {
+            var employee = context.Employees.Single(e => e.Id == employeeId);
+            var roleId = employee.Role;
+
+            if (roleId == 4 && DateTime.Now >= employee.StartDateRole.AddMonths(1))
+            {
+                return employee.OutOfService = true;   
+            }
+            else
+            {
+                return employee.OutOfService = false;
             }
         }
 
@@ -200,9 +241,53 @@ namespace UrenRegistratieQien.Repositories
             return EmployeeList;
         }
 
+        public List<EmployeeModel> GetFilteredNames()
+        {
+            var entities = context.Employees.OrderBy(df => df.FirstName).ToList();
+
+            List<EmployeeModel> EmployeeModelList = new List<EmployeeModel>();
+            foreach (Employee employee in entities)
+            {
+                var EmployeeModel = new EmployeeModel
+                {
+
+                    EmployeeId = employee.Id,
+                    ClientId = employee.ClientId,
+                    FirstName = employee.FirstName,
+                    LastName = employee.LastName,
+                    Email = employee.Email,
+                    Address = employee.Address,
+                    Phone = employee.Phone,
+                    Role = employee.Role,
+                    ZIPCode = employee.ZIPCode,
+                    Residence = employee.Residence
+                };
+                EmployeeModelList.Add(EmployeeModel);
+
+            }
+            return EmployeeModelList;
+        }
         public async Task<List<string>> getEmployeeNames()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task UploadPicture(IFormFile picture, string userId)
+        {
+            if (picture != null)
+            {
+                var fileName = Path.Combine(he.WebRootPath + "/ProfilePictures", Path.GetFileName(userId +".png"));
+                picture.CopyTo(new FileStream(fileName, FileMode.Create));
+            }
+        }
+
+        public async Task UploadFile(IFormFile file, int formId)
+        {
+            if (file != null)
+            {
+                var fileName = Path.Combine(he.WebRootPath + "/Uploads", formId+"-" + Path.GetFileName(file.FileName));
+                file.CopyTo(new FileStream(fileName, FileMode.Create));
+            }
         }
     }
 }
