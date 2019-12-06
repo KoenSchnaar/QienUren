@@ -6,7 +6,16 @@
     </div>
 
     <div class="box-2">
+
+        @using (Html.BeginForm("SearchOverview", "Employee", FormMethod.Get))
+        {
+            @Html.TextBox("searchString")
+            <input type="submit" value="Zoeken" class="btn btn-login" />
+        }
         <table class="fl-table table-wrapper" align="center">
+
+
+
             <thead>
                 <tr>
                     <th>Naam</th>
@@ -20,7 +29,24 @@
                 {
                     <tr>
                         <td>@employee.FirstName @employee.LastName</td>
-                        <td>@employee.Role</td>
+                        <td>
+                            @if (employee.Role == 1)
+                            {
+                                <text>Admin</text>
+                            }
+                            else if (employee.Role == 2)
+                            {
+                                <text>Medewerker</text>
+                            }
+                            else if (employee.Role == 3)
+                            {
+                                <text>Trainee</text>
+                            }
+                            else if (employee.Role == 4)
+                            {
+                                <text>Inactief</text>
+                            }
+                        </td>
                         <td>
                             <a asp-area=""
                                asp-controller="Admin"
@@ -31,11 +57,11 @@
                             |
                             @Html.ActionLink("Delete", "DeleteEmployee", new { EmployeeId = employee.EmployeeId }, new { onclick = "return confirm('Weet je zeker dat je de medewerker wilt verwijderen?');" })
                             @*<a asp-area=""
-                                   asp-controller="Admin"
-                                   asp-action="DeleteEmployee"
-                                   asp-route-EmployeeId="@employee.EmployeeId">
-                                   Verwijder
-                                </a>*@
+                               asp-controller="Admin"
+                               asp-action="DeleteEmployee"
+                               asp-route-EmployeeId="@employee.EmployeeId">
+                               Verwijder
+                            </a>*@
                         </td>
                     </tr>
                 }

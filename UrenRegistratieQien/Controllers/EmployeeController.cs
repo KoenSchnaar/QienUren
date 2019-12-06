@@ -63,7 +63,14 @@ namespace UrenRegistratieQien.Controllers
                 return await AccessDeniedView();
             }
         }
+        [HttpGet]
+        public async Task<IActionResult> SearchOverview(string searchString)
+        {
+           List<EmployeeModel> listAccounts = await employeeRepo.GetAllAccounts(searchString);
 
+            //return RedirectToAction("ShowEmployees", "Admin", new { Employeelist = listAccounts });
+            return View(listAccounts);
+        }
         public async Task<FileContentResult> DownloadExcel(int formId)
         {
             Download download = new Download();

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -69,6 +70,33 @@ namespace UrenRegistratieQien.Repositories
                 Residence = employeeCasted.Residence
             };
         }
+
+        public async Task<List<EmployeeModel>> GetAllAccounts(string searchString)
+        {
+            var Allemployee = new List<EmployeeModel>();
+            // (x.FirstName.ToString + " " + x.LastName.ToString).Contains(searchString)
+
+            foreach (var employee in await context.Employees.Where
+                (x => x.FirstName.Contains(searchString) || x.LastName.Contains(searchString)
+               || searchString == null).ToListAsync())
+
+                Allemployee.Add(new EmployeeModel
+                {
+                    EmployeeId = employee.Id,
+                    ClientId = employee.ClientId,
+                    FirstName = employee.FirstName,
+                    LastName = employee.LastName,
+                    Email = employee.Email,
+                    Address = employee.Address,
+                    Phone = employee.Phone,
+                    Role = employee.Role,
+                    ZIPCode = employee.ZIPCode,
+                    Residence = employee.Residence
+                });
+
+            return Allemployee;
+        }
+
 
         public EmployeeModel GetEmployeeByName(string name)
         {
@@ -213,6 +241,32 @@ namespace UrenRegistratieQien.Repositories
             return EmployeeList;
         }
 
+        public List<EmployeeModel> GetFilteredNames()
+        {
+            var entities = context.Employees.OrderBy(df => df.FirstName).ToList();
+
+            List<EmployeeModel> EmployeeModelList = new List<EmployeeModel>();
+            foreach (Employee employee in entities)
+            {
+                var EmployeeModel = new EmployeeModel
+                {
+
+                    EmployeeId = employee.Id,
+                    ClientId = employee.ClientId,
+                    FirstName = employee.FirstName,
+                    LastName = employee.LastName,
+                    Email = employee.Email,
+                    Address = employee.Address,
+                    Phone = employee.Phone,
+                    Role = employee.Role,
+                    ZIPCode = employee.ZIPCode,
+                    Residence = employee.Residence
+                };
+                EmployeeModelList.Add(EmployeeModel);
+
+            }
+            return EmployeeModelList;
+        }
         public async Task<List<string>> getEmployeeNames()
         {
             throw new NotImplementedException();

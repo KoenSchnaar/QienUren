@@ -42,7 +42,7 @@ namespace UrenRegistratieQien.Controllers
         {
             if (await UserIsAdmin())
             {
-                var employees = await employeeRepo.GetEmployees();
+                var employees = employeeRepo.GetFilteredNames();
                 return View(employees);
             } else
             {
