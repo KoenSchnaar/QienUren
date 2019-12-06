@@ -96,6 +96,7 @@
 
 
 
+
         @* tabel 2*************************************************************************************************************** *@
         <div>
             <div align="center">
@@ -185,12 +186,12 @@
                                            asp-route-formId="@declarationFormModel.FormId">
                                             Inzien
                                         </a>
-                                        @*<a asp-area=""
-                                                asp-controller="Admin"
-                                                asp-action="ReopenForm"
-                                                asp-route-formId="@declarationFormModel.FormId">
-                                                Heropenen
-                                            </a>*@
+                                        <a asp-area=""
+                                           asp-controller="Admin"
+                                           asp-action="DownloadExcel"
+                                           asp-route-formId="@declarationFormModel.FormId">
+                                            downloadexcel
+                                        </a>
                                         @{
                                             if (!(declarationFormModel.Approved == "Approved") && (declarationFormModel.Submitted == true))
                                             {

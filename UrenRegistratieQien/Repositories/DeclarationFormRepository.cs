@@ -291,24 +291,77 @@ namespace UrenRegistratieQien.Repositories
             return await GetFormModelFromEntity(entity);
         }
 
+        public DeclarationFormModel GetFormNotAsync(int formId)
+        {
+            var entity = context.DeclarationForms.Include(df => df.HourRows).Single(d => d.DeclarationFormId == formId);
 
-        //werd niet gebruikt****************************************************************************************************************************************************************
+            List<HourRowModel> ListOfHourRowModels = new List<HourRowModel>();
+            foreach (HourRow hourRow in entity.HourRows)
+            {
+                HourRowModel newHourRowModel = new HourRowModel
+                {
+                    HourRowId = hourRow.HourRowId,
+                    EmployeeId = entity.EmployeeId,
+                    Date = hourRow.Date,
+                    Worked = hourRow.Worked,
+                    Overtime = hourRow.Overtime,
+                    Sickness = hourRow.Sickness,
+                    Vacation = hourRow.Vacation,
+                    Holiday = hourRow.Holiday,
+                    Training = hourRow.Training,
+                    Other = hourRow.Other,
+                    OtherExplanation = hourRow.OtherExplanation
 
-        //public List<DeclarationFormModel> GetNotApprovedForms()
-        //{
-        //    var allForms = GetAllForms();
-        //    var notApprovedForms = new List<DeclarationFormModel>();
-        //    foreach (DeclarationFormModel form in allForms)
-        //    {
-        //        if (form.Approved != "Rejected")
-        //        {
-        //            notApprovedForms.Add(form);
-        //        }
-        //    }
-        //    return notApprovedForms;
-        //}
+                };
 
-        public async Task<List<DeclarationFormModel>> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted, string sortDate)
+                ListOfHourRowModels.Add(newHourRowModel);
+            }
+
+            var selectedEmployee = context.Users.Single(p => p.Id == entity.EmployeeId);
+            var castedEmployee = (Employee)selectedEmployee;
+            var employeeName = castedEmployee.FirstName + " " + castedEmployee.LastName;
+
+            var newModel = new DeclarationFormModel
+            {
+                FormId = entity.DeclarationFormId,
+                HourRows = ListOfHourRowModels,
+                EmployeeId = entity.EmployeeId,
+                EmployeeName = employeeName,
+                Month = entity.Month,
+                Approved = entity.Approved,
+                Submitted = entity.Submitted,
+                Comment = entity.Comment,
+                uniqueId = entity.uniqueId,
+                TotalWorkedHours = entity.TotalWorkedHours,
+                TotalOvertime = entity.TotalOvertime,
+                TotalSickness = entity.TotalSickness,
+                TotalVacation = entity.TotalVacation,
+                TotalHoliday = entity.TotalHoliday,
+                TotalTraining = entity.TotalTraining,
+                TotalOther = entity.TotalOther,
+                DateCreated = entity.DateCreated
+            };
+
+            return newModel;
+        }
+
+            //werd niet gebruikt****************************************************************************************************************************************************************
+
+            //public List<DeclarationFormModel> GetNotApprovedForms()
+            //{
+            //    var allForms = GetAllForms();
+            //    var notApprovedForms = new List<DeclarationFormModel>();
+            //    foreach (DeclarationFormModel form in allForms)
+            //    {
+            //        if (form.Approved != "Rejected")
+            //        {
+            //            notApprovedForms.Add(form);
+            //        }
+            //    }
+            //    return notApprovedForms;
+            //}
+
+            public async Task<List<DeclarationFormModel>> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted, string sortDate)
         {
             //if (approved == "Goedgekeurd")
             //{
@@ -524,6 +577,36 @@ namespace UrenRegistratieQien.Repositories
             var form = context.DeclarationForms.Single(df => df.DeclarationFormId == FormId);
             context.DeclarationForms.Remove(form);
             context.SaveChanges();
+        }
+
+        public async Task<List<TotalsForChartModel>> TotalHoursForCharts(List<DeclarationFormModel> DeclarationFormList)
+        {
+            var totalHoursList = new List<TotalsForChartModel>();
+            
+            for (int i = 1; i < 13; i++)
+            {
+                var totalsModel = new TotalsForChartModel
+                {
+                    Month = MonthConverter.ConvertIntToMonth(i)
+                };
+                totalHoursList.Add(totalsModel);
+            }
+
+            foreach(var model in totalHoursList)
+            {
+                var entities = context.DeclarationForms.Where(d => d.Month == model.Month).ToList();
+                foreach(var entity in entities)
+                {
+                    model.TotalHoliday += entity.TotalHoliday;
+                    model.TotalOther += entity.TotalOther;
+                    model.TotalOvertime += entity.TotalOvertime;
+                    model.TotalSickness += entity.TotalSickness;
+                    model.TotalTraining += entity.TotalTraining;
+                    model.TotalVacation += entity.TotalVacation;
+                    model.TotalWorkedHours += entity.TotalWorkedHours;
+                };
+            }
+            return totalHoursList;
         }
     }
 }
