@@ -70,6 +70,31 @@ namespace UrenRegistratieQien.Repositories
             };
         }
 
+        public async Task<EditingEmployeeModel> GetEditingEmployee(string id)
+        {
+            var employee = context.Users.Single(p => p.Id == id);
+            var employeeCasted = (Employee)employee;
+
+            var client = context.Clients.First(p => p.ClientId == employeeCasted.ClientId);
+            var clientName = client.CompanyName;
+            
+
+            return new EditingEmployeeModel
+            {
+                ClientName = clientName,
+                EmployeeId = employee.Id,
+                ClientId = client.ClientId,
+                FirstName = employeeCasted.FirstName,
+                LastName = employeeCasted.LastName,
+                Email = employeeCasted.Email,
+                Address = employeeCasted.Address,
+                Phone = employeeCasted.Phone,
+                Role = employeeCasted.Role,
+                ZIPCode = employeeCasted.ZIPCode,
+                Residence = employeeCasted.Residence
+            };
+        }
+
         public EmployeeModel GetEmployeeByName(string name)
         {
             var employees = context.Users;
@@ -134,8 +159,13 @@ namespace UrenRegistratieQien.Repositories
             context.SaveChanges();
         }
 
-        public async Task EditEmployee(EmployeeModel employeeModel)
+        public async Task EditEmployee(EditingEmployeeModel employeeModel)
         {
+            //fix client
+            var client = context.Clients.First(p => p.CompanyName == employeeModel.ClientName);
+            employeeModel.ClientId = client.ClientId;
+
+
             var databaseEmployee = context.Users.Single(p => p.Id == employeeModel.EmployeeId);
             var CastedDatabaseEmployee = (Employee)databaseEmployee;
             var role = 0;

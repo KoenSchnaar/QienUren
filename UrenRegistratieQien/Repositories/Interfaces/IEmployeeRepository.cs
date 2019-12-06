@@ -12,9 +12,10 @@ namespace UrenRegistratieQien.Repositories
         Task<List<string>> getEmployeeNames();
 
         Task<EmployeeModel> GetEmployee(string id);
+        Task<EditingEmployeeModel> GetEditingEmployee(string id);
         EmployeeModel GetEmployeeByName(string name);
 
-        Task EditEmployee(EmployeeModel employeeModel);
+        Task EditEmployee(EditingEmployeeModel employeeModel);
         Task DeleteEmployee(string id);
         Task<SelectList> getEmployeeSelectList();
         Task EditEmployeeMail(string employeeMailold, string employeeMailnew);
