@@ -20,6 +20,10 @@ namespace UrenRegistratieQien.Repositories
         Task EditEmployeeMail(string employeeMailold, string employeeMailnew);
         Task UploadPicture(IFormFile picture, string userId);
         Task<bool> UserIsOneMonthInactive(string employeeId);
+
+        Task CheckIfYearPassedForAllTrainees();
+
         Task UploadFile(IFormFile file, int formId);
+
     }
 }
