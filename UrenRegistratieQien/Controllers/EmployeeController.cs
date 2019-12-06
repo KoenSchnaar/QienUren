@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using UrenRegistratieQien.DatabaseClasses;
+using UrenRegistratieQien.GlobalClasses;
 using UrenRegistratieQien.Models;
 using UrenRegistratieQien.Repositories;
 
@@ -63,7 +64,19 @@ namespace UrenRegistratieQien.Controllers
             }
         }
 
-        
+        public async Task<FileContentResult> DownloadExcel(int formId)
+        {
+            Download download = new Download();
+            DeclarationFormModel declarationForm = await declarationRepo.GetForm(formId);
+
+            download.MakeExcel(Convert.ToString(formId), declarationForm.HourRows);
+            var fileName = Convert.ToString(formId) + ".xlsx";
+
+            byte[] fileBytes = System.IO.File.ReadAllBytes("Downloads/" + fileName);
+            return File(fileBytes, "Application/x-msexcel", fileName);
+
+        }
+
         public async Task<IActionResult> Info()
         {
             if (await UserIsEmployeeOrTrainee())

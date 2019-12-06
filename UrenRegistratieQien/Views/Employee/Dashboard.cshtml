@@ -110,6 +110,12 @@
                                asp-route-year="@form.Year">
                                 Inzien
                             </a>
+                            <a asp-area=""
+                               asp-controller="Employee"
+                               asp-action="DownloadExcel"
+                               asp-route-formId="@form.FormId">
+                                Download Excel
+                            </a>
                         </td>
                     </tr>
                     }
