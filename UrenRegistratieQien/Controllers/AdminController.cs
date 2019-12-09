@@ -54,7 +54,17 @@ namespace UrenRegistratieQien.Controllers
         {
             if (await UserIsAdmin())
             {
-                var employee = await employeeRepo.GetEmployee(EmployeeId);
+                var employee = await employeeRepo.GetEditingEmployee(EmployeeId);
+                var editingEmployee = (EditingEmployeeModel)employee;
+
+                var clients = clientRepo.GetAllClients();
+                List<string> clientnames = new List<string>();
+                foreach(ClientModel client in clients)
+                {
+                    clientnames.Add(client.CompanyName);
+                }
+                ViewBag.ListOfClients = clientnames;
+
                 return View(employee);
             }
             else
@@ -77,7 +87,7 @@ namespace UrenRegistratieQien.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditEmployee(EmployeeModel empModel)
+        public async Task<IActionResult> EditEmployee(EditingEmployeeModel empModel)
         {
             if (await UserIsAdmin())
             {
