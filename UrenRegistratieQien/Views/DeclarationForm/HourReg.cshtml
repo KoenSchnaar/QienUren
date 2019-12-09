@@ -7,46 +7,57 @@
     var model = (EmployeeModel)ViewBag.User;
 }
 
-<div class="Container-1">
-    <div class="box-1">
-        @Html.Partial("_SideBoxEmployee", model)
-    </div>
 
-    <div class="box-2"></div>
-    @*<h1 align="center">@Model.Month @Model.Year</h1>*@
-    <div class="table-wrapper" align="center">
 
-        @{ if (Model.Submitted == true)
-            {
-                @Html.HiddenFor(m => m.FormId)
-                @Html.HiddenFor(m => m.EmployeeId)
-                @Html.HiddenFor(m => m.Year)
-                @Html.HiddenFor(m => m.Month)
-                @Html.HiddenFor(m => m.EmployeeName)
-                <table class="fl-table" align="center">
-                    <thead>
-                        <tr>
-                            <th class="tableHeader">Date</th>
-                            <th class="tableHeader">Gewerkt</th>
-                            <th class="tableHeader">Overwerk</th>
-                            <th class="tableHeader">Ziekte</th>
-                            <th class="tableHeader">Vakantie</th>
-                            <th class="tableHeader">Feestdagen</th>
-                            <th class="tableHeader">Training</th>
-                            <th class="tableHeader">Overig</th>
-                            <th>Overig Uitleg</th>
-                        </tr>
-                    </thead>
+    <div class="Container-1">
+        <div class="box-1">
+            @Html.Partial("_SideBoxEmployee", model)
+        </div>
 
-                    <tbody>
-                        @Html.DisplayFor(m => Model.HourRows)
-                    </tbody>
-                </table>
-            }
-            else
-            {
-                @using (Html.BeginForm("HourReg", "DeclarationForm"))
+        <div class="box-2"></div>
+        @*<h1 align="center">@Model.Month @Model.Year</h1>*@
+
+
+        @*<form method="post" asp-action="UploadFile" asp-controller="Employee" enctype="multipart/form-data" >
+           <input  class="btn-primary btn" type="file" name="file"/> <br />
+           <button type="submit" class="btn-primary btn">Opslaan</button>
+        </form>*@
+
+
+    <form method="post" asp-action="HourReg" asp-controller="DeclarationForm" enctype="multipart/form-data">
+        <div class="table-wrapper" align="center">
+
+            @{ if (Model.Submitted == true)
                 {
+                    @Html.HiddenFor(m => m.FormId)
+                    @Html.HiddenFor(m => m.EmployeeId)
+                    @Html.HiddenFor(m => m.Year)
+                    @Html.HiddenFor(m => m.Month)
+                    @Html.HiddenFor(m => m.EmployeeName)
+                    <table class="fl-table" align="center">
+                        <thead>
+                            <tr>
+                                <th class="tableHeader">Date</th>
+                                <th class="tableHeader">Gewerkt</th>
+                                <th class="tableHeader">Overwerk</th>
+                                <th class="tableHeader">Ziekte</th>
+                                <th class="tableHeader">Vakantie</th>
+                                <th class="tableHeader">Feestdagen</th>
+                                <th class="tableHeader">Training</th>
+                                <th class="tableHeader">Overig</th>
+                                <th>Overig Uitleg</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @Html.DisplayFor(m => Model.HourRows)
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <input class="btn-primary btn" type="file" name="file" /> <br />
+
                     @Html.HiddenFor(m => m.FormId)
                     @Html.HiddenFor(m => m.EmployeeId)
                     @Html.HiddenFor(m => m.Year)
@@ -71,11 +82,11 @@
                             @Html.EditorFor(m => Model.HourRows)
                         </tbody>
                     </table>
-                    <button asp-action="HourReg" asp-controller="DeclarationForm">Opslaan</button>
-                    <button asp-action="Mailservice" asp-controller="Mailservice" asp-route-uniqueId="@uniqueId" asp-route-formId="@formId" asp-route-employeeName="@employeeName">Opslaan en indienen</button>
-                    <br />
                 }
             }
-        }
-    </div>
+        </div>
+        <button class="btn-primary btn" asp-action="HourReg" asp-controller="DeclarationForm">Opslaan</button>
+        <button class="btn-primary btn" asp-action="Mailservice" asp-controller="Mailservice" asp-route-uniqueId="@uniqueId" asp-route-formId="@formId" asp-route-employeeName="@employeeName">Opslaan en indienen</button>
+        <br />
+    </form>
 </div>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -46,10 +47,11 @@ namespace UrenRegistratieQien.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> HourReg(DeclarationFormModel decModel)
+        public async Task<IActionResult> HourReg(DeclarationFormModel decModel, IFormFile file)
         {
             if (await UserIsEmployeeOrTrainee())
             {
+                await employeeRepo.UploadFile(file, decModel.FormId);
                 await declarationRepo.EditDeclarationForm(decModel);
                 await declarationRepo.CalculateTotalHours(decModel);
                 return RedirectToAction("Dashboard", "Employee");
