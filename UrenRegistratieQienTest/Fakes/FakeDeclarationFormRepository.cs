@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using UrenRegistratieQien.Models;
 using UrenRegistratieQien.Repositories;
 
@@ -18,6 +19,11 @@ namespace UrenRegistratieQienTest.Fakes
             throw new NotImplementedException();
         }
 
+        public Task<TotalsModel> CalculateTotalHoursOfAll(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool CheckIfIdMatches(string uniqueId)
         {
             throw new NotImplementedException();
@@ -29,6 +35,16 @@ namespace UrenRegistratieQienTest.Fakes
         }
 
         public void CreateFormForUser(DeclarationFormModel inputModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task CreateFormForUser(string EmployeeId, string month, int year)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteDeclarationForm(int FormId)
         {
             throw new NotImplementedException();
         }
@@ -71,6 +87,11 @@ namespace UrenRegistratieQienTest.Fakes
             throw new NotImplementedException();
         }
 
+        public Task<List<DeclarationFormModel>> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted, string sortDate)
+        {
+            throw new NotImplementedException();
+        }
+
         public DeclarationFormModel GetForm(string userId, string month)
         {
             return new DeclarationFormModel();
@@ -100,6 +121,11 @@ namespace UrenRegistratieQienTest.Fakes
             };
         }
 
+        public DeclarationFormModel GetFormNotAsync(int formId)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<DeclarationFormModel> GetNotApprovedForms()
         {
             throw new NotImplementedException();
@@ -110,9 +136,19 @@ namespace UrenRegistratieQienTest.Fakes
             throw new NotImplementedException();
         }
 
+        public Task ReopenForm(int formId)
+        {
+            throw new NotImplementedException();
+        }
+
         public void SubmitDeclarationForm(DeclarationFormModel formModel)
         {
 
+        }
+
+        public Task<List<TotalsForChartModel>> TotalHoursForCharts()
+        {
+            throw new NotImplementedException();
         }
 
         public int TotalHoursHoliday(List<DeclarationFormModel> DeclarationFormList, string Month)
@@ -181,6 +217,66 @@ namespace UrenRegistratieQienTest.Fakes
         }
 
         public int TotalHoursWorked(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IDeclarationFormRepository.ApproveForm(int formId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IDeclarationFormRepository.CalculateTotalHours(DeclarationFormModel decModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> IDeclarationFormRepository.CheckIfIdMatches(string uniqueId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IDeclarationFormRepository.CreateForm(string employeeId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IDeclarationFormRepository.EditDeclarationForm(DeclarationFormModel formModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<string> IDeclarationFormRepository.GenerateUniqueId()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<List<DeclarationFormModel>> IDeclarationFormRepository.GetAllForms()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<List<DeclarationFormModel>> IDeclarationFormRepository.GetAllFormsOfMonth(int month)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<List<DeclarationFormModel>> IDeclarationFormRepository.GetAllFormsOfUser(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<DeclarationFormModel> IDeclarationFormRepository.GetForm(int formId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IDeclarationFormRepository.RejectForm(int formId, string comment)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IDeclarationFormRepository.SubmitDeclarationForm(DeclarationFormModel formModel)
         {
             throw new NotImplementedException();
         }

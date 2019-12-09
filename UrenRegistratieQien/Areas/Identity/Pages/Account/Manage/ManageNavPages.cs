@@ -17,6 +17,7 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account.Manage
         public static string ExternalLogins => "ExternalLogins";
 
         public static string PersonalData => "PersonalData";
+        public static string ChangeProfilePicture => "ChangeProfilePicture";
 
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
 
@@ -25,6 +26,7 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account.Manage
         public static string EmailNavClass(ViewContext viewContext) => PageNavClass(viewContext, Email);
 
         public static string ChangePasswordNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangePassword);
+        public static string ChangeProfilePictureNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangeProfilePicture);
 
         public static string ExternalLoginsNavClass(ViewContext viewContext) => PageNavClass(viewContext, ExternalLogins);
 

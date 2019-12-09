@@ -18,7 +18,8 @@ namespace UrenRegistratieQien.MailService
             //message components
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("Hans", "hanshanshans812@gmail.com"));
-            message.To.Add(new MailboxAddress("Liza", "lizavanderkruk@gmail.com"));
+            message.To.Add(new MailboxAddress("Koen", "Lizavanderkruk@gmail.com"));
+
             message.Subject = $"Uw inloggegevens wijzigen van uw Qien-medewerkers account";
             message.Body = new TextPart("plain")
             {
@@ -32,7 +33,31 @@ namespace UrenRegistratieQien.MailService
                 $"" + Environment.NewLine +
                 $"Met vriendelijke groet," + Environment.NewLine +
                 $"" + Environment.NewLine +
-                $"Team Qien" 
+                $"Team Qien"
+            };
+
+            using (var client = new SmtpClient())
+            {
+                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                client.Connect("Smtp.gmail.com", 587, false);
+                client.Authenticate("hanshanshans812@gmail.com", "Hans123!");
+                client.Send(message);
+                client.Disconnect(true);
+            }
+        }
+
+        public static void MailFormToClient(DeclarationFormModel decModel, string uniqueId, string formId, string employeeName)
+        {
+            //message components
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Hans", "hanshanshans812@gmail.com"));
+            message.To.Add(new MailboxAddress("Koen", "lizavanderkruk@gmail.com"));
+            message.Subject = $"Urendeclaratieformulier van {employeeName} voor de maand {decModel.Month}";
+            var link = "https://localhost:5001/Mailservice/ApproveOrReject/?uniqueId=" + uniqueId + "&formId=" + formId;
+            message.Body = new TextPart("html")
+
+            {
+                Text = $"{employeeName} wil graag dat u het urendeclaratieformulier goedkeurt. <br/> Klik op de link om naar het formulier te gaan: <a href={link}>Klik hier!</a>"
             };
 
             using (var client = new SmtpClient())

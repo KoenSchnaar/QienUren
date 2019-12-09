@@ -345,21 +345,6 @@ namespace UrenRegistratieQien.Repositories
             return newModel;
         }
 
-            //werd niet gebruikt****************************************************************************************************************************************************************
-
-            //public List<DeclarationFormModel> GetNotApprovedForms()
-            //{
-            //    var allForms = GetAllForms();
-            //    var notApprovedForms = new List<DeclarationFormModel>();
-            //    foreach (DeclarationFormModel form in allForms)
-            //    {
-            //        if (form.Approved != "Rejected")
-            //        {
-            //            notApprovedForms.Add(form);
-            //        }
-            //    }
-            //    return notApprovedForms;
-            //}
 
             public async Task<List<DeclarationFormModel>> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted, string sortDate)
         {
