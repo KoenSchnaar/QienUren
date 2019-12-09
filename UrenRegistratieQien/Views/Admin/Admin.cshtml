@@ -15,7 +15,8 @@
             employeeNames.Add(declarationFormModel.EmployeeName);
         }
     }
-
+    string currentYear = Convert.ToString(DateTime.Now.Year);
+    int currentYearInt = Convert.ToInt32(currentYear);
     var years = new List<int>();
     foreach (DeclarationFormModel declarationFormModel in ViewBag.AllForms)
     {
@@ -24,6 +25,17 @@
             years.Add(declarationFormModel.Year);
         }
     }
+
+    years.Sort();
+    var yearsSelectList = new SelectList(years);
+    foreach(var x in yearsSelectList)
+    {
+        if(x.Text == currentYear)
+        {
+            x.Selected = true;
+        }
+    }
+
     var stringAscending = "Ascending";
     var stringDescending = "Descending";
     var totalHours = (TotalsModel)ViewBag.TotalHours;
@@ -75,7 +87,7 @@
 
                             <tr>
                                 <td>
-                                    @Html.DropDownList("totalhoursyear", new SelectList(years), DateTime.Now.Year)
+                                    @Html.DropDownList("totalhoursyear", yearsSelectList)
                                 </td>
                                 <td>
                                     @Html.DropDownList("totalhoursmonth", new SelectList(Enum.GetValues(typeof(Months))), "Alle maanden")
