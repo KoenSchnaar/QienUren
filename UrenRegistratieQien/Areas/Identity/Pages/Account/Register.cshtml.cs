@@ -141,7 +141,8 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
                     DateRegistered = DateTime.Now,
                     Role = Input.Role,
                     StartDateRole = DateTime.Now,
-                    OutOfService = false
+                    OutOfService = false,
+                    EmailConfirmed = true
                 };
 
                 var userModel = new EmployeeModel
@@ -173,8 +174,8 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                    //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
