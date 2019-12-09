@@ -55,8 +55,8 @@
         <div>
             @using (Html.BeginForm("Admin", "Admin"))
             {
-                <input type="submit" class="btn-primary btn" value="Filter ->" />
-                <button class="btn-primary btn"
+                <input type="submit" class="btn-primary btn btnposition" value="Filters toepassen" />
+                <button class="btn-primary btn btnposition"
                         asp-controller="Admin"
                         asp-action="DownloadTotalHoursCSV"
                         asp-route-totals=@totalHours
@@ -116,7 +116,7 @@
             </div>
             @using (Html.BeginForm("Admin", "Admin"))
             {
-                <input type="submit" class="btn-primary btn" value="Filters Toepassen" />
+                <input type="submit" class="btn-primary btn btnposition" value="Filters toepassen" />
                 <div class="table-wrapper">
                     <table class="fl-table" align="center">
                         <thead>
