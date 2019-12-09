@@ -35,7 +35,7 @@ namespace UrenRegistratieQien.Controllers
 
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("Hans", "hanshanshans812@gmail.com"));
-            message.To.Add(new MailboxAddress("Koen", "Koenschnaar@gmail.com"));
+            message.To.Add(new MailboxAddress("Koen", "lizavanderkruk@gmail.com"));
             message.Subject = $"Urendeclaratieformulier van {employeeName} voor de maand {decModel.Month}";
             var link = "https://localhost:5001/Mailservice/ApproveOrReject/?uniqueId=" + uniqueId + "&formId=" + formId;
             message.Body = new TextPart("html")
