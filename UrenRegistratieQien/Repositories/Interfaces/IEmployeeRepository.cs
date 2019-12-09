@@ -12,10 +12,12 @@ namespace UrenRegistratieQien.Repositories
         Task<List<string>> getEmployeeNames();
         List<EmployeeModel> GetFilteredNames();
         Task<EmployeeModel> GetEmployee(string id);
+        Task<EditingEmployeeModel> GetEditingEmployee(string id);
         EmployeeModel GetEmployeeByName(string name);
 
+
         Task<List<EmployeeModel>> GetAllAccounts(string searchString);
-        Task EditEmployee(EmployeeModel employeeModel);
+        //Task EditEmployee(EmployeeModel employeeModel);
         Task DeleteEmployee(string id);
         Task<SelectList> getEmployeeSelectList();
         Task EditEmployeeMail(string employeeMailold, string employeeMailnew);
@@ -25,6 +27,8 @@ namespace UrenRegistratieQien.Repositories
         Task CheckIfYearPassedForAllTrainees();
 
         Task UploadFile(IFormFile file, int formId);
+
+        Task EditEmployee(EditingEmployeeModel employeeModel);
 
     }
 }

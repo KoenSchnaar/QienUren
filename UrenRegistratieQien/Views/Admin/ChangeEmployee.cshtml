@@ -1,4 +1,4 @@
-﻿@model EmployeeModel
+﻿@model EditingEmployeeModel
 @{ 
     var roleAsString = "";
     if(Model.Role == 1)
@@ -17,6 +17,9 @@
         {
             roleAsString = "Inactief";
         }
+
+    //IEnumerable<string> clients = ViewBag.ListOfClients;
+    
 }
 
 <div class="Container-1">
@@ -62,17 +65,23 @@
                         <td>
                             @Html.DropDownListFor(m => m.RoleAsString, new SelectList(new List<string> { "Admin", "Medewerker", "Trainee", "Inactief" }), roleAsString)
                     </td>
-                </tr>
-                <tr>
-                    <td>Postcode</td>
-                    <td>@Html.TextBoxFor(m => m.ZIPCode)</td>
-                </tr>
-                <tr>
-                    <td>Woonplaats</td>
-                    <td>@Html.TextBoxFor(m => m.Residence)</td>
-                </tr>
-            </tbody>
-        </table>
+                    </tr>
+                    <tr>
+                        <td>Opdrachtgever</td>
+                        <td>
+                            @Html.DropDownListFor(m => m.ClientName, new SelectList(ViewBag.ListOfClients), Model.ClientName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Postcode</td>
+                        <td>@Html.TextBoxFor(m => m.ZIPCode)</td>
+                    </tr>
+                    <tr>
+                        <td>Woonplaats</td>
+                        <td>@Html.TextBoxFor(m => m.Residence)</td>
+                    </tr>
+                </tbody>
+            </table>
         <button type="submit" class="btn-primary btn">Opslaan</button>
         </form>
     </div>
