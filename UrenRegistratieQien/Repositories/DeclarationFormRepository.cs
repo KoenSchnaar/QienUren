@@ -363,14 +363,19 @@ namespace UrenRegistratieQien.Repositories
 
             public async Task<List<DeclarationFormModel>> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted, string sortDate)
         {
-            //if (approved == "Goedgekeurd")
-            //{
-            //    approved = "Approved";
-            //}
-            //if (approved == "Niet goedgekeurd")
-            //{
-            //    approved = "Rejected";
-            //}
+            if (approved == "Goedgekeurd")
+            {
+                approved = "Approved";
+            }
+            if (approved == "Afgekeurd")
+            {
+                approved = "Rejected";
+            }
+            if (approved == "In Afwachting")
+            {
+                approved = "Pending";
+            }
+
             if (submitted == "Ingediend")
             {
                 submitted = "true";

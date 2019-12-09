@@ -252,6 +252,7 @@ namespace UrenRegistratieQien.Controllers
 
                 if (totalhoursyear == 0)
                 {
+
                     totalhoursyear = DateTime.Now.Year;
                 }
                 ViewBag.TotalHours = await declarationFormRepo.CalculateTotalHoursOfAll(forms, totalhoursmonth, totalhoursyear);
