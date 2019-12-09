@@ -25,8 +25,8 @@
 
 
     <form method="post" asp-action="HourReg" asp-controller="DeclarationForm" enctype="multipart/form-data">
-        <div class="table-wrapper" align="center">
 
+        <div>
             @{ if (Model.Submitted == true)
                 {
                     @Html.HiddenFor(m => m.FormId)
@@ -34,7 +34,7 @@
                     @Html.HiddenFor(m => m.Year)
                     @Html.HiddenFor(m => m.Month)
                     @Html.HiddenFor(m => m.EmployeeName)
-                    <table class="fl-table" align="center">
+                    <table class="fl-table table-wrapper" align="center">
                         <thead>
                             <tr>
                                 <th class="tableHeader">Date</th>
@@ -56,14 +56,14 @@
                 }
                 else
                 {
-                    <input class="btn-primary btn" type="file" name="file" /> <br />
+                    <input class="btn-primary btn btnposition" type="file" name="file" /> <br />
 
                     @Html.HiddenFor(m => m.FormId)
                     @Html.HiddenFor(m => m.EmployeeId)
                     @Html.HiddenFor(m => m.Year)
                     @Html.HiddenFor(m => m.Month)
 
-                    <table class="fl-table" align="center">
+                    <table class="fl-table table-wrapper" align="center">
                         <thead>
                             <tr>
                                 <th class="tableHeader">Date</th>
@@ -82,11 +82,10 @@
                             @Html.EditorFor(m => Model.HourRows)
                         </tbody>
                     </table>
+                    <button class="btn-primary btn btn-hourreg" asp-action="HourReg" asp-controller="DeclarationForm">Opslaan</button>
+                    <button class="btn-primary btn btn-hourreg" asp-action="Mailservice" asp-controller="Mailservice" asp-route-uniqueId="@uniqueId" asp-route-formId="@formId" asp-route-employeeName="@employeeName">Opslaan en indienen</button>
                 }
             }
         </div>
-        <button class="btn-primary btn" asp-action="HourReg" asp-controller="DeclarationForm">Opslaan</button>
-        <button class="btn-primary btn" asp-action="Mailservice" asp-controller="Mailservice" asp-route-uniqueId="@uniqueId" asp-route-formId="@formId" asp-route-employeeName="@employeeName">Opslaan en indienen</button>
-        <br />
     </form>
 </div>
