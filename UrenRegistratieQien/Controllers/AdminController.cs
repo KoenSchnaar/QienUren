@@ -213,11 +213,6 @@ namespace UrenRegistratieQien.Controllers
         //    return File(fileBytes, "application/pdf", fileName);
         //}
 
-
-
-
-
-
         public FileContentResult DownloadTotalHoursCSV(int totalWorked, int totalOvertime, int totalSickness, int totalVacation, int totalHoliday, int totalTraining, int totalOther) //eventueel filters meenemen..
         {
             Console.WriteLine("er gebeurt download CSV");
