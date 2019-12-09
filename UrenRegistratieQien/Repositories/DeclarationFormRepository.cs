@@ -346,32 +346,22 @@ namespace UrenRegistratieQien.Repositories
             return newModel;
         }
 
-            //werd niet gebruikt****************************************************************************************************************************************************************
-
-            //public List<DeclarationFormModel> GetNotApprovedForms()
-            //{
-            //    var allForms = GetAllForms();
-            //    var notApprovedForms = new List<DeclarationFormModel>();
-            //    foreach (DeclarationFormModel form in allForms)
-            //    {
-            //        if (form.Approved != "Rejected")
-            //        {
-            //            notApprovedForms.Add(form);
-            //        }
-            //    }
-            //    return notApprovedForms;
-            //}
 
             public async Task<List<DeclarationFormModel>> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted, string sortDate)
         {
-            //if (approved == "Goedgekeurd")
-            //{
-            //    approved = "Approved";
-            //}
-            //if (approved == "Niet goedgekeurd")
-            //{
-            //    approved = "Rejected";
-            //}
+            if (approved == "Goedgekeurd")
+            {
+                approved = "Approved";
+            }
+            if (approved == "Afgekeurd")
+            {
+                approved = "Rejected";
+            }
+            if (approved == "In Afwachting")
+            {
+                approved = "Pending";
+            }
+
             if (submitted == "Ingediend")
             {
                 submitted = "true";
@@ -580,7 +570,7 @@ namespace UrenRegistratieQien.Repositories
             context.SaveChanges();
         }
 
-        public async Task<List<TotalsForChartModel>> TotalHoursForCharts()
+        public async Task<List<TotalsForChartModel>> TotalHoursForCharts(int year)
         {
             var totalHoursList = new List<TotalsForChartModel>();
             
@@ -595,7 +585,7 @@ namespace UrenRegistratieQien.Repositories
 
             foreach(var model in totalHoursList)
             {
-                var entities = context.DeclarationForms.Where(d => d.Month == model.Month).ToList();
+                var entities = context.DeclarationForms.Where(d => d.Month == model.Month && d.Year == year).ToList();
                 foreach(var entity in entities)
                 {
                     model.TotalHoliday += entity.TotalHoliday;
@@ -608,6 +598,22 @@ namespace UrenRegistratieQien.Repositories
                 };
             }
             return totalHoursList;
+        }
+
+        public async Task<List<int>> GetAllYears()
+        {
+            var entities = context.DeclarationForms.ToList();
+
+            var years = new List<int>();
+
+            foreach (var entity in entities)
+            {
+                if (!years.Contains(entity.Year))
+                {
+                    years.Add(entity.Year);
+                }
+            }
+            return years;
         }
     }
 }

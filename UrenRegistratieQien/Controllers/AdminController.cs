@@ -100,7 +100,6 @@ namespace UrenRegistratieQien.Controllers
             }
         }
 
-
         [HttpPost]
         public async Task<IActionResult> EditEmployeeMailAdres(string employeeMailold, string employeeMailnew)
         {
@@ -213,11 +212,6 @@ namespace UrenRegistratieQien.Controllers
         //    return File(fileBytes, "application/pdf", fileName);
         //}
 
-
-
-
-
-
         public FileContentResult DownloadTotalHoursCSV(int totalWorked, int totalOvertime, int totalSickness, int totalVacation, int totalHoliday, int totalTraining, int totalOther) //eventueel filters meenemen..
         {
             Console.WriteLine("er gebeurt download CSV");
@@ -253,6 +247,7 @@ namespace UrenRegistratieQien.Controllers
 
                 if (totalhoursyear == 0)
                 {
+
                     totalhoursyear = DateTime.Now.Year;
                 }
                 ViewBag.TotalHours = await declarationFormRepo.CalculateTotalHoursOfAll(forms, totalhoursmonth, totalhoursyear);
@@ -373,10 +368,10 @@ namespace UrenRegistratieQien.Controllers
             }
         }
 
-        public async Task<IActionResult> Charts()
+        public async Task<IActionResult> Charts(int year)
         {
-            List<TotalsForChartModel> lstModel = await declarationFormRepo.TotalHoursForCharts();
-
+            List<TotalsForChartModel> lstModel = await declarationFormRepo.TotalHoursForCharts(year);
+            ViewBag.years = await declarationFormRepo.GetAllYears();
             return View(lstModel);
         }
     }

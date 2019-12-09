@@ -271,7 +271,6 @@ namespace UrenRegistratieQien.Repositories
         public async Task<SelectList> getEmployeeSelectList()
         {
             var EmployeeList = new SelectList(context.Employees, "Id", "FirstName");
-
             return EmployeeList;
         }
 

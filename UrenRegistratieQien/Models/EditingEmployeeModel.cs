@@ -7,7 +7,6 @@ namespace UrenRegistratieQien.Models
 {
     public class EditingEmployeeModel : EmployeeModel
     {
-
         public string ClientName { get; set; }
     }
 }
