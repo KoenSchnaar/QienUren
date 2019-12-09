@@ -91,6 +91,8 @@ namespace UrenRegistratieQien.Controllers
             }
         }
 
+
+        // moet uit de controller *************************************************************
         public async Task<bool> UserIsEmployeeOrTrainee()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
