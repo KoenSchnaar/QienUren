@@ -239,6 +239,7 @@ namespace UrenRegistratieQien.Controllers
                 ViewBag.Months = monthList;
                 ViewBag.sortDate = sortDate;
                 var forms = await declarationFormRepo.GetAllForms();
+                await employeeRepo.CheckIfYearPassedForAllTrainees();
 
                 if (totalhoursyear == 0)
                 {

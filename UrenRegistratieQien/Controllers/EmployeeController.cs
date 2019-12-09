@@ -54,6 +54,7 @@ namespace UrenRegistratieQien.Controllers
                 ViewBag.User = await employeeRepo.GetEmployee(userId);
                 ViewBag.Client = await clientRepo.GetClientByUserId(userId);
                 ViewBag.AllForms = await declarationRepo.GetAllForms();
+                await employeeRepo.CheckIfYearPassedForAllTrainees();
                 //var inputModel = declarationRepo.GetAllFormsOfUser(userId);
                 var inputModel = await declarationRepo.GetFilteredForms(year, userId, month, approved, submitted, sortDate);
                 return View(inputModel);
