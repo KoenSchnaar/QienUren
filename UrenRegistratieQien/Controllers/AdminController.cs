@@ -188,7 +188,7 @@ namespace UrenRegistratieQien.Controllers
             {
                 var form = await declarationFormRepo.GetForm(formId);
                 return View(form);
-            } else
+            }else
             {
                 return await AccessDeniedView();
             }

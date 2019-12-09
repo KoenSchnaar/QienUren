@@ -1,13 +1,28 @@
 ﻿@model UrenRegistratieQien.Models.HourRowModel
-
-<tr>
-    <td>@Model.Date</td>
-    <td>@Model.Worked</td>
-    <td>@Model.Overtime</td>
-    <td>@Model.Sickness</td>
-    <td>@Model.Vacation</td>
-    <td>@Model.Holiday</td>
-    <td>@Model.Training</td>
-    <td>@Model.Other</td>
-    <td>@Model.OtherExplanation</td>
-</tr>
+@if ((Model.Date.ToCharArray()[0] == '1' && Model.Date.ToCharArray()[1] == '5'))
+{
+    <thead>
+        <tr>
+            <th class="tableHeader">Date</th>
+            <th class="tableHeader">Gewerkt</th>
+            <th class="tableHeader">Overwerk</th>
+            <th class="tableHeader">Ziekte</th>
+            <th class="tableHeader">Vakantie</th>
+            <th class="tableHeader">Feestdagen</th>
+            <th class="tableHeader">Training</th>
+            <th class="tableHeader">Overig</th>
+            <th>Overig Uitleg</th>
+        </tr>
+    </thead>
+}
+    <tr>
+        <td>@Model.Date</td>
+        <td>@Model.Worked</td>
+        <td>@Model.Overtime</td>
+        <td>@Model.Sickness</td>
+        <td>@Model.Vacation</td>
+        <td>@Model.Holiday</td>
+        <td>@Model.Training</td>
+        <td>@Model.Other</td>
+        <td>@Model.OtherExplanation</td>
+    </tr>

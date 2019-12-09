@@ -1,16 +1,32 @@
 ﻿@model UrenRegistratieQien.Models.HourRowModel
 
-    <tr>
-        @Html.HiddenFor(m => m.HourRowId)
-        <td class="dateRow">@Model.Date</td>
-        <td>@Html.TextBoxFor(m => m.Worked, new { style = "width: 75px;" })</td>
-        <td>@Html.TextBoxFor(m => m.Overtime, new { style = "width: 75px;" })</td>
-        <td>@Html.TextBoxFor(m => m.Sickness, new { style = "width: 75px;" })</td>
-        <td>@Html.TextBoxFor(m => m.Vacation, new { style = "width: 75px;" })</td>
-        <td>@Html.TextBoxFor(m => m.Holiday, new { style = "width: 75px;" })</td>
-        <td>@Html.TextBoxFor(m => m.Training, new { style = "width: 75px;" })</td>
-        <td>@Html.TextBoxFor(m => m.Other, new { style = "width: 75px;" })</td>
-        <td>@Html.TextBoxFor(m => m.OtherExplanation, new { style = "width: 200px;" })</td>
-    </tr>
-    
+@if ((Model.Date.ToCharArray()[0] == '1' && Model.Date.ToCharArray()[1] == '5'))
+{
+    <thead>
+        <tr>
+            <th class="tableHeader">Date</th>
+            <th class="tableHeader">Gewerkt</th>
+            <th class="tableHeader">Overwerk</th>
+            <th class="tableHeader">Ziekte</th>
+            <th class="tableHeader">Vakantie</th>
+            <th class="tableHeader">Feestdagen</th>
+            <th class="tableHeader">Training</th>
+            <th class="tableHeader">Overig</th>
+            <th>Overig Uitleg</th>
+        </tr>
+    </thead>
+        }
+        <tr>
+            @Html.HiddenFor(m => m.HourRowId)
+            <td class="dateRow">@Model.Date</td>
+            <td>@Html.TextBoxFor(m => m.Worked, new { style = "width: 75px;" })</td>
+            <td>@Html.TextBoxFor(m => m.Overtime, new { style = "width: 75px;" })</td>
+            <td>@Html.TextBoxFor(m => m.Sickness, new { style = "width: 75px;" })</td>
+            <td>@Html.TextBoxFor(m => m.Vacation, new { style = "width: 75px;" })</td>
+            <td>@Html.TextBoxFor(m => m.Holiday, new { style = "width: 75px;" })</td>
+            <td>@Html.TextBoxFor(m => m.Training, new { style = "width: 75px;" })</td>
+            <td>@Html.TextBoxFor(m => m.Other, new { style = "width: 75px;" })</td>
+            <td>@Html.TextBoxFor(m => m.OtherExplanation, new { style = "width: 200px;" })</td>
+        </tr>
+
 
