@@ -14,7 +14,7 @@ namespace UrenRegistratieQien.Models
 
     public enum Months
     {
-        Januari, Februari, March, April, May, June, Juli, August, September, October, November, December
+        Januari, Februari, Maart, April, Mei, Juni, Juli, Augustus, September, Oktober, November, December
     }
 
     public enum Status 

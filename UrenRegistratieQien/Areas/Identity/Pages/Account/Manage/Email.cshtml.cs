@@ -107,6 +107,7 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account.Manage
                     values: new { userId = userId, email = Input.NewEmail, code = code },
                     protocol: Request.Scheme);
 
+                // dit is de bevestigingsmail naar de gebruiker
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("Qien", "hanshanshans812@gmail.com"));
                 message.To.Add(new MailboxAddress(Input.NewEmail, Input.NewEmail));
@@ -116,6 +117,8 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account.Manage
                     Text = $"Beste,<br>Je mail is gewijzigd naar {Input.NewEmail} <br> Met vriendelijke groet <br> Please confirm your account by < a href = '{HtmlEncoder.Default.Encode(callbackUrl)}' > clicking here </a>."
                 };
 
+
+                // dit is de mail naar de admin
                 var message1 = new MimeMessage();
                 message1.From.Add(new MailboxAddress("Qien", "hanshanshans812@gmail.com"));
                 message1.To.Add(new MailboxAddress(Input.NewEmail, Input.NewEmail));
@@ -136,7 +139,7 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account.Manage
 
                     
                     StatusMessage = "Bevestigings link is naar uw e-mail verstuurd.";
-                    employeeRepo.EditEmployeeMail(email, Input.NewEmail);
+                    await employeeRepo.EditEmployeeMail(email, Input.NewEmail);
                     return RedirectToPage();
                 }
 

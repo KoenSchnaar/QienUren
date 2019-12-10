@@ -74,11 +74,12 @@ namespace UrenRegistratieQien.Repositories
         public async Task<List<EmployeeModel>> GetAllAccounts(string searchString)
         {
             var Allemployee = new List<EmployeeModel>();
-            // (x.FirstName.ToString + " " + x.LastName.ToString).Contains(searchString)
+           
+            var TempEmployee = context.Employees.Where(p => p.Role != 1);
 
-            foreach (var employee in await context.Employees.Where
-                (x => x.FirstName.Contains(searchString) || x.LastName.Contains(searchString)
-               || searchString == null).ToListAsync())
+            foreach (var employee in await TempEmployee.Where
+                (x => x.FirstName.Contains(searchString) || x.LastName.Contains(searchString) || (x.FirstName + ' ' + x.LastName).Contains(searchString)
+               || searchString == null).OrderBy(x => x.FirstName).ToListAsync())
 
                 Allemployee.Add(new EmployeeModel
                 {
@@ -155,10 +156,17 @@ namespace UrenRegistratieQien.Repositories
 
         public async Task EditEmployeeMail(string employeeMailold, string employeeMailnew)
         {
-
+             
             var dbEmp = context.Users.Single(p => p.Email == employeeMailold);
             var CastedDatabaseEmployee = (Employee)dbEmp;
             CastedDatabaseEmployee.Email = employeeMailnew;
+            CastedDatabaseEmployee.UserName = employeeMailnew;
+
+            string mailNormalized = employeeMailnew.ToUpper();
+            string usernameNormalized = employeeMailnew.ToUpper();
+
+            CastedDatabaseEmployee.NormalizedEmail = mailNormalized;
+            CastedDatabaseEmployee.NormalizedUserName = usernameNormalized;
             context.SaveChanges();
         }
 
@@ -243,8 +251,8 @@ namespace UrenRegistratieQien.Repositories
 
         public List<EmployeeModel> GetFilteredNames()
         {
-            var entities = context.Employees.OrderBy(df => df.FirstName).ToList();
-
+            var entities = context.Employees.Where(p => p.Role != 1).OrderBy(df => df.FirstName).ToList();
+          
             List<EmployeeModel> EmployeeModelList = new List<EmployeeModel>();
             foreach (Employee employee in entities)
             {
@@ -263,6 +271,8 @@ namespace UrenRegistratieQien.Repositories
                     Residence = employee.Residence
                 };
                 EmployeeModelList.Add(EmployeeModel);
+
+
 
             }
             return EmployeeModelList;

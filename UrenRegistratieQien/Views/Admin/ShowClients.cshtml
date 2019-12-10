@@ -10,7 +10,7 @@
             <thead>
                 <tr>
                     <th>Naam opdrachtgever</th>
-                    <th>wijzig | verwijder</th>
+                    <th>Wijzig | Verwijder</th>
                 </tr>
             <thead>
 
@@ -27,7 +27,7 @@
                                 Wijzig
                             </a>
                             |
-                            @Html.ActionLink("Delete", "DeleteClient", new { ClientId = client.ClientId }, new { onclick = "return confirm('Weet je zeker dat je de opdrachtgever wilt verwijderen?');" })
+                            @Html.ActionLink("Verwijder", "DeleteClient", new { ClientId = client.ClientId }, new { onclick = "return confirm('Weet je zeker dat je de opdrachtgever wilt verwijderen?');" })
                         </td>
                     </tr>
                 }
