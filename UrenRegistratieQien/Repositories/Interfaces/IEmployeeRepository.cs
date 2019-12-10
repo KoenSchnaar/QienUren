@@ -29,6 +29,9 @@ namespace UrenRegistratieQien.Repositories
         Task UploadFile(IFormFile file, int formId);
 
         Task EditEmployee(EditingEmployeeModel employeeModel);
+        Task<bool> UserIsEmployeeOrTrainee();
+        Task<bool> UserIsOutOfService();
+        Task<bool> UserIsAdmin();
 
     }
 }

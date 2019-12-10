@@ -17,12 +17,16 @@ namespace UrenRegistratieQien.Repositories
     public class EmployeeRepository : IEmployeeRepository
     {
         private readonly ApplicationDbContext context;
-        private readonly IHostingEnvironment he;
+        private readonly IWebHostEnvironment he;
+        private readonly UserManager<Employee> _userManager;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public EmployeeRepository(ApplicationDbContext context, IHostingEnvironment he)
+        public EmployeeRepository(ApplicationDbContext context, IWebHostEnvironment he, IHttpContextAccessor httpContextAccessor, UserManager<Employee> userManager = null)
         {
             this.context = context;
             this.he = he;
+            _userManager = userManager;
+            this.httpContextAccessor = httpContextAccessor;
         }
         public async Task<List<EmployeeModel>> GetEmployees()
         {
@@ -172,9 +176,6 @@ namespace UrenRegistratieQien.Repositories
                     context.HourRows.Remove(hourRow);
                 }
             }
-
-
-
             context.Users.Remove(employee);
             context.SaveChanges();
         }
@@ -268,11 +269,42 @@ namespace UrenRegistratieQien.Repositories
 
             if (roleId == 4 && DateTime.Now >= employee.StartDateRole.AddMonths(1))
             {
-                return employee.OutOfService = true;   
+                employee.OutOfService = true;
+                return true;   
             }
             else
             {
-                return employee.OutOfService = false;
+                employee.OutOfService = false;
+                return false;
+            }
+        }
+        public async Task<bool> UserIsEmployeeOrTrainee()
+        {
+            var userId = _userManager.GetUserId(httpContextAccessor.HttpContext.User);
+            var user = await GetEmployee(userId);
+            
+            if (user.Role == 2 || user.Role == 3)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> UserIsOutOfService()
+        {
+            var userId = _userManager.GetUserId(httpContextAccessor.HttpContext.User);
+            bool outofservice = await UserIsOneMonthInactive(userId);
+
+            if (outofservice == false)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
 
@@ -304,9 +336,6 @@ namespace UrenRegistratieQien.Repositories
                     Residence = employee.Residence
                 };
                 EmployeeModelList.Add(EmployeeModel);
-
-
-
             }
             return EmployeeModelList;
         }
@@ -332,7 +361,19 @@ namespace UrenRegistratieQien.Repositories
                 file.CopyTo(new FileStream(fileName, FileMode.Create));
             }
         }
+        public async Task<bool> UserIsAdmin()
+        {
+            var userId = _userManager.GetUserId(httpContextAccessor.HttpContext.User);
+            var user = await GetEmployee(userId);
 
-
+            if (user.Role == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

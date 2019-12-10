@@ -23,13 +23,13 @@ namespace UrenRegistratieQien.Controllers
         private readonly IEmployeeRepository employeeRepo;
         private readonly IHourRowRepository hourRowRepo;
         private readonly UserManager<Employee> _userManager;
-        private readonly IHostingEnvironment he;
+        private readonly IWebHostEnvironment he;
 
         public EmployeeController(IClientRepository ClientRepo, 
                                   IDeclarationFormRepository DeclarationRepo, 
                                   IEmployeeRepository EmployeeRepo, 
                                   IHourRowRepository HourRowRepo, 
-                                  IHostingEnvironment he,
+                                  IWebHostEnvironment he,
                                   UserManager<Employee> userManager = null)
         {
             clientRepo = ClientRepo;
@@ -47,7 +47,7 @@ namespace UrenRegistratieQien.Controllers
 
         public async Task<IActionResult> Dashboard(string year = null, string month = null, string approved = null, string submitted = null, string sortDate = null)////// de filter toepassen in de model van deze
         {
-            if (await UserIsEmployeeOrTrainee() || await UserIsOutOfService())
+            if (await employeeRepo.UserIsEmployeeOrTrainee() || !await employeeRepo.UserIsOutOfService() && !await employeeRepo.UserIsAdmin()) 
             {
                 var userId = _userManager.GetUserId(HttpContext.User); //ophalen van userId die is ingelogd
                 ViewBag.userId = userId;
@@ -87,7 +87,7 @@ namespace UrenRegistratieQien.Controllers
 
         public async Task<IActionResult> Info()
         {
-            if (await UserIsEmployeeOrTrainee())
+            if (await employeeRepo.UserIsEmployeeOrTrainee())
             {
                 var userId = _userManager.GetUserId(HttpContext.User);
                 var Employee = await employeeRepo.GetEmployee(userId);
@@ -102,7 +102,7 @@ namespace UrenRegistratieQien.Controllers
 
         public async Task<IActionResult> ChangePicture()
         {
-            if (await UserIsEmployeeOrTrainee())
+            if (await employeeRepo.UserIsEmployeeOrTrainee())
             {
                 return View();
             }
@@ -115,7 +115,7 @@ namespace UrenRegistratieQien.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangePicture(IFormFile picture)
         {
-            if (await UserIsEmployeeOrTrainee())
+            if (await employeeRepo.UserIsEmployeeOrTrainee())
             {
                 var userId = _userManager.GetUserId(HttpContext.User);
                 await employeeRepo.UploadPicture(picture, userId);
@@ -127,35 +127,6 @@ namespace UrenRegistratieQien.Controllers
             }
         }
 
-        public async Task<bool> UserIsEmployeeOrTrainee()
-        {
-            var userId = _userManager.GetUserId(HttpContext.User);
-            var user = await employeeRepo.GetEmployee(userId);
-
-            if (user.Role == 2 || user.Role == 3)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public async Task<bool> UserIsOutOfService()
-        {
-            var userId = _userManager.GetUserId(HttpContext.User);
-            bool outofservice = await employeeRepo.UserIsOneMonthInactive(userId);
-
-            if (outofservice == false)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
         public async Task<ViewResult> AccessDeniedView()
         {
             return View("~/Views/Home/AccessDenied.cshtml");

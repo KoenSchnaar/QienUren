@@ -15,15 +15,22 @@ namespace UrenRegistratieQien.Controllers
     public class MailserviceController : Controller
     {
         private readonly IDeclarationFormRepository declarationFormRepo;
+        private readonly IEmployeeRepository employeeRepo;
 
-        public MailserviceController(IDeclarationFormRepository DeclarationFormRepo)
+        public MailserviceController(IDeclarationFormRepository DeclarationFormRepo, IEmployeeRepository EmployeeRepo)
         {
             declarationFormRepo = DeclarationFormRepo;
+            employeeRepo = EmployeeRepo;
         }
 
         [HttpPost]
         public async Task<IActionResult> MailService(DeclarationFormModel decModel, string uniqueId, string formId, string employeeName)
         {
+            if (!await employeeRepo.UserIsEmployeeOrTrainee())
+            {
+                return await AccessDeniedView();
+            }
+            
             await declarationFormRepo.EditDeclarationForm(decModel);
             await declarationFormRepo.SubmitDeclarationForm(decModel);
             await declarationFormRepo.CalculateTotalHours(decModel);
@@ -74,6 +81,10 @@ namespace UrenRegistratieQien.Controllers
             {
                 return RedirectToAction("ApproveOrReject", new { uniqueId = uniqueId, formId = FormId, commentNotValid = true});
             }
+        }
+        public async Task<ViewResult> AccessDeniedView()
+        {
+            return View("~/Views/Home/AccessDenied.cshtml");
         }
     }
 }
