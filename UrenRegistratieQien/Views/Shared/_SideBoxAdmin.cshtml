@@ -3,6 +3,8 @@
 <div class="TextInBox">Algemeen</div>
 <a asp-controller="Admin" asp-action="Admin">Dashboard</a>
 <br />
+<a asp-controller="Admin" asp-action="Charts" asp-route-year="@DateTime.Now.Year">Grafieken</a>
+<br />
 <br />
 <br />
 <div class="TextInBox">Medewerkers</div>
@@ -19,5 +21,4 @@
 <a asp-controller="Admin" asp-action="ShowClients">Overzicht</a>
 <br />
 <a asp-controller="Admin" asp-action="AddClient">Aanmaken</a>
-<br />
-<a asp-controller="Admin" asp-action="Charts" asp-route-year="@DateTime.Now.Year">Grafieken</a>
+

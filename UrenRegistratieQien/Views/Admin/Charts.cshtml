@@ -12,13 +12,10 @@
     var Other = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.TotalOther).ToList());
     var Holiday = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.TotalHoliday).ToList());
     var year = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.Year).ToList());
-
-
     ViewData["Title"] = "Line Chart";
 }
 
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -35,9 +32,125 @@
 
 <form asp-controller="Admin" asp-action="Charts">
     @Html.DropDownList("year", new SelectList(ViewBag.years), "Geen filter")
-    <button class="btn-primary btn" >Pas jaar aan</button>
+    <button class="btn-primary btn">Pas jaar aan</button>
 </form>
 
+@*<script type="text/javascript">
+
+            $(function () {
+        var chartName = "chart";
+            var ctx = document.getElementById(chartName).getContext('2d');
+            var data = {
+                    labels: @Html.Raw(XLabels),
+                    datasets: [{
+                        label: "Gewerkte uren",
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                        ],
+                        borderWidth: 1,
+                        data: @Html.Raw(Worked),
+                    }, {
+                        label: "Overwerk",
+                        backgroundColor: [
+                            'rgba(153, 102, 255, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(153, 102, 255, 1)',
+                        ],
+                        borderWidth: 1,
+                            data: @Html.Raw(Overtime),
+                    },{
+                        label: "Ziekte",
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)',
+                        ],
+                        borderWidth: 1,
+                            data: @Html.Raw(Sickness),
+                    }, {
+                        label: "Vakantie",
+                        backgroundColor: [
+                            'rgba(255, 206, 86, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 206, 86, 1)',
+                        ],
+                        borderWidth: 1,
+                            data: @Html.Raw(Vacation),
+                    }, {
+                        label: "Feestdagen",
+                        backgroundColor: [
+                            'rgba(0, 255, 0, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(0, 255, 0, 1)',
+                        ],
+                        borderWidth: 1,
+                            data: @Html.Raw(Holiday),
+                    }, {
+                        label: "Training",
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                        ],
+                        borderWidth: 1,
+                            data: @Html.Raw(Training),
+                    }, {
+                        label: "Overig",
+                        backgroundColor: [
+                            'rgba(255, 0, 0, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 0, 0, 1)',
+                        ],
+                        borderWidth: 1,
+                            data: @Html.Raw(Other),
+                    },
+                ]
+                };
+
+    var options = {
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                min: 0,
+                                beginAtZero: true
+                            },
+                            gridLines: {
+                                display: true,
+                                color: "rgba(255,99,164,0.2)"
+                            }
+    }],
+                        xAxes: [{
+                            ticks: {
+                                min: 0,
+                                beginAtZero: true
+                            },
+                            gridLines: {
+                                display: false
+                            }
+                        }]
+                    }
+                };
+
+           var myChart = new  Chart(ctx, {
+                    options: options,
+                    data: data,
+                    type:'line'
+
+                });
+            });
+
+
+    </script>*@
 
 <script type="text/javascript">
 
@@ -120,8 +233,6 @@
             ]
             };
 
-
-
 var options = {
                 maintainAspectRatio: false,
                 scales: {
@@ -150,8 +261,10 @@ var options = {
        var myChart = new  Chart(ctx, {
                 options: options,
                 data: data,
-                type:'line'
+                type:'pie'
 
             });
         });
+
+
 </script> 
