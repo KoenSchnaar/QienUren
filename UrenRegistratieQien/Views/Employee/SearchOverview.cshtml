@@ -6,9 +6,14 @@
     </div>
 
     <div class="box-2">
+
         <div class="box-2_2">
-            @using (Html.BeginForm("SearchOverview", "Employee", FormMethod.Get))
-            {@Html.TextBox("searchString") <input type="submit" value="Zoeken" class="btn btn-login" />
+      
+        @using (Html.BeginForm("SearchOverview", "Employee", FormMethod.Get))
+        {
+            @Html.TextBox("searchString")
+            <input type="submit" value="Zoeken" class="btn-primary btn btnposition" />
+
         }
         </div>
         <table class="fl-table table-wrapper" align="center">

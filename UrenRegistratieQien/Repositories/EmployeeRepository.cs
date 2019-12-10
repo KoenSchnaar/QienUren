@@ -39,7 +39,7 @@ namespace UrenRegistratieQien.Repositories
                     LastName = employeeCasted.LastName,
                     Email = employeeCasted.Email,
                     Address = employeeCasted.Address,
-                    Phone = employeeCasted.Phone,
+                    Phone = employeeCasted.PhoneNumber,
                     Role = employeeCasted.Role
                 };
 
@@ -64,7 +64,7 @@ namespace UrenRegistratieQien.Repositories
                 LastName = employeeCasted.LastName,
                 Email = employeeCasted.Email,
                 Address = employeeCasted.Address,
-                Phone = employeeCasted.Phone,
+                Phone = employeeCasted.PhoneNumber,
                 Role = employeeCasted.Role,
                 ZIPCode = employeeCasted.ZIPCode,
                 Residence = employeeCasted.Residence
@@ -89,7 +89,7 @@ namespace UrenRegistratieQien.Repositories
                 LastName = employeeCasted.LastName,
                 Email = employeeCasted.Email,
                 Address = employeeCasted.Address,
-                Phone = employeeCasted.Phone,
+                Phone = employeeCasted.PhoneNumber,
                 Role = employeeCasted.Role,
                 ZIPCode = employeeCasted.ZIPCode,
                 Residence = employeeCasted.Residence
@@ -114,7 +114,7 @@ namespace UrenRegistratieQien.Repositories
                     LastName = employee.LastName,
                     Email = employee.Email,
                     Address = employee.Address,
-                    Phone = employee.Phone,
+                    Phone = employee.PhoneNumber,
                     Role = employee.Role,
                     ZIPCode = employee.ZIPCode,
                     Residence = employee.Residence
@@ -143,7 +143,7 @@ namespace UrenRegistratieQien.Repositories
                 LastName = returnEmployee.LastName,
                 Email = returnEmployee.Email,
                 Address = returnEmployee.Address,
-                Phone = returnEmployee.Phone,
+                Phone = returnEmployee.PhoneNumber,
                 Role = returnEmployee.Role,
                 ZIPCode = returnEmployee.ZIPCode,
                 Residence = returnEmployee.Residence
@@ -237,7 +237,7 @@ namespace UrenRegistratieQien.Repositories
             CastedDatabaseEmployee.LastName = employeeModel.LastName;
             CastedDatabaseEmployee.Email = employeeModel.Email;
             CastedDatabaseEmployee.Address = employeeModel.Address;
-            CastedDatabaseEmployee.Phone = employeeModel.Phone;
+            CastedDatabaseEmployee.PhoneNumber = employeeModel.Phone;
             CastedDatabaseEmployee.Role = role;
             CastedDatabaseEmployee.ZIPCode = employeeModel.ZIPCode;
             CastedDatabaseEmployee.Residence = employeeModel.Residence;
@@ -298,7 +298,7 @@ namespace UrenRegistratieQien.Repositories
                     LastName = employee.LastName,
                     Email = employee.Email,
                     Address = employee.Address,
-                    Phone = employee.Phone,
+                    Phone = employee.PhoneNumber,
                     Role = employee.Role,
                     ZIPCode = employee.ZIPCode,
                     Residence = employee.Residence
