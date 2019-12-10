@@ -33,7 +33,7 @@ namespace UrenRegistratieQien.Controllers
         
         public async Task<IActionResult> HourReg(int declarationFormId, string userId, int year, string month)
         {
-            if (await UserIsEmployeeOrTrainee() || await UserIsOutOfService())
+            if (await employeeRepo.UserIsEmployeeOrTrainee() || !await employeeRepo.UserIsOutOfService())
             {
                 await hourRowRepo.AddHourRows(year, month, declarationFormId);
                 ViewBag.User = await employeeRepo.GetEmployee(userId);
@@ -49,7 +49,7 @@ namespace UrenRegistratieQien.Controllers
         [HttpPost]
         public async Task<IActionResult> HourReg(DeclarationFormModel decModel, IFormFile file)
         {
-            if (await UserIsEmployeeOrTrainee())
+            if (await employeeRepo.UserIsEmployeeOrTrainee())
             {
                 await employeeRepo.UploadFile(file, decModel.FormId);
                 await declarationRepo.EditDeclarationForm(decModel);
@@ -62,25 +62,9 @@ namespace UrenRegistratieQien.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> HourRegSubmit(DeclarationFormModel decModel)
-        {
-            if (await UserIsEmployeeOrTrainee())
-            {
-                await declarationRepo.EditDeclarationForm(decModel);
-                await declarationRepo.SubmitDeclarationForm(decModel);
-                await declarationRepo.CalculateTotalHours(decModel);
-                return RedirectToAction("Dashboard", "Employee");
-            }
-            else
-            {
-                return await AccessDeniedView();
-            }
-        }
-
         public async Task<IActionResult> CreateForm(string employeeId)
         {
-            if (await UserIsEmployeeOrTrainee())
+            if (await employeeRepo.UserIsEmployeeOrTrainee())
             {
                 await declarationRepo.CreateForm(employeeId);
                 return RedirectToAction("Dashboard", "Employee");
@@ -91,42 +75,10 @@ namespace UrenRegistratieQien.Controllers
             }
         }
 
-
-        // moet uit de controller *************************************************************
-        public async Task<bool> UserIsEmployeeOrTrainee()
-        {
-            var userId = _userManager.GetUserId(HttpContext.User);
-            var user = await employeeRepo.GetEmployee(userId);
-
-            if (user.Role == 2 || user.Role == 3)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        public async Task<bool> UserIsOutOfService()
-        {
-            var userId = _userManager.GetUserId(HttpContext.User);
-            bool outofservice = await employeeRepo.UserIsOneMonthInactive(userId);
-
-            if (outofservice == false)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
         public async Task<ViewResult> AccessDeniedView()
         {
             return View("~/Views/Home/AccessDenied.cshtml");
         }
-
-
 
         //public FileContentResult DownloadTotalHoursCSV(int totalWorked, int totalOvertime, int totalSickness, int totalVacation, int totalHoliday, int totalTraining, int totalOther) //eventueel filters meenemen..
         //{

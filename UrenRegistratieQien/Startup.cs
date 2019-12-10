@@ -49,6 +49,7 @@ namespace UrenRegistratieQien
                 options.AddPolicy("EmployeeAccessPolicy", policy => policy.RequireRole("Medewerker"));
                 options.AddPolicy("TraineeAccessPolicy", policy => policy.RequireRole("Trainee"));
             });
+            services.AddHttpContextAccessor();
 
         }
 
