@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using UrenRegistratieQien.DatabaseClasses;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace UrenRegistratieQien.Controllers
 {
@@ -20,15 +22,22 @@ namespace UrenRegistratieQien.Controllers
         private readonly UserManager<Employee> _userManager;
         private readonly IEmployeeRepository employeeRepo;
         private readonly IClientRepository clientRepo;
+        private readonly IHostingEnvironment he;
+
         public List<string> monthList { get; set; }
 
-        public AdminController(IDeclarationFormRepository DeclarationFormRepo, IEmployeeRepository EmployeeRepo, IClientRepository ClientRepo, UserManager<Employee> userManager = null)
+        public AdminController(IDeclarationFormRepository DeclarationFormRepo, 
+            IEmployeeRepository EmployeeRepo, 
+            IClientRepository ClientRepo,
+            IHostingEnvironment he,
+            UserManager<Employee> userManager = null)
         {
 
             _userManager = userManager;
             declarationFormRepo = DeclarationFormRepo;
             employeeRepo = EmployeeRepo;
             clientRepo = ClientRepo;
+            this.he = he;
             monthList = new List<string> { "Januari", "Februari", "March", "April", "May", "June", "Juli", "August", "September", "October", "November", "December" };
         }
 
@@ -206,11 +215,12 @@ namespace UrenRegistratieQien.Controllers
             return File(fileBytes, "Application/x-msexcel", fileName);
         }
 
-        //public async Task<FileContentResult> DownloadPdf(string fileName)
-        //{
-        //    byte[] fileBytes = System.IO.File.ReadAllBytes("wwwroot/Uploads/" + fileName);
-        //    return File(fileBytes, "application/pdf", fileName);
-        //}
+        public async Task<FileContentResult> DownloadAttachments(int formId)
+        {
+            var fileName = $"{formId}.zip";
+            byte[] fileBytes = System.IO.File.ReadAllBytes("wwwroot/Uploads/" + fileName);
+            return File(fileBytes, "application/zip", fileName);
+        }
 
         public FileContentResult DownloadTotalHoursCSV(int totalWorked, int totalOvertime, int totalSickness, int totalVacation, int totalHoliday, int totalTraining, int totalOther) //eventueel filters meenemen..
         {
@@ -246,7 +256,6 @@ namespace UrenRegistratieQien.Controllers
 
                 if (totalhoursyear == 0)
                 {
-
                     totalhoursyear = DateTime.Now.Year;
                 }
                 ViewBag.TotalHours = await declarationFormRepo.CalculateTotalHoursOfAll(forms, totalhoursmonth, totalhoursyear);

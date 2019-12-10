@@ -9,6 +9,7 @@ using MimeKit;
 using UrenRegistratieQien.Repositories;
 using UrenRegistratieQien.Models;
 using UrenRegistratieQien.MailService;
+using Microsoft.AspNetCore.Http;
 
 namespace UrenRegistratieQien.Controllers
 {
@@ -24,13 +25,13 @@ namespace UrenRegistratieQien.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> MailService(DeclarationFormModel decModel, string uniqueId, string formId, string employeeName)
+        public async Task<IActionResult> MailService(DeclarationFormModel decModel, string uniqueId, string formId, string employeeName, IFormFile file)
         {
+            await employeeRepo.UploadFile(file, decModel.FormId);
             if (!await employeeRepo.UserIsEmployeeOrTrainee())
             {
                 return await AccessDeniedView();
             }
-            
             await declarationFormRepo.EditDeclarationForm(decModel);
             await declarationFormRepo.SubmitDeclarationForm(decModel);
             await declarationFormRepo.CalculateTotalHours(decModel);
@@ -41,9 +42,7 @@ namespace UrenRegistratieQien.Controllers
         }
 
         public async Task<IActionResult> ApproveOrReject(string uniqueId, string formId, bool commentNotValid)
-
         {
-
             var formIdAsInt = Convert.ToInt32(formId);
 
             if (await declarationFormRepo.CheckIfIdMatches(uniqueId))

@@ -12,7 +12,7 @@ namespace UrenRegistratieQien.GlobalClasses
             
             switch (month)
             {
-                case "januari": case "Januari":
+                case "januari": case "Januari": case "January": case "january":
                     return 1;
                 case "februari": case "Februari":
                     return 2;
@@ -24,7 +24,7 @@ namespace UrenRegistratieQien.GlobalClasses
                     return 5;
                 case "june": case "June": case "Juni": case "juni":
                     return 6;
-                case "juli": case "Juli":
+                case "juli": case "Juli": case "July": case "july":
                     return 7;
                 case "august": case "August": case "Augustus": case "augustus":
                     return 8;
@@ -48,9 +48,9 @@ namespace UrenRegistratieQien.GlobalClasses
             switch (month)
             {
                 case 1:
-                    return "Januari";
+                    return "January";
                 case 2:
-                    return "Februari";
+                    return "February";
                 case 3:
                     return "March";
                 case 4:
@@ -60,7 +60,7 @@ namespace UrenRegistratieQien.GlobalClasses
                 case 6:
                     return "June";
                 case 7:
-                    return "Juli";
+                    return "July";
                 case 8:
                     return "August";
                 case 9:
