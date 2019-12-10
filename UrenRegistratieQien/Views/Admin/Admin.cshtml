@@ -167,59 +167,11 @@
                                     <td>@declarationFormModel.EmployeeName</td>
                                     <td>@declarationFormModel.Year</td>
                                     <td>
-
-                                        @if (declarationFormModel.Month == "January")
-                                        {
-                                            <text>Januari</text>
+                                        @{ 
+                                            var maandInt = UrenRegistratieQien.GlobalClasses.MonthConverter.ConvertMonthToInt(declarationFormModel.Month);
+                                            var maandString = UrenRegistratieQien.GlobalClasses.MonthConverter.ConvertIntToMaand(maandInt);
                                         }
-                                        else if (declarationFormModel.Month == "February")
-                                        {
-                                            <text>Februari</text>
-                                        }
-                                        else if (declarationFormModel.Month == "March")
-                                        {
-                                            <text>Maart</text>
-                                        }
-                                        else if (declarationFormModel.Month == "April")
-                                        {
-                                            <text>April</text>
-                                        }
-
-                                        else if (declarationFormModel.Month == "May")
-                                        {
-                                            <text>Mei</text>
-                                        }
-                                        else if (declarationFormModel.Month == "June")
-                                        {
-                                            <text>Juni</text>
-                                        }
-                                        else if (declarationFormModel.Month == "July")
-                                        {
-                                            <text>Juli</text>
-                                        }
-                                        else if (declarationFormModel.Month == "August")
-                                        {
-                                            <text>Augustus</text>
-                                        }
-                                        else if (declarationFormModel.Month == "September")
-                                        {
-                                            <text>September</text>
-                                        }
-
-                                        else if (declarationFormModel.Month == "October")
-                                        {
-                                            <text>Oktober</text>
-                                        }
-
-                                        else if (declarationFormModel.Month == "November")
-                                        {
-                                            <text>November</text>
-                                        }
-
-                                        else if (declarationFormModel.Month == "December")
-                                        {
-                                            <text>December</text>
-                                        }
+                                        @maandString
                                     </td>
                                     <td>
                                         @if (declarationFormModel.Approved == "Approved")
