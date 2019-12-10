@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using UrenRegistratieQien.Data;
@@ -349,7 +350,10 @@ namespace UrenRegistratieQien.Repositories
             if (picture != null)
             {
                 var fileName = Path.Combine(he.WebRootPath + "/ProfilePictures", Path.GetFileName(userId +".png"));
-                picture.CopyTo(new FileStream(fileName, FileMode.Create));
+                using (var stream = new FileStream(fileName, FileMode.Create))
+                {
+                    picture.CopyTo(stream);
+                }
             }
         }
 
@@ -357,15 +361,20 @@ namespace UrenRegistratieQien.Repositories
         {
             if (file != null)
             {
-                var fileName = Path.Combine(he.WebRootPath + "/Uploads", formId+"-" + Path.GetFileName(file.FileName));
-                file.CopyTo(new FileStream(fileName, FileMode.Create));
+                string name = Path.GetFileName(file.FileName);
+                //Directory.CreateDirectory("~/test");
+                var fileName = Path.Combine(he.WebRootPath + "/Uploads", name);
+                using (var stream = new FileStream(fileName, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+                await CreateZipFile(formId, name);
             }
         }
         public async Task<bool> UserIsAdmin()
         {
             var userId = _userManager.GetUserId(httpContextAccessor.HttpContext.User);
             var user = await GetEmployee(userId);
-
             if (user.Role == 1)
             {
                 return true;
@@ -373,6 +382,22 @@ namespace UrenRegistratieQien.Repositories
             else
             {
                 return false;
+            }
+        }
+
+        public async Task CreateZipFile(int formId, string name)
+        {
+            string sourceFileName = name;
+            string sourceFolder = he.WebRootPath + "/Uploads";
+            string zipFilePath = Path.Combine(he.WebRootPath + "/Uploads", $"{formId}.zip");
+
+            var mode = ZipArchiveMode.Update;
+            if (!File.Exists(zipFilePath))
+                mode = ZipArchiveMode.Create;
+
+            using (ZipArchive archive = ZipFile.Open(zipFilePath, mode))
+            {
+                archive.CreateEntryFromFile(Path.Combine(sourceFolder, sourceFileName), $"{sourceFileName}");
             }
         }
     }
