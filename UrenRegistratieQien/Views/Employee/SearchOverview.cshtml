@@ -7,11 +7,15 @@
 
     <div class="box-2">
 
+        <div class="box-2_2">
+      
         @using (Html.BeginForm("SearchOverview", "Employee", FormMethod.Get))
         {
             @Html.TextBox("searchString")
-            <input type="submit" value="Zoeken" class="btn btn-login" />
+            <input type="submit" value="Zoeken" class="btn-primary btn btnposition" />
+
         }
+        </div>
         <table class="fl-table table-wrapper" align="center">
 
 
@@ -20,7 +24,7 @@
                 <tr>
                     <th>Naam</th>
                     <th>Type Medewerker</th>
-                    <th>wijzig | verwijder</th>
+                    <th>Wijzig | Verwijder</th>
                 </tr>
             <thead>
 
@@ -55,7 +59,7 @@
                                 Wijzig
                             </a>
                             |
-                            @Html.ActionLink("Delete", "DeleteEmployee", new { EmployeeId = employee.EmployeeId }, new { onclick = "return confirm('Weet je zeker dat je de medewerker wilt verwijderen?');" })
+                            @Html.ActionLink("Verwijder", "DeleteEmployee", new { EmployeeId = employee.EmployeeId }, new { onclick = "return confirm('Weet je zeker dat je de medewerker wilt verwijderen?');" })
                             @*<a asp-area=""
                                    asp-controller="Admin"
                                    asp-action="DeleteEmployee"

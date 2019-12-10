@@ -89,7 +89,7 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
 
             [Required(ErrorMessage = "Telefoonnummer is verplicht")]
             [Display(Name = "Telefoonnummer")]
-            public int Phone { get; set; }
+            public string Phone { get; set; }
 
             [Required]
             [Display(Name = "Type gebruiker")]
@@ -137,7 +137,7 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
                     Address = Input.Adress,
                     ZIPCode = Input.ZIPCode,
                     Residence = Input.Residence,
-                    Phone = Input.Phone,
+                    PhoneNumber = Input.Phone,
                     DateRegistered = DateTime.Now,
                     Role = Input.Role,
                     StartDateRole = DateTime.Now,

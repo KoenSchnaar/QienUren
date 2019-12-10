@@ -17,6 +17,7 @@
     }
     string currentYear = Convert.ToString(DateTime.Now.Year);
     int currentYearInt = Convert.ToInt32(currentYear);
+
     var years = new List<int>();
     foreach (DeclarationFormModel declarationFormModel in ViewBag.AllForms)
     {
@@ -231,7 +232,7 @@
                                         }
                                         else if (declarationFormModel.Approved == "Pending")
                                         {
-                                            <img class="center" title="Pending" src="..\..\Images\Pending.jpg" style="margin: 0 auto; height: 25px; width: 25px" />
+                                            <img class="center" title="In Afwachting" src="..\..\Images\Pending.jpg" style="margin: 0 auto; height: 25px; width: 25px" />
                                         }
                                     </td>
                                     <td>
