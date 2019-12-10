@@ -2,24 +2,33 @@
 @{ 
     var roleAsString = "";
     if(Model.Role == 1)
-        {
-            roleAsString = "Admin";
-        }
+    {
+        roleAsString = "Admin";
+    }
     else if (Model.Role == 2)
-        {
-            roleAsString = "Medewerker";
-        }
+    {
+        roleAsString = "Medewerker";
+    }
     else if(Model.Role == 3)
-        {
-            roleAsString = "Trainee";
-        }
+    {
+        roleAsString = "Trainee";
+    }
     else if (Model.Role == 4)
-        {
-            roleAsString = "Inactief";
-        }
+    {
+        roleAsString = "Inactief";
+    }
 
     //IEnumerable<string> clients = ViewBag.ListOfClients;
-    
+
+    var roleSelectList = new SelectList(new List<string> { "Admin", "Medewerker", "Trainee", "Inactief" });
+    foreach(SelectListItem item in roleSelectList)
+    {
+        if(item.Text == roleAsString)
+        {
+            item.Selected = true;
+        }
+    }
+
 }
 
 <div class="Container-1">
@@ -63,7 +72,7 @@
                     <tr>
                         <td>Type medewerker</td>
                         <td>
-                            @Html.DropDownListFor(m => m.RoleAsString, new SelectList(new List<string> { "Admin", "Medewerker", "Trainee", "Inactief" }), roleAsString)
+                            @Html.DropDownListFor(m => m.RoleAsString, roleSelectList)
                     </td>
                     </tr>
                     <tr>
