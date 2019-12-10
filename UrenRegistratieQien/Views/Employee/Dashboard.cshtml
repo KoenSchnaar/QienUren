@@ -64,6 +64,7 @@
             <tbody>
                 @foreach (var form in Model)
                 {
+
                     <tr>
                         <td>@form.Year</td>
                         <td>@form.Month</td>
@@ -81,7 +82,7 @@
                             }
                             else if (form.Approved == "Pending")
                             {
-                            <img class="center" src="..\..\Images\Pending.jpg" style="margin: 0 auto; height: 20px; width: 20px" />
+                                <img class="center" src="..\..\Images\Pending.jpg" style="margin: 0 auto; height: 20px; width: 20px" />
                             }
                         </td>
                         <td>
@@ -115,7 +116,8 @@
                             </a>
                         </td>
                     </tr>
-                }
+                 }
+                
             </tbody>
         </table>
     </div>
