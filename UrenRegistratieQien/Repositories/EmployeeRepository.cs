@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using UrenRegistratieQien.Data;
@@ -17,12 +18,16 @@ namespace UrenRegistratieQien.Repositories
     public class EmployeeRepository : IEmployeeRepository
     {
         private readonly ApplicationDbContext context;
-        private readonly IHostingEnvironment he;
+        private readonly IWebHostEnvironment he;
+        private readonly UserManager<Employee> _userManager;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public EmployeeRepository(ApplicationDbContext context, IHostingEnvironment he)
+        public EmployeeRepository(ApplicationDbContext context, IWebHostEnvironment he, IHttpContextAccessor httpContextAccessor, UserManager<Employee> userManager = null)
         {
             this.context = context;
             this.he = he;
+            _userManager = userManager;
+            this.httpContextAccessor = httpContextAccessor;
         }
         public async Task<List<EmployeeModel>> GetEmployees()
         {
@@ -172,9 +177,6 @@ namespace UrenRegistratieQien.Repositories
                     context.HourRows.Remove(hourRow);
                 }
             }
-
-
-
             context.Users.Remove(employee);
             context.SaveChanges();
         }
@@ -268,11 +270,42 @@ namespace UrenRegistratieQien.Repositories
 
             if (roleId == 4 && DateTime.Now >= employee.StartDateRole.AddMonths(1))
             {
-                return employee.OutOfService = true;   
+                employee.OutOfService = true;
+                return true;   
             }
             else
             {
-                return employee.OutOfService = false;
+                employee.OutOfService = false;
+                return false;
+            }
+        }
+        public async Task<bool> UserIsEmployeeOrTrainee()
+        {
+            var userId = _userManager.GetUserId(httpContextAccessor.HttpContext.User);
+            var user = await GetEmployee(userId);
+            
+            if (user.Role == 2 || user.Role == 3)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> UserIsOutOfService()
+        {
+            var userId = _userManager.GetUserId(httpContextAccessor.HttpContext.User);
+            bool outofservice = await UserIsOneMonthInactive(userId);
+
+            if (outofservice == false)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
 
@@ -304,9 +337,6 @@ namespace UrenRegistratieQien.Repositories
                     Residence = employee.Residence
                 };
                 EmployeeModelList.Add(EmployeeModel);
-
-
-
             }
             return EmployeeModelList;
         }
@@ -320,7 +350,10 @@ namespace UrenRegistratieQien.Repositories
             if (picture != null)
             {
                 var fileName = Path.Combine(he.WebRootPath + "/ProfilePictures", Path.GetFileName(userId +".png"));
-                picture.CopyTo(new FileStream(fileName, FileMode.Create));
+                using (var stream = new FileStream(fileName, FileMode.Create))
+                {
+                    picture.CopyTo(stream);
+                }
             }
         }
 
@@ -328,11 +361,44 @@ namespace UrenRegistratieQien.Repositories
         {
             if (file != null)
             {
-                var fileName = Path.Combine(he.WebRootPath + "/Uploads", formId+"-" + Path.GetFileName(file.FileName));
-                file.CopyTo(new FileStream(fileName, FileMode.Create));
+                string name = Path.GetFileName(file.FileName);
+                //Directory.CreateDirectory("~/test");
+                var fileName = Path.Combine(he.WebRootPath + "/Uploads", name);
+                using (var stream = new FileStream(fileName, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+                await CreateZipFile(formId, name);
+            }
+        }
+        public async Task<bool> UserIsAdmin()
+        {
+            var userId = _userManager.GetUserId(httpContextAccessor.HttpContext.User);
+            var user = await GetEmployee(userId);
+            if (user.Role == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
+        public async Task CreateZipFile(int formId, string name)
+        {
+            string sourceFileName = name;
+            string sourceFolder = he.WebRootPath + "/Uploads";
+            string zipFilePath = Path.Combine(he.WebRootPath + "/Uploads", $"{formId}.zip");
 
+            var mode = ZipArchiveMode.Update;
+            if (!File.Exists(zipFilePath))
+                mode = ZipArchiveMode.Create;
+
+            using (ZipArchive archive = ZipFile.Open(zipFilePath, mode))
+            {
+                archive.CreateEntryFromFile(Path.Combine(sourceFolder, sourceFileName), $"{sourceFileName}");
+            }
+        }
     }
 }
