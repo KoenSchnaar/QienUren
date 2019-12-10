@@ -15,7 +15,7 @@ using UrenRegistratieQien.Repositories;
 
 namespace UrenRegistratieQien.Controllers
 {
-    
+
     public class EmployeeController : Controller
     {
         private readonly IClientRepository clientRepo;
@@ -25,10 +25,10 @@ namespace UrenRegistratieQien.Controllers
         private readonly UserManager<Employee> _userManager;
         private readonly IHostingEnvironment he;
 
-        public EmployeeController(IClientRepository ClientRepo, 
-                                  IDeclarationFormRepository DeclarationRepo, 
-                                  IEmployeeRepository EmployeeRepo, 
-                                  IHourRowRepository HourRowRepo, 
+        public EmployeeController(IClientRepository ClientRepo,
+                                  IDeclarationFormRepository DeclarationRepo,
+                                  IEmployeeRepository EmployeeRepo,
+                                  IHourRowRepository HourRowRepo,
                                   IHostingEnvironment he,
                                   UserManager<Employee> userManager = null)
         {
@@ -44,7 +44,7 @@ namespace UrenRegistratieQien.Controllers
         {
             return View();
         }
-
+        
         public async Task<IActionResult> Dashboard(string year = null, string month = null, string approved = null, string submitted = null, string sortDate = null)////// de filter toepassen in de model van deze
         {
             if (await UserIsEmployeeOrTrainee() || await UserIsOutOfService())
