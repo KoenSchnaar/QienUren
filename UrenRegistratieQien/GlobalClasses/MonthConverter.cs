@@ -16,21 +16,21 @@ namespace UrenRegistratieQien.GlobalClasses
                     return 1;
                 case "februari": case "Februari":
                     return 2;
-                case "march": case "March":
+                case "march": case "March": case "Maart": case "maart":
                     return 3;
                 case "april": case "April":
                     return 4;
-                case "may": case "May":
+                case "may": case "May": case "Mei": case "mei":
                     return 5;
-                case "june": case "June":
+                case "june": case "June": case "Juni": case "juni":
                     return 6;
                 case "juli": case "Juli":
                     return 7;
-                case "august": case "August":
+                case "august": case "August": case "Augustus": case "augustus":
                     return 8;
                 case "september": case "September":
                     return 9;
-                case "october": case "October":
+                case "october": case "October": case "Oktober": case "oktober":
                     return 10;
                 case "november": case "November":
                     return 11;

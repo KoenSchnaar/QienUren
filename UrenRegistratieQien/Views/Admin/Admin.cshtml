@@ -165,7 +165,61 @@
                                     <td>@declarationFormModel.DateCreated.Day/@declarationFormModel.DateCreated.Month/@declarationFormModel.DateCreated.Year</td>
                                     <td>@declarationFormModel.EmployeeName</td>
                                     <td>@declarationFormModel.Year</td>
-                                    <td>@declarationFormModel.Month</td>
+                                    <td>
+
+                                        @if (declarationFormModel.Month == "Januari")
+                                        {
+                                            <text>Januari</text>
+                                        }
+                                        else if (declarationFormModel.Month == "Februari")
+                                        {
+                                            <text>Februari</text>
+                                        }
+                                        else if (declarationFormModel.Month == "March")
+                                        {
+                                            <text>Maart</text>
+                                        }
+                                        else if (declarationFormModel.Month == "April")
+                                        {
+                                            <text>April</text>
+                                        }
+
+                                        else if (declarationFormModel.Month == "May")
+                                        {
+                                            <text>Mei</text>
+                                        }
+                                        else if (declarationFormModel.Month == "June")
+                                        {
+                                            <text>Juni</text>
+                                        }
+                                        else if (declarationFormModel.Month == "Juli")
+                                        {
+                                            <text>Juli</text>
+                                        }
+                                        else if (declarationFormModel.Month == "August")
+                                        {
+                                            <text>Augustus</text>
+                                        }
+                                        else if (declarationFormModel.Month == "September")
+                                        {
+                                            <text>September</text>
+                                        }
+
+                                        else if (declarationFormModel.Month == "October")
+                                        {
+                                            <text>Oktober</text>
+                                        }
+
+                                        else if (declarationFormModel.Month == "November")
+                                        {
+                                            <text>November</text>
+                                        }
+
+                                        else if (declarationFormModel.Month == "December")
+                                        {
+                                            <text>December</text>
+                                        }
+                                    </td>
                                     <td>
                                         @if (declarationFormModel.Approved == "Approved")
                                         {

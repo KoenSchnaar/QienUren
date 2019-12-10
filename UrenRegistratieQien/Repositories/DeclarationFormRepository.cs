@@ -527,6 +527,7 @@ namespace UrenRegistratieQien.Repositories
             foreach (var HourRow in decModel.HourRows)
             {
                 var declarationformEntity = context.DeclarationForms.Single(df => df.DeclarationFormId == decModel.FormId);
+                            
                 declarationformEntity.TotalWorkedHours += HourRow.Worked;
                 declarationformEntity.TotalOvertime += HourRow.Overtime;
                 declarationformEntity.TotalSickness += HourRow.Sickness;

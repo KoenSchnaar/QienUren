@@ -23,7 +23,7 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
         private readonly ILogger<LoginModel> _logger;
         private readonly IEmailSender _emailSender;
 
-        public LoginModel(SignInManager<Employee> signInManager, 
+        public LoginModel(SignInManager<Employee> signInManager,
             ILogger<LoginModel> logger,
             UserManager<Employee> userManager,
             IEmailSender emailSender)
@@ -41,6 +41,7 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
 
         public string ReturnUrl { get; set; }
 
+       
         [TempData]
         public string ErrorMessage { get; set; }
 
@@ -100,7 +101,7 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Ongeldige mail / wachtwoord combinatie");
                     return Page();
                 }
             }

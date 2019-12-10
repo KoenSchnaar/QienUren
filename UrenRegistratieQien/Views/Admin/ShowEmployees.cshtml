@@ -20,7 +20,7 @@
                 <tr>
                     <th>Naam</th>
                     <th>Type Medewerker</th>
-                    <th>wijzig | verwijder</th>
+                    <th>Wijzig | Verwijder</th>
                 </tr>
             <thead>
 
@@ -55,7 +55,7 @@
                                 Wijzig
                             </a>
                             |
-                            @Html.ActionLink("Delete", "DeleteEmployee", new { EmployeeId = employee.EmployeeId }, new { onclick = "return confirm('Weet je zeker dat je de medewerker wilt verwijderen?');" })
+                            @Html.ActionLink("Verwijder", "DeleteEmployee", new { EmployeeId = employee.EmployeeId }, new { onclick = "return confirm('Weet je zeker dat je de medewerker wilt verwijderen?');" })
                             @*<a asp-area=""
                                asp-controller="Admin"
                                asp-action="DeleteEmployee"
