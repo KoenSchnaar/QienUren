@@ -156,6 +156,7 @@
                                     @Html.DropDownList("submitted", new SelectList(new List<string> { "Ingediend", "Niet ingediend" }), "Geen filter")
                                 </th>
                                 <th>Commentaar</th>
+                                <th>Acties</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -199,26 +200,13 @@
                                     </td>
                                     <td>@declarationFormModel.Comment</td>
                                     <td>
-                                        <a asp-area=""
-                                           asp-controller="Admin"
-                                           asp-action="ViewDeclarationForm"
-                                           asp-route-formId="@declarationFormModel.FormId">
-                                            Inzien
-                                        </a>
-                                        <a asp-area=""
-                                           asp-controller="Admin"
-                                           asp-action="DownloadExcel"
-                                           asp-route-formId="@declarationFormModel.FormId">
-                                            Download Excel
-                                        </a>
-                                        @{
-                                            if (!(declarationFormModel.Approved == "Approved") && (declarationFormModel.Submitted == true))
-                                            {
-                                                @Html.ActionLink("Heropenen", "ReopenForm", new { FormId = declarationFormModel.FormId }, new { onclick = "return confirm('Weet je zeker dat je het formulier wil heropenen?');" })
-                                            }
-                                        }
-
-                                        @Html.ActionLink("Verwijderen", "DeleteDeclarationForm", new { FormId = declarationFormModel.FormId }, new { onclick = "return confirm('Weet je zeker dat je het formulier wil verwijderen?');" })
+                                        <select onchange="if (this.value) window.location.href=this.value">
+                                            <option value="">Kies je actie</option>
+                                            <option value="@Url.Action("ViewDeclarationForm", "Admin", new { declarationFormModel.FormId })">Inzien</option>
+                                            <option value="@Url.Action("DownloadExcel", "Admin", new { declarationFormModel.FormId })">Download Excel</option>
+                                            <option value="@Url.Action("DeleteDeclarationForm", "Admin", new { declarationFormModel.FormId })">Verwijderen</option>
+                                            <option value="@Url.Action("ReopenForm", "Admin", new { declarationFormModel.FormId })">Heropenen</option>
+                                        </select>
                                     </td>
                                 </tr>
                             }
