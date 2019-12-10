@@ -95,6 +95,7 @@ a {
     position: relative;
     top: 60px;
 }
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -251,6 +252,11 @@ body {
     align-content: center;
     text-align: center;
 }
+
+.grayrow{
+    background-color: darkgrey !important;
+}
+
 /*Overig*/
 .wide-textbox {
     /*width: 500px;*/

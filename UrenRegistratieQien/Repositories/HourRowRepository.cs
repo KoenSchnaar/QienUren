@@ -54,6 +54,7 @@ namespace UrenRegistratieQien.Repositories
             if (entity == null)
             {
                 var monthInt = MonthConverter.ConvertMonthToInt(month);
+                month = MonthConverter.ConvertIntToMonth(monthInt);
                 int days = DateTime.DaysInMonth(year, monthInt);
                 for (var i = 1; i <= days; i++)
                 {
