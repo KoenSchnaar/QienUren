@@ -11,6 +11,7 @@
     var Overtime = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.TotalOvertime).ToList());
     var Other = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.TotalOther).ToList());
     var Holiday = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.TotalHoliday).ToList());
+    var year = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.Year).ToList());
 
 
     ViewData["Title"] = "Line Chart";
@@ -25,13 +26,17 @@
 </head>
 <body>
     <div class="box-body">
-
         <div class="chart-container">
             <canvas id="chart" style="width:100%; height:500px"></canvas>
         </div>
     </div>
 </body>
 </html>
+
+<form asp-controller="Admin" asp-action="Charts">
+    @Html.DropDownList("year", new SelectList(ViewBag.years), "Geen filter")
+    <button >Pas jaar aan</button>
+</form>
 
 
 <script type="text/javascript">
@@ -111,9 +116,11 @@
                     ],
                     borderWidth: 1,
                         data: @Html.Raw(Other),
-                }, 
+                },
             ]
-        };
+            };
+
+
 
 var options = {
                 maintainAspectRatio: false,

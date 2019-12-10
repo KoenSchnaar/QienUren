@@ -26,9 +26,16 @@ namespace UrenRegistratieQienTest.Fakes
             throw new NotImplementedException();
         }
 
+<<<<<<< HEAD
+        //void IHourRowRepository.AddHourRows(int year, string month, int declarationFormId)
+        //{
+
+        //}
+=======
         Task IHourRowRepository.AddHourRows(int year, string month, int declarationFormId)
         {
             throw new NotImplementedException();
         }
+>>>>>>> master
     }
 }

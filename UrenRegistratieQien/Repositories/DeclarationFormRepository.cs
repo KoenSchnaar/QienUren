@@ -97,6 +97,7 @@ namespace UrenRegistratieQien.Repositories
                     year = year + 1;
                 }
 
+                //Medewerker kan een form creeeren max. 1 maand in de toekomst. 
                 if (monthInt == 1)
                 {
                     monthInt = 13;
@@ -533,8 +534,6 @@ namespace UrenRegistratieQien.Repositories
             declarationformEntity.TotalOther = 0;
             foreach (var HourRow in decModel.HourRows)
             {
-
-                
                 declarationformEntity.TotalWorkedHours += HourRow.Worked;
                 declarationformEntity.TotalOvertime += HourRow.Overtime;
                 declarationformEntity.TotalSickness += HourRow.Sickness;
@@ -578,7 +577,7 @@ namespace UrenRegistratieQien.Repositories
             context.SaveChanges();
         }
 
-        public async Task<List<TotalsForChartModel>> TotalHoursForCharts()
+        public async Task<List<TotalsForChartModel>> TotalHoursForCharts(int year)
         {
             var totalHoursList = new List<TotalsForChartModel>();
             
@@ -593,7 +592,7 @@ namespace UrenRegistratieQien.Repositories
 
             foreach(var model in totalHoursList)
             {
-                var entities = context.DeclarationForms.Where(d => d.Month == model.Month).ToList();
+                var entities = context.DeclarationForms.Where(d => d.Month == model.Month && d.Year == year).ToList();
                 foreach(var entity in entities)
                 {
                     model.TotalHoliday += entity.TotalHoliday;
@@ -606,6 +605,22 @@ namespace UrenRegistratieQien.Repositories
                 };
             }
             return totalHoursList;
+        }
+
+        public async Task<List<int>> GetAllYears()
+        {
+            var entities = context.DeclarationForms.ToList();
+
+            var years = new List<int>();
+
+            foreach (var entity in entities)
+            {
+                if (!years.Contains(entity.Year))
+                {
+                    years.Add(entity.Year);
+                }
+            }
+            return years;
         }
     }
 }

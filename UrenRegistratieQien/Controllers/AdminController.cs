@@ -100,7 +100,6 @@ namespace UrenRegistratieQien.Controllers
             }
         }
 
-
         [HttpPost]
         public async Task<IActionResult> EditEmployeeMailAdres(string employeeMailold, string employeeMailnew)
         {
@@ -244,6 +243,7 @@ namespace UrenRegistratieQien.Controllers
                 ViewBag.Months = monthList;
                 ViewBag.sortDate = sortDate;
                 var forms = await declarationFormRepo.GetAllForms();
+                await employeeRepo.CheckIfYearPassedForAllTrainees();
 
                 if (totalhoursyear == 0)
                 {
@@ -368,10 +368,10 @@ namespace UrenRegistratieQien.Controllers
             }
         }
 
-        public async Task<IActionResult> Charts()
+        public async Task<IActionResult> Charts(int year)
         {
-            List<TotalsForChartModel> lstModel = await declarationFormRepo.TotalHoursForCharts();
-
+            List<TotalsForChartModel> lstModel = await declarationFormRepo.TotalHoursForCharts(year);
+            ViewBag.years = await declarationFormRepo.GetAllYears();
             return View(lstModel);
         }
     }
