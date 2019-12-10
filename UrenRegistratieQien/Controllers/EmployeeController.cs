@@ -15,7 +15,7 @@ using UrenRegistratieQien.Repositories;
 
 namespace UrenRegistratieQien.Controllers
 {
-    
+
     public class EmployeeController : Controller
     {
         private readonly IClientRepository clientRepo;
@@ -44,7 +44,7 @@ namespace UrenRegistratieQien.Controllers
         {
             return View();
         }
-
+        
         public async Task<IActionResult> Dashboard(string year = null, string month = null, string approved = null, string submitted = null, string sortDate = null)////// de filter toepassen in de model van deze
         {
             if (await employeeRepo.UserIsEmployeeOrTrainee() || !await employeeRepo.UserIsOutOfService() && !await employeeRepo.UserIsAdmin()) 
