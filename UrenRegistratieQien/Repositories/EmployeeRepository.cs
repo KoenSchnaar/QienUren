@@ -18,12 +18,16 @@ namespace UrenRegistratieQien.Repositories
     public class EmployeeRepository : IEmployeeRepository
     {
         private readonly ApplicationDbContext context;
-        private readonly IHostingEnvironment he;
+        private readonly IWebHostEnvironment he;
+        private readonly UserManager<Employee> _userManager;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public EmployeeRepository(ApplicationDbContext context, IHostingEnvironment he)
+        public EmployeeRepository(ApplicationDbContext context, IWebHostEnvironment he, IHttpContextAccessor httpContextAccessor, UserManager<Employee> userManager = null)
         {
             this.context = context;
             this.he = he;
+            _userManager = userManager;
+            this.httpContextAccessor = httpContextAccessor;
         }
         public async Task<List<EmployeeModel>> GetEmployees()
         {
@@ -40,7 +44,7 @@ namespace UrenRegistratieQien.Repositories
                     LastName = employeeCasted.LastName,
                     Email = employeeCasted.Email,
                     Address = employeeCasted.Address,
-                    Phone = employeeCasted.Phone,
+                    Phone = employeeCasted.PhoneNumber,
                     Role = employeeCasted.Role
                 };
 
@@ -65,7 +69,7 @@ namespace UrenRegistratieQien.Repositories
                 LastName = employeeCasted.LastName,
                 Email = employeeCasted.Email,
                 Address = employeeCasted.Address,
-                Phone = employeeCasted.Phone,
+                Phone = employeeCasted.PhoneNumber,
                 Role = employeeCasted.Role,
                 ZIPCode = employeeCasted.ZIPCode,
                 Residence = employeeCasted.Residence
@@ -90,7 +94,7 @@ namespace UrenRegistratieQien.Repositories
                 LastName = employeeCasted.LastName,
                 Email = employeeCasted.Email,
                 Address = employeeCasted.Address,
-                Phone = employeeCasted.Phone,
+                Phone = employeeCasted.PhoneNumber,
                 Role = employeeCasted.Role,
                 ZIPCode = employeeCasted.ZIPCode,
                 Residence = employeeCasted.Residence
@@ -115,7 +119,7 @@ namespace UrenRegistratieQien.Repositories
                     LastName = employee.LastName,
                     Email = employee.Email,
                     Address = employee.Address,
-                    Phone = employee.Phone,
+                    Phone = employee.PhoneNumber,
                     Role = employee.Role,
                     ZIPCode = employee.ZIPCode,
                     Residence = employee.Residence
@@ -144,7 +148,7 @@ namespace UrenRegistratieQien.Repositories
                 LastName = returnEmployee.LastName,
                 Email = returnEmployee.Email,
                 Address = returnEmployee.Address,
-                Phone = returnEmployee.Phone,
+                Phone = returnEmployee.PhoneNumber,
                 Role = returnEmployee.Role,
                 ZIPCode = returnEmployee.ZIPCode,
                 Residence = returnEmployee.Residence
@@ -235,7 +239,7 @@ namespace UrenRegistratieQien.Repositories
             CastedDatabaseEmployee.LastName = employeeModel.LastName;
             CastedDatabaseEmployee.Email = employeeModel.Email;
             CastedDatabaseEmployee.Address = employeeModel.Address;
-            CastedDatabaseEmployee.Phone = employeeModel.Phone;
+            CastedDatabaseEmployee.PhoneNumber = employeeModel.Phone;
             CastedDatabaseEmployee.Role = role;
             CastedDatabaseEmployee.ZIPCode = employeeModel.ZIPCode;
             CastedDatabaseEmployee.Residence = employeeModel.Residence;
@@ -266,11 +270,42 @@ namespace UrenRegistratieQien.Repositories
 
             if (roleId == 4 && DateTime.Now >= employee.StartDateRole.AddMonths(1))
             {
-                return employee.OutOfService = true;   
+                employee.OutOfService = true;
+                return true;   
             }
             else
             {
-                return employee.OutOfService = false;
+                employee.OutOfService = false;
+                return false;
+            }
+        }
+        public async Task<bool> UserIsEmployeeOrTrainee()
+        {
+            var userId = _userManager.GetUserId(httpContextAccessor.HttpContext.User);
+            var user = await GetEmployee(userId);
+            
+            if (user.Role == 2 || user.Role == 3)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> UserIsOutOfService()
+        {
+            var userId = _userManager.GetUserId(httpContextAccessor.HttpContext.User);
+            bool outofservice = await UserIsOneMonthInactive(userId);
+
+            if (outofservice == false)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
 
@@ -296,15 +331,12 @@ namespace UrenRegistratieQien.Repositories
                     LastName = employee.LastName,
                     Email = employee.Email,
                     Address = employee.Address,
-                    Phone = employee.Phone,
+                    Phone = employee.PhoneNumber,
                     Role = employee.Role,
                     ZIPCode = employee.ZIPCode,
                     Residence = employee.Residence
                 };
                 EmployeeModelList.Add(EmployeeModel);
-
-
-
             }
             return EmployeeModelList;
         }
@@ -337,6 +369,19 @@ namespace UrenRegistratieQien.Repositories
                     file.CopyTo(stream);
                 }
                 await CreateZipFile(formId, name);
+            }
+        }
+        public async Task<bool> UserIsAdmin()
+        {
+            var userId = _userManager.GetUserId(httpContextAccessor.HttpContext.User);
+            var user = await GetEmployee(userId);
+            if (user.Role == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 

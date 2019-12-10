@@ -49,7 +49,7 @@ namespace UrenRegistratieQien.Controllers
 
         public async Task<IActionResult> ShowEmployees()
         {
-            if (await UserIsAdmin())
+            if (await employeeRepo.UserIsAdmin())
             {
                 var employees = employeeRepo.GetFilteredNames();
                 return View(employees);
@@ -61,7 +61,7 @@ namespace UrenRegistratieQien.Controllers
 
         public async Task<IActionResult> ChangeEmployee(string EmployeeId)
         {
-            if (await UserIsAdmin())
+            if (await employeeRepo.UserIsAdmin())
             {
                 var employee = await employeeRepo.GetEditingEmployee(EmployeeId);
                 var editingEmployee = (EditingEmployeeModel)employee;
@@ -84,7 +84,7 @@ namespace UrenRegistratieQien.Controllers
         
         public async Task<IActionResult> DeleteEmployee(string employeeId)
         {
-            if (await UserIsAdmin())
+            if (await employeeRepo.UserIsAdmin())
             {
                 await employeeRepo.DeleteEmployee(employeeId);
                 return RedirectToAction("ShowEmployees");
@@ -98,7 +98,7 @@ namespace UrenRegistratieQien.Controllers
         [HttpPost]
         public async Task<IActionResult> EditEmployee(EditingEmployeeModel empModel)
         {
-            if (await UserIsAdmin())
+            if (await employeeRepo.UserIsAdmin())
             {
                 await employeeRepo.EditEmployee(empModel);
                 return RedirectToAction("ShowEmployees");
@@ -118,7 +118,7 @@ namespace UrenRegistratieQien.Controllers
 
         public async Task<IActionResult> ShowClients()
         {
-            if (await UserIsAdmin())
+            if (await employeeRepo.UserIsAdmin())
             {
                 var clients = clientRepo.GetAllClients();
                 return View(clients);
@@ -131,7 +131,7 @@ namespace UrenRegistratieQien.Controllers
 
         public async Task<IActionResult> AddClient()
         {
-            if (await UserIsAdmin())
+            if (await employeeRepo.UserIsAdmin())
             {
                 return View(new ClientModel());
 
@@ -144,7 +144,7 @@ namespace UrenRegistratieQien.Controllers
         [HttpPost]
         public async Task<IActionResult> AddClient(ClientModel clientModel)
         {
-            if (await UserIsAdmin())
+            if (await employeeRepo.UserIsAdmin())
             {
 
                 await clientRepo.AddNewClient(clientModel);
@@ -157,7 +157,7 @@ namespace UrenRegistratieQien.Controllers
 
         public async Task<IActionResult> ChangeClient(int clientId)
         {
-            if (await UserIsAdmin())
+            if (await employeeRepo.UserIsAdmin())
             {
                 return View(await clientRepo.GetClient(clientId));
             } else
@@ -169,7 +169,7 @@ namespace UrenRegistratieQien.Controllers
         [HttpPost]
         public async Task<IActionResult> EditClient(ClientModel clientModel)
         {
-            if (await UserIsAdmin())
+            if (await employeeRepo.UserIsAdmin())
             {
                 await clientRepo.EditAClient(clientModel);
                 return RedirectToAction("ShowClients");
@@ -180,7 +180,7 @@ namespace UrenRegistratieQien.Controllers
         }
         public async Task<IActionResult> DeleteClient(int clientId)
         {
-            if (await UserIsAdmin())
+            if (await employeeRepo.UserIsAdmin())
             {
                 await clientRepo.DeleteClient(clientId);
                 return RedirectToAction("ShowClients");
@@ -192,7 +192,7 @@ namespace UrenRegistratieQien.Controllers
 
         public async Task<IActionResult> ViewDeclarationForm(int formId)
         {
-            if (await UserIsAdmin())
+            if (await employeeRepo.UserIsAdmin())
             {
                 var form = await declarationFormRepo.GetForm(formId);
                 return View(form);
@@ -224,7 +224,6 @@ namespace UrenRegistratieQien.Controllers
 
         public FileContentResult DownloadTotalHoursCSV(int totalWorked, int totalOvertime, int totalSickness, int totalVacation, int totalHoliday, int totalTraining, int totalOther) //eventueel filters meenemen..
         {
-            Console.WriteLine("er gebeurt download CSV");
             List<string> downloadableList = new List<string>
             {
                 Convert.ToString(totalWorked),
@@ -247,7 +246,7 @@ namespace UrenRegistratieQien.Controllers
 
         public async Task<IActionResult> Admin(string year, string month, string employeeName, string approved, string submitted, string totalhoursmonth, int totalhoursyear, string sortDate)
         {
-            if (await UserIsAdmin())
+            if (await employeeRepo.UserIsAdmin())
             {
                 ViewBag.AllForms = await declarationFormRepo.GetAllForms();
                 ViewBag.Months = monthList;
@@ -280,7 +279,7 @@ namespace UrenRegistratieQien.Controllers
 
         public async Task<IActionResult> AdminWithEmployeeId(string employeeId)
         {
-            if (await UserIsAdmin())
+            if (await employeeRepo.UserIsAdmin())
             {
                 ViewBag.AllForms = await declarationFormRepo.GetAllForms();
                 ViewBag.Months = monthList;
@@ -294,7 +293,7 @@ namespace UrenRegistratieQien.Controllers
 
         public async Task<IActionResult> AdminWithMonthYear(string month, int year)
         {
-            if (await UserIsAdmin())
+            if (await employeeRepo.UserIsAdmin())
             {
                 ViewBag.AllForms = await declarationFormRepo.GetAllForms();
                 ViewBag.Months = monthList;
@@ -308,7 +307,7 @@ namespace UrenRegistratieQien.Controllers
 
         public async Task<IActionResult> EmployeeForms(string employeeId)
         {
-            if (await UserIsAdmin())
+            if (await employeeRepo.UserIsAdmin())
             {
                 var forms = declarationFormRepo.GetAllFormsOfUser(employeeId);
                 return View(forms);
@@ -318,19 +317,7 @@ namespace UrenRegistratieQien.Controllers
             }
         }
 
-        public async Task<bool> UserIsAdmin()
-        {
-            var userId = _userManager.GetUserId(HttpContext.User);
-            var user = await employeeRepo.GetEmployee(userId);
-
-            if (user.Role == 1)
-            {
-                return true;
-            } else
-            {
-                return false;
-            }
-        }
+        
 
         public async Task<ViewResult> AccessDeniedView()
         {
@@ -339,7 +326,7 @@ namespace UrenRegistratieQien.Controllers
 
         public async Task<IActionResult> CreateFormForUser()
         {
-            if (await UserIsAdmin())
+            if (await employeeRepo.UserIsAdmin())
             {
                 ViewBag.Employees = await employeeRepo.getEmployeeSelectList();
                 return View();
@@ -353,7 +340,7 @@ namespace UrenRegistratieQien.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateFormForUser(string employeeId, string month, int year)
         {
-            if (await UserIsAdmin())
+            if (await employeeRepo.UserIsAdmin())
             {
                 await declarationFormRepo.CreateFormForUser(employeeId, month, year);
                 return RedirectToAction("CreateFormForUser");
@@ -366,7 +353,7 @@ namespace UrenRegistratieQien.Controllers
 
         public async Task<IActionResult> DeleteDeclarationForm(int FormId)
         {
-            if (await UserIsAdmin())
+            if (await employeeRepo.UserIsAdmin())
             {
                 await declarationFormRepo.DeleteDeclarationForm(FormId);
                 return RedirectToAction("Admin");

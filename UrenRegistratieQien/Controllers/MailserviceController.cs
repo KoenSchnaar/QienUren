@@ -28,6 +28,10 @@ namespace UrenRegistratieQien.Controllers
         public async Task<IActionResult> MailService(DeclarationFormModel decModel, string uniqueId, string formId, string employeeName, IFormFile file)
         {
             await employeeRepo.UploadFile(file, decModel.FormId);
+            if (!await employeeRepo.UserIsEmployeeOrTrainee())
+            {
+                return await AccessDeniedView();
+            }
             await declarationFormRepo.EditDeclarationForm(decModel);
             await declarationFormRepo.SubmitDeclarationForm(decModel);
             await declarationFormRepo.CalculateTotalHours(decModel);
@@ -76,6 +80,10 @@ namespace UrenRegistratieQien.Controllers
             {
                 return RedirectToAction("ApproveOrReject", new { uniqueId = uniqueId, formId = FormId, commentNotValid = true});
             }
+        }
+        public async Task<ViewResult> AccessDeniedView()
+        {
+            return View("~/Views/Home/AccessDenied.cshtml");
         }
     }
 }
