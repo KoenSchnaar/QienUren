@@ -187,7 +187,7 @@ namespace UrenRegistratieQien.Controllers
             {
                 var form = await declarationFormRepo.GetForm(formId);
                 return View(form);
-            } else
+            }else
             {
                 return await AccessDeniedView();
             }
@@ -243,6 +243,7 @@ namespace UrenRegistratieQien.Controllers
                 ViewBag.Months = monthList;
                 ViewBag.sortDate = sortDate;
                 var forms = await declarationFormRepo.GetAllForms();
+                await employeeRepo.CheckIfYearPassedForAllTrainees();
 
                 if (totalhoursyear == 0)
                 {

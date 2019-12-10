@@ -1,6 +1,7 @@
 ﻿@model DeclarationFormModel
 @{
     ViewData["Title"] = "ViewDeclarationForm";
+    int i = 0;
 }
 
 <div class="Container-1">
@@ -10,13 +11,7 @@
 
     <div class="box-2">
         <form>
-            @*<button type="submit" class="btn-primary btn"
-                asp-controller="Admin"
-                asp-action="DownloadExcel"
-                asp-route-declarationForm=@Model>
-            Download als Excel
-        </button>*@
-            <a asp-area=""
+            <a class="btnposition" asp-area=""
                asp-controller="Admin"
                asp-action="DownloadExcel"
                asp-route-formId="@Model.FormId">
@@ -40,21 +35,42 @@
             </thead>
 
             <tbody>
+
                 @foreach (var hourRow in Model.HourRows)
                 {
-                    <tr>
-                        <td>@hourRow.Date</td>
-                        <td>@hourRow.Worked</td>
-                        <td>@hourRow.Overtime</td>
-                        <td>@hourRow.Sickness</td>
-                        <td>@hourRow.Vacation</td>
-                        <td>@hourRow.Holiday</td>
-                        <td>@hourRow.Training</td>
-                        <td>@hourRow.Other</td>
-                        <td>@hourRow.OtherExplanation</td>
-                    </tr>
-                }
-            </tbody>
+                    
+                    if (i == 15)
+                    {
+
+                        <thead>
+                            <tr>
+                                <th class="tableHeader">Date</th>
+                                <th class="tableHeader">Gewerkt</th>
+                                <th class="tableHeader">Overwerk</th>
+                                <th class="tableHeader">Ziekte</th>
+                                <th class="tableHeader">Vakantie</th>
+                                <th class="tableHeader">Feestdagen</th>
+                                <th class="tableHeader">Training</th>
+                                <th class="tableHeader">Overig</th>
+                                <th>Overig Uitleg</th>
+                            </tr>
+                        </thead>
+                    }
+                    i += 1;
+                    
+                        <tr>
+                            <td>@hourRow.Date</td>
+                            <td>@hourRow.Worked</td>
+                            <td>@hourRow.Overtime</td>
+                            <td>@hourRow.Sickness</td>
+                            <td>@hourRow.Vacation</td>
+                            <td>@hourRow.Holiday</td>
+                            <td>@hourRow.Training</td>
+                            <td>@hourRow.Other</td>
+                            <td>@hourRow.OtherExplanation</td>
+                        </tr>
+                 }
+             </tbody>
         </table>
     </div>
 </div>

@@ -17,6 +17,7 @@
     }
     string currentYear = Convert.ToString(DateTime.Now.Year);
     int currentYearInt = Convert.ToInt32(currentYear);
+
     var years = new List<int>();
     foreach (DeclarationFormModel declarationFormModel in ViewBag.AllForms)
     {
@@ -55,8 +56,8 @@
         <div>
             @using (Html.BeginForm("Admin", "Admin"))
             {
-                <input type="submit" class="btn-primary btn" value="Filter ->" />
-                <button class="btn-primary btn"
+                <input type="submit" class="btn-primary btn btnposition" value="Filters toepassen" />
+                <button class="btn-primary btn btnposition"
                         asp-controller="Admin"
                         asp-action="DownloadTotalHoursCSV"
                         asp-route-totals=@totalHours
@@ -116,7 +117,7 @@
             </div>
             @using (Html.BeginForm("Admin", "Admin"))
             {
-                <input type="submit" class="btn-primary btn" value="Filters Toepassen" />
+                <input type="submit" class="btn-primary btn btnposition" value="Filters toepassen" />
                 <div class="table-wrapper">
                     <table class="fl-table" align="center">
                         <thead>
@@ -165,7 +166,61 @@
                                     <td>@declarationFormModel.DateCreated.Day/@declarationFormModel.DateCreated.Month/@declarationFormModel.DateCreated.Year</td>
                                     <td>@declarationFormModel.EmployeeName</td>
                                     <td>@declarationFormModel.Year</td>
-                                    <td>@declarationFormModel.Month</td>
+                                    <td>
+
+                                        @if (declarationFormModel.Month == "Januari")
+                                        {
+                                            <text>Januari</text>
+                                        }
+                                        else if (declarationFormModel.Month == "Februari")
+                                        {
+                                            <text>Februari</text>
+                                        }
+                                        else if (declarationFormModel.Month == "March")
+                                        {
+                                            <text>Maart</text>
+                                        }
+                                        else if (declarationFormModel.Month == "April")
+                                        {
+                                            <text>April</text>
+                                        }
+
+                                        else if (declarationFormModel.Month == "May")
+                                        {
+                                            <text>Mei</text>
+                                        }
+                                        else if (declarationFormModel.Month == "June")
+                                        {
+                                            <text>Juni</text>
+                                        }
+                                        else if (declarationFormModel.Month == "Juli")
+                                        {
+                                            <text>Juli</text>
+                                        }
+                                        else if (declarationFormModel.Month == "August")
+                                        {
+                                            <text>Augustus</text>
+                                        }
+                                        else if (declarationFormModel.Month == "September")
+                                        {
+                                            <text>September</text>
+                                        }
+
+                                        else if (declarationFormModel.Month == "October")
+                                        {
+                                            <text>Oktober</text>
+                                        }
+
+                                        else if (declarationFormModel.Month == "November")
+                                        {
+                                            <text>November</text>
+                                        }
+
+                                        else if (declarationFormModel.Month == "December")
+                                        {
+                                            <text>December</text>
+                                        }
+                                    </td>
                                     <td>
                                         @if (declarationFormModel.Approved == "Approved")
                                         {

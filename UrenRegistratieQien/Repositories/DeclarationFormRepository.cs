@@ -97,6 +97,7 @@ namespace UrenRegistratieQien.Repositories
                     year = year + 1;
                 }
 
+                //Medewerker kan een form creeeren max. 1 maand in de toekomst. 
                 if (monthInt == 1)
                 {
                     monthInt = 13;
@@ -523,9 +524,16 @@ namespace UrenRegistratieQien.Repositories
         }
         public async Task CalculateTotalHours(DeclarationFormModel decModel)
         {
+            var declarationformEntity = context.DeclarationForms.Single(df => df.DeclarationFormId == decModel.FormId);
+            declarationformEntity.TotalWorkedHours = 0;
+            declarationformEntity.TotalOvertime = 0;
+            declarationformEntity.TotalSickness = 0;
+            declarationformEntity.TotalVacation = 0;
+            declarationformEntity.TotalHoliday = 0;
+            declarationformEntity.TotalTraining = 0;
+            declarationformEntity.TotalOther = 0;
             foreach (var HourRow in decModel.HourRows)
             {
-                var declarationformEntity = context.DeclarationForms.Single(df => df.DeclarationFormId == decModel.FormId);
                 declarationformEntity.TotalWorkedHours += HourRow.Worked;
                 declarationformEntity.TotalOvertime += HourRow.Overtime;
                 declarationformEntity.TotalSickness += HourRow.Sickness;
