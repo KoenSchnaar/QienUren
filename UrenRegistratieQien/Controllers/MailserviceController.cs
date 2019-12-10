@@ -8,6 +8,7 @@ using MailKit.Net.Smtp;
 using MimeKit;
 using UrenRegistratieQien.Repositories;
 using UrenRegistratieQien.Models;
+using UrenRegistratieQien.MailService;
 
 namespace UrenRegistratieQien.Controllers
 {
@@ -23,38 +24,14 @@ namespace UrenRegistratieQien.Controllers
         [HttpPost]
         public async Task<IActionResult> MailService(DeclarationFormModel decModel, string uniqueId, string formId, string employeeName)
         {
-
-
             await declarationFormRepo.EditDeclarationForm(decModel);
             await declarationFormRepo.SubmitDeclarationForm(decModel);
             await declarationFormRepo.CalculateTotalHours(decModel);
 
-
-            //message components
-            string month = decModel.Month;
-
-            var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("Hans", "hanshanshans812@gmail.com"));
-            message.To.Add(new MailboxAddress("Koen", "Koenschnaar@gmail.com"));
-            message.Subject = $"Urendeclaratieformulier van {employeeName} voor de maand {decModel.Month}";
-            var link = "https://localhost:5001/Mailservice/ApproveOrReject/?uniqueId=" + uniqueId + "&formId=" + formId;
-            message.Body = new TextPart("html")
-            
-            {
-                Text = $"{employeeName} wil graag dat u het urendeclaratieformulier goedkeurt. <br/> Klik op de link om naar het formulier te gaan: <a href={link}>Klik hier!</a>"
-            };
-
-            using (var client = new SmtpClient())
-            {
-                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                client.Connect("Smtp.gmail.com", 587, false);
-                client.Authenticate("hanshanshans812@gmail.com", "Hans123!");
-                client.Send(message);
-                client.Disconnect(true);
-            }
+            //hier word mail opgesteld en verstuurd
+            Mailservice.MailFormToClient(decModel, uniqueId, formId, employeeName);
             return RedirectToRoute(new { controller = "Home", action = "Index" });
         }
-
 
         public async Task<IActionResult> ApproveOrReject(string uniqueId, string formId, bool commentNotValid)
 
@@ -65,20 +42,22 @@ namespace UrenRegistratieQien.Controllers
             if (await declarationFormRepo.CheckIfIdMatches(uniqueId))
             {
                 var declarationFormModel = await declarationFormRepo.GetForm(formIdAsInt);
-                return View(new RejectFormModel { declarationFormModel = declarationFormModel, commentNotValid = commentNotValid});
-            } else
+                return View(new RejectFormModel { declarationFormModel = declarationFormModel, commentNotValid = commentNotValid });
+            }
+            else
             {
                 return View("~/Views/Mailservice/ErrorUnknownId.cshtml");
             }
         }
 
+
         [HttpPost]
         public async Task<IActionResult> Approve(string formId)
         {
             await declarationFormRepo.ApproveForm(Convert.ToInt32(formId));
-
             return View();
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Reject(int FormId, RejectFormModel rejectFormModel)
@@ -86,7 +65,7 @@ namespace UrenRegistratieQien.Controllers
             var declarationFormModel = await declarationFormRepo.GetForm(FormId);
             var uniqueId = declarationFormModel.uniqueId;
             var comment = rejectFormModel.comment;
-            var modelstate = ModelState.IsValid;
+
             if (ModelState.IsValid)
             {
                 await declarationFormRepo.RejectForm(FormId, comment);

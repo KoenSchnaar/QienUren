@@ -54,7 +54,17 @@ namespace UrenRegistratieQien.Controllers
         {
             if (await UserIsAdmin())
             {
-                var employee = await employeeRepo.GetEmployee(EmployeeId);
+                var employee = await employeeRepo.GetEditingEmployee(EmployeeId);
+                var editingEmployee = (EditingEmployeeModel)employee;
+
+                var clients = clientRepo.GetAllClients();
+                List<string> clientnames = new List<string>();
+                foreach(ClientModel client in clients)
+                {
+                    clientnames.Add(client.CompanyName);
+                }
+                ViewBag.ListOfClients = clientnames;
+
                 return View(employee);
             }
             else
@@ -77,7 +87,7 @@ namespace UrenRegistratieQien.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditEmployee(EmployeeModel empModel)
+        public async Task<IActionResult> EditEmployee(EditingEmployeeModel empModel)
         {
             if (await UserIsAdmin())
             {
@@ -89,7 +99,6 @@ namespace UrenRegistratieQien.Controllers
                 return await AccessDeniedView();
             }
         }
-
 
         [HttpPost]
         public async Task<IActionResult> EditEmployeeMailAdres(string employeeMailold, string employeeMailnew)
@@ -203,11 +212,6 @@ namespace UrenRegistratieQien.Controllers
         //    return File(fileBytes, "application/pdf", fileName);
         //}
 
-
-
-
-
-
         public FileContentResult DownloadTotalHoursCSV(int totalWorked, int totalOvertime, int totalSickness, int totalVacation, int totalHoliday, int totalTraining, int totalOther) //eventueel filters meenemen..
         {
             Console.WriteLine("er gebeurt download CSV");
@@ -239,9 +243,11 @@ namespace UrenRegistratieQien.Controllers
                 ViewBag.Months = monthList;
                 ViewBag.sortDate = sortDate;
                 var forms = await declarationFormRepo.GetAllForms();
+                await employeeRepo.CheckIfYearPassedForAllTrainees();
 
                 if (totalhoursyear == 0)
                 {
+
                     totalhoursyear = DateTime.Now.Year;
                 }
                 ViewBag.TotalHours = await declarationFormRepo.CalculateTotalHoursOfAll(forms, totalhoursmonth, totalhoursyear);
@@ -362,10 +368,10 @@ namespace UrenRegistratieQien.Controllers
             }
         }
 
-        public async Task<IActionResult> Charts()
+        public async Task<IActionResult> Charts(int year)
         {
-            List<TotalsForChartModel> lstModel = await declarationFormRepo.TotalHoursForCharts();
-
+            List<TotalsForChartModel> lstModel = await declarationFormRepo.TotalHoursForCharts(year);
+            ViewBag.years = await declarationFormRepo.GetAllYears();
             return View(lstModel);
         }
     }

@@ -15,7 +15,8 @@
             employeeNames.Add(declarationFormModel.EmployeeName);
         }
     }
-
+    string currentYear = Convert.ToString(DateTime.Now.Year);
+    int currentYearInt = Convert.ToInt32(currentYear);
     var years = new List<int>();
     foreach (DeclarationFormModel declarationFormModel in ViewBag.AllForms)
     {
@@ -24,6 +25,17 @@
             years.Add(declarationFormModel.Year);
         }
     }
+
+    years.Sort();
+    var yearsSelectList = new SelectList(years);
+    foreach(var x in yearsSelectList)
+    {
+        if(x.Text == currentYear)
+        {
+            x.Selected = true;
+        }
+    }
+
     var stringAscending = "Ascending";
     var stringDescending = "Descending";
     var totalHours = (TotalsModel)ViewBag.TotalHours;
@@ -43,8 +55,8 @@
         <div>
             @using (Html.BeginForm("Admin", "Admin"))
             {
-                <input type="submit" class="btn-primary btn" value="Filter ->" />
-                <button class="btn-primary btn"
+                <input type="submit" class="btn-primary btn btnposition" value="Filters toepassen" />
+                <button class="btn-primary btn btnposition"
                         asp-controller="Admin"
                         asp-action="DownloadTotalHoursCSV"
                         asp-route-totals=@totalHours
@@ -75,7 +87,7 @@
 
                             <tr>
                                 <td>
-                                    @Html.DropDownList("totalhoursyear", new SelectList(years), DateTime.Now.Year)
+                                    @Html.DropDownList("totalhoursyear", yearsSelectList)
                                 </td>
                                 <td>
                                     @Html.DropDownList("totalhoursmonth", new SelectList(Enum.GetValues(typeof(Months))), "Alle maanden")
@@ -104,7 +116,7 @@
             </div>
             @using (Html.BeginForm("Admin", "Admin"))
             {
-                <input type="submit" class="btn-primary btn" value="Filters Toepassen" />
+                <input type="submit" class="btn-primary btn btnposition" value="Filters toepassen" />
                 <div class="table-wrapper">
                     <table class="fl-table" align="center">
                         <thead>
@@ -136,7 +148,7 @@
                                 </th>
                                 <th>
                                     Goedgekeurd
-                                    @Html.DropDownList("approved", new SelectList(Enum.GetValues(typeof(Status))), "Geen filter")
+                                    @Html.DropDownList("approved", new SelectList(new List<string> { "Goedgekeurd", "In Afwachting", "Afgekeurd"}), "Geen filter")
                                 </th>
                                 <th>
                                     Ingediend

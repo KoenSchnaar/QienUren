@@ -25,43 +25,42 @@
         <div align="center">
             <h1>Urenoverzicht</h1>
         </div>
-        <form asp-controller="DeclarationForm" asp-action="CreateForm" asp-route-employeeId=@employeeId>
-            <input class="btn-primary btn" type="submit" value="Nieuw Formulier Maken" />
-        </form>
-        <table class="fl-table table-wrapper" align="center">
-            @using (Html.BeginForm("Dashboard", "Employee"))
-            {
-                <input class="btn-primary btn" type="submit" value="Filters Toepassen" />
-                <thead>
-                    <tr>
-                        <th>
-                            Jaar
-                            @Html.DropDownList("year", new SelectList(years), "Geen filter")
-                        </th>
-                        <th>
-                            Maand
-                            @Html.DropDownList("month", new SelectList(Enum.GetValues(typeof(Months))), "Geen filter")
-                        </th>
-                        <th>Uren gewerkt</th>
-                        <th>Overwerk</th>
-                        <th>Ziekte</th>
-                        <th>
-                            Status
-                            @Html.DropDownList("approved", new SelectList(new List<string> { "Goedgekeurd", "Niet goedgekeurd" }), "Geen filter")
+        <div>
+            <form asp-controller="DeclarationForm" asp-action="CreateForm" asp-route-employeeId=@employeeId>
+                <input class="btn-primary btn btnposition-right" type="submit" value="Nieuw formulier maken" />
+            </form>
+            <table class="fl-table table-wrapper">
+                @using (Html.BeginForm("Dashboard", "Employee"))
+                {
+                    <input class="btn-primary btn btnposition" type="image" alt="filter toepassen" src="..\..\Images\iconfinder_funnel_filter_short_shorting_4831025.png" title="filter toepassen"/>
+                    <thead>
+                        <tr>
+                            <th>
+                                Jaar
+                                @Html.DropDownList("year", new SelectList(years), "Geen filter")
+                            </th>
+                            <th>
+                                Maand
+                                @Html.DropDownList("month", new SelectList(Enum.GetValues(typeof(Months))), "Geen filter")
+                            </th>
+                            <th>Uren gewerkt</th>
+                            <th>Overwerk</th>
+                            <th>Ziekte</th>
+                            <th>
+                                Status
+                                @Html.DropDownList("approved", new SelectList(new List<string> { "Goedgekeurd", "In Afwachting", "Afgekeurd" }), "Geen filter")
 
-                        </th>
-                        <th>
-                            Ingediend
-                            @Html.DropDownList("submitted", new SelectList(new List<string> { "Ingediend", "Niet ingediend" }), "Geen filter")
+                            </th>
+                            <th>
+                                Ingediend
+                                @Html.DropDownList("submitted", new SelectList(new List<string> { "Ingediend", "Niet ingediend" }), "Geen filter")
 
-                        </th>
-                        <th>Opmerking</th>
-                        <th>Inzien</th>
-                    </tr>
-                </thead>
-
-            }
-
+                            </th>
+                            <th>Opmerking</th>
+                            <th>Inzien</th>
+                        </tr>
+                    </thead>
+                }
             <tbody>
                 @foreach (var form in Model)
                 {
@@ -82,10 +81,9 @@
                             }
                             else if (form.Approved == "Pending")
                             {
-                            <img class="center" src="..\..\Images\Pending.jpg" style="margin: 0 auto; height: 25px; width: 25px" />
+                            <img class="center" src="..\..\Images\Pending.jpg" style="margin: 0 auto; height: 20px; width: 20px" />
                             }
                         </td>
-
                         <td>
                             @if (form.Submitted == true)
                             {
@@ -99,28 +97,28 @@
 
                         <td>@form.Comment</td>
                         <td>
-                            <a class="nav-link text-dark linkjes"
-                               asp-area=""
-                               asp-controller="DeclarationForm"
-                               asp-action="HourReg"
-                               asp-route-declarationFormId="@form.FormId"
-                               asp-route-userId="@ViewBag.User.EmployeeId"
-                               asp-route-employeeName="@employeeName"
-                               asp-route-month="@form.Month"
-                               asp-route-year="@form.Year">
+                            <a asp-area=""
+                                asp-controller="DeclarationForm"
+                                asp-action="HourReg"
+                                asp-route-declarationFormId="@form.FormId"
+                                asp-route-userId="@ViewBag.User.EmployeeId"
+                                asp-route-employeeName="@employeeName"
+                                asp-route-month="@form.Month"
+                                asp-route-year="@form.Year">
                                 Inzien
                             </a>
                             <a asp-area=""
-                               asp-controller="Employee"
-                               asp-action="DownloadExcel"
-                               asp-route-formId="@form.FormId">
+                                asp-controller="Employee"
+                                asp-action="DownloadExcel"
+                                asp-route-formId="@form.FormId">
                                 Download Excel
                             </a>
                         </td>
                     </tr>
-                    }
+                }
             </tbody>
         </table>
     </div>
 </div>
+
 

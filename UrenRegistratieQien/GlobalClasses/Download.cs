@@ -44,7 +44,6 @@ namespace UrenRegistratieQien.GlobalClasses
                 file.WriteLine(header);
                 file.WriteLine(downloadString);
             }
-
         }
 
         public void MakeExcel(string fileName, List<HourRowModel> hourRows)
