@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using UrenRegistratieQien.Data;
 using UrenRegistratieQien.DatabaseClasses;
+using UrenRegistratieQien.Exceptions;
 using UrenRegistratieQien.GlobalClasses;
 using UrenRegistratieQien.Models;
 
@@ -15,6 +16,7 @@ namespace UrenRegistratieQien.Repositories
     {
         private readonly ApplicationDbContext context;
         private readonly IHourRowRepository hourRowRepo;
+        public object ViewBag { get; set; }
 
         public DeclarationFormRepository(ApplicationDbContext context, IHourRowRepository hourRowRepo)
         {
@@ -498,8 +500,18 @@ namespace UrenRegistratieQien.Repositories
                 entity.Training = row.Training;
                 entity.Other = row.Other;
                 entity.OtherExplanation = row.OtherExplanation;
+                row.TotalRow = row.Worked + row.Overtime + row.Sickness + row.Vacation + row.Holiday + row.Training + row.Other;
+
+                if (row.TotalRow > 24)
+                {
+                    throw new MoreThan24HoursException();
+                }
+                else
+                {
+                    context.SaveChanges();
+                }
             }
-            context.SaveChanges();
+            //context.SaveChanges();
         }
 
         public async Task SubmitDeclarationForm(DeclarationFormModel formModel)

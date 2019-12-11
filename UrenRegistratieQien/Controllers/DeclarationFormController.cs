@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UrenRegistratieQien.DatabaseClasses;
+using UrenRegistratieQien.Exceptions;
 using UrenRegistratieQien.GlobalClasses;
 using UrenRegistratieQien.Models;
 using UrenRegistratieQien.Repositories;
@@ -52,7 +53,17 @@ namespace UrenRegistratieQien.Controllers
             if (await employeeRepo.UserIsEmployeeOrTrainee())
             {
                 await employeeRepo.UploadFile(file, decModel.FormId);
-                await declarationRepo.EditDeclarationForm(decModel);
+
+                try
+                {
+                    await declarationRepo.EditDeclarationForm(decModel);
+                }
+                catch (MoreThan24HoursException e)
+                {
+                    ViewBag.ErrorMessage = e.Message;
+                    return View("HourReg");
+                }
+
                 await declarationRepo.CalculateTotalHours(decModel);
                 return RedirectToAction("Dashboard", "Employee");
             }
