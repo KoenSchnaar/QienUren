@@ -32,12 +32,20 @@ namespace UrenRegistratieQien.Controllers
         }
 
         
-        public async Task<IActionResult> HourReg(int declarationFormId, string userId, int year, string month)
+        public async Task<IActionResult> HourReg(int declarationFormId, string userId, int year, string month, string errorMessage = null)
         {
             if (await employeeRepo.UserIsEmployeeOrTrainee() || !await employeeRepo.UserIsOutOfService())
             {
                 await hourRowRepo.AddHourRows(year, month, declarationFormId);
                 ViewBag.User = await employeeRepo.GetEmployee(userId);
+                if (errorMessage != null)
+                {
+                    ViewBag.ErrorMessage = errorMessage;
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "";
+                }
                 var inputModel = await declarationRepo.GetForm(declarationFormId);
                 return View(inputModel);
             }
@@ -60,8 +68,7 @@ namespace UrenRegistratieQien.Controllers
                 }
                 catch (MoreThan24HoursException e)
                 {
-                    ViewBag.ErrorMessage = e.Message;
-                    return View("HourReg");
+                    return RedirectToAction("HourReg", new { declarationFormId = decModel.FormId,  userId = decModel.EmployeeId, year = decModel.Year, month = decModel.Month, errorMessage = e.Message });
                 }
 
                 await declarationRepo.CalculateTotalHours(decModel);
