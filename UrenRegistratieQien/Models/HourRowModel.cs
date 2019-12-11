@@ -18,6 +18,7 @@ namespace UrenRegistratieQien.Models
         public int Training { get; set; }
         public int Other { get; set; }
         public string OtherExplanation { get; set; }
+        public int TotalRow { get; set; }
 
     }
 }
