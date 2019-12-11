@@ -190,7 +190,7 @@ namespace UrenRegistratieQien.Controllers
                 {
                     totalhoursyear = DateTime.Now.Year;
                 }
-                ViewBag.TotalHours = await declarationFormRepo.CalculateTotalHoursOfAll(forms, totalhoursmonth, totalhoursyear);
+                ViewBag.TotalHours = declarationFormRepo.CalculateTotalHoursOfAll(forms, totalhoursmonth, totalhoursyear);
       
 
                 string employeeId;
