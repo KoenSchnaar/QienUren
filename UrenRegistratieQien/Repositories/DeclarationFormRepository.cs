@@ -511,7 +511,6 @@ namespace UrenRegistratieQien.Repositories
                     context.SaveChanges();
                 }
             }
-            //context.SaveChanges();
         }
 
         public async Task SubmitDeclarationForm(DeclarationFormModel formModel)

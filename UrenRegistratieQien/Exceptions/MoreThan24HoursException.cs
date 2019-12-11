@@ -7,7 +7,7 @@ namespace UrenRegistratieQien.Exceptions
 {
     public class MoreThan24HoursException: ApplicationException 
     {
-        public MoreThan24HoursException() : base("Het dagtotaal mag niet meer dan 24 uur zijn.")
+        public MoreThan24HoursException() : base("Error: Het dagtotaal mag niet meer dan 24 uur zijn.")
         {
         }
     }
