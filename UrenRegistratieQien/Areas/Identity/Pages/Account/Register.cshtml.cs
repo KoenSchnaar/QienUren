@@ -32,7 +32,7 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
 
         public List<ClientModel> clients { get; set; }
 
-        public RegisterModel(
+        public  RegisterModel(
             IClientRepository ClientRepo,
             UserManager<Employee> userManager,
             SignInManager<Employee> signInManager,
@@ -42,12 +42,17 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
         {
             
             clientRepo = ClientRepo;
-            //clients = await clientRepo.GetAllClients();
+            PopulateClients();
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
             //this.mailservice = mailservice;
+        }
+
+        public async Task PopulateClients()
+        {
+            clients = (await clientRepo.GetAllClients());
         }
         
         
