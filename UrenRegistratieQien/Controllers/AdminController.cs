@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace UrenRegistratieQien.Controllers
 {
-    //[Authorize(Policy = "AdminAccessPolicy")]
     public class AdminController : Controller
     {
         private readonly IDeclarationFormRepository declarationFormRepo;
@@ -51,8 +50,7 @@ namespace UrenRegistratieQien.Controllers
         {
             if (await employeeRepo.UserIsAdmin())
             {
-                var employees = employeeRepo.GetFilteredNames();
-                return View(employees);
+                return View(employeeRepo.GetFilteredNames());
             } else
             {
                 return await AccessDeniedView();
@@ -63,21 +61,14 @@ namespace UrenRegistratieQien.Controllers
         {
             if (await employeeRepo.UserIsAdmin())
             {
-                var employee = await employeeRepo.GetEditingEmployee(EmployeeId);
-                var editingEmployee = (EditingEmployeeModel)employee;
-
-                var clients = clientRepo.GetAllClients();
                 List<string> clientnames = new List<string>();
-                foreach(ClientModel client in clients)
+                foreach(ClientModel client in clientRepo.GetAllClients())
                 {
                     clientnames.Add(client.CompanyName);
                 }
                 ViewBag.ListOfClients = clientnames;
-
-                return View(employee);
-            }
-            else
-            {
+                return View(await employeeRepo.GetEditingEmployee(EmployeeId));
+            } else {
                 return await AccessDeniedView();
             }
         }
@@ -88,9 +79,7 @@ namespace UrenRegistratieQien.Controllers
             {
                 await employeeRepo.DeleteEmployee(employeeId);
                 return RedirectToAction("ShowEmployees");
-            }
-            else
-            {
+            } else {
                 return await AccessDeniedView();
             }
         }
@@ -102,9 +91,7 @@ namespace UrenRegistratieQien.Controllers
             {
                 await employeeRepo.EditEmployee(empModel);
                 return RedirectToAction("ShowEmployees");
-            }
-            else
-            {
+            } else {
                 return await AccessDeniedView();
             }
         }
@@ -120,11 +107,8 @@ namespace UrenRegistratieQien.Controllers
         {
             if (await employeeRepo.UserIsAdmin())
             {
-                var clients = clientRepo.GetAllClients();
-                return View(clients);
-            }
-            else
-            {
+                return View(clientRepo.GetAllClients());
+            } else {
                 return await AccessDeniedView();
             }
         }
@@ -134,9 +118,7 @@ namespace UrenRegistratieQien.Controllers
             if (await employeeRepo.UserIsAdmin())
             {
                 return View(new ClientModel());
-
-            } else
-            {
+            } else {
                 return await AccessDeniedView();
             }
         }
@@ -146,11 +128,9 @@ namespace UrenRegistratieQien.Controllers
         {
             if (await employeeRepo.UserIsAdmin())
             {
-
                 await clientRepo.AddNewClient(clientModel);
                 return RedirectToAction("ShowClients");
-            } else
-            {
+            } else {
                 return await AccessDeniedView();
             }
         }
@@ -160,8 +140,7 @@ namespace UrenRegistratieQien.Controllers
             if (await employeeRepo.UserIsAdmin())
             {
                 return View(await clientRepo.GetClient(clientId));
-            } else
-            {
+            } else {
                 return await AccessDeniedView();
             }
         }
@@ -173,8 +152,7 @@ namespace UrenRegistratieQien.Controllers
             {
                 await clientRepo.EditAClient(clientModel);
                 return RedirectToAction("ShowClients");
-            } else
-            {
+            } else {
                 return await AccessDeniedView();
             }
         }
@@ -184,8 +162,7 @@ namespace UrenRegistratieQien.Controllers
             {
                 await clientRepo.DeleteClient(clientId);
                 return RedirectToAction("ShowClients");
-            } else
-            {
+            } else {
                 return await AccessDeniedView();
             }
         }
@@ -194,54 +171,10 @@ namespace UrenRegistratieQien.Controllers
         {
             if (await employeeRepo.UserIsAdmin())
             {
-                var form = await declarationFormRepo.GetForm(formId);
-                return View(form);
-            }else
-            {
+                return View(await declarationFormRepo.GetForm(formId));
+            } else {
                 return await AccessDeniedView();
             }
-        }
-
-
-        public async Task<FileContentResult> DownloadExcel(int formId)
-        {
-            Download download = new Download();
-            DeclarationFormModel declarationForm = await declarationFormRepo.GetForm(formId);
-
-            download.MakeExcel(Convert.ToString(formId), declarationForm.HourRows);
-            var fileName = Convert.ToString(formId) + ".xlsx";
-
-            byte[] fileBytes = System.IO.File.ReadAllBytes("Downloads/" + fileName);
-            return File(fileBytes, "Application/x-msexcel", fileName);
-        }
-
-        public async Task<FileContentResult> DownloadAttachments(int formId)
-        {
-            var fileName = $"{formId}.zip";
-            byte[] fileBytes = System.IO.File.ReadAllBytes("wwwroot/Uploads/" + fileName);
-            return File(fileBytes, "application/zip", fileName);
-        }
-
-        public FileContentResult DownloadTotalHoursCSV(int totalWorked, int totalOvertime, int totalSickness, int totalVacation, int totalHoliday, int totalTraining, int totalOther) //eventueel filters meenemen..
-        {
-            List<string> downloadableList = new List<string>
-            {
-                Convert.ToString(totalWorked),
-                Convert.ToString(totalOvertime),
-                Convert.ToString(totalSickness),
-                Convert.ToString(totalVacation),
-                Convert.ToString(totalHoliday),
-                Convert.ToString(totalTraining),
-                Convert.ToString(totalOther)
-            };
-            Download download = new Download();
-            string fileName = "Totalhours.txt";
-            string header = "gewerkt, overuren, ziekte, vakantie, feestdagen, training, anders";
-            download.MakeCSV(header, downloadableList, fileName);
-
-
-            byte[] fileBytes = System.IO.File.ReadAllBytes("Downloads/" + fileName);
-            return File(fileBytes, "text/plain", fileName);
         }
 
         public async Task<IActionResult> Admin(string year, string month, string employeeName, string approved, string submitted, string totalhoursmonth, int totalhoursyear, string sortDate)
@@ -249,7 +182,6 @@ namespace UrenRegistratieQien.Controllers
             if (await employeeRepo.UserIsAdmin())
             {
                 ViewBag.AllForms = await declarationFormRepo.GetAllForms();
-                ViewBag.Months = monthList;
                 ViewBag.sortDate = sortDate;
                 var forms = await declarationFormRepo.GetAllForms();
                 await employeeRepo.CheckIfYearPassedForAllTrainees();
@@ -270,53 +202,12 @@ namespace UrenRegistratieQien.Controllers
                     employeeId = null;
                 }
                 return View(await declarationFormRepo.GetFilteredForms(year, employeeId, month, approved, submitted, sortDate));
-            } else
+            } 
+            else 
             {
                 return await AccessDeniedView();
             }
         }
-
-        public async Task<IActionResult> AdminWithEmployeeId(string employeeId)
-        {
-            if (await employeeRepo.UserIsAdmin())
-            {
-                ViewBag.AllForms = await declarationFormRepo.GetAllForms();
-                ViewBag.Months = monthList;
-                var forms = declarationFormRepo.GetAllFormsOfUser(employeeId);
-                return View("~/Views/Admin/Admin.cshtml", forms);
-            } else
-            {
-                return await AccessDeniedView();
-            }
-        }
-
-        public async Task<IActionResult> AdminWithMonthYear(string month, int year)
-        {
-            if (await employeeRepo.UserIsAdmin())
-            {
-                ViewBag.AllForms = await declarationFormRepo.GetAllForms();
-                ViewBag.Months = monthList;
-                var forms = await declarationFormRepo.GetAllFormsOfMonth(MonthConverter.ConvertMonthToInt(month));
-                return View("~/Views/Admin/Admin.cshtml", forms);
-            } else
-            {
-                return await AccessDeniedView();
-            }
-        }
-
-        public async Task<IActionResult> EmployeeForms(string employeeId)
-        {
-            if (await employeeRepo.UserIsAdmin())
-            {
-                var forms = declarationFormRepo.GetAllFormsOfUser(employeeId);
-                return View(forms);
-            } else
-            {
-                return await AccessDeniedView();
-            }
-        }
-
-        
 
         public async Task<ViewResult> AccessDeniedView()
         {
@@ -329,9 +220,7 @@ namespace UrenRegistratieQien.Controllers
             {
                 ViewBag.Employees = await employeeRepo.getEmployeeSelectList();
                 return View();
-            }
-            else
-            {
+            } else {
                 return await AccessDeniedView();
             }
         }
@@ -343,9 +232,7 @@ namespace UrenRegistratieQien.Controllers
             {
                 await declarationFormRepo.CreateFormForUser(employeeId, month, year);
                 return RedirectToAction("CreateFormForUser");
-            }
-            else
-            {
+            } else {
                 return await AccessDeniedView();
             }
         }
@@ -356,18 +243,22 @@ namespace UrenRegistratieQien.Controllers
             {
                 await declarationFormRepo.DeleteDeclarationForm(FormId);
                 return RedirectToAction("Admin");
-            }
-            else
-            {
+            } else {
                 return await AccessDeniedView();
             }
         }
 
         public async Task<IActionResult> Charts(int year)
         {
-            List<TotalsForChartModel> lstModel = await declarationFormRepo.TotalHoursForCharts(year);
             ViewBag.years = await declarationFormRepo.GetAllYears();
-            return View(lstModel);
+            return View(await declarationFormRepo.TotalHoursForCharts(year));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SearchOverview(string searchString)
+        {
+            List<EmployeeModel> listAccounts = await employeeRepo.GetAllAccounts(searchString);
+            return View(listAccounts);
         }
     }
 }

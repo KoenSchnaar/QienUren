@@ -272,7 +272,7 @@ namespace UrenRegistratieQien.Repositories
             return EmployeeModelList;
         }
 
-        public async Task UploadPicture(IFormFile picture, string userId)
+        public void UploadPicture(IFormFile picture, string userId)
         {
             if (picture != null)
             {

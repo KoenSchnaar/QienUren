@@ -17,7 +17,7 @@ namespace UrenRegistratieQien.Repositories
         Task DeleteEmployee(string id);
         Task<SelectList> getEmployeeSelectList();
         Task EditEmployeeMail(string employeeMailold, string employeeMailnew);
-        Task UploadPicture(IFormFile picture, string userId);
+        public void UploadPicture(IFormFile picture, string userId);
         Task<bool> UserIsOneMonthInactive(string employeeId);
         Task CheckIfYearPassedForAllTrainees();
         public void UploadFile(IFormFile file, int formId);

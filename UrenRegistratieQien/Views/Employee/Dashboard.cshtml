@@ -26,7 +26,7 @@
             <h1>Urenoverzicht</h1>
         </div>
         <div>
-            <form asp-controller="DeclarationForm" asp-action="CreateForm" asp-route-employeeId=@employeeId>
+            <form asp-controller="Employee" asp-action="CreateForm" asp-route-employeeId=@employeeId>
                 <input class="btn-primary btn btnposition-right btn-onelinedown" type="submit" value="Nieuw formulier maken" />
             </form>
 
@@ -102,7 +102,7 @@
                                 <td>@form.Comment</td>
                                 <td>
                                     <a asp-area=""
-                                       asp-controller="DeclarationForm"
+                                       asp-controller="Employee"
                                        asp-action="HourReg"
                                        asp-route-declarationFormId="@form.FormId"
                                        asp-route-userId="@ViewBag.User.EmployeeId"
@@ -112,7 +112,7 @@
                                         Inzien
                                     </a>
                                     <a asp-area=""
-                                       asp-controller="Employee"
+                                       asp-controller="Download"
                                        asp-action="DownloadExcel"
                                        asp-route-formId="@form.FormId">
                                         Download Excel
