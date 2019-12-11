@@ -28,7 +28,7 @@
         {
         <tr class="grayrow">
             @Html.HiddenFor(m => m.HourRowId)
-            <td class="dateRow">@Model.Date @dag</td>
+            <td class="dateRow">@dag @Model.Date</td>
             <td>@Html.TextBoxFor(m => m.Worked, new { style = "width: 75px;" })</td>
             <td>@Html.TextBoxFor(m => m.Overtime, new { style = "width: 75px;" })</td>
             <td>@Html.TextBoxFor(m => m.Sickness, new { style = "width: 75px;" })</td>
@@ -41,7 +41,7 @@
         } else if(day == DayOfWeek.Sunday) {
         <tr class="grayrow">
             @Html.HiddenFor(m => m.HourRowId)
-            <td class="dateRow">@Model.Date @dag</td>
+            <td class="dateRow">@dag @Model.Date</td>
             <td>@Html.TextBoxFor(m => m.Worked, new { style = "width: 75px;" })</td>
             <td>@Html.TextBoxFor(m => m.Overtime, new { style = "width: 75px;" })</td>
             <td>@Html.TextBoxFor(m => m.Sickness, new { style = "width: 75px;" })</td>
@@ -55,7 +55,7 @@
         {
         <tr>
             @Html.HiddenFor(m => m.HourRowId)
-            <td class="dateRow">@Model.Date @dag</td>
+            <td class="dateRow">@dag @Model.Date</td>
             <td>@Html.TextBoxFor(m => m.Worked, new { style = "width: 75px;" })</td>
             <td>@Html.TextBoxFor(m => m.Overtime, new { style = "width: 75px;" })</td>
             <td>@Html.TextBoxFor(m => m.Sickness, new { style = "width: 75px;" })</td>
