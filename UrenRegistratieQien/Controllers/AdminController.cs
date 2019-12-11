@@ -62,7 +62,7 @@ namespace UrenRegistratieQien.Controllers
             if (await employeeRepo.UserIsAdmin())
             {
                 List<string> clientnames = new List<string>();
-                foreach(ClientModel client in clientRepo.GetAllClients())
+                foreach(ClientModel client in await clientRepo.GetAllClients())
                 {
                     clientnames.Add(client.CompanyName);
                 }
@@ -190,7 +190,7 @@ namespace UrenRegistratieQien.Controllers
                 {
                     totalhoursyear = DateTime.Now.Year;
                 }
-                ViewBag.TotalHours = await declarationFormRepo.CalculateTotalHoursOfAll(forms, totalhoursmonth, totalhoursyear);
+                ViewBag.TotalHours = declarationFormRepo.CalculateTotalHoursOfAll(forms, totalhoursmonth, totalhoursyear);
       
                 string employeeId;
                 if (employeeName != null)

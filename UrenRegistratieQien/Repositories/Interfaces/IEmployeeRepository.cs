@@ -26,7 +26,5 @@ namespace UrenRegistratieQien.Repositories
         Task<bool> UserIsEmployeeOrTrainee();
         Task<bool> UserIsOutOfService();
         Task<bool> UserIsAdmin();
-
-
     }
 }

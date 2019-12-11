@@ -13,7 +13,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UrenRegistratieQien.Models;
-//
 
 
 
@@ -31,14 +30,11 @@ namespace UrenRegistratieQien.GlobalClasses
                 if(i != downloadList.Count())
                 {
                     downloadString += downloadList[i] + ",";
-                } else
-                {
+                } else {
                     downloadString += downloadList[i];
                 }
-                
             }
             string filePath = "Downloads/" + fileName;
-
             using (StreamWriter file = new StreamWriter(@filePath, false))
             {
                 file.WriteLine(header);
@@ -48,16 +44,10 @@ namespace UrenRegistratieQien.GlobalClasses
 
         public void MakeExcel(string fileName, List<HourRowModel> hourRows)
         {
-
-
             using (var fs = new FileStream($"Downloads/{fileName}.xlsx", FileMode.Create, FileAccess.Write))
             {
-
                 IWorkbook workbook = new XSSFWorkbook();
-
                 ISheet sheet1 = workbook.CreateSheet("Sheet1");
-
-
                 var rowIndex = 0;
                 IRow headerRow = sheet1.CreateRow(rowIndex);
                 headerRow.CreateCell(0).SetCellValue("Datum");
@@ -87,6 +77,5 @@ namespace UrenRegistratieQien.GlobalClasses
                 workbook.Write(fs);
             }
         }
-
     }
 }

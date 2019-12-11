@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,38 +20,9 @@ namespace UrenRegistratieQien.Repositories
             this.context = context;
         }
 
-        // Deze word niet gebruikt  *************************************************************************************************************************************
-        //public List<HourRowModel> GetHourRows(string userId, int declarationFormId)
-        //{
-        //    var entities = context.HourRows.Where(h => h.DeclarationFormId == declarationFormId).ToList();
-        //    var hourRows = new List<HourRowModel>();
-
-        //    foreach (var row in entities)
-        //    {
-        //        var newRow = new HourRowModel
-        //        {
-        //            EmployeeId = userId,
-        //            HourRowId = row.HourRowId,
-        //            Date = row.Date,
-        //            Worked = row.Worked,
-        //            Overtime = row.Overtime,
-        //            Sickness = row.Sickness,
-        //            Vacation = row.Vacation,
-        //            Holiday = row.Holiday,
-        //            Training = row.Training,
-        //            Other = row.Other,
-        //            OtherExplanation = row.OtherExplanation
-        //        };
-        //        hourRows.Add(newRow);
-        //    }
-        //    return hourRows;
-        //}
-
-
-
         public async Task AddHourRows(int year, string month, int declarationFormId)
         {
-            var entity = context.HourRows.FirstOrDefault(h => h.DeclarationFormId == declarationFormId); // als er uberhaupt iets in de hourrows van het declaratieform staat maakt het niks meer aan. Kan dus voor bugs zorgen.
+            var entity = context.HourRows.FirstOrDefaultAsync(h => h.DeclarationFormId == declarationFormId); // als er uberhaupt iets in de hourrows van het declaratieform staat maakt het niks meer aan. Kan dus voor bugs zorgen.
             if (entity == null)
             {
                 var monthInt = MonthConverter.ConvertMonthToInt(month);
@@ -73,7 +45,7 @@ namespace UrenRegistratieQien.Repositories
                     };
 
                     context.HourRows.Add(hourRow);
-                    context.SaveChanges();
+                    await context.SaveChangesAsync();
                 }
             }
         }

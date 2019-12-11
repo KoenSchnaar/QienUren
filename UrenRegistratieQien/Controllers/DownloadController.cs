@@ -32,7 +32,7 @@ namespace UrenRegistratieQien.Controllers
         }
 
 
-        public async Task<FileContentResult> DownloadAttachments(int formId)
+        public FileContentResult DownloadAttachments(int formId)
         {
             var fileName = $"{formId}.zip";
             byte[] fileBytes = System.IO.File.ReadAllBytes("wwwroot/Uploads/" + fileName);
