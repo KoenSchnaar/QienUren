@@ -28,7 +28,7 @@ namespace UrenRegistratieQien.Controllers
         [HttpPost]
         public async Task<IActionResult> MailService(DeclarationFormModel decModel, string uniqueId, string formId, string employeeName, IFormFile file)
         {
-            await employeeRepo.UploadFile(file, decModel.FormId);
+            employeeRepo.UploadFile(file, decModel.FormId);
             if (!await employeeRepo.UserIsEmployeeOrTrainee())
             {
                 return await AccessDeniedView();

@@ -260,11 +260,10 @@ namespace UrenRegistratieQien.Controllers
                 }
                 ViewBag.TotalHours = await declarationFormRepo.CalculateTotalHoursOfAll(forms, totalhoursmonth, totalhoursyear);
       
-
                 string employeeId;
                 if (employeeName != null)
                 {
-                    employeeId = employeeRepo.GetEmployeeByName(employeeName).EmployeeId;
+                    employeeId = employeeRepo.GetEmployeeByName(employeeName).EmployeeId; 
                 }
                 else
                 {

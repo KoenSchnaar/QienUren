@@ -60,7 +60,7 @@ namespace UrenRegistratieQien.Controllers
         {
             if (await employeeRepo.UserIsEmployeeOrTrainee())
             {
-                await employeeRepo.UploadFile(file, decModel.FormId);
+                employeeRepo.UploadFile(file, decModel.FormId);
 
                 try
                 {
