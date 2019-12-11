@@ -250,5 +250,12 @@ namespace UrenRegistratieQien.Controllers
             ViewBag.years = await declarationFormRepo.GetAllYears();
             return View(await declarationFormRepo.TotalHoursForCharts(year));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> SearchOverview(string searchString)
+        {
+            List<EmployeeModel> listAccounts = await employeeRepo.GetAllAccounts(searchString);
+            return View(listAccounts);
+        }
     }
 }

@@ -1,2 +1,6 @@
 gewerkt, overuren, ziekte, vakantie, feestdagen, training, anders
+<<<<<<< HEAD
+590,18,155,85,0,83,16,
+=======
 750,18,155,85,50,99,16,
+>>>>>>> master

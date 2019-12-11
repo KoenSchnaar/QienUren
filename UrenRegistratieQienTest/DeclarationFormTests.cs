@@ -14,37 +14,37 @@ namespace UrenRegistratieQienTest
     [TestClass]
     public class DeclarationFormTests
     {
-
+        //***************************************************************************Declarationform bestaat neit meer, moet allemaal naar employee (inhoud al veranderd naar employeecontroller)_
 
         [TestMethod]
-        public void DeclarationFormControllerHourRegShouldReturnView()
+        public void EmployeeControllerHourRegShouldReturnView()
         {
             //arrange
-            var DeclarationFormController = new DeclarationFormController(new FakeClientRepository(), new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeHourRowRepository());
+            var EmployeeController = new EmployeeController(new FakeClientRepository(), new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeHourRowRepository());
             int declarationFormId = 1;
             string userId = "1";
             int year = 2019;
             string month = "November";
 
             //act
-            var result = DeclarationFormController.HourReg(declarationFormId, userId, year, month);
+            var result = EmployeeController.HourReg(declarationFormId, userId, year, month);
             //assert
             Assert.IsInstanceOfType(result, typeof(ViewResult));
         }
 
 
         [TestMethod]
-        public void DeclarationFormControllerHourRegShouldReturnViewWithDeclarationFormModel()
+        public void EmployeeControllerHourRegShouldReturnViewWithDeclarationFormModel()
         {
             //arrange
-            var DeclarationFormController = new DeclarationFormController(new FakeClientRepository(), new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeHourRowRepository());
+            var EmployeeController = new EmployeeController(new FakeClientRepository(), new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeHourRowRepository());
             int declarationFormId = 1;
             string userId = "1";
             int year = 2019;
             string month = "November";
 
             //act
-            var actionResult = DeclarationFormController.HourReg(declarationFormId, userId, year, month);
+            var actionResult = EmployeeController.HourReg(declarationFormId, userId, year, month);
             var viewResult = (ViewResult)actionResult;
             var viewModel = viewResult.Model;
 
@@ -53,17 +53,17 @@ namespace UrenRegistratieQienTest
         }
 
         [TestMethod]
-        public void DeclarationFormControllerHourRegShouldReturnViewWithCorrectData()
+        public void EmployeeControllerHourRegShouldReturnViewWithCorrectData()
         {
             //arrange
-            var DeclarationFormController = new DeclarationFormController(new FakeClientRepository(), new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeHourRowRepository());
+            var EmployeeController = new EmployeeController(new FakeClientRepository(), new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeHourRowRepository());
             int declarationFormId = 1;
             string userId = "1";
             int year = 2019;
             string month = "November";
 
             //act
-            var actionResult = DeclarationFormController.HourReg(declarationFormId, userId, year, month);
+            var actionResult = EmployeeController.HourReg(declarationFormId, userId, year, month);
             var viewResult = (ViewResult)actionResult;
             var viewModel = (DeclarationFormModel)viewResult.Model;
 
@@ -72,23 +72,23 @@ namespace UrenRegistratieQienTest
         }
 
         [TestMethod]
-        public void DeclarationFormControllerHourRegPostShouldReturnRedirection()
+        public void EmployeeControllerHourRegPostShouldReturnRedirection()
         {
             //arrange
-            var DeclarationFormController = new DeclarationFormController(new FakeClientRepository(), new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeHourRowRepository());
+            var EmployeeController = new EmployeeController(new FakeClientRepository(), new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeHourRowRepository());
             //act
-            var result = DeclarationFormController.HourReg(new DeclarationFormModel());
+            var result = EmployeeController.HourReg(new DeclarationFormModel());
             //assert
             Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
         }
 
         [TestMethod]
-        public void DeclarationFormControllerHourRegSubmitShouldReturnRedirection()
+        public void EmployeeControllerHourRegSubmitShouldReturnRedirection()
         {
             //arrange
-            var DeclarationFormController = new DeclarationFormController(new FakeClientRepository(), new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeHourRowRepository());
+            var EmployeeController = new EmployeeController(new FakeClientRepository(), new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeHourRowRepository());
             //act
-            var result = DeclarationFormController.HourRegSubmit(new DeclarationFormModel());
+            var result = EmployeeController.HourRegSubmit(new DeclarationFormModel());
             //assert
             Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
         }
