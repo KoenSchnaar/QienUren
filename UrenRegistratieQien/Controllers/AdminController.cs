@@ -50,7 +50,7 @@ namespace UrenRegistratieQien.Controllers
         {
             if (await employeeRepo.UserIsAdmin())
             {
-                return View(employeeRepo.GetFilteredNames());
+                return View(await employeeRepo.GetFilteredNames());
             } else
             {
                 return await AccessDeniedView();
@@ -107,7 +107,7 @@ namespace UrenRegistratieQien.Controllers
         {
             if (await employeeRepo.UserIsAdmin())
             {
-                return View(clientRepo.GetAllClients());
+                return View(await clientRepo.GetAllClients());
             } else {
                 return await AccessDeniedView();
             }
