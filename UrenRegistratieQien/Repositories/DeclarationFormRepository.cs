@@ -72,6 +72,7 @@ namespace UrenRegistratieQien.Repositories
                 TotalOther = 0,
                 DateCreated = DateTime.Now
             };
+
             await context.DeclarationForms.AddAsync(newForm);
             await context.SaveChangesAsync();
         }

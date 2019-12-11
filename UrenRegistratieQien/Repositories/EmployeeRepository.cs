@@ -130,7 +130,9 @@ namespace UrenRegistratieQien.Repositories
                     context.HourRows.Remove(hourRow);
                 }
             }
+
             context.Employees.Remove(employee);
+
             await context.SaveChangesAsync();
         }
 

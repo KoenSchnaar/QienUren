@@ -60,7 +60,7 @@ namespace UrenRegistratieQien.Controllers
             }
             else
             {
-                return await AccessDeniedView();
+                return AccessDeniedView();
             }
         }
 
@@ -85,7 +85,7 @@ namespace UrenRegistratieQien.Controllers
             }
             else
             {
-                return await AccessDeniedView();
+                return AccessDeniedView();
             }
         }
 
@@ -104,7 +104,7 @@ namespace UrenRegistratieQien.Controllers
             }
             else
             {
-                return await AccessDeniedView();
+                return AccessDeniedView();
             }
         }
 
@@ -119,7 +119,7 @@ namespace UrenRegistratieQien.Controllers
             }
             else
             {
-                return await AccessDeniedView();
+                return AccessDeniedView();
             }
         }
 
@@ -131,7 +131,7 @@ namespace UrenRegistratieQien.Controllers
             }
             else
             {
-                return await AccessDeniedView();
+                return AccessDeniedView();
             }
         }
 
@@ -146,11 +146,11 @@ namespace UrenRegistratieQien.Controllers
             }
             else
             {
-                return await AccessDeniedView();
+                return AccessDeniedView();
             }
         }
 
-        public async Task<ViewResult> AccessDeniedView()
+        public ViewResult AccessDeniedView()
         {
             return View("~/Views/Home/AccessDenied.cshtml");
         }
@@ -164,7 +164,7 @@ namespace UrenRegistratieQien.Controllers
             }
             else
             {
-                return await AccessDeniedView();
+                return AccessDeniedView();
             }
         }
     }
