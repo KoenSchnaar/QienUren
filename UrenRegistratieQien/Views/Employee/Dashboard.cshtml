@@ -18,24 +18,20 @@
 
 <div class="Container-1">
     <div class="box-1">
-        @Html.Partial("_SideBoxEmployee", model)
+        @Html.PartialAsync("_SideBoxEmployee", model)
     </div>
-
     <div class="box-2">
         <div align="center">
             <h1>Urenoverzicht</h1>
         </div>
         <div>
-            <form asp-controller="Employee" asp-action="CreateForm" asp-route-employeeId=@employeeId>
+            <form asp-controller="Employee" asp-action="CreateForm" asp-route-employeeId=@ViewBag.userId>
                 <input class="btn-primary btn btnposition-right btn-onelinedown" type="submit" value="Nieuw formulier maken" />
             </form>
-
-                @using (Html.BeginForm("Dashboard", "Employee"))
-                {
-                    <input class="btn-primary btn btnposition" type="image" alt="filter toepassen" src="..\..\Images\Filter_Icon_White_Small.png" title="filter toepassen"/>
-
+            @using (Html.BeginForm("Dashboard", "Employee"))
+            {
+                <input class="btn-primary btn btnposition" type="image" alt="filter toepassen" src="..\..\Images\Filter_Icon_White_Small.png" title="filter toepassen"/>
                 <table class="fl-table table-wrapper">
-
                     <thead>
                         <tr>
                             <th>
@@ -67,7 +63,6 @@
                     <tbody>
                         @foreach (var form in Model)
                         {
-
                             <tr>
                                 <td>@form.Year</td>
                                 <td>@form.Month</td>
@@ -98,23 +93,22 @@
                                         <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
                                     }
                                 </td>
-
                                 <td>@form.Comment</td>
                                 <td>
                                     <a asp-area=""
-                                       asp-controller="Employee"
-                                       asp-action="HourReg"
-                                       asp-route-declarationFormId="@form.FormId"
-                                       asp-route-userId="@ViewBag.User.EmployeeId"
-                                       asp-route-employeeName="@employeeName"
-                                       asp-route-month="@form.Month"
-                                       asp-route-year="@form.Year">
+                                        asp-controller="Employee"
+                                        asp-action="HourReg"
+                                        asp-route-declarationFormId="@form.FormId"
+                                        asp-route-userId="@ViewBag.User.EmployeeId"
+                                        asp-route-employeeName="@employeeName"
+                                        asp-route-month="@form.Month"
+                                        asp-route-year="@form.Year">
                                         Inzien
                                     </a>
                                     <a asp-area=""
-                                       asp-controller="Download"
-                                       asp-action="DownloadExcel"
-                                       asp-route-formId="@form.FormId">
+                                        asp-controller="Download"
+                                        asp-action="DownloadExcel"
+                                        asp-route-formId="@form.FormId">
                                         Download Excel
                                     </a>
                                 </td>
@@ -124,8 +118,8 @@
                     </tbody>
                 </table>
             }
-            </div>
         </div>
+    </div>
 </div>
 
 
