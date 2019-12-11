@@ -57,7 +57,8 @@
                     @Html.HiddenFor(m => m.EmployeeId)
                     @Html.HiddenFor(m => m.Year)
                     @Html.HiddenFor(m => m.Month)
-
+                    <div class="btnposition" style="color: red;">@ViewBag.ErrorMessage</div>
+                    
                     <table class="fl-table table-wrapper" align="center">
                         <thead>
                             <tr>

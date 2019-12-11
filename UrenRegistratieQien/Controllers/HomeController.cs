@@ -18,7 +18,6 @@ namespace UrenRegistratieQien.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<Employee> _userManager;
-
         private readonly IEmployeeRepository employeeRepo;
 
         public HomeController(ILogger<HomeController> logger, IEmployeeRepository EmployeeRepo, UserManager<Employee> userManager = null)
@@ -32,7 +31,6 @@ namespace UrenRegistratieQien.Controllers
         {
             var userId = _userManager.GetUserId(HttpContext.User);
             var user = await employeeRepo.GetEmployee(userId);
-            //checkrole
 
             switch (user.Role)
             {
@@ -47,11 +45,6 @@ namespace UrenRegistratieQien.Controllers
                 default:
                     return View("~/Views/Home/AccessDenied.cshtml");
             }
-        }
-
-        public async Task<IActionResult> Privacy()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

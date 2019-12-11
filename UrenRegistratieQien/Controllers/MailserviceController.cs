@@ -10,6 +10,7 @@ using UrenRegistratieQien.Repositories;
 using UrenRegistratieQien.Models;
 using UrenRegistratieQien.MailService;
 using Microsoft.AspNetCore.Http;
+using UrenRegistratieQien.Exceptions;
 
 namespace UrenRegistratieQien.Controllers
 {
@@ -32,7 +33,16 @@ namespace UrenRegistratieQien.Controllers
             {
                 return await AccessDeniedView();
             }
-            await declarationFormRepo.EditDeclarationForm(decModel);
+            
+            try
+            {
+                await declarationFormRepo.EditDeclarationForm(decModel);
+            }
+            catch (MoreThan24HoursException e)
+            {
+                return RedirectToAction("HourReg", "DeclarationForm", new { declarationFormId = decModel.FormId, userId = decModel.EmployeeId, year = decModel.Year, month = decModel.Month, errorMessage = e.Message });
+            }
+
             await declarationFormRepo.SubmitDeclarationForm(decModel);
             await declarationFormRepo.CalculateTotalHours(decModel);
 

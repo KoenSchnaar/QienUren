@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using UrenRegistratieQien.DatabaseClasses;
+using UrenRegistratieQien.Exceptions;
 using UrenRegistratieQien.GlobalClasses;
 using UrenRegistratieQien.Models;
 using UrenRegistratieQien.Repositories;
@@ -40,12 +41,20 @@ namespace UrenRegistratieQien.Controllers
             this.he = he;
         }
 
-        public async Task<IActionResult> HourReg(int declarationFormId, string userId, int year, string month)
+        public async Task<IActionResult> HourReg(int declarationFormId, string userId, int year, string month, string errorMessage = null)
         {
             if (await employeeRepo.UserIsEmployeeOrTrainee() || !await employeeRepo.UserIsOutOfService())
             {
                 await hourRowRepo.AddHourRows(year, month, declarationFormId);
                 ViewBag.User = await employeeRepo.GetEmployee(userId);
+                if (errorMessage != null)
+                {
+                    ViewBag.ErrorMessage = errorMessage;
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "";
+                }
                 var inputModel = await declarationRepo.GetForm(declarationFormId);
                 return View(inputModel);
             }
@@ -61,7 +70,16 @@ namespace UrenRegistratieQien.Controllers
             if (await employeeRepo.UserIsEmployeeOrTrainee())
             {
                 await employeeRepo.UploadFile(file, decModel.FormId);
-                await declarationRepo.EditDeclarationForm(decModel);
+
+                try
+                {
+                    await declarationRepo.EditDeclarationForm(decModel);
+                }
+                catch (MoreThan24HoursException e)
+                {
+                    return RedirectToAction("HourReg", new { declarationFormId = decModel.FormId, userId = decModel.EmployeeId, year = decModel.Year, month = decModel.Month, errorMessage = e.Message });
+                }
+
                 await declarationRepo.CalculateTotalHours(decModel);
                 return RedirectToAction("Dashboard", "Employee");
             }
