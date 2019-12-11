@@ -62,7 +62,7 @@ namespace UrenRegistratieQien.Controllers
             if (await employeeRepo.UserIsAdmin())
             {
                 List<string> clientnames = new List<string>();
-                foreach(ClientModel client in clientRepo.GetAllClients())
+                foreach(ClientModel client in await clientRepo.GetAllClients())
                 {
                     clientnames.Add(client.CompanyName);
                 }

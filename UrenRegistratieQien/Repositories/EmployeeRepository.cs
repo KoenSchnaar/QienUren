@@ -178,7 +178,7 @@ namespace UrenRegistratieQien.Repositories
                 }
             }
             context.Users.Remove(employee);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public async Task EditEmployeeMail(string employeeMailold, string employeeMailnew)
@@ -194,7 +194,7 @@ namespace UrenRegistratieQien.Repositories
 
             CastedDatabaseEmployee.NormalizedEmail = mailNormalized;
             CastedDatabaseEmployee.NormalizedUserName = usernameNormalized;
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
         //public Task EditEmployee(EmployeeModel employeeModel)
         //{
@@ -245,7 +245,7 @@ namespace UrenRegistratieQien.Repositories
             CastedDatabaseEmployee.Residence = employeeModel.Residence;
             CastedDatabaseEmployee.StartDateRole = startdaterole;
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
         }
 
@@ -260,7 +260,7 @@ namespace UrenRegistratieQien.Repositories
                    employee.Role = 4; 
                 }
             }
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public async Task<bool> UserIsOneMonthInactive(string employeeId)

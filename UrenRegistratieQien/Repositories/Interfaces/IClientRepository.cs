@@ -10,8 +10,7 @@ namespace UrenRegistratieQien.Repositories
 {
     public interface IClientRepository
     {
-
-        List<ClientModel> GetAllClients();
+        public Task<List<ClientModel>> GetAllClients();
         Task AddNewClient(ClientModel clientModel);
         Task EditAClient(ClientModel clientModel);
         Task<ClientModel> GetClient(int clientId);

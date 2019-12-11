@@ -74,7 +74,7 @@ namespace UrenRegistratieQien.Repositories
             };
 
             context.DeclarationForms.Add(newForm);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
 
@@ -160,7 +160,7 @@ namespace UrenRegistratieQien.Repositories
                 context.DeclarationForms.Add(form);
             }
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public async Task ApproveForm(int formId)
@@ -175,7 +175,7 @@ namespace UrenRegistratieQien.Repositories
             var form = context.DeclarationForms.Single(p => p.DeclarationFormId == formId);
             form.Approved = "Rejected";
             form.Comment = comment;
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public async Task<DeclarationFormModel> GetFormModelFromEntity(DeclarationForm entity)
@@ -508,7 +508,7 @@ namespace UrenRegistratieQien.Repositories
                 }
                 else
                 {
-                    context.SaveChanges();
+                    await context.SaveChangesAsync();
                 }
             }
         }
@@ -518,7 +518,7 @@ namespace UrenRegistratieQien.Repositories
             var form = context.DeclarationForms.Single(d => d.DeclarationFormId == formModel.FormId);
             form.Submitted = true;
             form.Approved = "Pending";
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public async Task<bool> CheckIfIdMatches(string uniqueId)
@@ -553,7 +553,7 @@ namespace UrenRegistratieQien.Repositories
                 declarationformEntity.TotalTraining += HourRow.Training;
                 declarationformEntity.TotalOther += HourRow.Other;
             }
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
         public async Task<TotalsModel> CalculateTotalHoursOfAll(List<DeclarationFormModel> DeclarationFormList, string Month, int Year) //voor alle employees
         {
@@ -579,13 +579,13 @@ namespace UrenRegistratieQien.Repositories
         {
             var entity = context.DeclarationForms.Single(d => d.DeclarationFormId == formId);
             entity.Submitted = false;
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
         public async Task DeleteDeclarationForm(int FormId)
         {
             var form = context.DeclarationForms.Single(df => df.DeclarationFormId == FormId);
             context.DeclarationForms.Remove(form);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public async Task<List<TotalsForChartModel>> TotalHoursForCharts(int year)

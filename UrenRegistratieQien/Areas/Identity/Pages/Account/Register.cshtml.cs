@@ -42,7 +42,7 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
         {
             
             clientRepo = ClientRepo;
-            clients = clientRepo.GetAllClients();
+            //clients = await clientRepo.GetAllClients();
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
