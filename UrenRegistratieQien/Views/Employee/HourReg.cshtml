@@ -19,7 +19,7 @@
         @*<h1 align="center">@Model.Month @Model.Year</h1>*@
 
 
-    <form method="post" asp-action="HourReg" asp-controller="DeclarationForm" enctype="multipart/form-data">
+    <form method="post" asp-action="HourReg" asp-controller="Employee" enctype="multipart/form-data">
 
         <div>
             @{ if (Model.Submitted == true)
@@ -77,7 +77,7 @@
                             @Html.EditorFor(m => Model.HourRows)
                         </tbody>
                     </table>
-                    <button class="btn-primary btn btn-hourreg" asp-action="HourReg" asp-controller="DeclarationForm">Opslaan</button>
+                    <button class="btn-primary btn btn-hourreg" asp-action="HourReg" asp-controller="Employee">Opslaan</button>
                     <button class="btn-primary btn btn-hourreg" asp-action="Mailservice" asp-controller="Mailservice" asp-route-uniqueId="@uniqueId" asp-route-formId="@formId" asp-route-employeeName="@employeeName">Opslaan en indienen</button>
                 }
             }

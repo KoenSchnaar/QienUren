@@ -40,11 +40,37 @@ namespace UrenRegistratieQien.Controllers
             this.he = he;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> HourReg(int declarationFormId, string userId, int year, string month)
         {
-            return View();
+            if (await employeeRepo.UserIsEmployeeOrTrainee() || !await employeeRepo.UserIsOutOfService())
+            {
+                await hourRowRepo.AddHourRows(year, month, declarationFormId);
+                ViewBag.User = await employeeRepo.GetEmployee(userId);
+                var inputModel = await declarationRepo.GetForm(declarationFormId);
+                return View(inputModel);
+            }
+            else
+            {
+                return await AccessDeniedView();
+            }
         }
-        
+
+        [HttpPost]
+        public async Task<IActionResult> HourReg(DeclarationFormModel decModel, IFormFile file)
+        {
+            if (await employeeRepo.UserIsEmployeeOrTrainee())
+            {
+                await employeeRepo.UploadFile(file, decModel.FormId);
+                await declarationRepo.EditDeclarationForm(decModel);
+                await declarationRepo.CalculateTotalHours(decModel);
+                return RedirectToAction("Dashboard", "Employee");
+            }
+            else
+            {
+                return await AccessDeniedView();
+            }
+        }
+
         public async Task<IActionResult> Dashboard(string year = null, string month = null, string approved = null, string submitted = null, string sortDate = null)////// de filter toepassen in de model van deze
         {
             if (await employeeRepo.UserIsEmployeeOrTrainee() || !await employeeRepo.UserIsOutOfService() && !await employeeRepo.UserIsAdmin()) 
@@ -55,7 +81,6 @@ namespace UrenRegistratieQien.Controllers
                 ViewBag.Client = await clientRepo.GetClientByUserId(userId);
                 ViewBag.AllForms = await declarationRepo.GetAllForms();
                 await employeeRepo.CheckIfYearPassedForAllTrainees();
-                //var inputModel = declarationRepo.GetAllFormsOfUser(userId);
                 var inputModel = await declarationRepo.GetFilteredForms(year, userId, month, approved, submitted, sortDate);
                 return View(inputModel);
             }
@@ -63,26 +88,6 @@ namespace UrenRegistratieQien.Controllers
             {
                 return await AccessDeniedView();
             }
-        }
-        [HttpGet]
-        public async Task<IActionResult> SearchOverview(string searchString)
-        {
-           List<EmployeeModel> listAccounts = await employeeRepo.GetAllAccounts(searchString);
-
-            //return RedirectToAction("ShowEmployees", "Admin", new { Employeelist = listAccounts });
-            return View(listAccounts);
-        }
-        public async Task<FileContentResult> DownloadExcel(int formId)
-        {
-            Download download = new Download();
-            DeclarationFormModel declarationForm = await declarationRepo.GetForm(formId);
-
-            download.MakeExcel(Convert.ToString(formId), declarationForm.HourRows);
-            var fileName = Convert.ToString(formId) + ".xlsx";
-
-            byte[] fileBytes = System.IO.File.ReadAllBytes("Downloads/" + fileName);
-            return File(fileBytes, "Application/x-msexcel", fileName);
-
         }
 
         public async Task<IActionResult> Info()
@@ -130,6 +135,19 @@ namespace UrenRegistratieQien.Controllers
         public async Task<ViewResult> AccessDeniedView()
         {
             return View("~/Views/Home/AccessDenied.cshtml");
+        }
+
+        public async Task<IActionResult> CreateForm(string employeeId)
+        {
+            if (await employeeRepo.UserIsEmployeeOrTrainee())
+            {
+                await declarationRepo.CreateForm(employeeId);
+                return RedirectToAction("Dashboard", "Employee");
+            }
+            else
+            {
+                return await AccessDeniedView();
+            }
         }
     }
 }

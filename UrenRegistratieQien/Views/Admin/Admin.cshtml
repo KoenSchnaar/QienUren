@@ -58,7 +58,7 @@
             {
             <input class="btn-primary btn btnposition" type="image" alt="filter toepassen" src="..\..\Images\Filter_Icon_White_Small.png" title="filter toepassen" />
                 <button class="btn-primary btn btnposition"
-                        asp-controller="Admin"
+                        asp-controller="Download"
                         asp-action="DownloadTotalHoursCSV"
                         asp-route-totals=@totalHours
                         asp-route-totalWorked=@totalHours.TotalWorkedHours
@@ -203,7 +203,7 @@
                                         <select onchange="if (this.value) window.location.href=this.value">
                                             <option value="">Kies je actie</option>
                                             <option value="@Url.Action("ViewDeclarationForm", "Admin", new { declarationFormModel.FormId })">Inzien</option>
-                                            <option value="@Url.Action("DownloadExcel", "Admin", new { declarationFormModel.FormId })">Download Excel</option>
+                                            <option value="@Url.Action("DownloadExcel", "Download", new { declarationFormModel.FormId })">Download Excel</option>
                                             <option value="@Url.Action("DeleteDeclarationForm", "Admin", new { declarationFormModel.FormId })">Verwijderen</option>
                                             <option value="@Url.Action("ReopenForm", "Admin", new { declarationFormModel.FormId })">Heropenen</option>
                                         </select>

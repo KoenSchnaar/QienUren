@@ -17,41 +17,54 @@ namespace UrenRegistratieQien.Repositories
             this.context = context;
         }
 
+        public ClientModel EntityToClientModel(Client entity)
+        {
+            var newModel = new ClientModel
+            {
+                ClientId = entity.ClientId,
+                CompanyName = entity.CompanyName,
+                Contact1Name = entity.Contact1Name,
+                Contact2Name = entity.Contact2Name,
+                Contact1Phone = entity.Contact1Phone,
+                Contact2Phone = entity.Contact2Phone,
+                Contact1Email = entity.Contact1Email,
+                Contact2Email = entity.Contact2Email,
+                CompanyPhone = entity.CompanyPhone
+            };
+            return newModel;
+        }
+
+        public Client ClientModelToEntity(ClientModel model)
+        {
+            var newEntity = new Client
+            {
+                ClientId = model.ClientId,
+                CompanyName = model.CompanyName,
+                CompanyPhone = model.CompanyPhone,
+                Contact1Name = model.Contact1Name,
+                Contact2Name = model.Contact2Name,
+                Contact1Phone = model.Contact1Phone,
+                Contact2Phone = model.Contact2Phone,
+                Contact1Email = model.Contact1Email,
+                Contact2Email = model.Contact2Email
+            };
+            return newEntity;
+        }
+
         public List<ClientModel> GetAllClients()
         {
             var clientModelList = new List<ClientModel>();
 
             foreach (var client in context.Clients)
-
-                clientModelList.Add(new ClientModel
-                {
-                    ClientId = client.ClientId,
-                    CompanyName = client.CompanyName,
-                    Contact1Name = client.Contact1Name,
-                    Contact2Name = client.Contact2Name,
-                    Contact1Phone = client.Contact1Phone,
-                    Contact2Phone = client.Contact2Phone,
-                    Contact1Email = client.Contact1Email,
-                    Contact2Email = client.Contact2Email,
-                    CompanyPhone = client.CompanyPhone
-                }) ;
-
+            {
+                clientModelList.Add(EntityToClientModel(client));
+            }
             return clientModelList;
         }
+
         public async Task AddNewClient(ClientModel clientModel)
         {
-            context.Clients.Add(new DatabaseClasses.Client
-            {
-                ClientId = clientModel.ClientId,
-                CompanyName = clientModel.CompanyName,
-                CompanyPhone = clientModel.CompanyPhone,
-                Contact1Name = clientModel.Contact1Name,
-                Contact2Name = clientModel.Contact2Name,
-                Contact1Phone = clientModel.Contact1Phone,
-                Contact2Phone = clientModel.Contact2Phone,
-                Contact1Email = clientModel.Contact1Email,
-                Contact2Email = clientModel.Contact2Email
-            });
+            context.Clients.Add(ClientModelToEntity(clientModel));
 
             context.SaveChanges();
         }
@@ -72,26 +85,12 @@ namespace UrenRegistratieQien.Repositories
 
             context.SaveChanges();
         }
-            
 
         public async Task<ClientModel> GetClient(int clientId)
         {
             var databaseClient = context.Clients.Single(p => p.ClientId == clientId);
 
-            return new ClientModel
-            {
-                ClientId = clientId,
-                CompanyName = databaseClient.CompanyName,
-                Contact1Name = databaseClient.Contact1Name,
-                Contact2Name = databaseClient.Contact2Name,
-                Contact1Phone = databaseClient.Contact1Phone,
-                Contact2Phone = databaseClient.Contact2Phone,
-                Contact1Email = databaseClient.Contact1Email,
-                Contact2Email = databaseClient.Contact2Email,
-                CompanyPhone = databaseClient.CompanyPhone
-
-            };
-
+            return EntityToClientModel(databaseClient);
         }
 
         public async Task<ClientModel> GetClientByUserId(string userId)
@@ -102,21 +101,10 @@ namespace UrenRegistratieQien.Repositories
 
             var databaseClient = context.Clients.Single(p => p.ClientId == employeeCasted.ClientId);
 
-            return new ClientModel
-            {
-                ClientId = employeeCasted.ClientId,
-                CompanyName = databaseClient.CompanyName,
-                Contact1Name = databaseClient.Contact1Name,
-                Contact2Name = databaseClient.Contact2Name,
-                Contact1Phone = databaseClient.Contact1Phone,
-                Contact2Phone = databaseClient.Contact2Phone,
-                Contact1Email = databaseClient.Contact1Email,
-                Contact2Email = databaseClient.Contact2Email,
-                CompanyPhone = databaseClient.CompanyPhone
-
-            };
+            return EntityToClientModel(databaseClient);
 
         }
+
         public async Task DeleteClient(int clientId)
         {
             var client = context.Clients.Single(c => c.ClientId == clientId);
