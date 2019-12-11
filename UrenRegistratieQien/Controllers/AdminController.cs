@@ -190,18 +190,21 @@ namespace UrenRegistratieQien.Controllers
                 {
                     totalhoursyear = DateTime.Now.Year;
                 }
-                ViewBag.TotalHours = await declarationFormRepo.CalculateTotalHoursOfAll(forms, totalhoursmonth, totalhoursyear);
+                ViewBag.TotalHours = declarationFormRepo.CalculateTotalHoursOfAll(forms, totalhoursmonth, totalhoursyear);
       
-
                 string employeeId;
                 if (employeeName != null)
                 {
-                    employeeId = employeeRepo.GetEmployeeByName(employeeName).EmployeeId;
-                } else {
+                    employeeId = employeeRepo.GetEmployeeByName(employeeName).EmployeeId; 
+                }
+                else
+                {
                     employeeId = null;
                 }
                 return View(await declarationFormRepo.GetFilteredForms(year, employeeId, month, approved, submitted, sortDate));
-            } else {
+            } 
+            else 
+            {
                 return await AccessDeniedView();
             }
         }

@@ -96,11 +96,8 @@ namespace UrenRegistratieQien.Repositories
 
         public async Task<ClientModel> GetClientByUserId(string userId)
         {
-            var employee = await context.Users.SingleAsync(u => u.Id == userId);
-
-            var employeeCasted = (Employee)employee;
-
-            var databaseClient = await context.Clients.SingleAsync(p => p.ClientId == employeeCasted.ClientId);
+            var employee = await context.Employees.SingleAsync(u => u.Id == userId);
+            var databaseClient = await context.Clients.SingleAsync(p => p.ClientId == employee.ClientId);
 
             return EntityToClientModel(databaseClient);
 

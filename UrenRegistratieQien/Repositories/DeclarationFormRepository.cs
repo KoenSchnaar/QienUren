@@ -25,7 +25,7 @@ namespace UrenRegistratieQien.Repositories
         }
 
 
-        public async Task<string> GenerateUniqueId()
+        public string GenerateUniqueId()
         {
 
             string URL = "";
@@ -60,7 +60,7 @@ namespace UrenRegistratieQien.Repositories
                 EmployeeId = EmployeeId,
                 Month = month,
                 Year = year,
-                uniqueId = await GenerateUniqueId(),
+                uniqueId = GenerateUniqueId(),
                 Approved = "Pending",
                 Submitted = false,
                 TotalWorkedHours = 0,
@@ -73,7 +73,7 @@ namespace UrenRegistratieQien.Repositories
                 DateCreated = DateTime.Now
             };
 
-            context.DeclarationForms.Add(newForm);
+            await context.DeclarationForms.AddAsync(newForm);
             await context.SaveChangesAsync();
         }
 
@@ -83,11 +83,8 @@ namespace UrenRegistratieQien.Repositories
             var entities = context.DeclarationForms.Where(p => p.EmployeeId == employeeId).ToList();
             if (entities.Count() > 0)
             {
-                var entitiesIndex = entities.Count() - 1;
-                var entity = entities[entitiesIndex];
-
-                var month = entity.Month;
-                var monthInt = MonthConverter.ConvertMonthToInt(month) + 1;
+                var entity = entities[entities.Count() - 1];
+                var monthInt = MonthConverter.ConvertMonthToInt(entity.Month) + 1;
                 if (monthInt == 13)
                 {
                     monthInt = 1;
@@ -96,10 +93,9 @@ namespace UrenRegistratieQien.Repositories
                 var year = entity.Year;
                 if (monthString == "Januari")
                 {
-                    year = year + 1;
+                    year += 1;
                 }
 
-                //Medewerker kan een form creeeren max. 1 maand in de toekomst. 
                 if (monthInt == 1)
                 {
                     monthInt = 13;
@@ -115,7 +111,7 @@ namespace UrenRegistratieQien.Repositories
                         EmployeeId = employeeId,
                         Month = monthString,
                         Year = year,
-                        uniqueId = await GenerateUniqueId(),
+                        uniqueId = GenerateUniqueId(),
                         Approved = "Pending",
                         Submitted = false,
                         TotalWorkedHours = 0,
@@ -127,24 +123,19 @@ namespace UrenRegistratieQien.Repositories
                         TotalOther = 0,
                         DateCreated = DateTime.Now
                     };
-                    context.DeclarationForms.Add(form);
-                }
-                else
-                {
+                    await context.DeclarationForms.AddAsync(form);
+                } else {
                     return;
                 }
             }
             else
             {
-                var monthInt = DateTime.Now.Month;
-                var monthString = MonthConverter.ConvertIntToMonth(monthInt);
-                var year = DateTime.Now.Year;
                 var form = new DeclarationForm
                 {
                     EmployeeId = employeeId,
-                    Month = monthString,
-                    Year = year,
-                    uniqueId = await GenerateUniqueId(),
+                    Month = MonthConverter.ConvertIntToMonth(DateTime.Now.Month),
+                    Year = DateTime.Now.Year,
+                    uniqueId = GenerateUniqueId(),
                     Approved = "Pending",
                     Submitted = false,
                     TotalWorkedHours = 0,
@@ -156,10 +147,8 @@ namespace UrenRegistratieQien.Repositories
                     TotalOther = 0,
                     DateCreated = DateTime.Now
                 };
-
-                context.DeclarationForms.Add(form);
+                await context.DeclarationForms.AddAsync(form);
             }
-
             await context.SaveChangesAsync();
         }
 
@@ -172,7 +161,7 @@ namespace UrenRegistratieQien.Repositories
 
         public async Task RejectForm(int formId, string comment)
         {
-            var form = context.DeclarationForms.Single(p => p.DeclarationFormId == formId);
+            var form = await context.DeclarationForms.SingleAsync(p => p.DeclarationFormId == formId);
             form.Approved = "Rejected";
             form.Comment = comment;
             await context.SaveChangesAsync();
@@ -196,13 +185,11 @@ namespace UrenRegistratieQien.Repositories
                     Training = hourRow.Training,
                     Other = hourRow.Other,
                     OtherExplanation = hourRow.OtherExplanation
-
                 };
-
                 ListOfHourRowModels.Add(newHourRowModel);
             }
 
-            var selectedEmployee = context.Users.Single(p => p.Id == entity.EmployeeId);
+            var selectedEmployee = await context.Users.SingleAsync(p => p.Id == entity.EmployeeId);
             var castedEmployee = (Employee)selectedEmployee;
             var employeeName = castedEmployee.FirstName + " " + castedEmployee.LastName;
 
@@ -227,10 +214,9 @@ namespace UrenRegistratieQien.Repositories
                 DateCreated = entity.DateCreated
             };
             return newModel;
-
         }
 
-        public List<DeclarationFormModel> GetFormModelsFromEntities(List<DeclarationForm> entities)
+        public async Task<List<DeclarationFormModel>> GetFormModelsFromEntities(List<DeclarationForm> entities)
         {
             var forms = new List<DeclarationFormModel>();
             foreach (var form in entities)
@@ -256,11 +242,9 @@ namespace UrenRegistratieQien.Repositories
 
                     ListOfHourRowModels.Add(newHourRowModel);
                 }
-
-                var selectedEmployee = context.Users.Single(p => p.Id == form.EmployeeId);
+                var selectedEmployee = await context.Users.SingleAsync(p => p.Id == form.EmployeeId);
                 var castedEmployee = (Employee)selectedEmployee;
                 var employeeName = castedEmployee.FirstName + " " + castedEmployee.LastName;
-
                 var newModel = new DeclarationFormModel
                 {
                     FormId = form.DeclarationFormId,
@@ -290,7 +274,7 @@ namespace UrenRegistratieQien.Repositories
 
         public async Task<DeclarationFormModel> GetForm(int formId)
         {
-            var entity = context.DeclarationForms.Include(df => df.HourRows).Single(d => d.DeclarationFormId == formId);
+            var entity = await context.DeclarationForms.Include(df => df.HourRows).SingleAsync(d => d.DeclarationFormId == formId);
             return await GetFormModelFromEntity(entity);
         }
 
@@ -314,16 +298,12 @@ namespace UrenRegistratieQien.Repositories
                     Training = hourRow.Training,
                     Other = hourRow.Other,
                     OtherExplanation = hourRow.OtherExplanation
-
                 };
-
                 ListOfHourRowModels.Add(newHourRowModel);
             }
-
             var selectedEmployee = context.Users.Single(p => p.Id == entity.EmployeeId);
             var castedEmployee = (Employee)selectedEmployee;
             var employeeName = castedEmployee.FirstName + " " + castedEmployee.LastName;
-
             var newModel = new DeclarationFormModel
             {
                 FormId = entity.DeclarationFormId,
@@ -349,45 +329,24 @@ namespace UrenRegistratieQien.Repositories
         }
 
 
-            public async Task<List<DeclarationFormModel>> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted, string sortDate)
+        public async Task<List<DeclarationFormModel>> GetFilteredForms(string year, string employeeId, string month, string approved, string submitted, string sortDate)
         {
-            if (approved == "Goedgekeurd")
-            {
-                approved = "Approved";
-            }
-            if (approved == "Afgekeurd")
-            {
-                approved = "Rejected";
-            }
-            if (approved == "In Afwachting")
-            {
-                approved = "Pending";
-            }
-
-            if (submitted == "Ingediend")
-            {
-                submitted = "true";
-            }
-            if (submitted == "Niet ingediend")
-            {
-                submitted = "false";
-            }
+            approved = FormStatusConverter.ConvertApproved(approved);
+            submitted = FormStatusConverter.ConvertSubmitted(submitted);
 
             var entities = new List<DeclarationForm>();
             if (sortDate == "Ascending")
             {
-                entities = context.DeclarationForms.Include(df => df.HourRows)
-                .OrderBy(df => df.DeclarationFormId).ToList();
+                entities = await context.DeclarationForms.Include(df => df.HourRows)
+                .OrderBy(df => df.DeclarationFormId).ToListAsync();
             }
             else
             {
-                entities = context.DeclarationForms.Include(df => df.HourRows)
-                .OrderByDescending(df => df.DeclarationFormId).ToList();
+                entities = await context.DeclarationForms.Include(df => df.HourRows)
+                .OrderByDescending(df => df.DeclarationFormId).ToListAsync();
             }
 
-
             List<DeclarationForm> holderList = new List<DeclarationForm>();
-
             if (year != null)
             {
                 var yearAsInt = Convert.ToInt32(year);
@@ -399,10 +358,8 @@ namespace UrenRegistratieQien.Repositories
                     }
                 }
             }
-
             if (employeeId != null)
             {
-
                 foreach (DeclarationForm entity in entities)
                 {
                     if (entity.EmployeeId != employeeId)
@@ -413,7 +370,6 @@ namespace UrenRegistratieQien.Repositories
             }
             if (month != null)
             {
-
                 foreach (DeclarationForm entity in entities)
                 {
                     if (entity.Month != month)
@@ -421,24 +377,19 @@ namespace UrenRegistratieQien.Repositories
                         holderList.Add(entity);
                     }
                 }
-
             }
             if (approved != null)
             {
-
                 foreach (DeclarationForm entity in entities)
                 {
-
                     if (entity.Approved != approved)
                     {
                         holderList.Add(entity);
                     }
                 }
-
             }
             if (submitted != null)
             {
-
                 bool boolSubmitted = Convert.ToBoolean(submitted);
                 foreach (DeclarationForm entity in entities)
                 {
@@ -447,7 +398,6 @@ namespace UrenRegistratieQien.Repositories
                         holderList.Add(entity);
                     }
                 }
-
             }
             foreach (DeclarationForm declarationForm in holderList)
             {
@@ -457,41 +407,41 @@ namespace UrenRegistratieQien.Repositories
                 }
             }
 
-            var forms = GetFormModelsFromEntities(entities);
+            var forms = await GetFormModelsFromEntities(entities);
             return forms;
         }
 
         public async Task<List<DeclarationFormModel>> GetAllForms()
         {
-            var entities = context.DeclarationForms.Include(df => df.HourRows).OrderByDescending(df => df.DeclarationFormId).ToList();
-            var forms = GetFormModelsFromEntities(entities);
+            var entities = await context.DeclarationForms.Include(df => df.HourRows).OrderByDescending(df => df.DeclarationFormId).ToListAsync();
+            var forms = await GetFormModelsFromEntities(entities);
             return forms;
         }
 
 
         public async Task<List<DeclarationFormModel>> GetAllFormsOfUser(string userId)
         {
-            var entities = context.DeclarationForms.Include(df => df.HourRows).Where(d => d.EmployeeId == userId).ToList();
-            var forms = GetFormModelsFromEntities(entities);
+            var entities = await context.DeclarationForms.Include(df => df.HourRows).Where(d => d.EmployeeId == userId).ToListAsync();
+            var forms = await GetFormModelsFromEntities(entities);
             return forms;
         }
 
         public async Task<List<DeclarationFormModel>> GetAllFormsOfMonth(int month)
         {
             var monthString = MonthConverter.ConvertIntToMonth(month);
-            var entities = context.DeclarationForms.Include(df => df.HourRows).Where(d => d.Month == monthString).ToList();
-            var forms = GetFormModelsFromEntities(entities);
+            var entities = await context.DeclarationForms.Include(df => df.HourRows).Where(d => d.Month == monthString).ToListAsync();
+            var forms = await GetFormModelsFromEntities(entities);
             return forms;
         }
 
         public async Task EditDeclarationForm(DeclarationFormModel formModel)
         {
-            var form = context.DeclarationForms.Single(d => d.DeclarationFormId == formModel.FormId);
+            var form = await context.DeclarationForms.SingleAsync(d => d.DeclarationFormId == formModel.FormId);
             var hourList = new List<HourRow>();
             
             foreach (var row in formModel.HourRows)
             {
-                var entity = context.HourRows.Single(h => h.HourRowId == row.HourRowId);
+                var entity = await context.HourRows.SingleAsync(h => h.HourRowId == row.HourRowId);
                 entity.Worked = row.Worked;
                 entity.Overtime = row.Overtime;
                 entity.Sickness = row.Sickness;
@@ -515,7 +465,7 @@ namespace UrenRegistratieQien.Repositories
 
         public async Task SubmitDeclarationForm(DeclarationFormModel formModel)
         {
-            var form = context.DeclarationForms.Single(d => d.DeclarationFormId == formModel.FormId);
+            var form = await context.DeclarationForms.SingleAsync(d => d.DeclarationFormId == formModel.FormId);
             form.Submitted = true;
             form.Approved = "Pending";
             await context.SaveChangesAsync();
@@ -525,7 +475,7 @@ namespace UrenRegistratieQien.Repositories
         {
             try
             {
-                var form = context.DeclarationForms.Include(df => df.HourRows).Single(p => p.uniqueId == uniqueId);
+                var form = await context.DeclarationForms.Include(df => df.HourRows).SingleAsync(p => p.uniqueId == uniqueId);
                 return true;
             }
             catch
@@ -533,9 +483,10 @@ namespace UrenRegistratieQien.Repositories
                 return false;
             }
         }
+
         public async Task CalculateTotalHours(DeclarationFormModel decModel)
         {
-            var declarationformEntity = context.DeclarationForms.Single(df => df.DeclarationFormId == decModel.FormId);
+            var declarationformEntity = await context.DeclarationForms.SingleAsync(df => df.DeclarationFormId == decModel.FormId);
             declarationformEntity.TotalWorkedHours = 0;
             declarationformEntity.TotalOvertime = 0;
             declarationformEntity.TotalSickness = 0;
@@ -555,35 +506,35 @@ namespace UrenRegistratieQien.Repositories
             }
             await context.SaveChangesAsync();
         }
-        public async Task<TotalsModel> CalculateTotalHoursOfAll(List<DeclarationFormModel> DeclarationFormList, string Month, int Year) //voor alle employees
+
+        public TotalsModel CalculateTotalHoursOfAll(List<DeclarationFormModel> DeclarationFormList, string Month, int Year)
         {
-            var filterMonth = !string.IsNullOrEmpty(Month);
             var declarationForms = DeclarationFormList.Where(df => df.Year == Year);
-            if (filterMonth)
+            if (!string.IsNullOrEmpty(Month))
                 declarationForms = declarationForms.Where(df => df.Month == Month);
-            var totalsmodel = new TotalsModel();
-
-                totalsmodel.TotalWorkedHours = declarationForms.Sum(df => df.TotalWorkedHours);
-                totalsmodel.TotalOvertime = declarationForms.Sum(df => df.TotalOvertime);
-                totalsmodel.TotalSickness = declarationForms.Sum(df => df.TotalSickness);
-                totalsmodel.TotalVacation = declarationForms.Sum(df => df.TotalVacation);
-                totalsmodel.TotalHoliday = declarationForms.Sum(df => df.TotalHoliday);
-                totalsmodel.TotalTraining = declarationForms.Sum(df => df.TotalTraining);
-                totalsmodel.TotalOther = declarationForms.Sum(df => df.TotalOther);
-
+            var totalsmodel = new TotalsModel
+            {
+                TotalWorkedHours = declarationForms.Sum(df => df.TotalWorkedHours),
+                TotalOvertime = declarationForms.Sum(df => df.TotalOvertime),
+                TotalSickness = declarationForms.Sum(df => df.TotalSickness),
+                TotalVacation = declarationForms.Sum(df => df.TotalVacation),
+                TotalHoliday = declarationForms.Sum(df => df.TotalHoliday),
+                TotalTraining = declarationForms.Sum(df => df.TotalTraining),
+                TotalOther = declarationForms.Sum(df => df.TotalOther)
+            };
             return totalsmodel;
         }
                       
 
         public async Task ReopenForm(int formId)
         {
-            var entity = context.DeclarationForms.Single(d => d.DeclarationFormId == formId);
+            var entity = await context.DeclarationForms.SingleAsync(d => d.DeclarationFormId == formId);
             entity.Submitted = false;
             await context.SaveChangesAsync();
         }
         public async Task DeleteDeclarationForm(int FormId)
         {
-            var form = context.DeclarationForms.Single(df => df.DeclarationFormId == FormId);
+            var form = await context.DeclarationForms.SingleAsync(df => df.DeclarationFormId == FormId);
             context.DeclarationForms.Remove(form);
             await context.SaveChangesAsync();
         }
@@ -591,7 +542,6 @@ namespace UrenRegistratieQien.Repositories
         public async Task<List<TotalsForChartModel>> TotalHoursForCharts(int year)
         {
             var totalHoursList = new List<TotalsForChartModel>();
-            
             for (int i = 1; i < 13; i++)
             {
                 var totalsModel = new TotalsForChartModel
@@ -603,7 +553,7 @@ namespace UrenRegistratieQien.Repositories
 
             foreach(var model in totalHoursList)
             {
-                var entities = context.DeclarationForms.Where(d => d.Month == model.Month && d.Year == year).ToList();
+                var entities = await context.DeclarationForms.Where(d => d.Month == model.Month && d.Year == year).ToListAsync();
                 foreach(var entity in entities)
                 {
                     model.TotalHoliday += entity.TotalHoliday;
@@ -620,10 +570,8 @@ namespace UrenRegistratieQien.Repositories
 
         public async Task<List<int>> GetAllYears()
         {
-            var entities = context.DeclarationForms.ToList();
-
+            var entities = await context.DeclarationForms.ToListAsync();
             var years = new List<int>();
-
             foreach (var entity in entities)
             {
                 if (!years.Contains(entity.Year))
