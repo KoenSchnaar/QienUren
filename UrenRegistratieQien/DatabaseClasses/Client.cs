@@ -11,11 +11,11 @@ namespace UrenRegistratieQien.DatabaseClasses
         public string CompanyName { get; set; }
         public string Contact1Name { get; set; }
         public string Contact2Name { get; set; }
-        public int Contact1Phone { get; set; }
-        public int Contact2Phone { get; set; }
+        public string Contact1Phone { get; set; }
+        public string Contact2Phone { get; set; }
         public string Contact1Email { get; set; }
         public string Contact2Email { get; set; }
-        public int CompanyPhone { get; set; }
+        public string CompanyPhone { get; set; }
 
         public List<Employee> Employees { get; set; }
     }
