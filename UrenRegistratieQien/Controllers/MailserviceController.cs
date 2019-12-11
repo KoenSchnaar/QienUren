@@ -28,10 +28,10 @@ namespace UrenRegistratieQien.Controllers
         [HttpPost]
         public async Task<IActionResult> MailService(DeclarationFormModel decModel, string uniqueId, string formId, string employeeName, IFormFile file)
         {
-            await employeeRepo.UploadFile(file, decModel.FormId);
+            employeeRepo.UploadFile(file, decModel.FormId);
             if (!await employeeRepo.UserIsEmployeeOrTrainee())
             {
-                return await AccessDeniedView();
+                return AccessDeniedView();
             }
             
             try
@@ -74,6 +74,31 @@ namespace UrenRegistratieQien.Controllers
             return View();
         }
 
+        public async Task<IActionResult> ApproveMailChange(string newMail, string oldMail)
+        {
+            await employeeRepo.EditEmployeeMail(oldMail, newMail);
+
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Qien", "hanshanshans812@gmail.com"));
+            message.To.Add(new MailboxAddress(newMail, newMail));
+            message.Subject = "Email wijziging bevestigd door Admin";
+            message.Body = new TextPart("html")
+            {
+                Text = $"Beste,<br>Je e-mailadres wijziging is bevestigd door de Admin. <br> Vanaf nu kan er inlogd worden met: {newMail} <br> Met vriendelijke groet <br> "
+            };
+
+            using (var client = new SmtpClient())
+            {
+                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                client.Connect("Smtp.gmail.com", 587, false);
+                client.Authenticate("hanshanshans812@gmail.com", "Hans123!"); //
+                client.Send(message);
+                client.Disconnect(true);
+            }
+
+            return View();
+
+        }
 
         [HttpPost]
         public async Task<IActionResult> Reject(int FormId, RejectFormModel rejectFormModel)
@@ -91,7 +116,7 @@ namespace UrenRegistratieQien.Controllers
                 return RedirectToAction("ApproveOrReject", new { uniqueId = uniqueId, formId = FormId, commentNotValid = true});
             }
         }
-        public async Task<ViewResult> AccessDeniedView()
+        public ViewResult AccessDeniedView()
         {
             return View("~/Views/Home/AccessDenied.cshtml");
         }
