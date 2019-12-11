@@ -69,7 +69,7 @@ namespace UrenRegistratieQien.Controllers
         {
             if (await employeeRepo.UserIsEmployeeOrTrainee())
             {
-                await employeeRepo.UploadFile(file, decModel.FormId);
+                employeeRepo.UploadFile(file, decModel.FormId);
 
                 try
                 {
@@ -141,7 +141,7 @@ namespace UrenRegistratieQien.Controllers
             if (await employeeRepo.UserIsEmployeeOrTrainee())
             {
                 var userId = _userManager.GetUserId(HttpContext.User);
-                await employeeRepo.UploadPicture(picture, userId);
+                employeeRepo.UploadPicture(picture, userId);
                 return RedirectToAction("Dashboard");
             }
             else
