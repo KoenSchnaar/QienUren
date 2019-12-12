@@ -1,14 +1,18 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 @font-face {
-    font-family: Qien; 
+    font-family: QienBold; 
     src: url(TitilliumWeb-Bold.ttf);
 }
-h1 {
-    font-family: Qien;
+@font-face {
+    font-family: QienRegular;
+    src: url(TitilliumWeb-Regular.ttf);
+}
+.notbold {
+    font-family: QienRegular;
 }
 div{
-    font-family: Qien;
+    font-family: QienBold;
 }
 .barfixed {
     position: fixed; /* Houd de navbar op zijn plek bovenin
@@ -169,7 +173,19 @@ body {
 
 /* Table Style
 ------------------------------------------------ */
-.tableHeader{
+table.one {
+    float: left;
+    width: 42%;
+    margin-right: 2px;
+}
+
+table.two {
+    width: 42%;
+    float: right;
+    margin-left: 2px;
+}
+
+​.tableHeader {
     width: 100px;
 }
 
@@ -235,9 +251,11 @@ body {
     width: 85%; 
     padding: 10px;
 }
+.textleft {
+    text-align: left !important;
+}
 
 .box-2_2 {
-   
     padding-left: 20px;
 }
 

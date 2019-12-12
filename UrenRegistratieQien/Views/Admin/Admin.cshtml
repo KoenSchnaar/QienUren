@@ -86,7 +86,7 @@
                             </tr>
                         <thead>
 
-                            <tr>
+                            <tr class="notbold">
                                 <td>
                                     @Html.DropDownList("totalhoursyear", yearsSelectList)
                                 </td>
@@ -163,7 +163,7 @@
                         <tbody>
                             @foreach (DeclarationFormModel declarationFormModel in Model)
                             {
-                                <tr>
+                                <tr class="notbold">
                                     <td>@declarationFormModel.DateCreated.Day/@declarationFormModel.DateCreated.Month/@declarationFormModel.DateCreated.Year</td>
                                     <td>@declarationFormModel.EmployeeName</td>
                                     <td>@declarationFormModel.Year</td>

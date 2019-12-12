@@ -63,13 +63,12 @@
                     <tbody>
                         @foreach (var form in Model)
                         {
-
-                    <tr>
+                    <tr class="notbold">
                         <td>@form.Year</td>
                         <td>
                             @{
-                                                                        var maandInt = UrenRegistratieQien.GlobalClasses.MonthConverter.ConvertMonthToInt(form.Month);
-                                                                        var maandString = UrenRegistratieQien.GlobalClasses.MonthConverter.ConvertIntToMaand(maandInt);
+                                var maandInt = UrenRegistratieQien.GlobalClasses.MonthConverter.ConvertMonthToInt(form.Month);
+                                var maandString = UrenRegistratieQien.GlobalClasses.MonthConverter.ConvertIntToMaand(maandInt);
                             }
                             @maandString
                         </td>
