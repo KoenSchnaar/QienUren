@@ -89,7 +89,7 @@ namespace UrenRegistratieQien.Repositories
                 {
                     monthInt = 1;
                 }
-                var monthString = MonthConverter.ConvertIntToMonth(monthInt);
+                var monthString = MonthConverter.ConvertIntToMaand(monthInt);
                 var year = entity.Year;
                 if (monthString == "Januari")
                 {
@@ -133,7 +133,7 @@ namespace UrenRegistratieQien.Repositories
                 var form = new DeclarationForm
                 {
                     EmployeeId = employeeId,
-                    Month = MonthConverter.ConvertIntToMonth(DateTime.Now.Month),
+                    Month = MonthConverter.ConvertIntToMaand(DateTime.Now.Month),
                     Year = DateTime.Now.Year,
                     uniqueId = GenerateUniqueId(),
                     Approved = "Pending",
