@@ -9,56 +9,32 @@ namespace UrenRegistratieQienTest.Fakes
 {
     class FakeClientRepository : IClientRepository
     {
-        public void AddNewClient(ClientModel clientModel)
-        {
-            var implemented = true;
-        }
-
-        public void DeleteClient(int clientId)
+        public Task AddNewClient(ClientModel clientModel)
         {
             throw new NotImplementedException();
         }
 
-        public void EditAClient(ClientModel clientModel)
-        {
-            var implemented = true;
-        }
-
-        public List<ClientModel> GetAllClients()
-        {
-            return new List<ClientModel>();
-        }
-
-        public ClientModel GetClient(int clientId)
-        {
-            throw new NotImplementedException();
-        }
-        public ClientModel GetClientByUserId(string userId)
+        public Task DeleteClient(int clientId)
         {
             throw new NotImplementedException();
         }
 
-        Task IClientRepository.AddNewClient(ClientModel clientModel)
+        public Task EditAClient(ClientModel clientModel)
         {
             throw new NotImplementedException();
         }
 
-        Task IClientRepository.DeleteClient(int clientId)
+        public Task<List<ClientModel>> GetAllClients()
         {
             throw new NotImplementedException();
         }
 
-        Task IClientRepository.EditAClient(ClientModel clientModel)
+        public Task<ClientModel> GetClient(int clientId)
         {
             throw new NotImplementedException();
         }
 
-        Task<ClientModel> IClientRepository.GetClient(int clientId)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<ClientModel> IClientRepository.GetClientByUserId(string userId)
+        public Task<ClientModel> GetClientByUserId(string userId)
         {
             throw new NotImplementedException();
         }

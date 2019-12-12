@@ -12,8 +12,19 @@ using UrenRegistratieQienTest.Fakes;
 namespace UrenRegistratieQienTest
 {
     [TestClass]
-    public class EmployeeControllerUnitTest
+    public class HomeControllerUnitTest
     {
-        
+
+
+        [TestMethod]
+        public void EmployeeControllerIndexShouldReturnView()
+        {
+            //arrange
+            var HomeController = new HomeController(null, new FakeEmployeeRepository());
+            //act
+            var result = HomeController.Index();
+            //assert
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+        }
     }
 }
