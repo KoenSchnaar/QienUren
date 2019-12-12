@@ -42,7 +42,6 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
         {
             
             clientRepo = ClientRepo;
-            PopulateClients();
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
@@ -124,6 +123,7 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
+            await PopulateClients();
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
