@@ -1,7 +1,14 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
+@font-face {
+    font-family: Qien; 
+    src: url(TitilliumWeb-Bold.ttf);
+}
 h1 {
-    font-family: 'Titillium Web';
+    font-family: Qien;
+}
+div{
+    font-family: Qien;
 }
 .barfixed {
     position: fixed; /* Houd de navbar op zijn plek bovenin
