@@ -21,14 +21,12 @@ namespace UrenRegistratieQien.Controllers
         private readonly UserManager<Employee> _userManager;
         private readonly IEmployeeRepository employeeRepo;
         private readonly IClientRepository clientRepo;
-        private readonly IHostingEnvironment he;
 
         public List<string> monthList { get; set; }
 
         public AdminController(IDeclarationFormRepository DeclarationFormRepo, 
             IEmployeeRepository EmployeeRepo, 
             IClientRepository ClientRepo,
-            IHostingEnvironment he,
             UserManager<Employee> userManager = null)
         {
 
@@ -36,7 +34,6 @@ namespace UrenRegistratieQien.Controllers
             declarationFormRepo = DeclarationFormRepo;
             employeeRepo = EmployeeRepo;
             clientRepo = ClientRepo;
-            this.he = he;
             monthList = new List<string> { "Januari", "Februari", "March", "April", "May", "June", "Juli", "August", "September", "October", "November", "December" };
         }
 
@@ -108,7 +105,8 @@ namespace UrenRegistratieQien.Controllers
             if (await employeeRepo.UserIsAdmin())
             {
                 return View(await clientRepo.GetAllClients());
-            } else {
+            } 
+            else {
                 return await AccessDeniedView();
             }
         }
