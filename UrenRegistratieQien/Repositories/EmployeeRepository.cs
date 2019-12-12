@@ -327,6 +327,7 @@ namespace UrenRegistratieQien.Repositories
             {
                 archive.CreateEntryFromFile(Path.Combine(sourceFolder, sourceFileName), $"{sourceFileName}");
             }
+            File.Delete(sourceFolder + name);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace UrenRegistratieQien.Repositories
 
         public async Task AddHourRows(int year, string month, int declarationFormId)
         {
-            var entity = context.HourRows.FirstOrDefaultAsync(h => h.DeclarationFormId == declarationFormId); // als er uberhaupt iets in de hourrows van het declaratieform staat maakt het niks meer aan. Kan dus voor bugs zorgen.
+            var entity = await context.HourRows.FirstOrDefaultAsync(h => h.DeclarationFormId == declarationFormId); // als er uberhaupt iets in de hourrows van het declaratieform staat maakt het niks meer aan. Kan dus voor bugs zorgen.
             if (entity == null)
             {
                 var monthInt = MonthConverter.ConvertMonthToInt(month);
