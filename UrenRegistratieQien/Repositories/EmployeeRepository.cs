@@ -318,6 +318,7 @@ namespace UrenRegistratieQien.Repositories
             string sourceFileName = name;
             string sourceFolder = he.WebRootPath + "/Uploads";
             string zipFilePath = Path.Combine(he.WebRootPath + "/Uploads", $"{formId}.zip");
+            string filePath = sourceFolder + "/" + name;
 
             var mode = ZipArchiveMode.Update;
             if (!File.Exists(zipFilePath))
@@ -327,7 +328,7 @@ namespace UrenRegistratieQien.Repositories
             {
                 archive.CreateEntryFromFile(Path.Combine(sourceFolder, sourceFileName), $"{sourceFileName}");
             }
-            File.Delete(sourceFolder + name);
+            File.Delete(filePath);
         }
     }
 }
