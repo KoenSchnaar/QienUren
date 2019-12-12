@@ -55,6 +55,7 @@ namespace UrenRegistratieQien.Controllers
                 {
                     ViewBag.ErrorMessage = "";
                 }
+
                 var inputModel = await declarationRepo.GetForm(declarationFormId);
                 return View(inputModel);
             }
