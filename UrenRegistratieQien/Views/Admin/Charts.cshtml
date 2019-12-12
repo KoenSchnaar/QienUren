@@ -1,5 +1,7 @@
 ﻿<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.3/dist/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
 
 @model List<TotalsForChartModel>
 @{
@@ -22,7 +24,7 @@
     var totalOther = 0;
     var totalHoliday = 0;
 
-    foreach(var month in Model)
+    foreach (var month in Model)
     {
         totalSickness += month.TotalSickness;
         totalWorked += month.TotalWorkedHours;
@@ -34,31 +36,36 @@
     }
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Bar</title>
-</head>
-<body>
-    <div class="box-body">
-        <div class="chart-container">
-            <canvas id="LineChart" style="width:50%; height:250px"></canvas>
-        </div>
-        <div>
-            <canvas id="PieChart" style="width:50%; height:250px"></canvas>
-        </div>
+
+
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Bar</title>
+    </head>
+
+<div class="Container-1">
+    <div class="box-1">
+        @Html.Partial("_SideBoxAdmin")
     </div>
-</body>
-</html>
+    <div class="box-2">
+        <form asp-controller="Admin" asp-action="Charts">
+            @Html.DropDownList("year", new SelectList(ViewBag.years), "Geen filter")
+            <button class="btn-primary btn">Jaar aanpassen</button>
 
-<form asp-controller="Admin" asp-action="Charts">
-    @Html.DropDownList("year", new SelectList(ViewBag.years), "Geen filter")
-    <button class="btn-primary btn">Jaar aanpassen</button>
+        </form>
+        <br />
+        <body>
+            <div class="box-body">
+                <div class="chart-container">
+                    <canvas id="LineChart" style="width:100%; height:500px"></canvas>
+                </div>
+                <div>
+                    <canvas id="PieChart" style="width:100%; height:500px"></canvas>
+                </div>
+            </div>
+        </body>
 
-</form>
-
-<script type="text/javascript">
+        <script type="text/javascript">
 
             $(function () {
         var chartName = "LineChart";
@@ -173,29 +180,9 @@
             });
 
 
-    </script>
+        </script>
 
-<script type="text/javascript">
-
-    @*new Chart(document.getElementById("PieChart"), {
-    type: 'pie',
-    var data: {
-      labels: ["Ziekte", "Gewerkt", "Vakantie", "Training", "Overwerk", "Feestdagen", "Overig"],
-      datasets: [
-        {
-          label: "uren",
-          backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#89D1B2", "#FF5733"],
-          data: [@totalSickness, @totalWorked, @totalVacation, @totalTraining, @totalOvertime, @totalHoliday, @totalOther]
-        }
-      ]
-    },
-    options: {
-      title: {
-        display: true,
-        text: 'Uren per jaar'
-      }
-    }
-});*@
+        <script type="text/javascript">
 
     var data = [{
             data: [@totalSickness, @totalWorked, @totalVacation, @totalTraining, @totalOvertime, @totalHoliday, @totalOther],
@@ -211,7 +198,7 @@
             ],
             borderColor: "#fff"
         }];
-        
+
            var options = {
            tooltips: {
          enabled: true
@@ -219,7 +206,7 @@
              plugins: {
             datalabels: {
                 formatter: (value, ctx) => {
-                
+
                   let sum = 0;
                   let dataArr = ctx.chart.data.datasets[0].data;
                   dataArr.map(data => {
@@ -228,14 +215,14 @@
                   let percentage = (value*100 / sum).toFixed(2)+"%";
                   return percentage;
 
-              
+
                 },
-                color: '#fff',
+                color: '#000000',
                      }
         }
     };
-    
-    
+
+
         var ctx = document.getElementById("PieChart").getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'pie',
@@ -247,4 +234,6 @@
     });
 
 
-</script> 
+        </script>
+    </div>
+</div>

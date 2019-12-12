@@ -11,31 +11,9 @@ namespace UrenRegistratieQienTest.Fakes
     class FakeHourRowRepository : IHourRowRepository
 
     {
-        public List<HourRow> AddHourRows(int year, string month, int declarationFormId)
+        public Task AddHourRows(int year, string month, int declarationFormId)
         {
             throw new NotImplementedException();
         }
-
-        public List<HourRowModel> GetHourRows(string userId, string month)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<HourRowModel> GetHourRows(string userId, int declarationFormId)
-        {
-            throw new NotImplementedException();
-        }
-
-<<<<<<< HEAD
-        //void IHourRowRepository.AddHourRows(int year, string month, int declarationFormId)
-        //{
-
-        //}
-=======
-        Task IHourRowRepository.AddHourRows(int year, string month, int declarationFormId)
-        {
-            throw new NotImplementedException();
-        }
->>>>>>> master
     }
 }
