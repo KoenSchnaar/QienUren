@@ -88,12 +88,23 @@ namespace UrenRegistratieQien.Repositories
         public async Task<List<EmployeeModel>> GetAllAccounts(string searchString)
         {
             var AllEmployee = new List<EmployeeModel>();
-            var TempEmployee = await context.Employees.Where(p => p.Role != 1).ToListAsync();
-            var filterEmployee = TempEmployee.Where(x => x.FirstName.Contains(searchString) || x.LastName.Contains(searchString) || (x.FirstName + ' ' + x.LastName).Contains(searchString)
-               || searchString == null).OrderBy(x => x.FirstName);
+            var TempEmployee = await context.Employees.Where(p => p.Role != 1).OrderBy(x => x.FirstName).ToListAsync();
+            
+            if (!(searchString == null))
+            {
+                searchString = searchString.ToLower();
+                var filterEmployee = TempEmployee.Where(x => x.FirstName.ToLower().Contains(searchString) || x.LastName.ToLower().Contains(searchString) || (x.FirstName.ToLower() + ' ' + x.LastName.ToLower()).Contains(searchString)
+                   || searchString == null).OrderBy(x => x.FirstName);
+                foreach (var employee in filterEmployee)
+                    AllEmployee.Add(EntityToEmployeeModel(employee));
+            } else
+            {
+                foreach (var employee in TempEmployee)
+                    AllEmployee.Add(EntityToEmployeeModel(employee));
+            }
 
-            foreach (var employee in filterEmployee)
-                AllEmployee.Add(EntityToEmployeeModel(employee));
+
+
             return AllEmployee;
         }
 
