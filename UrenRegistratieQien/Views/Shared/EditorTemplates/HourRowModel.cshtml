@@ -26,7 +26,7 @@
      }
         @if(day == DayOfWeek.Saturday)
         {
-        <tr class="grayrow">
+        <tr class="grayrow notbold">
             @Html.HiddenFor(m => m.HourRowId)
             <td class="dateRow">@dag @Model.Date</td>
             <td>@Html.TextBoxFor(m => m.Worked, new { style = "width: 75px;" })</td>
@@ -39,7 +39,7 @@
             <td>@Html.TextBoxFor(m => m.OtherExplanation, new { style = "width: 200px;" })</td>
         </tr>
         } else if(day == DayOfWeek.Sunday) {
-        <tr class="grayrow">
+        <tr class="grayrow notbold">
             @Html.HiddenFor(m => m.HourRowId)
             <td class="dateRow">@dag @Model.Date</td>
             <td>@Html.TextBoxFor(m => m.Worked, new { style = "width: 75px;" })</td>
@@ -53,7 +53,7 @@
         </tr>
         } else
         {
-        <tr>
+        <tr class="notbold">
             @Html.HiddenFor(m => m.HourRowId)
             <td class="dateRow">@dag @Model.Date</td>
             <td>@Html.TextBoxFor(m => m.Worked, new { style = "width: 75px;" })</td>
