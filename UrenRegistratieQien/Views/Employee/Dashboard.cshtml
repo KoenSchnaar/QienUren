@@ -65,7 +65,13 @@
                         {
                             <tr>
                                 <td>@form.Year</td>
-                                <td>@form.Month</td>
+                                <td>
+                                    @{
+                                        var maandInt = UrenRegistratieQien.GlobalClasses.MonthConverter.ConvertMonthToInt(form.Month);
+                                        var maandString = UrenRegistratieQien.GlobalClasses.MonthConverter.ConvertIntToMaand(maandInt);
+                                    }
+                                    @maandString
+                                </td>
                                 <td>@form.TotalWorkedHours</td>
                                 <td>@form.TotalOvertime</td>
                                 <td>@form.TotalSickness</td>

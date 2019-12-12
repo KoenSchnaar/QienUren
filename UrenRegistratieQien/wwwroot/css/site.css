@@ -67,6 +67,11 @@ a {
   color: #0366d6;
 }
 /*Button styles*/
+
+.space {
+    margin-top: 15px;
+}
+
 .btnposition {
     margin-left: 20px;
     margin-bottom: 2px;
