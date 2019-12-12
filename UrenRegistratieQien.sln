@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UrenRegistratieQien", "UrenRegistratieQien\UrenRegistratieQien.csproj", "{202B2EB3-2E65-4F9C-AEF2-D6579B158B8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrenRegistratieQienTest", "UrenRegistratieQienTest\UrenRegistratieQienTest.csproj", "{C602570E-71BE-404C-A3FC-6E6A84A9AF51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UrenRegistratieQienTest", "UrenRegistratieQienTest\UrenRegistratieQienTest.csproj", "{C602570E-71BE-404C-A3FC-6E6A84A9AF51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
