@@ -200,7 +200,7 @@
                                     </td>
                                     <td>@declarationFormModel.Comment</td>
                                     <td>
-                                        <select onchange="if (this.value) window.location.href=this.value">
+                                        <select onchange="selectChanged(this);">
                                             <option value="">Kies je actie</option>
                                             <option value="@Url.Action("ViewDeclarationForm", "Admin", new { declarationFormModel.FormId })">Inzien</option>
                                             <option value="@Url.Action("DownloadExcel", "Download", new { declarationFormModel.FormId })">Download Excel</option>

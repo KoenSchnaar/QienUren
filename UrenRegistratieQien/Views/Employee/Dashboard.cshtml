@@ -56,69 +56,58 @@
 
                             </th>
                             <th>Opmerking</th>
-                            <th>Inzien</th>
+                            <th>Actie</th>
                         </tr>
                     </thead>
                     
                     <tbody>
                         @foreach (var form in Model)
                         {
-                            <tr class="notbold">
-                                <td>@form.Year</td>
-                                <td>
-                                    @{
-                                        var maandInt = UrenRegistratieQien.GlobalClasses.MonthConverter.ConvertMonthToInt(form.Month);
-                                        var maandString = UrenRegistratieQien.GlobalClasses.MonthConverter.ConvertIntToMaand(maandInt);
-                                    }
-                                    @maandString
-                                </td>
-                                <td>@form.TotalWorkedHours</td>
-                                <td>@form.TotalOvertime</td>
-                                <td>@form.TotalSickness</td>
-                                <td>
-                                    @if (form.Approved == "Approved")
-                                    {
-                                        <img class="center" src="..\..\Images\Checkmark.png" style="margin: 0 auto; height: 15px; width: 25px" />
-                                    }
-                                    else if (form.Approved == "Rejected")
-                                    {
-                                        <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
-                                    }
-                                    else if (form.Approved == "Pending")
-                                    {
-                                        <img class="center" src="..\..\Images\Pending.jpg" style="margin: 0 auto; height: 20px; width: 20px" />
-                                    }
-                                </td>
-                                <td>
-                                    @if (form.Submitted == true)
-                                    {
-                                        <img class="center" src="..\..\Images\Checkmark.png" style="margin: 0 auto; height: 15px; width: 25px" />
-                                    }
-                                    else
-                                    {
-                                        <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
-                                    }
-                                </td>
-                                <td>@form.Comment</td>
-                                <td>
-                                    <a asp-area=""
-                                        asp-controller="Employee"
-                                        asp-action="HourReg"
-                                        asp-route-declarationFormId="@form.FormId"
-                                        asp-route-userId="@ViewBag.User.EmployeeId"
-                                        asp-route-employeeName="@employeeName"
-                                        asp-route-month="@form.Month"
-                                        asp-route-year="@form.Year">
-                                        Inzien
-                                    </a>
-                                    <a asp-area=""
-                                        asp-controller="Download"
-                                        asp-action="DownloadExcel"
-                                        asp-route-formId="@form.FormId">
-                                        Download Excel
-                                    </a>
-                                </td>
-                            </tr>
+                    <tr class="notbold">
+                        <td>@form.Year</td>
+                        <td>
+                            @{
+                                var maandInt = UrenRegistratieQien.GlobalClasses.MonthConverter.ConvertMonthToInt(form.Month);
+                                var maandString = UrenRegistratieQien.GlobalClasses.MonthConverter.ConvertIntToMaand(maandInt);
+                            }
+                            @maandString
+                        </td>
+                        <td>@form.TotalWorkedHours</td>
+                        <td>@form.TotalOvertime</td>
+                        <td>@form.TotalSickness</td>
+                        <td>
+                            @if (form.Approved == "Approved")
+                                                                {
+                            <img class="center" src="..\..\Images\Checkmark.png" style="margin: 0 auto; height: 15px; width: 25px" />
+                                                                }
+                                                                else if (form.Approved == "Rejected")
+                                                                {
+                            <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                                                                }
+                                                                else if (form.Approved == "Pending")
+                                                                {
+                            <img class="center" src="..\..\Images\Pending.jpg" style="margin: 0 auto; height: 20px; width: 20px" />
+                                                                }
+                        </td>
+                        <td>
+                            @if (form.Submitted == true)
+                                                                {
+                            <img class="center" src="..\..\Images\Checkmark.png" style="margin: 0 auto; height: 15px; width: 25px" />
+                                                                }
+                                                                else
+                                                                {
+                            <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                                                                }
+                        </td>
+                        <td>@form.Comment</td>
+                        <td>
+                            <select onchange="selectChanged(this);">
+                                <option value="">Kies je actie</option>
+                                <option value="@Url.Action("HourReg", "Employee", new { declarationFormId=form.FormId, userId=ViewBag.User.EmployeeId, employeeName=employeeName, month=form.Month, year=form.Year   })">Inzien</option>
+                                <option value="@Url.Action("DownloadExcel", "Download", new { form.FormId })">Download Excel</option>
+                            </select>
+                        </td>
+                    </tr>
                         }
 
                     </tbody>
