@@ -173,7 +173,19 @@ body {
 
 /* Table Style
 ------------------------------------------------ */
-.tableHeader{
+table.one {
+    float: left;
+    width: 42%;
+    margin-right: 2px;
+}
+
+table.two {
+    width: 42%;
+    float: right;
+    margin-left: 2px;
+}
+
+​.tableHeader {
     width: 100px;
 }
 
