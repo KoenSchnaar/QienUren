@@ -184,6 +184,15 @@ table.two {
     float: right;
     margin-left: 2px;
 }
+table.three {
+    width: 75%;
+    float: left;
+    margin-left: 100px;
+}
+.searchposition {
+    margin-left: 100px;
+    margin-bottom: 2px;
+}
 
 ​.tableHeader {
     width: 100px;
