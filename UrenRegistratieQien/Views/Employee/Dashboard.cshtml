@@ -99,7 +99,18 @@
                             <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
                                                                 }
                         </td>
-                        <td>@form.Comment</td>
+                        <td>
+                            @if (form.Comment != null)
+                            {
+                                if (form.Comment.Length > 10)
+                                {
+                                    
+                                    string shortComment = (form.Comment.Substring(0, 10) + "...");
+                                    
+                                    @shortComment
+                                }
+                            }
+                        </td>
                         <td>
                             <select onchange="selectChanged(this);">
                                 <option value="">Kies je actie</option>
