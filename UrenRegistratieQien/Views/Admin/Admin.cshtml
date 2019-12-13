@@ -198,7 +198,18 @@
                                             <img class="center" title="Afgekeurd" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
                                         }
                                     </td>
-                                    <td>@declarationFormModel.Comment</td>
+                                    <td>
+                                        @if (declarationFormModel.Comment != null)
+                                        {
+                                            if (declarationFormModel.Comment.Length > 10)
+                                            {
+                                                
+                                                string shortComment = (declarationFormModel.Comment.Substring(0, 10) + "...");
+                                                
+                                                @shortComment
+                                            }
+                                        }
+                                    </td>
                                     <td>
                                         <select onchange="selectChanged(this);">
                                             <option value="">Kies je actie</option>
