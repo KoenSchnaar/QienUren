@@ -237,6 +237,7 @@ namespace UrenRegistratieQien.Repositories
                 return false;
             }
         }
+
         public async Task<bool> UserIsEmployeeOrTrainee()
         {
             var userId = _userManager.GetUserId(httpContextAccessor.HttpContext.User);

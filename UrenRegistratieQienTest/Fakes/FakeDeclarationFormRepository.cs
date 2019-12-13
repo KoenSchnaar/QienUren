@@ -84,7 +84,7 @@ namespace UrenRegistratieQienTest.Fakes
 
         public Task<DeclarationFormModel> GetForm(int formId)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(new DeclarationFormModel { FormId = formId });
         }
 
         public DeclarationFormModel GetFormNotAsync(int formId)

@@ -77,14 +77,62 @@ namespace UrenRegistratieQien.Repositories
             await context.SaveChangesAsync();
         }
 
+        public bool IsNextMonth(string month1, string month2)
+        {
+            var nextMonth = false;
+            var monthInt1 = MonthConverter.ConvertMonthToInt(month1);
+            var monthInt2 = MonthConverter.ConvertMonthToInt(month2);
+
+            if(monthInt1 != 12 && month2 == (month1 + 1))
+            {
+                nextMonth = true;
+            }
+            else if(monthInt1 == 12 && monthInt2 == 1)
+            {
+                nextMonth = true;
+            }
+            else
+            {
+                nextMonth = false;
+            }
+            return nextMonth;
+        }
+
+        public DeclarationFormModel GetFormFromGap(List<DeclarationFormModel> forms)
+        {
+            for (int i = 0; i<forms.Count - 1; i++)
+                {
+                    if (!(IsNextMonth(forms[i].Month, forms[i + 1].Month)))
+                    {
+                        return forms[i];
+                    }
+                }
+            return null;
+        }
 
         public async Task CreateForm(string employeeId)
         {
             var entities = context.DeclarationForms.Where(p => p.EmployeeId == employeeId).ToList();
-            if (entities.Count() > 0)
+            var formModels = EntitiesToDeclarationFormModels(entities);
+            var ascendingModels = formModels.OrderBy(p => p.monthyear).ToList();
+
+            if (formModels.Count() > 0)
             {
-                var entity = entities[entities.Count() - 1];
-                var monthInt = MonthConverter.ConvertMonthToInt(entity.Month) + 1;
+                var LastMonth = GetFormFromGap(ascendingModels);
+                var monthInt = 0;
+                var entity = new DeclarationFormModel();
+
+                if (LastMonth != null)
+                {
+                    entity = LastMonth;
+                    monthInt = MonthConverter.ConvertMonthToInt(LastMonth.Month) + 1;
+                }
+                else
+                {
+                    entity = ascendingModels[ascendingModels.Count() - 1];
+                    monthInt = MonthConverter.ConvertMonthToInt(entity.Month) + 1;
+                }
+
                 if (monthInt == 13)
                 {
                     monthInt = 1;
@@ -193,6 +241,19 @@ namespace UrenRegistratieQien.Repositories
             var castedEmployee = (Employee)selectedEmployee;
             var employeeName = castedEmployee.FirstName + " " + castedEmployee.LastName;
 
+            string month = "";
+            if (MonthConverter.ConvertMonthToInt(entity.Month) < 10)
+            {
+                month = 0 + MonthConverter.ConvertMonthToInt(entity.Month).ToString();
+            }
+            else
+            {
+                month = MonthConverter.ConvertMonthToInt(entity.Month).ToString();
+            }
+            string yearString = entity.Year.ToString();
+            string monthYearString = yearString + month;
+            int monthYear = Convert.ToInt32(monthYearString);
+
             var newModel = new DeclarationFormModel
             {
                 FormId = entity.DeclarationFormId,
@@ -200,6 +261,8 @@ namespace UrenRegistratieQien.Repositories
                 EmployeeId = entity.EmployeeId,
                 EmployeeName = employeeName,
                 Month = entity.Month,
+                Year = entity.Year,
+                monthyear = monthYear,
                 Approved = entity.Approved,
                 Submitted = entity.Submitted,
                 Comment = entity.Comment,
@@ -214,6 +277,50 @@ namespace UrenRegistratieQien.Repositories
                 DateCreated = entity.DateCreated
             };
             return newModel;
+        }
+
+        public List<DeclarationFormModel> EntitiesToDeclarationFormModels(List<DeclarationForm> forms)
+        {
+            var declarationFormModels = new List<DeclarationFormModel>();
+            foreach(var form in forms)
+            {
+                string month = "";
+                if (MonthConverter.ConvertMonthToInt(form.Month) < 10)
+                {
+                    month = 0 + MonthConverter.ConvertMonthToInt(form.Month).ToString();
+                }
+                else
+                {
+                    month = MonthConverter.ConvertMonthToInt(form.Month).ToString();
+                }
+                string yearString = form.Year.ToString();
+                string monthYearString = yearString + month;
+                int monthYear = Convert.ToInt32(monthYearString);
+
+                var newModel = new DeclarationFormModel
+                {
+                    FormId = form.DeclarationFormId,
+                    EmployeeId = form.EmployeeId,
+                    Month = form.Month,
+                    Approved = form.Approved,
+                    Submitted = form.Submitted,
+                    Comment = form.Comment,
+                    Year = form.Year,
+                    monthyear = monthYear,
+                    uniqueId = form.uniqueId,
+                    TotalWorkedHours = form.TotalWorkedHours,
+                    TotalOvertime = form.TotalOvertime,
+                    TotalSickness = form.TotalSickness,
+                    TotalVacation = form.TotalVacation,
+                    TotalHoliday = form.TotalHoliday,
+                    TotalTraining = form.TotalTraining,
+                    TotalOther = form.TotalOther,
+                    DateCreated = form.DateCreated
+                };
+                declarationFormModels.Add(newModel);
+            }
+            
+            return declarationFormModels;
         }
 
         public async Task<List<DeclarationFormModel>> GetFormModelsFromEntities(List<DeclarationForm> entities)
@@ -245,6 +352,20 @@ namespace UrenRegistratieQien.Repositories
                 var selectedEmployee = await context.Users.SingleAsync(p => p.Id == form.EmployeeId);
                 var castedEmployee = (Employee)selectedEmployee;
                 var employeeName = castedEmployee.FirstName + " " + castedEmployee.LastName;
+
+                string month = "";
+                if (MonthConverter.ConvertMonthToInt(form.Month) < 10)
+                {
+                    month = 0 + MonthConverter.ConvertMonthToInt(form.Month).ToString();
+                }
+                else
+                {
+                    month = MonthConverter.ConvertMonthToInt(form.Month).ToString();
+                }
+                string yearString = form.Year.ToString();
+                string monthYearString = yearString + month;
+                int monthYear = Convert.ToInt32(monthYearString);
+
                 var newModel = new DeclarationFormModel
                 {
                     FormId = form.DeclarationFormId,
@@ -256,6 +377,7 @@ namespace UrenRegistratieQien.Repositories
                     Submitted = form.Submitted,
                     Comment = form.Comment,
                     Year = form.Year,
+                    monthyear = monthYear,
                     uniqueId = form.uniqueId,
                     TotalWorkedHours = form.TotalWorkedHours,
                     TotalOvertime = form.TotalOvertime,
@@ -304,6 +426,20 @@ namespace UrenRegistratieQien.Repositories
             var selectedEmployee = context.Users.Single(p => p.Id == entity.EmployeeId);
             var castedEmployee = (Employee)selectedEmployee;
             var employeeName = castedEmployee.FirstName + " " + castedEmployee.LastName;
+
+            string month = "";
+            if (MonthConverter.ConvertMonthToInt(entity.Month) < 10)
+            {
+                month = 0 + MonthConverter.ConvertMonthToInt(entity.Month).ToString();
+            }
+            else
+            {
+                month = MonthConverter.ConvertMonthToInt(entity.Month).ToString();
+            }
+            string yearString = entity.Year.ToString();
+            string monthYearString = yearString + month;
+            int monthYear = Convert.ToInt32(monthYearString);
+
             var newModel = new DeclarationFormModel
             {
                 FormId = entity.DeclarationFormId,
@@ -311,6 +447,8 @@ namespace UrenRegistratieQien.Repositories
                 EmployeeId = entity.EmployeeId,
                 EmployeeName = employeeName,
                 Month = entity.Month,
+                Year = entity.Year,
+                monthyear = monthYear,
                 Approved = entity.Approved,
                 Submitted = entity.Submitted,
                 Comment = entity.Comment,
@@ -553,7 +691,8 @@ namespace UrenRegistratieQien.Repositories
 
             foreach(var model in totalHoursList)
             {
-                var entities = await context.DeclarationForms.Where(d => d.Month == model.Month && d.Year == year).ToListAsync();
+                var month = MonthConverter.ConvertIntToMaand(MonthConverter.ConvertMonthToInt(model.Month));
+                var entities = await context.DeclarationForms.Where(d => d.Month == month && d.Year == year).ToListAsync();
                 foreach(var entity in entities)
                 {
                     model.TotalHoliday += entity.TotalHoliday;
