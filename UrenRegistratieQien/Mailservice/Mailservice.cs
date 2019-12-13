@@ -24,7 +24,7 @@ namespace UrenRegistratieQien.MailService
                 $"" + Environment.NewLine +
                 $"Welkom bij Qien. Er is een medewerkers account voor je aangemaakt met de volgende gegevens:" + Environment.NewLine +
                 $"Inlognaam: {employee.Email}" + Environment.NewLine +
-                $"Wachtwoord: {employee.FirstName}{employee.LastName}" + Environment.NewLine +
+                $"Wachtwoord: {employee.FirstName}{employee.LastName}1!" + Environment.NewLine +
                 $"" + Environment.NewLine +
                 $"Log hier in om je wachtwoord te veranderen https://localhost:5001/Identity/Account/Manage/ChangePassword" + Environment.NewLine + //veranderen site 
                 $"" + Environment.NewLine +

@@ -9,13 +9,23 @@
 
 
 
-    <div class="Container-1">
-        <div class="box-1">
-            @Html.Partial("_SideBoxEmployee", model)
-        </div>
-        <div class="box-2"></div>
+<div class="Container-1">
+    <div class="box-1">
+        @Html.Partial("_SideBoxEmployee", model)
+    </div>
+
+    <div class="box-2"></div>
+
     <form method="post" asp-action="HourReg" asp-controller="Employee" enctype="multipart/form-data">
         <div>
+            <div>
+                @if (Model.Comment != null)
+                {
+                    string commentaarString = "Rede voor afkeuring: " + Model.Comment;
+                    @commentaarString
+
+                }
+            </div>
             @{ if (Model.Submitted == true)
                 {
                     @Html.HiddenFor(m => m.FormId)
@@ -52,7 +62,7 @@
                     @Html.HiddenFor(m => m.Year)
                     @Html.HiddenFor(m => m.Month)
                     <div class="btnposition" style="color: red;">@ViewBag.ErrorMessage</div>
-                    
+
                     <table class="fl-table table-wrapper" align="center">
                         <thead>
                             <tr>

@@ -26,6 +26,14 @@
                 Download Bijlagen
             </a>
         </form>
+        <div>
+            @if (Model.Comment != null)
+            {
+                string commentaarString = "Rede voor afkeuring: " + Model.Comment;
+                @commentaarString
+
+            }
+        </div>
 
         <table align="center" class="fl-table table-wrapper">
             <thead>
