@@ -31,7 +31,7 @@
             <div class="box-5050">
                 <form method="post">
 
-                    <button class="btn-primary" asp-action="Reject" asp-controller="Mailservice" asp-route-formId=@Model.declarationFormModel.FormId>Afkeuren</button>
+                    <button class="btn-primary" asp-action="Reject" asp-controller="Mailservice" asp-route-formId=@Model.declarationFormModel.FormId asp-route-employeeName="@Model.declarationFormModel.EmployeeName" asp-route-clientName="@Model.declarationFormModel.ClientName">Afkeuren</button>
                     <br />
                     <br />
                     @Html.HiddenFor(p => p.declarationFormModel.FormId)
