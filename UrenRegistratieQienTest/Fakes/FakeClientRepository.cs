@@ -11,7 +11,7 @@ namespace UrenRegistratieQienTest.Fakes
     {
         public Task AddNewClient(ClientModel clientModel)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public Task DeleteClient(int clientId)
@@ -21,17 +21,17 @@ namespace UrenRegistratieQienTest.Fakes
 
         public Task EditAClient(ClientModel clientModel)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public Task<List<ClientModel>> GetAllClients()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(new List<ClientModel>());
         }
 
         public Task<ClientModel> GetClient(int clientId)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(new ClientModel());
         }
 
         public Task<ClientModel> GetClientByUserId(string userId)

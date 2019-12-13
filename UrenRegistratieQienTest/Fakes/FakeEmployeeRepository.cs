@@ -23,12 +23,12 @@ namespace UrenRegistratieQienTest.Fakes
 
         public Task DeleteEmployee(string id)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public Task EditEmployee(EditingEmployeeModel employeeModel)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public Task EditEmployeeMail(string employeeMailold, string employeeMailnew)
@@ -43,7 +43,7 @@ namespace UrenRegistratieQienTest.Fakes
 
         public Task<EditingEmployeeModel> GetEditingEmployee(string id)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(new EditingEmployeeModel());
         }
 
         public Task<EmployeeModel> GetEmployee(string id)
@@ -68,7 +68,7 @@ namespace UrenRegistratieQienTest.Fakes
 
         public Task<List<EmployeeModel>> GetFilteredNames()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(new List<EmployeeModel>());
         }
 
         public void UploadFile(IFormFile file, int formId)
@@ -83,12 +83,12 @@ namespace UrenRegistratieQienTest.Fakes
 
         public Task<bool> UserIsAdmin()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(true);
         }
 
         public Task<bool> UserIsEmployeeOrTrainee()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(true);
         }
 
         public Task<bool> UserIsOneMonthInactive(string employeeId)
@@ -98,7 +98,7 @@ namespace UrenRegistratieQienTest.Fakes
 
         public Task<bool> UserIsOutOfService()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(false);
         }
     }
 }

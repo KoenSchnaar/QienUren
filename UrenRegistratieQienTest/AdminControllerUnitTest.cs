@@ -83,7 +83,7 @@ namespace UrenRegistratieQienTest
 
         }
 
-        [TestMethod]    // deze ff met Luuk naar kijken nog
+        [TestMethod]
         public async Task AdminControllerViewDeclarationFormShouldReturnViewWithDeclarationform()
         {
             // arrange
@@ -101,7 +101,7 @@ namespace UrenRegistratieQienTest
         }
 
         [TestMethod]
-        public void AdminControllerShowClientsShouldReturnViewWithListOfClients()
+        public async Task AdminControllerShowClientsShouldReturnViewWithListOfClients()
         {
             //arrange
             var adminController = new AdminController(new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeClientRepository());
@@ -116,13 +116,13 @@ namespace UrenRegistratieQienTest
         }
 
 
-        public void AdminControllerAdminInputModelShouldBeListOfDeclarationForms()
+        public async Task AdminControllerAdminInputModelShouldBeListOfDeclarationForms()
         {
             //arrange
             var adminController = new AdminController(new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeClientRepository());
 
             //act
-            var actionResult = await adminController.Admin();
+            var actionResult = await adminController.Admin(null, null, null, null, null, null, 0, null);
             var viewResult = (ViewResult)actionResult;
             var viewModel = viewResult.Model;
 
@@ -132,7 +132,7 @@ namespace UrenRegistratieQienTest
         }
 
         [TestMethod]
-        public void EmployeeControllerAddClientViewResultShouldHaveClientModel()
+        public async Task EmployeeControllerAddClientViewResultShouldHaveClientModel()
         {
             //arrange
             var adminController = new AdminController(new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeClientRepository());
@@ -147,7 +147,7 @@ namespace UrenRegistratieQienTest
         }
 
         [TestMethod]
-        public void EmployeeControllerPostAddClientShouldReturnRedirect()
+        public async Task EmployeeControllerPostAddClientShouldReturnRedirect()
         {
             //arrange
             var adminController = new AdminController(new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeClientRepository());
@@ -162,7 +162,7 @@ namespace UrenRegistratieQienTest
         }
 
         [TestMethod]
-        public void EmployeeControllerPostEditClientShouldReturnRedirect()
+        public async Task EmployeeControllerPostEditClientShouldReturnRedirect()
         {
             //arrange
             var adminController = new AdminController(new FakeDeclarationFormRepository(), new FakeEmployeeRepository(), new FakeClientRepository());
