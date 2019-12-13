@@ -14,6 +14,7 @@ namespace UrenRegistratieQien.Models
         public string EmployeeId { get; set; }
         public int Year { get; set; }
         public string EmployeeName { get; set; }
+        public string ClientName { get; set; }
         public string Month { get; set; }
         public string Approved { get; set; }
         public bool Submitted { get; set; }
