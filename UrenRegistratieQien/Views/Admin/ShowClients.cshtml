@@ -6,11 +6,11 @@
     </div>
 
     <div class="box-2">
-        <table class="fl-table table-wrapper">
+        <table class="fl-table table-wrapper three">
             <thead>
                 <tr>
-                    <th>Naam opdrachtgever</th>
-                    <th>Wijzig | Verwijder</th>
+                    <th class="textleft">Naam opdrachtgever</th>
+                    <th class="textleft">Wijzig | Verwijder</th>
                 </tr>
             <thead>
 
@@ -18,8 +18,8 @@
                 @foreach (var client in Model)
                 {
                     <tr>
-                        <td>@client.CompanyName</td>
-                        <td>
+                        <td class="textleft notbold">@client.CompanyName</td>
+                        <td class="textleft notbold">
                             <a asp-area=""
                                asp-controller="Admin"
                                asp-action="ChangeClient"

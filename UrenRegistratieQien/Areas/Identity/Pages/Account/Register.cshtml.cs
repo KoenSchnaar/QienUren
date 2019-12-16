@@ -32,7 +32,7 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
 
         public List<ClientModel> clients { get; set; }
 
-        public RegisterModel(
+        public  RegisterModel(
             IClientRepository ClientRepo,
             UserManager<Employee> userManager,
             SignInManager<Employee> signInManager,
@@ -42,12 +42,16 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
         {
             
             clientRepo = ClientRepo;
-            clients = clientRepo.GetAllClients();
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
             //this.mailservice = mailservice;
+        }
+
+        public async Task PopulateClients()
+        {
+            clients = (await clientRepo.GetAllClients());
         }
         
         
@@ -104,26 +108,28 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
             public  DateTime DateRegistered { get; set; }
 
 
-            [Required(ErrorMessage = "Wachtwoord is verplicht")]
-            [StringLength(24, ErrorMessage = "Het {0} moet minstens {2} en max {1} karakters lang zijn.", MinimumLength = 6)]
-            [DataType(DataType.Password, ErrorMessage = "Ongeldig wachtwoord")]
-            [Display(Name = "nieuwe wachtwoord")]
-            public string Password { get; set; }
+            //[Required(ErrorMessage = "Wachtwoord is verplicht")]
+            //[StringLength(24, ErrorMessage = "Het {0} moet minstens {2} en max {1} karakters lang zijn.", MinimumLength = 6)]
+            //[DataType(DataType.Password, ErrorMessage = "Ongeldig wachtwoord")]
+            //[Display(Name = "nieuwe wachtwoord")]
+            //public string Password { get; set; }
 
-            [DataType(DataType.Password, ErrorMessage = "Ongeldig wachtwoord")]
-            [Display(Name = "bevestig wachtwoord")]
-            [Compare("Password", ErrorMessage = "Het wachtwoord en de bevestigings wachtwoord komen niet overeen.")]
-            public string ConfirmPassword { get; set; }
+            //[DataType(DataType.Password, ErrorMessage = "Ongeldig wachtwoord")]
+            //[Display(Name = "bevestig wachtwoord")]
+            //[Compare("Password", ErrorMessage = "Het wachtwoord en de bevestigings wachtwoord komen niet overeen.")]
+            //public string ConfirmPassword { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
+            await PopulateClients();
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            await PopulateClients();
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
@@ -161,7 +167,7 @@ namespace UrenRegistratieQien.Areas.Identity.Pages.Account
                     OutOfService = false
                 };
                 Mailservice.MailNewUser(userModel);
-                var result = await _userManager.CreateAsync(user, Input.Password);
+                var result = await _userManager.CreateAsync(user, (Input.FirstName+Input.LastName+"1!"));
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");

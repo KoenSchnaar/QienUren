@@ -21,14 +21,12 @@ namespace UrenRegistratieQien.Controllers
         private readonly UserManager<Employee> _userManager;
         private readonly IEmployeeRepository employeeRepo;
         private readonly IClientRepository clientRepo;
-        private readonly IHostingEnvironment he;
 
         public List<string> monthList { get; set; }
 
         public AdminController(IDeclarationFormRepository DeclarationFormRepo, 
             IEmployeeRepository EmployeeRepo, 
             IClientRepository ClientRepo,
-            IHostingEnvironment he,
             UserManager<Employee> userManager = null)
         {
 
@@ -36,7 +34,6 @@ namespace UrenRegistratieQien.Controllers
             declarationFormRepo = DeclarationFormRepo;
             employeeRepo = EmployeeRepo;
             clientRepo = ClientRepo;
-            this.he = he;
             monthList = new List<string> { "Januari", "Februari", "March", "April", "May", "June", "Juli", "August", "September", "October", "November", "December" };
         }
 
@@ -50,7 +47,7 @@ namespace UrenRegistratieQien.Controllers
         {
             if (await employeeRepo.UserIsAdmin())
             {
-                return View(employeeRepo.GetFilteredNames());
+                return View(await employeeRepo.GetFilteredNames());
             } else
             {
                 return await AccessDeniedView();
@@ -62,7 +59,7 @@ namespace UrenRegistratieQien.Controllers
             if (await employeeRepo.UserIsAdmin())
             {
                 List<string> clientnames = new List<string>();
-                foreach(ClientModel client in clientRepo.GetAllClients())
+                foreach(ClientModel client in await clientRepo.GetAllClients())
                 {
                     clientnames.Add(client.CompanyName);
                 }
@@ -107,8 +104,9 @@ namespace UrenRegistratieQien.Controllers
         {
             if (await employeeRepo.UserIsAdmin())
             {
-                return View(clientRepo.GetAllClients());
-            } else {
+                return View(await clientRepo.GetAllClients());
+            } 
+            else {
                 return await AccessDeniedView();
             }
         }
@@ -190,18 +188,21 @@ namespace UrenRegistratieQien.Controllers
                 {
                     totalhoursyear = DateTime.Now.Year;
                 }
-                ViewBag.TotalHours = await declarationFormRepo.CalculateTotalHoursOfAll(forms, totalhoursmonth, totalhoursyear);
+                ViewBag.TotalHours = declarationFormRepo.CalculateTotalHoursOfAll(forms, totalhoursmonth, totalhoursyear);
       
-
                 string employeeId;
                 if (employeeName != null)
                 {
-                    employeeId = employeeRepo.GetEmployeeByName(employeeName).EmployeeId;
-                } else {
+                    employeeId = employeeRepo.GetEmployeeByName(employeeName).EmployeeId; 
+                }
+                else
+                {
                     employeeId = null;
                 }
                 return View(await declarationFormRepo.GetFilteredForms(year, employeeId, month, approved, submitted, sortDate));
-            } else {
+            } 
+            else 
+            {
                 return await AccessDeniedView();
             }
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -51,11 +52,11 @@ namespace UrenRegistratieQien.Repositories
             return newEntity;
         }
 
-        public List<ClientModel> GetAllClients()
+        public async Task<List<ClientModel>> GetAllClients()
         {
             var clientModelList = new List<ClientModel>();
 
-            foreach (var client in context.Clients)
+            foreach (var client in await context.Clients.ToListAsync())
             {
                 clientModelList.Add(EntityToClientModel(client));
             }
@@ -64,14 +65,14 @@ namespace UrenRegistratieQien.Repositories
 
         public async Task AddNewClient(ClientModel clientModel)
         {
-            context.Clients.Add(ClientModelToEntity(clientModel));
+            await context.Clients.AddAsync(ClientModelToEntity(clientModel));
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public async Task EditAClient(ClientModel clientModel)
         {
-            var clientEntity = context.Clients.Single(c => c.ClientId == clientModel.ClientId);
+            var clientEntity = await context.Clients.SingleAsync(c => c.ClientId == clientModel.ClientId);
 
             clientEntity.ClientId = clientModel.ClientId;
             clientEntity.CompanyName = clientModel.CompanyName;
@@ -83,23 +84,20 @@ namespace UrenRegistratieQien.Repositories
             clientEntity.Contact2Phone = clientModel.Contact2Phone;
             clientEntity.Contact2Email = clientModel.Contact2Email;
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public async Task<ClientModel> GetClient(int clientId)
         {
-            var databaseClient = context.Clients.Single(p => p.ClientId == clientId);
+            var databaseClient = await context.Clients.SingleAsync(p => p.ClientId == clientId);
 
             return EntityToClientModel(databaseClient);
         }
 
         public async Task<ClientModel> GetClientByUserId(string userId)
         {
-            var employee = context.Users.Single(u => u.Id == userId);
-
-            var employeeCasted = (Employee)employee;
-
-            var databaseClient = context.Clients.Single(p => p.ClientId == employeeCasted.ClientId);
+            var employee = await context.Employees.SingleAsync(u => u.Id == userId);
+            var databaseClient = await context.Clients.SingleAsync(p => p.ClientId == employee.ClientId);
 
             return EntityToClientModel(databaseClient);
 
@@ -107,9 +105,9 @@ namespace UrenRegistratieQien.Repositories
 
         public async Task DeleteClient(int clientId)
         {
-            var client = context.Clients.Single(c => c.ClientId == clientId);
+            var client = await context.Clients.SingleAsync(c => c.ClientId == clientId);
             context.Clients.Remove(client);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
     }
 }

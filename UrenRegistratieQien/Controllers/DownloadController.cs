@@ -32,11 +32,16 @@ namespace UrenRegistratieQien.Controllers
         }
 
 
-        public async Task<FileContentResult> DownloadAttachments(int formId)
+        public ActionResult DownloadAttachments(int formId)
         {
             var fileName = $"{formId}.zip";
-            byte[] fileBytes = System.IO.File.ReadAllBytes("wwwroot/Uploads/" + fileName);
-            return File(fileBytes, "application/zip", fileName);
+            var zipFilePath = "wwwroot/Uploads/" + fileName;
+            if (System.IO.File.Exists(zipFilePath))
+            {
+                byte[] fileBytes = System.IO.File.ReadAllBytes(zipFilePath);
+                return File(fileBytes, "application/zip", fileName);
+            }
+            return RedirectToAction("admin", "admin");
         }
 
         public FileContentResult DownloadTotalHoursCSV(int totalWorked, int totalOvertime, int totalSickness, int totalVacation, int totalHoliday, int totalTraining, int totalOther) //eventueel filters meenemen..
@@ -55,7 +60,6 @@ namespace UrenRegistratieQien.Controllers
             string fileName = "Totalhours.txt";
             string header = "gewerkt, overuren, ziekte, vakantie, feestdagen, training, anders";
             download.MakeCSV(header, downloadableList, fileName);
-
 
             byte[] fileBytes = System.IO.File.ReadAllBytes("Downloads/" + fileName);
             return File(fileBytes, "text/plain", fileName);

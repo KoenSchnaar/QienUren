@@ -9,56 +9,32 @@ namespace UrenRegistratieQienTest.Fakes
 {
     class FakeClientRepository : IClientRepository
     {
-        public void AddNewClient(ClientModel clientModel)
+        public Task AddNewClient(ClientModel clientModel)
         {
-            var implemented = true;
+            return null;
         }
 
-        public void DeleteClient(int clientId)
+        public Task DeleteClient(int clientId)
         {
             throw new NotImplementedException();
         }
 
-        public void EditAClient(ClientModel clientModel)
+        public Task EditAClient(ClientModel clientModel)
         {
-            var implemented = true;
+            return null;
         }
 
-        public List<ClientModel> GetAllClients()
+        public Task<List<ClientModel>> GetAllClients()
         {
-            return new List<ClientModel>();
+            return Task.FromResult(new List<ClientModel>());
         }
 
-        public ClientModel GetClient(int clientId)
+        public Task<ClientModel> GetClient(int clientId)
         {
-            throw new NotImplementedException();
-        }
-        public ClientModel GetClientByUserId(string userId)
-        {
-            throw new NotImplementedException();
+            return Task.FromResult(new ClientModel());
         }
 
-        Task IClientRepository.AddNewClient(ClientModel clientModel)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task IClientRepository.DeleteClient(int clientId)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task IClientRepository.EditAClient(ClientModel clientModel)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<ClientModel> IClientRepository.GetClient(int clientId)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<ClientModel> IClientRepository.GetClientByUserId(string userId)
+        public Task<ClientModel> GetClientByUserId(string userId)
         {
             throw new NotImplementedException();
         }

@@ -1,7 +1,7 @@
 ﻿@model List<UrenRegistratieQien.Models.DeclarationFormModel>
 
 @{
-    ViewData["Title"] = "Administrator Page";
+    ViewData["Title"] = "Dashboard";
 
     var employeeId = ViewBag.userId;
     var years = new List<int>();
@@ -20,22 +20,18 @@
     <div class="box-1">
         @Html.Partial("_SideBoxEmployee", model)
     </div>
-
     <div class="box-2">
         <div align="center">
             <h1>Urenoverzicht</h1>
         </div>
         <div>
-            <form asp-controller="Employee" asp-action="CreateForm" asp-route-employeeId=@employeeId>
+            <form asp-controller="Employee" asp-action="CreateForm" asp-route-employeeId=@ViewBag.userId>
                 <input class="btn-primary btn btnposition-right btn-onelinedown" type="submit" value="Nieuw formulier maken" />
             </form>
-
-                @using (Html.BeginForm("Dashboard", "Employee"))
-                {
-                    <input class="btn-primary btn btnposition" type="image" alt="filter toepassen" src="..\..\Images\Filter_Icon_White_Small.png" title="filter toepassen"/>
-
+            @using (Html.BeginForm("Dashboard", "Employee"))
+            {
+                <input class="btn-primary btn btnposition" type="image" alt="filter toepassen" src="..\..\Images\Filter_Icon_White_Small.png" title="filter toepassen"/>
                 <table class="fl-table table-wrapper">
-
                     <thead>
                         <tr>
                             <th>
@@ -60,72 +56,76 @@
 
                             </th>
                             <th>Opmerking</th>
-                            <th>Inzien</th>
+                            <th>Actie</th>
                         </tr>
                     </thead>
                     
                     <tbody>
                         @foreach (var form in Model)
                         {
-
-                            <tr>
-                                <td>@form.Year</td>
-                                <td>@form.Month</td>
-                                <td>@form.TotalWorkedHours</td>
-                                <td>@form.TotalOvertime</td>
-                                <td>@form.TotalSickness</td>
-                                <td>
-                                    @if (form.Approved == "Approved")
-                                    {
-                                        <img class="center" src="..\..\Images\Checkmark.png" style="margin: 0 auto; height: 15px; width: 25px" />
-                                    }
-                                    else if (form.Approved == "Rejected")
-                                    {
-                                        <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
-                                    }
-                                    else if (form.Approved == "Pending")
-                                    {
-                                        <img class="center" src="..\..\Images\Pending.jpg" style="margin: 0 auto; height: 20px; width: 20px" />
-                                    }
-                                </td>
-                                <td>
-                                    @if (form.Submitted == true)
-                                    {
-                                        <img class="center" src="..\..\Images\Checkmark.png" style="margin: 0 auto; height: 15px; width: 25px" />
-                                    }
-                                    else
-                                    {
-                                        <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
-                                    }
-                                </td>
-
-                                <td>@form.Comment</td>
-                                <td>
-                                    <a asp-area=""
-                                       asp-controller="Employee"
-                                       asp-action="HourReg"
-                                       asp-route-declarationFormId="@form.FormId"
-                                       asp-route-userId="@ViewBag.User.EmployeeId"
-                                       asp-route-employeeName="@employeeName"
-                                       asp-route-month="@form.Month"
-                                       asp-route-year="@form.Year">
-                                        Inzien
-                                    </a>
-                                    <a asp-area=""
-                                       asp-controller="Download"
-                                       asp-action="DownloadExcel"
-                                       asp-route-formId="@form.FormId">
-                                        Download Excel
-                                    </a>
-                                </td>
-                            </tr>
+                    <tr class="notbold">
+                        <td>@form.Year</td>
+                        <td>
+                            @{
+                                var maandInt = UrenRegistratieQien.GlobalClasses.MonthConverter.ConvertMonthToInt(form.Month);
+                                var maandString = UrenRegistratieQien.GlobalClasses.MonthConverter.ConvertIntToMaand(maandInt);
+                            }
+                            @maandString
+                        </td>
+                        <td>@form.TotalWorkedHours</td>
+                        <td>@form.TotalOvertime</td>
+                        <td>@form.TotalSickness</td>
+                        <td>
+                            @if (form.Approved == "Approved")
+                                                                {
+                            <img class="center" src="..\..\Images\Checkmark.png" style="margin: 0 auto; height: 15px; width: 25px" />
+                                                                }
+                                                                else if (form.Approved == "Rejected")
+                                                                {
+                            <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                                                                }
+                                                                else if (form.Approved == "Pending")
+                                                                {
+                            <img class="center" src="..\..\Images\Pending.jpg" style="margin: 0 auto; height: 20px; width: 20px" />
+                                                                }
+                        </td>
+                        <td>
+                            @if (form.Submitted == true)
+                                                                {
+                            <img class="center" src="..\..\Images\Checkmark.png" style="margin: 0 auto; height: 15px; width: 25px" />
+                                                                }
+                                                                else
+                                                                {
+                            <img class="center" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
+                                                                }
+                        </td>
+                        <td>
+                            @if (form.Comment != null)
+                            {
+                                if (form.Comment.Length > 10)
+                                {
+                                    
+                                    string shortComment = (form.Comment.Substring(0, 10) + "...");
+                                    
+                                    @shortComment
+                                }
+                            }
+                        </td>
+                        <td>
+                            <select onchange="selectChanged(this);">
+                                <option value="">Kies je actie</option>
+                                <option value="@Url.Action("HourReg", "Employee", new { declarationFormId=form.FormId, userId=ViewBag.User.EmployeeId, employeeName=employeeName, month=form.Month, year=form.Year   })">Inzien</option>
+                                <option value="@Url.Action("DownloadExcel", "Download", new { form.FormId })">Download Excel</option>
+                            </select>
+                        </td>
+                    </tr>
                         }
 
                     </tbody>
                 </table>
             }
-            </div>
         </div>
+    </div>
 </div>
 
 

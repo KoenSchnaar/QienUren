@@ -3,7 +3,7 @@
 @model List<DeclarationFormModel>
 
 @{
-    ViewData["Title"] = "Administrator Page";
+    ViewData["Title"] = "Dashboard Admin";
 
     var employeeNames = new List<string>();
 
@@ -50,7 +50,7 @@
 
     <div class="box-2">
         <div align="center">
-            <h1>Uren Totaal Overzicht</h1>
+            <h1>Totaaloverzicht</h1>
         </div>
         </td>
         <div>
@@ -86,7 +86,7 @@
                             </tr>
                         <thead>
 
-                            <tr>
+                            <tr class="notbold">
                                 <td>
                                     @Html.DropDownList("totalhoursyear", yearsSelectList)
                                 </td>
@@ -113,7 +113,7 @@
         @* tabel 2*************************************************************************************************************** *@
         <div>
             <div align="center">
-                <h1>Totaaloverzicht</h1>
+                <h1>Urenformulieren</h1>
             </div>
             @using (Html.BeginForm("Admin", "Admin"))
             {
@@ -163,7 +163,7 @@
                         <tbody>
                             @foreach (DeclarationFormModel declarationFormModel in Model)
                             {
-                                <tr>
+                                <tr class="notbold">
                                     <td>@declarationFormModel.DateCreated.Day/@declarationFormModel.DateCreated.Month/@declarationFormModel.DateCreated.Year</td>
                                     <td>@declarationFormModel.EmployeeName</td>
                                     <td>@declarationFormModel.Year</td>
@@ -198,9 +198,20 @@
                                             <img class="center" title="Afgekeurd" src="..\..\Images\xmark.png" style="margin: 0 auto; height: 15px; width: 15px" />
                                         }
                                     </td>
-                                    <td>@declarationFormModel.Comment</td>
                                     <td>
-                                        <select onchange="if (this.value) window.location.href=this.value">
+                                        @if (declarationFormModel.Comment != null)
+                                        {
+                                            if (declarationFormModel.Comment.Length > 10)
+                                            {
+                                                
+                                                string shortComment = (declarationFormModel.Comment.Substring(0, 10) + "...");
+                                                
+                                                @shortComment
+                                            }
+                                        }
+                                    </td>
+                                    <td>
+                                        <select onchange="selectChanged(this);">
                                             <option value="">Kies je actie</option>
                                             <option value="@Url.Action("ViewDeclarationForm", "Admin", new { declarationFormModel.FormId })">Inzien</option>
                                             <option value="@Url.Action("DownloadExcel", "Download", new { declarationFormModel.FormId })">Download Excel</option>

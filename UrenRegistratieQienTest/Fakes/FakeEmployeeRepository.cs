@@ -16,16 +16,19 @@ namespace UrenRegistratieQienTest.Fakes
             throw new NotImplementedException();
         }
 
-        public void DeleteEmployee(string id)
+        public void CreateZipFile(int formId, string name)
         {
-
-            string EmployeeId = id;
-
+            throw new NotImplementedException();
         }
 
-        public void EditEmployee(EmployeeModel employeeModel)
+        public Task DeleteEmployee(string id)
         {
-            var implemented = true;
+            return null;
+        }
+
+        public Task EditEmployee(EditingEmployeeModel employeeModel)
+        {
+            return null;
         }
 
         public Task EditEmployeeMail(string employeeMailold, string employeeMailnew)
@@ -38,12 +41,14 @@ namespace UrenRegistratieQienTest.Fakes
             throw new NotImplementedException();
         }
 
-        public EmployeeModel GetEmployee(string id)
+        public Task<EditingEmployeeModel> GetEditingEmployee(string id)
         {
-            return new EmployeeModel
-            {
-                EmployeeId = id
-            };
+            return Task.FromResult(new EditingEmployeeModel());
+        }
+
+        public Task<EmployeeModel> GetEmployee(string id)
+        {
+            throw new NotImplementedException();
         }
 
         public EmployeeModel GetEmployeeByName(string name)
@@ -51,14 +56,9 @@ namespace UrenRegistratieQienTest.Fakes
             throw new NotImplementedException();
         }
 
-        public Task<List<string>> getEmployeeNames()
+        public Task<List<EmployeeModel>> GetEmployees()
         {
             throw new NotImplementedException();
-        }
-
-        public List<EmployeeModel> GetEmployees()
-        {
-            return new List<EmployeeModel>();
         }
 
         public Task<SelectList> getEmployeeSelectList()
@@ -66,24 +66,29 @@ namespace UrenRegistratieQienTest.Fakes
             throw new NotImplementedException();
         }
 
-        public List<EmployeeModel> GetFilteredNames()
+        public Task<List<EmployeeModel>> GetFilteredNames()
+        {
+            return Task.FromResult(new List<EmployeeModel>());
+        }
+
+        public void UploadFile(IFormFile file, int formId)
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateEmployee(EmployeeModel employeeModel)
+        public void UploadPicture(IFormFile picture, string userId)
         {
             throw new NotImplementedException();
         }
 
-        public Task UploadFile(IFormFile file, int formId)
+        public Task<bool> UserIsAdmin()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(true);
         }
 
-        public Task UploadPicture(IFormFile picture, string userId)
+        public Task<bool> UserIsEmployeeOrTrainee()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(true);
         }
 
         public Task<bool> UserIsOneMonthInactive(string employeeId)
@@ -91,24 +96,9 @@ namespace UrenRegistratieQienTest.Fakes
             throw new NotImplementedException();
         }
 
-        Task IEmployeeRepository.DeleteEmployee(string id)
+        public Task<bool> UserIsOutOfService()
         {
-            throw new NotImplementedException();
-        }
-
-        Task IEmployeeRepository.EditEmployee(EmployeeModel employeeModel)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<EmployeeModel> IEmployeeRepository.GetEmployee(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<List<EmployeeModel>> IEmployeeRepository.GetEmployees()
-        {
-            throw new NotImplementedException();
+            return Task.FromResult(false);
         }
     }
 }

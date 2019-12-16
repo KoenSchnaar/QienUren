@@ -1,4 +1,4 @@
-﻿@*nog aanpassen naar juiste model*@
+﻿
 @model UrenRegistratieQien.Models.EmployeeModel
 
 @{
@@ -10,36 +10,60 @@
     <div class="box-1">
         @Html.Partial("_SideBoxEmployee", Model)
     </div>
-
     <div class="box-2" align="center">
-        <table class="fl-table table-wrapper">
+        <table class="fl-table table-wrapper one">
             <thead>
-                <tr>
-                    <th>Werknemer</th>
-                    <th>Werkgever</th>
+                <tr width="100">
+                    <th class="textleft">Werknemer</th>
+                    <th></th>
                 </tr>
             </thead>
-
             <tbody>
                 <tr>
-                    <td>@Model.FirstName @Model.LastName</td>
-                    <td>@ViewBag.Client.Contact1Name</td>
+                    <td class="textleft">Naam</td>
+                    <td class="notbold textleft">@Model.FirstName @Model.LastName</td>
                 </tr>
                 <tr>
-                    <td>@Model.Address</td>
-                    <td>@ViewBag.Client.CompanyName</td>
+                    <td class="textleft">Adres</td>
+                    <td class="notbold textleft">@Model.Address</td>
                 </tr>
                 <tr>
-                    <td>@Model.ZIPCode @Model.Residence</td>
-                    <td></td>
+                    <td class="textleft">Postcode en woonplaats</td>
+                    <td class="notbold textleft">@Model.ZIPCode @Model.Residence</td>
                 </tr>
                 <tr>
-                    <td>@Model.Phone</td>
-                    <td>@ViewBag.Client.Contact1Phone</td>
+                    <td class="textleft">Telefoonnummer</td>
+                    <td class="notbold textleft">@Model.Phone</td>
                 </tr>
                 <tr>
-                    <td>@Model.Email</td>
-                    <td>@ViewBag.Client.Contact1Email</td>
+                    <td class="textleft">E-mailadres</td>
+                    <td class="notbold textleft">@Model.Email</td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="fl-table table-wrapper two">
+            <thead>
+                <tr>
+                    <th class="textleft">Werkgever</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="textleft">Bedrijf</td>
+                    <td class="notbold textleft">@ViewBag.Client.CompanyName</td>
+                </tr>
+                <tr>
+                    <td class="textleft">Naam</td>
+                    <td class="notbold textleft">@ViewBag.Client.Contact1Name</td>
+                </tr>
+                <tr>
+                    <td class="textleft">Telefoonnummer</td>
+                    <td class="notbold textleft">@ViewBag.Client.Contact1Phone</td>
+                </tr>
+                <tr>
+                    <td class="textleft">E-mailadres</td>
+                    <td class="notbold textleft">@ViewBag.Client.Contact1Email</td>
                 </tr>
             </tbody>
         </table>

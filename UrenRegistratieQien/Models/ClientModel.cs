@@ -20,10 +20,10 @@ namespace UrenRegistratieQien.Models
         public string Contact2Name { get; set; }
 
         [Display(Name = "Telefoonnummer 1e contactpersoon")]
-        public int Contact1Phone { get; set; }
+        public string Contact1Phone { get; set; }
 
         [Display(Name = "Telefoonnummer 2e contactpersoon")]
-        public int Contact2Phone { get; set; }
+        public string Contact2Phone { get; set; }
 
         [Display(Name = "E-mailadres 1e contactpersoon")]
         public string Contact1Email { get; set; }
@@ -32,6 +32,6 @@ namespace UrenRegistratieQien.Models
         public string Contact2Email { get; set; }
 
         [Display(Name = "Algemeen telefoonnummer")]
-        public int CompanyPhone { get; set; }
+        public string CompanyPhone { get; set; }
     }
 }

@@ -55,12 +55,13 @@ namespace UrenRegistratieQien.Controllers
                 {
                     ViewBag.ErrorMessage = "";
                 }
+
                 var inputModel = await declarationRepo.GetForm(declarationFormId);
                 return View(inputModel);
             }
             else
             {
-                return await AccessDeniedView();
+                return AccessDeniedView();
             }
         }
 
@@ -69,7 +70,7 @@ namespace UrenRegistratieQien.Controllers
         {
             if (await employeeRepo.UserIsEmployeeOrTrainee())
             {
-                await employeeRepo.UploadFile(file, decModel.FormId);
+                employeeRepo.UploadFile(file, decModel.FormId);
 
                 try
                 {
@@ -85,7 +86,7 @@ namespace UrenRegistratieQien.Controllers
             }
             else
             {
-                return await AccessDeniedView();
+                return AccessDeniedView();
             }
         }
 
@@ -104,7 +105,7 @@ namespace UrenRegistratieQien.Controllers
             }
             else
             {
-                return await AccessDeniedView();
+                return AccessDeniedView();
             }
         }
 
@@ -119,7 +120,7 @@ namespace UrenRegistratieQien.Controllers
             }
             else
             {
-                return await AccessDeniedView();
+                return AccessDeniedView();
             }
         }
 
@@ -131,7 +132,7 @@ namespace UrenRegistratieQien.Controllers
             }
             else
             {
-                return await AccessDeniedView();
+                return AccessDeniedView();
             }
         }
 
@@ -141,16 +142,16 @@ namespace UrenRegistratieQien.Controllers
             if (await employeeRepo.UserIsEmployeeOrTrainee())
             {
                 var userId = _userManager.GetUserId(HttpContext.User);
-                await employeeRepo.UploadPicture(picture, userId);
+                employeeRepo.UploadPicture(picture, userId);
                 return RedirectToAction("Dashboard");
             }
             else
             {
-                return await AccessDeniedView();
+                return AccessDeniedView();
             }
         }
 
-        public async Task<ViewResult> AccessDeniedView()
+        public ViewResult AccessDeniedView()
         {
             return View("~/Views/Home/AccessDenied.cshtml");
         }
@@ -164,7 +165,7 @@ namespace UrenRegistratieQien.Controllers
             }
             else
             {
-                return await AccessDeniedView();
+                return AccessDeniedView();
             }
         }
     }

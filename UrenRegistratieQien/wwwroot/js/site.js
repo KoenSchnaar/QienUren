@@ -1,4 +1,16 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿function selectChanged(box) {
+    var confirmation = true;
+    if (box.selectedIndex == 3) {
+        confirmation = confirm('Weet je zeker dat je het formulier wil verwijderen?');
+    } else if (box.selectedIndex == 4) {
+        confirmation = confirm('Weet je zeker dat je het formulier wil heropenen?');
+    } 
+    
 
-// Write your JavaScript code.
+    if (!confirmation)
+        return;
+       
+
+    window.location.href = box.options[box.selectedIndex].value;
+}
+
