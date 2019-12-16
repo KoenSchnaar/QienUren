@@ -483,6 +483,7 @@ namespace UrenRegistratieQien.Repositories
             {
                 entities = await context.DeclarationForms.Include(df => df.HourRows)
                 .OrderByDescending(df => df.DeclarationFormId).ToListAsync();
+                
             }
             
             List<DeclarationForm> holderList = new List<DeclarationForm>();
@@ -550,7 +551,8 @@ namespace UrenRegistratieQien.Repositories
             }
 
             var forms = await GetFormModelsFromEntities(entities);
-            return forms;
+            var formsSorted = forms.OrderByDescending(p => p.monthyear).ToList();
+            return formsSorted;
         }
 
         public async Task<List<DeclarationFormModel>> GetAllForms()
