@@ -335,6 +335,7 @@ namespace UrenRegistratieQien.Repositories
             submitted = FormStatusConverter.ConvertSubmitted(submitted);
 
             var entities = new List<DeclarationForm>();
+            
             if (sortDate == "Ascending")
             {
                 entities = await context.DeclarationForms.Include(df => df.HourRows)
@@ -345,7 +346,7 @@ namespace UrenRegistratieQien.Repositories
                 entities = await context.DeclarationForms.Include(df => df.HourRows)
                 .OrderByDescending(df => df.DeclarationFormId).ToListAsync();
             }
-
+            
             List<DeclarationForm> holderList = new List<DeclarationForm>();
             if (year != null)
             {
@@ -358,6 +359,9 @@ namespace UrenRegistratieQien.Repositories
                     }
                 }
             }
+
+
+
             if (employeeId != null)
             {
                 foreach (DeclarationForm entity in entities)
