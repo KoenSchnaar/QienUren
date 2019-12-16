@@ -101,7 +101,7 @@ namespace UrenRegistratieQien.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Reject(int FormId, RejectFormModel rejectFormModel)
+        public async Task<IActionResult> Reject(int FormId, RejectFormModel rejectFormModel, string employeeName, string clientName)
         {
             var declarationFormModel = await declarationFormRepo.GetForm(FormId);
             var uniqueId = declarationFormModel.uniqueId;
@@ -110,6 +110,8 @@ namespace UrenRegistratieQien.Controllers
             if (ModelState.IsValid)
             {
                 await declarationFormRepo.RejectForm(FormId, comment);
+                //aanroepen mailservice afkeuren
+                Mailservice.RejectMailToAdminAndEmployee(declarationFormModel, employeeName, clientName);
                 return View();
             } else
             {

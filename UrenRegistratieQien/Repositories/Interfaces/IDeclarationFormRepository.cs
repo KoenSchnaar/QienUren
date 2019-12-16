@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UrenRegistratieQien.DatabaseClasses;
 using UrenRegistratieQien.Models;
 
 namespace UrenRegistratieQien.Repositories
@@ -30,5 +31,8 @@ namespace UrenRegistratieQien.Repositories
         public Task DeleteDeclarationForm(int FormId);
         public DeclarationFormModel GetFormNotAsync(int formId);
         public  Task<List<int>> GetAllYears();
+        public bool IsNextMonth(string month1, string month2);
+        public DeclarationFormModel GetFormFromGap(List<DeclarationFormModel> forms);
+        public List<DeclarationFormModel> EntitiesToDeclarationFormModels(List<DeclarationForm> forms);
     }
 }

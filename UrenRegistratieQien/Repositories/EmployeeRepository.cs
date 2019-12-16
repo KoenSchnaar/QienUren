@@ -237,6 +237,7 @@ namespace UrenRegistratieQien.Repositories
                 return false;
             }
         }
+
         public async Task<bool> UserIsEmployeeOrTrainee()
         {
             var userId = _userManager.GetUserId(httpContextAccessor.HttpContext.User);
@@ -269,7 +270,7 @@ namespace UrenRegistratieQien.Repositories
 
         public async Task<SelectList> getEmployeeSelectList()
         {
-            var EmployeeList = new SelectList(await context.Employees.ToListAsync(), "Id", "FirstName");
+            var EmployeeList = new SelectList(await context.Employees.ToListAsync(), "Id", "FullName");
             return EmployeeList;
         }
 

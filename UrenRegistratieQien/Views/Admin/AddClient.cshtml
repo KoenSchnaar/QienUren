@@ -9,45 +9,45 @@
     <div class="box-2">
         <form asp-controller="Admin" asp-action="AddClient">
             @Html.HiddenFor(m => m.ClientId)
-            <table class="fl-table table-wrapper" align="center">
+            <table class="fl-table table-wrapper three" align="center">
                 <thead>
                     <tr>
-                        <th>Gegevens</th>
+                        <th class="textleft">Gegevens</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>@Html.LabelFor(m => m.CompanyName)</td>
-                        <td>@Html.TextBoxFor(m => m.CompanyName)</td>
+                        <td class="textleft">@Html.LabelFor(m => m.CompanyName)</td>
+                        <td class="textleft">@Html.TextBoxFor(m => m.CompanyName)</td>
                     </tr>
                     <tr>
-                        <td>@Html.LabelFor(m => m.CompanyPhone)</td>
-                        <td>@Html.TextBoxFor(m => m.CompanyPhone)</td>
+                        <td class="textleft">@Html.LabelFor(m => m.CompanyPhone)</td>
+                        <td class="textleft">@Html.TextBoxFor(m => m.CompanyPhone)</td>
                     </tr>
                     <tr>
-                        <td>@Html.LabelFor(m => m.Contact1Name)</td>
-                        <td>@Html.TextBoxFor(m => m.Contact1Name)</td>
+                        <td class="textleft">@Html.LabelFor(m => m.Contact1Name)</td>
+                        <td class="textleft">@Html.TextBoxFor(m => m.Contact1Name)</td>
                     </tr>
                     <tr>
-                        <td>@Html.LabelFor(m => m.Contact1Phone)</td>
-                        <td>@Html.TextBoxFor(m => m.Contact1Phone)</td>
+                        <td class="textleft">@Html.LabelFor(m => m.Contact1Phone)</td>
+                        <td class="textleft">@Html.TextBoxFor(m => m.Contact1Phone)</td>
                     </tr>
                     <tr>
-                        <td>@Html.LabelFor(m => m.Contact1Email)</td>
-                        <td>@Html.TextBoxFor(m => m.Contact1Email)</td>
+                        <td class="textleft">@Html.LabelFor(m => m.Contact1Email)</td>
+                        <td class="textleft">@Html.TextBoxFor(m => m.Contact1Email)</td>
                     </tr>
                     <tr>
-                        <td>@Html.LabelFor(m => m.Contact2Name)</td>
-                        <td>@Html.TextBoxFor(m => m.Contact2Name)</td>
+                        <td class="textleft">@Html.LabelFor(m => m.Contact2Name)</td>
+                        <td class="textleft">@Html.TextBoxFor(m => m.Contact2Name)</td>
                     </tr>
                     <tr>
-                        <td>@Html.LabelFor(m => m.Contact2Phone)</td>
-                        <td>@Html.TextBoxFor(m => m.Contact2Phone)</td>
+                        <td class="textleft">@Html.LabelFor(m => m.Contact2Phone)</td>
+                        <td class="textleft">@Html.TextBoxFor(m => m.Contact2Phone)</td>
                     </tr>
                     <tr>
-                        <td>@Html.LabelFor(m => m.Contact2Email)</td>
-                        <td>@Html.TextBoxFor(m => m.Contact2Email)</td>
+                        <td class="textleft">@Html.LabelFor(m => m.Contact2Email)</td>
+                        <td class="textleft">@Html.TextBoxFor(m => m.Contact2Email)</td>
                     </tr>
                 </tbody>
             </table>
