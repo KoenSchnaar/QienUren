@@ -51,47 +51,47 @@
                 <tbody>
                     <tr>
                         <td>Voornaam</td>
-                        <td>@Html.TextBoxFor(m => m.FirstName)</td>
+                        <td class="notbold">@Html.TextBoxFor(m => m.FirstName)</td>
                     </tr>
                     <tr>
                         <td>Achternaam</td>
-                        <td>@Html.TextBoxFor(m => m.LastName)</td>
+                        <td class="notbold">@Html.TextBoxFor(m => m.LastName)</td>
                     </tr>
                     <tr>
                         <td>E-mail Adres</td>
-                        <td>@Html.TextBoxFor(m => m.Email)</td>
+                        <td class="notbold">@Html.TextBoxFor(m => m.Email)</td>
                     </tr>
                     <tr>
                         <td>Adres</td>
-                        <td>@Html.TextBoxFor(m => m.Address)</td>
+                        <td class="notbold">@Html.TextBoxFor(m => m.Address)</td>
                     </tr>
                     <tr>
                         <td>Telefoonnummer</td>
-                        <td>@Html.TextBoxFor(m => m.Phone)</td>
+                        <td class="notbold">@Html.TextBoxFor(m => m.Phone)</td>
                     </tr>
                     <tr>
                         <td>Type medewerker</td>
-                        <td>
+                        <td class="notbold">
                             @Html.DropDownListFor(m => m.RoleAsString, roleSelectList)
                     </td>
                     </tr>
                     <tr>
                         <td>Opdrachtgever</td>
-                        <td>
+                        <td class="notbold">
                             @Html.DropDownListFor(m => m.ClientName, new SelectList(ViewBag.ListOfClients), Model.ClientName)
                         </td>
                     </tr>
                     <tr>
                         <td>Postcode</td>
-                        <td>@Html.TextBoxFor(m => m.ZIPCode)</td>
+                        <td class="notbold">@Html.TextBoxFor(m => m.ZIPCode)</td>
                     </tr>
                     <tr>
                         <td>Woonplaats</td>
-                        <td>@Html.TextBoxFor(m => m.Residence)</td>
+                        <td class="notbold">@Html.TextBoxFor(m => m.Residence)</td>
                     </tr>
                 </tbody>
             </table>
-        <button type="submit" class="btn-primary btn">Opslaan</button>
+        <button type="submit" class="btn-primary btn btnposition">Opslaan</button>
         </form>
     </div>
 </div>
