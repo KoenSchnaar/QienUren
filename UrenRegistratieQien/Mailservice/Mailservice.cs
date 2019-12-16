@@ -15,7 +15,7 @@ namespace UrenRegistratieQien.MailService
         public static void MailNewUser(EmployeeModel employee)
         {
             var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("Hans", "hanshanshans812@gmail.com")); //veranderen bij oplevering, hr@qien.nl
+            message.From.Add(new MailboxAddress("Qien", "hanshanshans812@gmail.com")); //veranderen bij oplevering, hr@qien.nl
             message.To.Add(new MailboxAddress("Liza", "Lizavanderkruk@gmail.com")); //veranderen bij oplevering
             message.Subject = $"Uw inloggegevens wijzigen van uw Qien-medewerkers account";
             message.Body = new TextPart("plain")
