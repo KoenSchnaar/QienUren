@@ -43,7 +43,10 @@ namespace UrenRegistratieQien.Controllers
 
         public async Task<IActionResult> HourReg(int declarationFormId, string userId, int year, string month, string errorMessage = null)
         {
-            if (await employeeRepo.UserIsEmployeeOrTrainee() || !await employeeRepo.UserIsOutOfService())
+            var declarationForm = await declarationRepo.GetForm(declarationFormId);
+            var decFormUserId = declarationForm.EmployeeId;
+
+            if ((await employeeRepo.UserIsEmployeeOrTrainee() || !await employeeRepo.UserIsOutOfService()) && (userId == decFormUserId))
             {
                 await hourRowRepo.AddHourRows(year, month, declarationFormId);
                 ViewBag.User = await employeeRepo.GetEmployee(userId);
