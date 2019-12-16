@@ -7,7 +7,7 @@
 
     <div class="box-2">
 
-        <div class="btnposition">
+        <div class="searchposition">
 
             @using (Html.BeginForm("SearchOverview", "Admin", FormMethod.Get))
             {
@@ -16,12 +16,12 @@
 
             }
         </div>
-        <table class="fl-table table-wrapper" align="center">
+        <table class="fl-table table-wrapper three" align="center">
             <thead>
                 <tr>
-                    <th>Naam</th>
-                    <th>Type Medewerker</th>
-                    <th>Wijzig | Verwijder</th>
+                    <th class="textleft">Naam</th>
+                    <th class="textleft">Type Medewerker</th>
+                    <th class="textleft">Wijzig | Verwijder</th>
                 </tr>
             <thead>
 
@@ -29,8 +29,8 @@
                 @foreach (var employee in Model)
                 {
                     <tr>
-                        <td>@employee.FirstName @employee.LastName</td>
-                        <td>
+                        <td class="notbold textleft">@employee.FirstName @employee.LastName</td>
+                        <td class="notbold textleft">
                             @if (employee.Role == 1)
                             {
                                 <text>Admin</text>
@@ -48,7 +48,7 @@
                                 <text>Inactief</text>
                             }
                         </td>
-                        <td>
+                        <td class="notbold textleft">
                             <a asp-area=""
                                asp-controller="Admin"
                                asp-action="ChangeEmployee"
@@ -57,7 +57,7 @@
                             </a>
                             |
                             @Html.ActionLink("Verwijder", "DeleteEmployee", new { EmployeeId = employee.EmployeeId }, new { onclick = "return confirm('Weet je zeker dat je de medewerker wilt verwijderen?');" })
-                    
+
                         </td>
                     </tr>
                 }

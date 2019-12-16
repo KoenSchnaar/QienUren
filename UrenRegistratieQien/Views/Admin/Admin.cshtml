@@ -122,7 +122,7 @@
                     <table class="fl-table" align="center">
                         <thead>
                             <tr>
-                                <th>
+                                @*<th>
                                     Aangemaakt
                                     @{
                                         if (ViewBag.SortDate == stringAscending)
@@ -134,7 +134,7 @@
                                             <button type="submit" class="btn-primary btn" asp-route-sortDate=@stringAscending><img src="..\..\Images\sortbyDescending.png" width="17"></button>
                                         }
                                     }
-                                </th>
+                                </th>*@
                                 <th>
                                     Naam
                                     @Html.DropDownList("employeeName", new SelectList(employeeNames), "Geen filter")
@@ -164,7 +164,7 @@
                             @foreach (DeclarationFormModel declarationFormModel in Model)
                             {
                                 <tr class="notbold">
-                                    <td>@declarationFormModel.DateCreated.Day/@declarationFormModel.DateCreated.Month/@declarationFormModel.DateCreated.Year</td>
+                                    @*<td>@declarationFormModel.DateCreated.Day/@declarationFormModel.DateCreated.Month/@declarationFormModel.DateCreated.Year</td>*@
                                     <td>@declarationFormModel.EmployeeName</td>
                                     <td>@declarationFormModel.Year</td>
                                     <td>
