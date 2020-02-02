@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using UrenRegistratieQien.DatabaseClasses;
 using UrenRegistratieQien.Models;
 using UrenRegistratieQien.Repositories;
 
@@ -49,6 +50,11 @@ namespace UrenRegistratieQienTest.Fakes
             throw new NotImplementedException();
         }
 
+        public List<DeclarationFormModel> EntitiesToDeclarationFormModels(List<DeclarationForm> forms)
+        {
+            throw new NotImplementedException();
+        }
+
         public string GenerateUniqueId()
         {
             throw new NotImplementedException();
@@ -87,7 +93,17 @@ namespace UrenRegistratieQienTest.Fakes
             return Task.FromResult(new DeclarationFormModel { FormId = formId });
         }
 
+        public DeclarationFormModel GetFormFromGap(List<DeclarationFormModel> forms)
+        {
+            throw new NotImplementedException();
+        }
+
         public DeclarationFormModel GetFormNotAsync(int formId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsNextMonth(string month1, string month2)
         {
             throw new NotImplementedException();
         }

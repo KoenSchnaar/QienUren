@@ -15,7 +15,7 @@ namespace UrenRegistratieQien.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.0")
+                .HasAnnotation("ProductVersion", "3.1.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -235,8 +235,8 @@ namespace UrenRegistratieQien.Data.Migrations
                     b.Property<string>("CompanyName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CompanyPhone")
-                        .HasColumnType("int");
+                    b.Property<string>("CompanyPhone")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Contact1Email")
                         .HasColumnType("nvarchar(max)");
@@ -244,8 +244,8 @@ namespace UrenRegistratieQien.Data.Migrations
                     b.Property<string>("Contact1Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Contact1Phone")
-                        .HasColumnType("int");
+                    b.Property<string>("Contact1Phone")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Contact2Email")
                         .HasColumnType("nvarchar(max)");
@@ -253,8 +253,8 @@ namespace UrenRegistratieQien.Data.Migrations
                     b.Property<string>("Contact2Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Contact2Phone")
-                        .HasColumnType("int");
+                    b.Property<string>("Contact2Phone")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ClientId");
 
@@ -268,11 +268,14 @@ namespace UrenRegistratieQien.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Approved")
-                        .HasColumnType("bit");
+                    b.Property<string>("Approved")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("EmployeeId")
                         .HasColumnType("nvarchar(450)");
@@ -283,8 +286,32 @@ namespace UrenRegistratieQien.Data.Migrations
                     b.Property<bool>("Submitted")
                         .HasColumnType("bit");
 
+                    b.Property<int>("TotalHoliday")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalOther")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalOvertime")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalSickness")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalTraining")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalVacation")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalWorkedHours")
+                        .HasColumnType("int");
+
                     b.Property<int>("Year")
                         .HasColumnType("int");
+
+                    b.Property<string>("uniqueId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("DeclarationFormId");
 
@@ -356,6 +383,9 @@ namespace UrenRegistratieQien.Data.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("OutOfService")
+                        .HasColumnType("bit");
+
                     b.Property<int>("Phone")
                         .HasColumnType("int");
 
@@ -364,6 +394,9 @@ namespace UrenRegistratieQien.Data.Migrations
 
                     b.Property<int>("Role")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("StartDateRole")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ZIPCode")
                         .HasColumnType("nvarchar(max)");

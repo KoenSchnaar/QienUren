@@ -16,7 +16,7 @@ namespace UrenRegistratieQien.MailService
         {
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("Qien", "hanshanshans812@gmail.com")); //veranderen bij oplevering, hr@qien.nl
-            message.To.Add(new MailboxAddress("Liza", "Lizavanderkruk@gmail.com")); //veranderen bij oplevering
+            message.To.Add(new MailboxAddress("Luuk", "luuk_wolferen@hotmail.com")); //veranderen bij oplevering
             message.Subject = $"Uw inloggegevens wijzigen van uw Qien-medewerkers account";
             message.Body = new TextPart("plain")
             {
@@ -48,7 +48,7 @@ namespace UrenRegistratieQien.MailService
             //message components
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("Hans", "hanshanshans812@gmail.com"));
-            message.To.Add(new MailboxAddress("Liza", "lizavanderkruk@gmail.com"));
+            message.To.Add(new MailboxAddress("Luuk", "luuk_wolferen@hotmail.com"));
             message.Subject = $"Urendeclaratieformulier van {employeeName} voor de maand {decModel.Month}";
             var link = "https://localhost:5001/Mailservice/ApproveOrReject/?uniqueId=" + uniqueId + "&formId=" + formId;
             message.Body = new TextPart("html")
@@ -73,7 +73,7 @@ namespace UrenRegistratieQien.MailService
             // mail naar Admin
             var message1 = new MimeMessage(); //naar admin
             message1.From.Add(new MailboxAddress("Qien", "hanshanshans812@gmail.com")); //aanpassen naar Admin mailadres
-            message1.To.Add(new MailboxAddress("Liza", "lizavanderkruk@gmail.com")); //aanpassen naar Admin mailadres
+            message1.To.Add(new MailboxAddress("Luuk", "luuk_wolferen@hotmail.com")); //aanpassen naar Admin mailadres
             message1.Subject = $"Afgekeurd: Urendeclaratieformulier van {employeeName} voor de maand {decModel.Month}";
             message1.Body = new TextPart("html")
             {
@@ -83,7 +83,7 @@ namespace UrenRegistratieQien.MailService
             //mail naar Employee
             var message2 = new MimeMessage(); //naar employee als urendeclaratieformulier is afgekeurd --> nog doen als het heropent is??
             message2.From.Add(new MailboxAddress("Qien", "hanshanshans812@gmail.com")); //aanpassen naar Admin mailadres
-            message2.To.Add(new MailboxAddress("Liza", "lizavanderkruk@gmail.com")); //aanpassen naar Employee mailadres
+            message2.To.Add(new MailboxAddress("Luuk", "luuk_wolferen@hotmail.com")); //aanpassen naar Employee mailadres
             message2.Subject = $"Afgekeurd: Urendeclaratieformulier voor de maand {decModel.Month}";
             message2.Body = new TextPart("html")
             {

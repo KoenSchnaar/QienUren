@@ -2,7 +2,7 @@
 
 namespace UrenRegistratieQien.Data.Migrations
 {
-    public partial class updatedatabase : Migration
+    public partial class TryInit2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
